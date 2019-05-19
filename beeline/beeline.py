@@ -272,7 +272,7 @@ class OldDesign(Auth):
         switched_tickets = []
         switched_on_tickets_today = 0
         created_today_tickets = 0
-        for month in range(3):
+        for month in range(2):
             data = dict(date_start=str(formate_date(date_first)), date_end=str(formate_date(date_second)))
             filter_page = self.session.post('https://partnerweb.beeline.ru/main/', data)
             doc = lxml.html.fromstring(filter_page.content)

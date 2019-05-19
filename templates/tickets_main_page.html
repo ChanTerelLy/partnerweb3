@@ -155,7 +155,8 @@ $(document).ready(function(){
 <script>
     $(document).ready(function(){
         var str = 'Назначенных заявок: ';
-        $('assigned_count').html(str + $('#assigned_badge').children().children().length);
+        $('assigned_count').html(str + ($('#assigned_badge tr').length - 1));
+
     });
 </script>
 <script>
@@ -166,7 +167,7 @@ $(document).ready(function(){
 <script>
 $(document).ready(function(){
 var str = 'Подключенных заявок: ';
-$('switched_count').html(str + $('#switched_badge').children().children().length);
+$('switched_count').html(str + ($('#switched_badge tr').length - 1));
 });
 </script>
 {% endblock %}
