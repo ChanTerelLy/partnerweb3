@@ -13,6 +13,8 @@ cssselect = "*"
 lxml = "*"
 openpyxl = "*"
 django-widget-tweaks = "*"
+heroku-django = "*"
+django-heroku = "*"
 
 [requires]
 python_version = "3.7"
