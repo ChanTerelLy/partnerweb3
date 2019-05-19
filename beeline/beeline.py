@@ -372,7 +372,7 @@ class OldDesign(Auth):
                     continue
                 phone2 = numers(i[8].text)[1] if 1 < len(numers(i[8].text)) else ''
                 phone3 = numers(i[8].text)[2] if 2 < len(numers(i[8].text)) else ''
-                ticket = Ticket(type=i[1].text, date=i[2].text, number=i[3].text, name=i[6].text, address=i[7].text,
+                ticket = Ticket(type=i[1].text, date=i[4].text, number=i[3].text, name=i[6].text, address=i[7].text,
                                 phone1=numers(i[8].text)[0],
                                 phone2=phone2,
                                 phone3=phone3,
