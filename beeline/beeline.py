@@ -11,16 +11,20 @@ import time
 
 def find_asssigned_date(comments):
     pattern = r'Заявка назначена в график на'
-    if re.search(pattern,comments):
+    if re.search(pattern, comments):
         return True
     else:
         return False
+
+
 def find_switched_on(comments):
     pattern = r'клиент подключен'
-    if re.search(pattern,comments):
+    if re.search(pattern, comments):
         return True
     else:
         return False
+
+
 def find_dns(address):
     pattern = r'^Архангельск, пр-кт. Московский, д. 5[524][к]?[23]?|' \
               r'^Архангельск, ул. Мещерского, д. 38|' \
@@ -32,10 +36,12 @@ def find_dns(address):
               r'^Архангельск, ул. 23 гвардейской дивизии, д. 4|' \
               r'^Архангельск, ул. Стрелковая, д. 2[75]'
     if re.match(pattern, address):
-        dns='ДНС'
+        dns = 'ДНС'
     else:
-        dns=''
+        dns = ''
     return dns
+
+
 def numers(mystr):
     if mystr != None:
         mystr = re.sub(r"[-]", "", mystr)
@@ -46,8 +52,10 @@ def numers(mystr):
         mystr = ['', '', '']
     return mystr
 
+
 def encode(d):
     return urllib.parse.quote(str(d).encode('utf8'))
+
 
 def current_date():
     now_date = datetime.date.today()  # Текущая дата (без времени)
@@ -56,25 +64,37 @@ def current_date():
     cur_month = now_date.month  # Месяц текущий
     cur_day = now_date.day  # День текущий
     return cur_day, cur_month, cur_year
+
+
 def last_day_current_month():
     now_date = datetime.date.today()
     cur_year = now_date.year  # Год текущий
     cur_month = now_date.month  # Месяц текущий
     last_day = calendar.monthrange(cur_year, cur_month)[1]
     return last_day, cur_month, cur_year
+
+
 def formate_date(date):
     return date.strftime("%d.%m.%Y")
+
+
 def formate_date_schedule(str_date):
     return datetime.datetime.strptime(str_date, '%Y-%m-%dT%H:%M:%S+00:00').strftime('%H:%M')
+
+
 def filter_previous_month(date_first, date_second):
     date_second = date_second - datetime.timedelta(days=30)
     date_first = date_first - datetime.timedelta(days=30)
     return date_first, date_second
+
+
 def current_moth_date():
     now_date = datetime.date.today()
     date_first = now_date - datetime.timedelta(days=30)
     date_second = now_date + datetime.timedelta(days=1)
     return date_first, date_second
+
+
 def current_year_date():
     now_date = datetime.date.today()
     date_first = formate_date(now_date - datetime.timedelta(days=365))
@@ -98,7 +118,8 @@ class Auth:
 
 class Ticket:
 
-    def __init__(self, address='', address_id='', allow_change_status='', allow_schedule='', call_time=None,comments='',
+    def __init__(self, address='', address_id='', allow_change_status='', allow_schedule='', call_time=None,
+                 comments='',
                  date='', id='', name='', number='', operator='', phones='', services='', shop='', shop_id='',
                  status='',
                  ticket_paired='', type='', type_id='', phone1='', phone2='', phone3='', comment1='', comment2='',
@@ -130,6 +151,7 @@ class Ticket:
         self.type_id = type_id  # 286
         self.assigned_date = assigned_date
         self.dns = dns
+
     def __repr__(self):
         return str(self.__dict__)
 
@@ -162,7 +184,6 @@ class OldDesign(Auth):
         return comments
 
     def schedule(self, ticket_id, day):
-        # 97190642 - example ticket
         address_session = self.session.get('https://partnerweb.beeline.ru/restapi/tickets/api/ticket/'
                                            + str(ticket_id) + '?rnduncache=5466&')
         dic = address_session.json()
@@ -192,12 +213,13 @@ class OldDesign(Auth):
         assigned_today = 0
         for i in table:
             if i[2].text == 'Заявка на подключение' and i[9].text == 'Назначено в график':
-                full_info = self.ticket_info(i[0][0].get('id'))#id ticket
+                full_info = self.ticket_info(i[0][0].get('id'))  # id ticket
                 for comment in full_info.comments:
                     if find_asssigned_date(comment['text']):
                         assigned_date = comment['date']
-                        assigned_today = assigned_today = assigned_today + 1 if (datetime.datetime.strptime(assigned_date, '%d.%m.%Y %H:%M').date() ==
-                                               datetime.datetime.now().date()) else assigned_today
+                        assigned_today = assigned_today = assigned_today + 1 if (
+                                    datetime.datetime.strptime(assigned_date, '%d.%m.%Y %H:%M').date() ==
+                                    datetime.datetime.now().date()) else assigned_today
                         break
                 phone2 = numers(i[8].text)[1] if 1 < len(numers(i[8].text)) else ''
                 phone3 = numers(i[8].text)[2] if 2 < len(numers(i[8].text)) else ''
@@ -211,58 +233,54 @@ class OldDesign(Auth):
                 assigned_tickets.append(ticket)
         return assigned_tickets, assigned_today
 
-    def call_for_today(self,table):
-        call_today_tickets =[]
+    def call_for_today(self, table):
+        call_today_tickets = []
         for i in table:
-            if (i[2].text == 'Заявка на подключение') and (i[9].text == 'Ждем звонка клиента' or i[9].text == 'Позвонить клиенту' or i[9].text == 'Позвонить клиенту(срочные)' or i[9].text == 'Принято в обзвон' or i[9].text == 'Резерв' or i[9].text == 'Новая'):
-                    try:
-                        timer = datetime.datetime.strptime(i[10].text, '%d.%m.%Y %H.%M').date()
-                    except:
-                        continue
-                    if timer <= datetime.datetime.now().date() or None:
-                        timer = datetime.datetime.strptime(i[10].text, '%d.%m.%Y %H.%M')
-                        phone2 = numers(i[8].text)[1] if 1 < len(numers(i[8].text)) else ''
-                        phone3 = numers(i[8].text)[2] if 2 < len(numers(i[8].text)) else ''
-                        ticket = Ticket(number=i[3].text, name=i[6].text, address=i[7].text,
-                                        phone1=numers(i[8].text)[0],
-                                        phone2=phone2,
-                                        phone3=phone3,
-                                        status=i[9].text, call_time=timer, operator=i[11].text,
-                                        id=i[0][0].get('id'))
-                        call_today_tickets.append(ticket)
+            if (i[2].text == 'Заявка на подключение') and (
+                    i[9].text == 'Ждем звонка клиента' or i[9].text == 'Позвонить клиенту' or i[
+                9].text == 'Позвонить клиенту(срочные)' or i[9].text == 'Принято в обзвон' or i[9].text == 'Резерв' or
+                    i[9].text == 'Новая'):
+                try:
+                    timer = datetime.datetime.strptime(i[10].text, '%d.%m.%Y %H.%M').date()
+                except:
+                    continue
+                if timer <= datetime.datetime.now().date() or None:
+                    timer = datetime.datetime.strptime(i[10].text, '%d.%m.%Y %H.%M')
+                    phone2 = numers(i[8].text)[1] if 1 < len(numers(i[8].text)) else ''
+                    phone3 = numers(i[8].text)[2] if 2 < len(numers(i[8].text)) else ''
+                    ticket = Ticket(number=i[3].text, name=i[6].text, address=i[7].text,
+                                    phone1=numers(i[8].text)[0],
+                                    phone2=phone2,
+                                    phone3=phone3,
+                                    status=i[9].text, call_time=timer, operator=i[11].text,
+                                    id=i[0][0].get('id'))
+                    call_today_tickets.append(ticket)
         return call_today_tickets
 
     def swithed_on_tickets(self, table):
-            switched_tickets = []
-            swithed_on_today = 0
-            for i in table:
-                if i[2].text == 'Заявка на подключение' and i[9].text == 'Подключен':
-                    timer = ''
-                    try:
-                        timer = datetime.datetime.strptime(i[10].text, '%d.%m.%Y %H.%M').date()
-                    except:
-                        continue
-                        # if i[10].text == None:
-                        #     full_info = self.ticket_info(i[0][0].get('id'))  # id ticket
-                        #     for comment in full_info.comments:
-                        #         if find_switched_on(comment['text']):
-                        #             timer = datetime.datetime.strptime(comment['date'], '%d.%m.%Y %H:%M').date()
-                        #             break
-                    last, cur_month, cur_year = last_day_current_month()  #filter for current month
-                    if (timer <= datetime.date(cur_year, cur_month, last)) and (
-                            timer >= datetime.date(cur_year, cur_month, 1)):
-                        #timer = datetime.datetime.strptime(i[10].text, '%d.%m.%Y %H.%M') if '' else timer
-                        swithed_on_today = swithed_on_today =swithed_on_today + 1 if timer == datetime.datetime.now().date() else swithed_on_today
-                        phone2 = numers(i[8].text)[1] if 1 < len(numers(i[8].text)) else ''
-                        phone3 = numers(i[8].text)[2] if 2 < len(numers(i[8].text)) else ''
-                        ticket = Ticket(number=i[3].text, name=i[6].text, address=i[7].text,
-                                        phone1=numers(i[8].text)[0],
-                                        phone2=phone2,
-                                        phone3=phone3,
-                                        status=i[9].text, call_time=timer, operator=i[11].text,
-                                        id=i[0][0].get('id'), dns=find_dns(i[7].text))
-                        switched_tickets.append(ticket)
-            return switched_tickets, swithed_on_today
+        switched_tickets = []
+        swithed_on_today = 0
+        for i in table:
+            if i[2].text == 'Заявка на подключение' and i[9].text == 'Подключен':
+                timer = ''
+                try:
+                    timer = datetime.datetime.strptime(i[10].text, '%d.%m.%Y %H.%M').date()
+                except:
+                    continue
+                last, cur_month, cur_year = last_day_current_month()  # filter for current month
+                if (timer <= datetime.date(cur_year, cur_month, last)) and (
+                        timer >= datetime.date(cur_year, cur_month, 1)):
+                    swithed_on_today = swithed_on_today = swithed_on_today + 1 if timer == datetime.datetime.now().date() else swithed_on_today
+                    phone2 = numers(i[8].text)[1] if 1 < len(numers(i[8].text)) else ''
+                    phone3 = numers(i[8].text)[2] if 2 < len(numers(i[8].text)) else ''
+                    ticket = Ticket(number=i[3].text, name=i[6].text, address=i[7].text,
+                                    phone1=numers(i[8].text)[0],
+                                    phone2=phone2,
+                                    phone3=phone3,
+                                    status=i[9].text, call_time=timer, operator=i[11].text,
+                                    id=i[0][0].get('id'), dns=find_dns(i[7].text))
+                    switched_tickets.append(ticket)
+        return switched_tickets, swithed_on_today
 
     def three_month_tickets(self):
         date_first, date_second = current_moth_date()
@@ -336,6 +354,32 @@ class OldDesign(Auth):
         sheet['F1'] = 'Таймер'
         sheet['G1'] = 'Сотрудник'
         book.save("tableb.xlsx")
+
+    def global_search(self):
+        date_first, date_second = current_moth_date()
+        tickets = []
+        for month in range(4):
+            data = dict(date_start=str(formate_date(date_first)), date_end=str(formate_date(date_second)))
+            filter_page = self.session.post('https://partnerweb.beeline.ru/main/', data)
+            doc = lxml.html.fromstring(filter_page.content)
+            table = doc.cssselect('table.tablesorter')[0][1]
+            tickets = []
+            for i in table:
+                timer = ''
+                try:
+                    timer = datetime.datetime.strptime(i[10].text, '%d.%m.%Y %H.%M').date()
+                except:
+                    continue
+                phone2 = numers(i[8].text)[1] if 1 < len(numers(i[8].text)) else ''
+                phone3 = numers(i[8].text)[2] if 2 < len(numers(i[8].text)) else ''
+                ticket = Ticket(type=i[1].text, date=i[2].text, number=i[3].text, name=i[6].text, address=i[7].text,
+                                phone1=numers(i[8].text)[0],
+                                phone2=phone2,
+                                phone3=phone3,
+                                status=i[9].text, call_time=timer, operator=i[11].text,
+                                id=i[0][0].get('id'), dns=find_dns(i[7].text))
+                tickets.append(ticket)
+        return tickets
 
 
 class NewDesign(OldDesign):
@@ -496,9 +540,9 @@ class NewDesign(OldDesign):
 if __name__ == "__main__":
     start = time.time()
     auth = OldDesign('G800-37', 'Корытов', 'fusionN425SA880959')
-    #print(auth.assigned_tickets())
-    #print(find_dns('Архангельск, пр-кт. Московский, д. 55к2 кв.175'))
+    # print(auth.assigned_tickets())
+    # print(find_dns('Архангельск, пр-кт. Московский, д. 55к2 кв.175'))
     auth.three_month_tickets()
     print(9999999999999999)
     end = time.time()
-    print(end-start)
+    print(end - start)

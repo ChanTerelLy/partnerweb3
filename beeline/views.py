@@ -25,8 +25,9 @@ def main_page(request):
 
 def global_search(request):
     accounts = OldDesign( request.session['sell_code'],request.session['operator'],request.session['password'])
-    global_search_tickets = accounts.three_month_tickets()
-    return render(request, 'global_search.html', {'tickets':global_search_tickets})
+    tickets = accounts.global_search()
+
+    return render(request, 'global_search.html', {'tickets':tickets})
 
 def ticket_info(request, id):
     accounts = OldDesign(request.session['sell_code'],request.session['operator'],request.session['password'])
