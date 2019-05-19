@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <table id="dtOrderExample"  class="table table-hover table-bordered">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Номер заявки</th>
+        <th>Тип</th>
+        <th>Дата создания</th>
+        <th>ФИО\Адресс</th>
+        <th>Телефон</th>
+        <th>Статус</th>
+        <th>Таймер</th>
+        <th>Сотрудник</th>
+      </tr>
+    </thead>
+    <tbody id="myTable">
+      {% for ticket in tickets %}
+        <tr>
+          <td class="align-middle"> {{ ticket.number }} </td>
+          <td class="align-middle"> {{ ticket.type }} </td>
+          <td class="align-middle"> {{ticket.date}} </td>
+          <td>
+            <a class="align-middle" >{{ ticket.name }}</a>
+            <small class="text-muted d-block">{{ ticket.address }}</small>
+          </td>
+          <td class="align-middle">
+            <a class="align-middle" >{{ ticket.phone1 }}</a>
+            <small class="text-muted d-block">{{ ticket.phone2 }}</small>
+            <small class="text-muted d-block">{{ ticket.phone3 }}</small>
+          </td>
+          <td class="align-middle">{{ ticket.status }}</td>
+          <td class="align-middle">{{ ticket.call_time }}</td>
+          <td class="align-middle">{{ ticket.operator }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<script>
+$(document).ready(function () {
+$('#dtOrderExample').DataTable({
+"order": [[ 3, "desc" ]]
+});
+$('.dataTables_length').addClass('bs-select');
+});
+</script>
+{% endblock %}
