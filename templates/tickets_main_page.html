@@ -1,183 +1,167 @@
-{% extends 'base.html' %}
-{% block content %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand" href="#">Tickets</a>
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-    <ul class="navbar-nav mr-auto mt-2 mt-md-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'global_search' %}">Global_search<span class="sr-only">(current)</span></a>
-      </li>
-    </ul>
-  </div>
-</nav>
-    <p>
-        <span class="badge badge-warning"><assigned_count></assigned_count></span>
-        <span class="badge badge-success"><switched_count></switched_count></span>
-        <span class="badge badge-warning">Назначенных заявок сегодня: {{ assigned_today }}</span>
-        <span class="badge badge-success">Подключеных заявок сегодня: {{ switched_on_today }}</span>
-        <span class="badge badge-info">Созданых заявок сегодня: {{ created_today_tickets }}</span>
-    </p><!--label bar-->
+<!DOCTYPE html>
+<html>
 
-<input class="form-control" id="myInput" type="text" placeholder="Search..">
-<br>
-<ol class="breadcrumb my-4">
+<head></head>
+
+<body>{% extends 'base.html' %} {% block content %} <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#">Tickets</a>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      <ul class="navbar-nav mr-auto mt-2 mt-md-0">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'global_search' %}">Global_search<span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <p>
+    <span class="badge badge-warning">
+      <assigned_count></assigned_count>
+    </span>
+    <span class="badge badge-success">
+      <switched_count></switched_count>
+    </span>
+    <span class="badge badge-warning">Назначенных заявок сегодня: {{ assigned_today }}</span>
+    <span class="badge badge-success">Подключеных заявок сегодня: {{ switched_on_today }}</span>
+    <span class="badge badge-info">Созданых заявок сегодня: {{ created_today_tickets }}</span>
+  </p>
+  <!--label bar-->
+  <input class="form-control" id="myInput" type="text" placeholder="Search..">
+  <br>
+  <ol class="breadcrumb my-4">
     <li class="breadcrumb-item active"><span class="label label-danger">Назначенные в график</span></li>
-</ol>
-<div class="container">
-  <table id="assigned_badge"  class="table table-hover table-bordered">
-    <thead class="thead-inverse">
-      <tr>
-        <th>Номер заявки</th>
-        <th>ФИО\Адресс</th>
-        <th>Телефон</th>
-        <th>Статус</th>
-        <th>Таймер</th>
-        <th>Сотрудник</th>
-      </tr>
-    </thead>
-    <tbody id="myTable">
-      {% for ticket in assigned_tickets %}
+  </ol>
+  <div class="container"> {% for ticket in assigned_tickets %} {% endfor %} <table id="assigned_badge" class="table table-hover table-bordered">
+      <thead class="thead-inverse">
         <tr>
-            <td class="align-middle "><a href="{% url 'ticket_info' ticket.id %}" target="_blank">{{ ticket.number }}</a>  </td>
+          <th>Номер заявки</th>
+          <th>ФИО\Адресс</th>
+          <th>Телефон</th>
+          <th>Статус</th>
+          <th>Таймер</th>
+          <th>Сотрудник</th>
+        </tr>
+      </thead>
+      <tbody id="myTable">
+        <tr>
+          <td class="align-middle "><a href="{% url 'ticket_info' ticket.id %}" target="_blank">{{ ticket.number }}</a> </td>
           <td>
-            <a class="align-middle" >{{ ticket.name }}</a>
-              <small class="text-muted d-block">{{ ticket.address }} <b style="color:red;">{{ ticket.dns }}</b> </small>
+            <a class="align-middle">{{ ticket.name }}</a>
+            <small class="text-muted d-block">{{ ticket.address }} <b style="color:red;">{{ ticket.dns }}</b> </small>
           </td>
           <td>
-            <a class="align-middle" >{{ ticket.phone1 }}</a>
-            <small class="text-muted d-block">{{ ticket.phone2 }}</small>
-            <small class="text-muted d-block">{{ ticket.phone3 }}</small>
+            <a class="align-middle" href="tel:8{{ticket.phone1}}">{{ ticket.phone1 }}</a>
+            <small class="text-muted d-block"><a href="tel:8{{ticket.phone2}}">{{ ticket.phone2 }}</a></small>
+            <small class="text-muted d-block"><a href="tel:8{{ticket.phone3}}">{{ ticket.phone3 }}</a></small>
           </td>
           <td class="align-middle">{{ ticket.status }}</td>
           <td class="align-middle">
-              {{ ticket.call_time }}
+            {{ ticket.call_time }}
             <small class="text-muted d-block">{{ ticket.assigned_date }}</small>
-            </td>
+          </td>
           <td class="align-middle">{{ ticket.operator }}</td>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-<ol class="breadcrumb my-4">
+      </tbody>
+    </table>
+  </div>
+  <ol class="breadcrumb my-4">
     <li class="breadcrumb-item active"><span class="label label-danger">Перезвоны на сегодня</span></li>
-</ol>
-<div class="container">
-  <table id="keywords"  class="table table-hover table-bordered">
-    <thead class="thead-inverse">
-      <tr>
-        <th>Номер заявки</th>
-        <th>ФИО\Адресс</th>
-        <th>Телефон</th>
-        <th>Статус</th>
-        <th>Таймер</th>
-        <th>Сотрудник</th>
-      </tr>
-    </thead>
-    <tbody id="myTable">
-      {% for ticket in call_for_today %}
+  </ol>
+  <div class="container"> {% for ticket in call_for_today %} {% endfor %} <table id="keywords" class="table table-hover table-bordered">
+      <thead class="thead-inverse">
         <tr>
-          <td class="align-middle "><a href="{% url 'ticket_info' ticket.id %}" target="_blank">{{ ticket.number }}</a>  </td>
+          <th>Номер заявки</th>
+          <th>ФИО\Адресс</th>
+          <th>Телефон</th>
+          <th>Статус</th>
+          <th>Таймер</th>
+          <th>Сотрудник</th>
+        </tr>
+      </thead>
+      <tbody id="myTable">
+        <tr>
+          <td class="align-middle "><a href="{% url 'ticket_info' ticket.id %}" target="_blank">{{ ticket.number }}</a> </td>
           <td>
-            <a class="align-middle" >{{ ticket.name }}</a>
+            <a class="align-middle">{{ ticket.name }}</a>
             <small class="text-muted d-block">{{ ticket.address }}</small>
           </td>
           <td>
-            <a class="align-middle" >{{ ticket.phone1 }}</a>
-            <small class="text-muted d-block">{{ ticket.phone2 }}</small>
-            <small class="text-muted d-block">{{ ticket.phone3 }}</small>
+            <a class="align-middle" href="tel:8{{ticket.phone1}}">{{ ticket.phone1 }}</a>
+            <small class="text-muted d-block"><a href="tel:8{{ticket.phone2}}">{{ ticket.phone2 }}</a></small>
+            <small class="text-muted d-block"><a href="tel:8{{ticket.phone3}}">{{ ticket.phone3 }}</a></small>
           </td>
           <td class="align-middle">{{ ticket.status }}</td>
           <td class="align-middle">{{ ticket.call_time }}</td>
           <td class="align-middle">{{ ticket.operator }}</td>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-<ol class="breadcrumb my-4">
+      </tbody>
+    </table>
+  </div>
+  <ol class="breadcrumb my-4">
     <li class="breadcrumb-item active"><span class="label label-danger">Подключенные</span></li>
-</ol>
-<div class="container">
-  <table id="switched_badge"  class="table table-hover table-bordered">
-    <thead class="thead-inverse">
-      <tr>
-        <th>Номер заявки</th>
-        <th>ФИО\Адресс</th>
-        <th>Телефон</th>
-        <th>Статус</th>
-        <th>Таймер</th>
-        <th>Сотрудник</th>
-      </tr>
-    </thead>
-    <tbody id="myTable">
-      {% for ticket in switched_on_tickets %}
+  </ol>
+  <div class="container"> {% for ticket in switched_on_tickets %} {% endfor %} <table id="switched_badge" class="table table-hover table-bordered">
+      <thead class="thead-inverse">
         <tr>
-          <td class="align-middle "><a href="{% url 'ticket_info' ticket.id %}" target="_blank">{{ ticket.number }}</a>  </td>
+          <th>Номер заявки</th>
+          <th>ФИО\Адресс</th>
+          <th>Телефон</th>
+          <th>Статус</th>
+          <th>Таймер</th>
+          <th>Сотрудник</th>
+        </tr>
+      </thead>
+      <tbody id="myTable">
+        <tr>
+          <td class="align-middle "><a href="{% url 'ticket_info' ticket.id %}" target="_blank">{{ ticket.number }}</a> </td>
           <td>
-            <a class="align-middle" >{{ ticket.name }}</a>
-              <small class="text-muted d-block">{{ ticket.address }} <b style="color:red;">{{ ticket.dns }}</b></small>
+            <a class="align-middle">{{ ticket.name }}</a>
+            <small class="text-muted d-block">{{ ticket.address }} <b style="color:red;">{{ ticket.dns }}</b></small>
           </td>
           <td>
-            <a class="align-middle" >{{ ticket.phone1 }}</a>
-            <small class="text-muted d-block">{{ ticket.phone2 }}</small>
-            <small class="text-muted d-block">{{ ticket.phone3 }}</small>
+            <a class="align-middle" href="tel:8{{ticket.phone1}}">{{ ticket.phone1 }}</a>
+            <small class="text-muted d-block"><a href="tel:8{{ticket.phone2}}">{{ ticket.phone2 }}</a></small>
+            <small class="text-muted d-block"><a href="tel:8{{ticket.phone3}}">{{ ticket.phone3 }}</a></small>
           </td>
           <td class="align-middle">{{ ticket.status }}</td>
           <td class="align-middle">{{ ticket.call_time }}</td>
           <td class="align-middle">{{ ticket.operator }}</td>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-    <aside>
-    <script async src="https://telegram.org/js/telegram-widget.js?5" data-telegram-post="d2d_news/231" data-width="100%"></script>
-
-    </aside>
-<script>
-$(document).ready(function(){
-  $("#myInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      </tbody>
+    </table>
+  </div>
+  <aside>
+    <script async="" src="https://telegram.org/js/telegram-widget.js?5" data-telegram-post="d2d_news/231" data-width="100%"></script>
+  </aside>
+  <script>
+    $(document).ready(function() {
+      $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
     });
-  });
-});
-</script>
-
-<script>
-    $(document).ready(function(){
-        var str = 'Назначенных заявок: ';
-        $('assigned_count').html(str + ($('#assigned_badge tr').length - 1));
-
+  </script>
+  <script>
+    $(document).ready(function() {
+      var str = 'Назначенных заявок: ';
+      $('assigned_count').html(str + ($('#assigned_badge tr').length - 1));
     });
-</script>
-<script>
-    $(function(){
-        $('#keywords').tablesorter();
+  </script>
+  <script>
+    $(function() {
+      $('#keywords').tablesorter();
     });
-</script>
-<script>
-$(document).ready(function(){
-var str = 'Подключенных заявок: ';
-$('switched_count').html(str + ($('#switched_badge tr').length - 1));
-});
-</script>
-{% endblock %}
+  </script>
+  <script>
+    $(document).ready(function() {
+      var str = 'Подключенных заявок: ';
+      $('switched_count').html(str + ($('#switched_badge tr').length - 1));
+    });
+  </script> {% endblock %} <pingendo onclick="window.open('https://pingendo.com/', '_blank')" style="cursor:pointer;position: fixed;bottom: 20px;right:20px;padding:4px;background-color: #00b0eb;border-radius: 8px; width:220px;display:flex;flex-direction:row;align-items:center;justify-content:center;font-size:14px;color:white">Made with Pingendo Free&nbsp;&nbsp;<img src="https://pingendo.com/site-assets/Pingendo_logo_big.png" class="d-block" alt="Pingendo logo" height="16"></pingendo>
+</body>
 
-
-
-
-
-
-
-
-
-
-
-
-
+</html>

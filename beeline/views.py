@@ -16,7 +16,6 @@ def main_page(request):
     all_switched_on_tickets.extend(switched_on_tickets)
     all_switched_on_today += switched_on_today
     all_created_today_tickets += created_today_tickets
-    request.session.set_expiry(600)
     return render( request,'tickets_main_page.html',
               {'assigned_tickets':all_assigned_tickets,
                'call_for_today':all_call_for_today,
