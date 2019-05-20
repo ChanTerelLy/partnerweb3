@@ -1,1 +1,1 @@
-web: gunicorn test_project.wsgi --timeout 10 --log-file -
+web: gunicorn test_project.wsgi --timeout 60 --log-file -
