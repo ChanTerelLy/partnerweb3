@@ -1,12 +1,5 @@
-{% load static %}
-<html>
-    <head>
-        <title>Django</title>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-    </head>
-    <body>
+{% extends 'base.html' %}
+{% block content %}
     <div class="content container">
         <div class="row">
             <div class="col-md-8">
@@ -17,5 +10,4 @@
                     <button type="submit" class="save btn btn-default">Save</button>
                 </form>
             </div>
-    </body>
-</html>
+{%endblock%}

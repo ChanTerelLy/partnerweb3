@@ -10,6 +10,10 @@
     {% for item in  ticket_info.phones %}
         <h5>{{ item.phone }} - {{ item.comment }}</h5>
     {% endfor %}
+    <input id="input" width="312" />
+    <script>
+        $('#input').datetimepicker({ footer: true, modal: true });
+    </script>
     <table class="table table-hover table-bordered">
 
         <thead>

@@ -41,3 +41,4 @@ def auth(request):
         if form.is_valid():
             return redirect('main_page_tickets')
     return render(request, 'auth_beeline.html', {'form': form})
+
