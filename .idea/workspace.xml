@@ -2,14 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f1c6bf8-20d3-48d9-8b24-edf1263d533c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/beeline/beeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/beeline/beeline.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/beeline/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/beeline/form.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/beeline/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/beeline/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/beeline/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/beeline/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/auth_beeline.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/auth_beeline.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/ticket_info.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/ticket_info.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -73,7 +65,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/beeline/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="123">
+            <state relative-caret-position="660">
               <caret line="36" column="112" selection-start-line="36" selection-start-column="112" selection-end-line="36" selection-end-column="112" />
               <folding>
                 <element signature="e#0#42#0" expanded="true" />
@@ -97,7 +89,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/tickets_main_page.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3320">
+            <state relative-caret-position="662">
               <caret line="166" column="7" selection-start-line="166" selection-start-column="7" selection-end-line="166" selection-end-column="7" />
               <folding>
                 <element signature="n#style#0;n#b#0;n#small#0;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#!!top" expanded="true" />
@@ -107,11 +99,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/ticket_info.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="24" selection-start-line="24" selection-end-line="26" selection-end-column="7" />
+            <state relative-caret-position="336">
+              <caret line="17" column="23" lean-forward="true" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
               <folding>
                 <element signature="n#style#0;n#h4#0;n#!!top" expanded="true" />
               </folding>
@@ -122,7 +114,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
+            <state relative-caret-position="280">
               <caret line="14" column="182" selection-start-line="14" selection-start-column="182" selection-end-line="14" selection-end-column="182" />
             </state>
           </provider>
@@ -131,7 +123,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/beeline/form.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
+            <state relative-caret-position="80">
               <caret line="5" column="18" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
@@ -143,7 +135,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/beeline/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
+            <state relative-caret-position="820">
               <caret line="41" column="48" selection-start-line="41" selection-start-column="48" selection-end-line="41" selection-end-column="48" />
             </state>
           </provider>
@@ -154,11 +146,11 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/beeline/beeline.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="228" column="84" lean-forward="true" selection-start-line="228" selection-start-column="84" selection-end-line="228" selection-end-column="84" />
+            <state relative-caret-position="-287">
+              <caret line="228" column="84" selection-start-line="228" selection-start-column="84" selection-end-line="228" selection-end-column="84" />
               <folding>
                 <element signature="e#515#1186#0" />
                 <element signature="e#1309#1523#0" />
@@ -182,11 +174,6 @@
                 <element signature="e#8312#8600#0" />
                 <element signature="e#8366#8571#0" />
                 <element signature="e#8423#8571#0" />
-                <element signature="e#10147#11502#0" />
-                <element signature="e#11553#13002#0" />
-                <element signature="e#11640#12952#0" />
-                <element signature="e#11726#12952#0" />
-                <element signature="e#12170#12952#0" />
               </folding>
             </state>
           </provider>
@@ -292,8 +279,8 @@
         <option value="$PROJECT_DIR$/beeline/models.py" />
         <option value="$PROJECT_DIR$/beeline/views.py" />
         <option value="$PROJECT_DIR$/templates/base.html" />
-        <option value="$PROJECT_DIR$/templates/ticket_info.html" />
         <option value="$PROJECT_DIR$/beeline/beeline.py" />
+        <option value="$PROJECT_DIR$/templates/ticket_info.html" />
       </list>
     </option>
   </component>
@@ -321,6 +308,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -353,7 +341,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1018,6 +1005,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/beeline/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="36" column="112" selection-start-line="36" selection-start-column="112" selection-end-line="36" selection-end-column="112" />
+          <folding>
+            <element signature="e#0#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/test_project/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
@@ -1028,30 +1025,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/tickets_main_page.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3320">
-          <caret line="166" column="7" selection-start-line="166" selection-start-column="7" selection-end-line="166" selection-end-column="7" />
-          <folding>
-            <element signature="n#style#0;n#b#0;n#small#0;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#b#0;n#small#0;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#div#2;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/includes/form.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
+        <state relative-caret-position="280">
           <caret line="14" column="182" selection-start-line="14" selection-start-column="182" selection-end-line="14" selection-end-column="182" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/beeline/form.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
+        <state relative-caret-position="80">
           <caret line="5" column="18" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
           <folding>
             <element signature="e#0#24#0" expanded="true" />
@@ -1061,35 +1044,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/beeline/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
+        <state relative-caret-position="820">
           <caret line="41" column="48" selection-start-line="41" selection-start-column="48" selection-end-line="41" selection-end-column="48" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/beeline/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="123">
-          <caret line="36" column="112" selection-start-line="36" selection-start-column="112" selection-end-line="36" selection-end-column="112" />
-          <folding>
-            <element signature="e#0#42#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/ticket_info.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="24" selection-start-line="24" selection-end-line="26" selection-end-column="7" />
-          <folding>
-            <element signature="n#style#0;n#h4#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/templates/includes/form.html">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/beeline/beeline.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="228" column="84" lean-forward="true" selection-start-line="228" selection-start-column="84" selection-end-line="228" selection-end-column="84" />
+        <state relative-caret-position="-287">
+          <caret line="228" column="84" selection-start-line="228" selection-start-column="84" selection-end-line="228" selection-end-column="84" />
           <folding>
             <element signature="e#515#1186#0" />
             <element signature="e#1309#1523#0" />
@@ -1113,11 +1079,27 @@
             <element signature="e#8312#8600#0" />
             <element signature="e#8366#8571#0" />
             <element signature="e#8423#8571#0" />
-            <element signature="e#10147#11502#0" />
-            <element signature="e#11553#13002#0" />
-            <element signature="e#11640#12952#0" />
-            <element signature="e#11726#12952#0" />
-            <element signature="e#12170#12952#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/tickets_main_page.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="662">
+          <caret line="166" column="7" selection-start-line="166" selection-start-column="7" selection-end-line="166" selection-end-column="7" />
+          <folding>
+            <element signature="n#style#0;n#b#0;n#small#0;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#b#0;n#small#0;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#div#2;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/ticket_info.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="17" column="23" lean-forward="true" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
+          <folding>
+            <element signature="n#style#0;n#h4#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
