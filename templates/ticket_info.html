@@ -8,14 +8,14 @@
     <h5>{{ ticket_info.address }}</h5>
     <h5>{{ ticket_info.status }}</h5>
     {% for item in  ticket_info.phones %}
-        <h5>{{ item.phone }} - {{ item.comment }}</h5>
+<h5><a href="tel:8{{item.phone}}">{{ item.phone }}</a> - {{ item.comment }}</h5>
     {% endfor %}
     <div class="content container">
         <div class="row">
             <div class="col-md-8">
-    <form method="POST" autocomplete="off"  class="post-form">
+    <form method="POST" autocomplete="off"  class="post-form" >
         {% csrf_token %}
-        {{ form.as_p }}
+        {% include 'includes/form_beeline.html' %}
         <button type="submit" class="save btn btn-default" formmethod="post" >Send</button>
     </form>
             </div>

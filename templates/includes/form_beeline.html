@@ -1,0 +1,9 @@
+{% load form_tags widget_tweaks %}
+
+
+{% for field in form %}
+  <div class="form-group">
+    {{ field.label_tag }}
+    {% render_field field %}
+  </div>
+{% endfor %}
