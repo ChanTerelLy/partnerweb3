@@ -10,10 +10,23 @@
     {% for item in  ticket_info.phones %}
         <h5>{{ item.phone }} - {{ item.comment }}</h5>
     {% endfor %}
-    <input id="input" width="312" />
-    <script>
-        $('#input').datetimepicker({ footer: true, modal: true });
+    <div class="content container">
+        <div class="row">
+            <div class="col-md-8">
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default" formmethod="post" >Send</button>
+    </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+                $('#id_datetime').datetimepicker({
+      format: 'd.m.Y H:i',
+    });
     </script>
+
     <table class="table table-hover table-bordered">
 
         <thead>

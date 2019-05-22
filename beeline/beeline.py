@@ -217,13 +217,13 @@ class OldDesign(Auth):
         for i in table:
             if i[2].text == 'Заявка на подключение' and i[9].text == 'Назначено в график':
                 full_info = self.ticket_info(i[0][0].get('id'))  # id ticket
-                for comment in full_info.comments:
-                    if find_asssigned_date(comment['text']):
-                        assigned_date = comment['date']
-                        assigned_today = assigned_today = assigned_today + 1 if (
-                                    datetime.datetime.strptime(assigned_date, '%d.%m.%Y %H:%M').date() ==
-                                    datetime.datetime.now().date()) else assigned_today
-                        break
+                # for comment in full_info.comments:
+                #     if find_asssigned_date(comment['text']):
+                #         assigned_date = comment['date']
+                #         assigned_today = assigned_today = assigned_today + 1 if (
+                #                     datetime.datetime.strptime(assigned_date, '%d.%m.%Y %H:%M').date() ==
+                #                     datetime.datetime.now().date()) else assigned_today
+                #         break
                 phone2 = numers(i[8].text)[1] if 1 < len(numers(i[8].text)) else ''
                 phone3 = numers(i[8].text)[2] if 2 < len(numers(i[8].text)) else ''
                 ticket = Ticket(number=i[3].text, name=i[6].text, address=i[7].text,
@@ -232,7 +232,7 @@ class OldDesign(Auth):
                                 phone3=phone3,
                                 status=i[9].text,
                                 call_time=i[10].text, operator=i[11].text,
-                                id=i[0][0].get('id'), assigned_date=assigned_date, dns=find_dns(i[7].text))
+                                id=i[0][0].get('id'), assigned_date='', dns=find_dns(i[7].text))
                 assigned_tickets.append(ticket)
         return assigned_tickets, assigned_today
 
@@ -310,15 +310,11 @@ class OldDesign(Auth):
             date_first, date_second = filter_previous_month(date_first, date_second)
         return assigned_tickets, assigned_tickets_today, call_today_tickets, switched_tickets, switched_on_tickets_today, created_today_tickets
 
-    def change_ticket(self, id, timer=False, comment=False):
+    def change_ticket(self, id, timer, comment, phone):
         url_status = 'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{}'.format(str(id))
-        url_comment = str('https://partnerweb.beeline.ru/ticket/' + str(id) + '/addcomment/')
-        data_timer = {"status_id": 21, "call_time": timer}
-        data_comment = {'text': comment, 'form': 'status'}
-        if timer:
-            self.session.post(url_status, data_timer)
-        if comment:
-            self.session.post(url_comment, data_comment)
+        data_timer = {"status_id":21,"call_time":timer, "comment":comment}
+        self.session.post(url_status, data_timer)
+
 
     def months_report(self, num_months):
         book = Workbook()
@@ -398,6 +394,18 @@ class NewDesign(OldDesign):
             houses.append(i['description'])
         return areas, houses
 
+    def ticket_info(self, id):
+        g = self.session.get('https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/'
+                             + str(id)).json()
+        ticket = Ticket(address=g['address'], address_id=g['address_id'],
+                        allow_change_status=g['allow_change_status'],
+                        allow_schedule=g['allow_schedule'], call_time=g['call_time'], comments=g['comments'],
+                        date=g['date'], id=g['id'], name=g['name'], number=g['number'], operator=g['operator'],
+                        phones=g['phones'],
+                        services=g['services'], shop=g['shop'], shop_id=g['shop_id'], status=g['status'],
+                        ticket_paired=g['ticket_paired'], type=g['type'], type_id=g['type_id'])
+        return ticket
+
     def choose_house(self, name, id_street=False, ):
         streets = self.session.get('https://partnerweb.beeline.ru/ngapi/find_by_city_and_street/'
                                    '?cityPattern=&streetPattern=' + str(encode(name))).json()
@@ -422,34 +430,39 @@ class NewDesign(OldDesign):
         else:
             print('ОК!')
 
-    def assigned_tickets(self, city='', dateFrom=False, dateTo=False, number='', phone='',
-                         shop=False, status='6', pages=3):
-        tickets = self.tickets(city=city, dateFrom=dateFrom, dateTo=dateTo, number=number, phone=phone,
-                               shop=shop, status=status, pages=pages)
-        return tickets
+    def assigned_tickets(self, tickets):
+        assigned_tickets_today = 0
+        assigned_tickets = []
+        for ticket in tickets:
+            if ticket.type_id == 1 and ticket.allow_schedule == False and ticket.allow_change_status == True:
+                for comment in self.ticket_info(ticket.id).comments:
+                    if find_asssigned_date(comment['text']):
+                        if datetime.datetime.strptime(comment['date'], '%d.%m.%Y %H:%M').date() == datetime.datetime.now().date():
+                            assigned_tickets_today =+1
+                        break
+                assigned_tickets.append(ticket)
+        return assigned_tickets, assigned_tickets_today
 
     def search_phone(self, phone, city='', dateFrom=False, dateTo=False, number='',
-                     shop=False, status='', pages=None):
+                     shop='', status='', pages=None):
         tickets = self.tickets(city=city, dateFrom=dateFrom, dateTo=dateTo, number=number, phone=phone,
-                               shop=shop, status=status, pages=pages)
+                               shop='', status=status, pages=pages)
         return tickets
 
     def search_number(self, number, phone='', city='', dateFrom=False, dateTo=False,
-                      shop=False, status='', pages=None):
+                      shop='', status='', pages=None):
         tickets = self.tickets(city=city, dateFrom=dateFrom, dateTo=dateTo, number=number, phone=phone,
-                               shop=shop, status=status, pages=pages)
+                               shop='', status=status, pages=pages)
         return tickets
 
     def call_for_today(self, city='', dateFrom=False, dateTo=False, number='', phone='',
-                       shop=False, pages=1):
+                       shop='', pages=1):
         station = (7, 9, 1, 11)  # ждем звонка , позвонить клиенту и позвонить срочно, новая, резерв
         tickets = []
         for i in station:
             status = i
             if not dateFrom and not dateTo:
                 dateFrom, dateTo = current_year_date()
-            if not shop:
-                shop = '26492'
             ticket_dict = {}
             for pageCount in range(1, pages + 1):
                 url = urllib.parse.urlencode(
@@ -487,7 +500,7 @@ class NewDesign(OldDesign):
         return tickets
 
     def tickets(self, city='', dateFrom=False, dateTo=False, number='', phone='',
-                shop=False, status=None, pages=4):
+                shop='', status='', pages=6):
         ticket_dict, tickets = self.base_ticket_info(city, dateFrom, dateTo, number, pages, phone, shop, status)
         for i in range(1, len(ticket_dict) + 1):
             for g in ticket_dict[i]:
@@ -508,8 +521,6 @@ class NewDesign(OldDesign):
     def base_ticket_info(self, city, dateFrom, dateTo, number, pages, phone, shop, status):
         if not dateFrom and not dateTo:
             dateFrom, dateTo = current_year_date()
-        if not shop:
-            shop = '26492'
         ticket_dict = {}
         tickets = []
         for pageCount in range(1, pages + 1):
@@ -539,13 +550,23 @@ class NewDesign(OldDesign):
             "http_referer"] = "https://partnerweb.beeline.ru/ngapp#!/newaddress/connect_ticket/house_id/450541"
         send_ticket = self.session.post('https://partnerweb.beeline.ru/restapi/tickets/', json.dumps(data))
 
+    def three_month_tickets(self):
+        assigned_tickets = []
+        assigned_tickets_today = 0
+        call_today_tickets = []
+        switched_tickets = []
+        switched_on_tickets_today = 0
+        created_today_tickets = 0
+        tickets = self.tickets()
+
+        return assigned_tickets, assigned_tickets_today, call_today_tickets, switched_tickets, switched_on_tickets_today, created_today_tickets
+
+
 
 if __name__ == "__main__":
     start = time.time()
-    auth = OldDesign('G800-37', 'Корытов', 'fusionN425SA880959')
-    # print(auth.assigned_tickets())
-    # print(find_dns('Архангельск, пр-кт. Московский, д. 55к2 кв.175'))
-    auth.three_month_tickets()
-    print(9999999999999999)
+    #auth = NewDesign('G800-37', 'Корытов_Р.В.', 'roma456')
+    auth = OldDesign('G800-37', 'Корытов_Р.В.', 'roma456')
+    print(auth.three_month_tickets())
     end = time.time()
     print(end - start)

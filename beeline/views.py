@@ -1,7 +1,7 @@
 from .models import AllAssigned, CallToday
 from beeline.beeline import Auth,NewDesign,OldDesign
 from django.shortcuts import render, get_object_or_404, redirect
-from .form import AuthForm
+from .form import AuthForm, DateTimeForm
 
 
 def main_page(request):
@@ -31,7 +31,12 @@ def global_search(request):
 def ticket_info(request, id):
     accounts = OldDesign(request.session['sell_code'],request.session['operator'],request.session['password'])
     ticket_info = accounts.ticket_info(id)
-    return render(request,'ticket_info.html', {'ticket_info':ticket_info})
+    dateform = DateTimeForm(request.POST)
+    if request.method == 'POST':
+        dateform = DateTimeForm(request.POST)
+        accounts.change_ticket(id, dateform['datetime'].value(),dateform['comments'].value(), ticket_info.phone1)
+        return redirect('ticket_info', id)
+    return render(request,'ticket_info.html', {'ticket_info':ticket_info, 'form': dateform})
 
 def auth(request):
     form = AuthForm(request.POST)
