@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f1c6bf8-20d3-48d9-8b24-edf1263d533c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/beeline/beeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/beeline/beeline.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -57,7 +58,7 @@
         <entry file="file://$PROJECT_DIR$/templates/auth_beeline.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="320">
-              <caret line="16" column="12" lean-forward="true" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="12" />
+              <caret line="16" column="12" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -65,8 +66,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/beeline/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="576">
-              <caret line="58" lean-forward="true" selection-start-line="58" selection-end-line="58" />
+            <state relative-caret-position="1160">
+              <caret line="58" selection-start-line="58" selection-end-line="58" />
               <folding>
                 <element signature="e#0#42#0" expanded="true" />
               </folding>
@@ -75,9 +76,39 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/accounts/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="3" column="24" lean-forward="true" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/accounts/forms.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="100">
+              <caret line="5" column="44" lean-forward="true" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="57" />
+              <folding>
+                <element signature="e#0#24#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/accounts/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/tickets_main_page.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
+            <state relative-caret-position="1680">
               <caret line="84" column="10" selection-start-line="84" selection-start-column="10" selection-end-line="84" selection-end-column="10" />
               <folding>
                 <element signature="n#style#0;n#b#0;n#small#0;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#!!top" expanded="true" />
@@ -90,8 +121,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/beeline/beeline.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="477" column="74" selection-start-line="477" selection-start-column="74" selection-end-line="477" selection-end-column="74" />
+            <state relative-caret-position="420">
+              <caret line="497" column="64" selection-start-line="497" selection-start-column="64" selection-end-line="497" selection-end-column="64" />
               <folding>
                 <element signature="e#190#319#0" />
                 <element signature="e#358#475#0" />
@@ -102,63 +133,6 @@
                 <element signature="e#1545#1593#0" />
                 <element signature="e#1620#1924#0" />
                 <element signature="e#1961#2185#0" />
-                <element signature="e#2216#2248#0" />
-                <element signature="e#2292#2380#0" />
-                <element signature="e#2439#2587#0" />
-                <element signature="e#2619#2798#0" />
-                <element signature="e#2833#3041#0" />
-                <element signature="e#3058#3692#0" />
-                <element signature="e#3115#3692#0" />
-                <element signature="e#3316#3600#0" />
-                <element signature="e#3331#3488#0" />
-                <element signature="e#4170#5451#0" />
-                <element signature="e#5485#5510#0" />
-                <element signature="e#5576#6339#0" />
-                <element signature="e#6381#6978#0" />
-                <element signature="e#6761#6954#0" />
-                <element signature="e#7028#8260#0" />
-                <element signature="e#7564#8027#0" />
-                <element signature="e#8312#8600#0" />
-                <element signature="e#8366#8571#0" />
-                <element signature="e#8423#8571#0" />
-                <element signature="e#10150#11505#0" />
-                <element signature="e#10210#11471#0" />
-                <element signature="e#10533#11471#0" />
-                <element signature="e#10771#11471#0" />
-                <element signature="e#11556#13005#0" />
-                <element signature="e#11643#12955#0" />
-                <element signature="e#11729#12955#0" />
-                <element signature="e#12173#12955#0" />
-                <element signature="e#13050#14503#0" />
-                <element signature="e#13338#14359#0" />
-                <element signature="e#14569#14786#0" />
-                <element signature="e#14838#16685#0" />
-                <element signature="e#15027#16059#0" />
-                <element signature="e#15376#15974#0" />
-                <element signature="e#15437#15974#0" />
-                <element signature="e#16724#18053#0" />
-                <element signature="e#16834#18030#0" />
-                <element signature="e#17208#18030#0" />
-                <element signature="e#18137#18569#0" />
-                <element signature="e#18610#19373#0" />
-                <element signature="e#19436#20264#0" />
-                <element signature="e#19463#19591#0" />
-                <element signature="e#19663#19819#0" />
-                <element signature="e#20047#20193#0" />
-                <element signature="e#20101#20193#0" />
-                <element signature="e#20322#20619#0" />
-                <element signature="e#20558#20744#0" />
-                <element signature="e#20894#21080#0" />
-                <element signature="e#21245#21636#0" />
-                <element signature="e#24029#25363#0" />
-                <element signature="e#24195#25267#0" />
-                <element signature="e#24236#25340#0" />
-                <element signature="e#26358#27093#0" />
-                <element signature="e#26545#27057#0" />
-                <element signature="e#26226#27167#0" />
-                <element signature="e#26295#26645#0" />
-                <element signature="e#26411#27063#0" />
-                <element signature="e#27459#28070#0" />
               </folding>
             </state>
           </provider>
@@ -167,7 +141,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/re.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1345">
+            <state relative-caret-position="5460">
               <caret line="276" selection-start-line="276" selection-end-line="276" />
             </state>
           </provider>
@@ -290,9 +264,9 @@
     <auto-save>true</auto-save>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="949" />
-    <option name="width" value="980" />
-    <option name="height" value="1031" />
+    <option name="x" value="948" />
+    <option name="width" value="981" />
+    <option name="height" value="1032" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -302,7 +276,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -340,6 +313,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -493,11 +467,11 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.manage" />
       <item itemvalue="Python.__init__" />
       <item itemvalue="Python.beeline" />
-      <item itemvalue="Python.testtest" />
+      <item itemvalue="Python.manage" />
       <item itemvalue="Python.tests" />
+      <item itemvalue="Python.testtest" />
     </list>
     <recent_temporary>
       <list>
@@ -735,7 +709,7 @@
       <window_info id="Favorites" order="2" sideWeight="0.5013123" side_tool="true" weight="0.19271255" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32446808" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49722" visible="true" weight="0.29432625" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49722" weight="0.29432625" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.6099291" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -857,13 +831,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/beeline/beeline.py</url>
-          <line>477</line>
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -961,13 +928,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/accounts/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="1" column="54" selection-start-line="1" selection-start-column="38" selection-end-line="1" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/test2.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
@@ -1022,13 +982,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/accounts/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="3" column="24" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/boards/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
@@ -1062,13 +1015,6 @@
           <folding>
             <element signature="e#311#320#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/accounts/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
         </state>
       </provider>
     </entry>
@@ -1120,16 +1066,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/re.py">
+    <entry file="file://$PROJECT_DIR$/templates/auth_beeline.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1345">
-          <caret line="276" selection-start-line="276" selection-end-line="276" />
+        <state relative-caret-position="320">
+          <caret line="16" column="12" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/tickets_main_page.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
+        <state relative-caret-position="1680">
           <caret line="84" column="10" selection-start-line="84" selection-start-column="10" selection-end-line="84" selection-end-column="10" />
           <folding>
             <element signature="n#style#0;n#b#0;n#small#0;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#!!top" expanded="true" />
@@ -1138,27 +1084,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/auth_beeline.html">
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/re.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="16" column="12" lean-forward="true" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="12" />
+        <state relative-caret-position="5460">
+          <caret line="276" selection-start-line="276" selection-end-line="276" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/accounts/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/beeline/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="58" lean-forward="true" selection-start-line="58" selection-end-line="58" />
+        <state relative-caret-position="1160">
+          <caret line="58" selection-start-line="58" selection-end-line="58" />
           <folding>
             <element signature="e#0#42#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/accounts/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="3" column="24" lean-forward="true" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/accounts/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="5" column="44" lean-forward="true" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="57" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/beeline/beeline.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="477" column="74" selection-start-line="477" selection-start-column="74" selection-end-line="477" selection-end-column="74" />
+        <state relative-caret-position="420">
+          <caret line="497" column="64" selection-start-line="497" selection-start-column="64" selection-end-line="497" selection-end-column="64" />
           <folding>
             <element signature="e#190#319#0" />
             <element signature="e#358#475#0" />
@@ -1169,63 +1139,6 @@
             <element signature="e#1545#1593#0" />
             <element signature="e#1620#1924#0" />
             <element signature="e#1961#2185#0" />
-            <element signature="e#2216#2248#0" />
-            <element signature="e#2292#2380#0" />
-            <element signature="e#2439#2587#0" />
-            <element signature="e#2619#2798#0" />
-            <element signature="e#2833#3041#0" />
-            <element signature="e#3058#3692#0" />
-            <element signature="e#3115#3692#0" />
-            <element signature="e#3316#3600#0" />
-            <element signature="e#3331#3488#0" />
-            <element signature="e#4170#5451#0" />
-            <element signature="e#5485#5510#0" />
-            <element signature="e#5576#6339#0" />
-            <element signature="e#6381#6978#0" />
-            <element signature="e#6761#6954#0" />
-            <element signature="e#7028#8260#0" />
-            <element signature="e#7564#8027#0" />
-            <element signature="e#8312#8600#0" />
-            <element signature="e#8366#8571#0" />
-            <element signature="e#8423#8571#0" />
-            <element signature="e#10150#11505#0" />
-            <element signature="e#10210#11471#0" />
-            <element signature="e#10533#11471#0" />
-            <element signature="e#10771#11471#0" />
-            <element signature="e#11556#13005#0" />
-            <element signature="e#11643#12955#0" />
-            <element signature="e#11729#12955#0" />
-            <element signature="e#12173#12955#0" />
-            <element signature="e#13050#14503#0" />
-            <element signature="e#13338#14359#0" />
-            <element signature="e#14569#14786#0" />
-            <element signature="e#14838#16685#0" />
-            <element signature="e#15027#16059#0" />
-            <element signature="e#15376#15974#0" />
-            <element signature="e#15437#15974#0" />
-            <element signature="e#16724#18053#0" />
-            <element signature="e#16834#18030#0" />
-            <element signature="e#17208#18030#0" />
-            <element signature="e#18137#18569#0" />
-            <element signature="e#18610#19373#0" />
-            <element signature="e#19436#20264#0" />
-            <element signature="e#19463#19591#0" />
-            <element signature="e#19663#19819#0" />
-            <element signature="e#20047#20193#0" />
-            <element signature="e#20101#20193#0" />
-            <element signature="e#20322#20619#0" />
-            <element signature="e#20558#20744#0" />
-            <element signature="e#20894#21080#0" />
-            <element signature="e#21245#21636#0" />
-            <element signature="e#24029#25363#0" />
-            <element signature="e#24195#25267#0" />
-            <element signature="e#24236#25340#0" />
-            <element signature="e#26358#27093#0" />
-            <element signature="e#26545#27057#0" />
-            <element signature="e#26226#27167#0" />
-            <element signature="e#26295#26645#0" />
-            <element signature="e#26411#27063#0" />
-            <element signature="e#27459#28070#0" />
           </folding>
         </state>
       </provider>

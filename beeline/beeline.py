@@ -488,13 +488,14 @@ class NewDesign(OldDesign):
                 g['services'] = g.get('services')
                 g['shop'] = g.get('shop')
                 g['shop_id'] = g.get('shop_id')
+                phone1 = g['phones'][0]['phone'] if 1 < len(g['phones']) else ''
                 phone2 = g['phones'][1]['phone'] if 1 < len(g['phones']) else ''
                 phone3 = g['phones'][2]['phone'] if 2 < len(g['phones']) else ''
                 ticket = Ticket(address=g['address'], address_id=g['address_id'],
                                 allow_change_status=g['allow_change_status'],
                                 allow_schedule=g['allow_schedule'], call_time=g['call_time'], comments=g['comments'],
                                 date=g['date'], id=g['id'], name=g['name'], number=g['number'], operator=g['operator'],
-                                phones=g['phones'],phone1=g['phones'][0]['phone'], phone2=phone2, phone3=phone3,
+                                phones=g['phones'],phone1=phone1, phone2=phone2, phone3=phone3,
                                 services=g['services'], shop=g['shop'], shop_id=g['shop_id'], status=g['status'],
                                 ticket_paired=g['ticket_paired'], type=g['type'], type_id=g['type_id'])
                 tickets.append(ticket)
