@@ -475,7 +475,7 @@ class NewDesign(OldDesign):
                               <= datetime.date(cur_year, cur_month, last)) and
                              ((datetime.datetime.strptime(ticket.call_time,"%d.%m.%Y %H:%M").date()
                                >= datetime.date(cur_year, cur_month, 1)))):
-                    switched_on_tickets_today = switched_on_tickets_today + 1 if ticket.call_time == datetime.datetime.now().date() else switched_on_tickets_today
+                    switched_on_tickets_today = switched_on_tickets_today + 1 if datetime.datetime.strptime(ticket.call_time,"%d.%m.%Y %H:%M").date() == datetime.datetime.now().date() else switched_on_tickets_today
                     switched_tickets.append(ticket)
         return switched_tickets, switched_on_tickets_today
 
