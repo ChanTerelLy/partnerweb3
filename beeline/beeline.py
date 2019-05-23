@@ -222,6 +222,7 @@ class OldDesign(Auth):
                                     datetime.datetime.strptime(assigned_date, '%d.%m.%Y %H:%M').date() ==
                                     datetime.datetime.now().date()) else assigned_today
                         break
+                phone1 = phone9(i[8].text)[0] if 0 < len(phone9(i[8].text)) else ''
                 phone2 = phone9(i[8].text)[1] if 1 < len(phone9(i[8].text)) else ''
                 phone3 = phone9(i[8].text)[2] if 2 < len(phone9(i[8].text)) else ''
                 ticket = Ticket(number=i[3].text, name=i[6].text, address=i[7].text,
@@ -230,7 +231,7 @@ class OldDesign(Auth):
                                 phone3=phone3,
                                 status=i[9].text,
                                 call_time=i[10].text, operator=i[11].text,
-                                id=i[0][0].get('id'), assigned_date='', dns=find_dns(i[7].text))
+                                id=phone1, assigned_date='', dns=find_dns(i[7].text))
                 assigned_tickets.append(ticket)
         return assigned_tickets, assigned_today
 
@@ -247,6 +248,7 @@ class OldDesign(Auth):
                     continue
                 if timer <= datetime.datetime.now().date() or None:
                     timer = datetime.datetime.strptime(i[10].text, '%d.%m.%Y %H.%M')
+                    phone1 = phone9(i[8].text)[0] if 0 < len(phone9(i[8].text)) else ''
                     phone2 = phone9(i[8].text)[1] if 1 < len(phone9(i[8].text)) else ''
                     phone3 = phone9(i[8].text)[2] if 2 < len(phone9(i[8].text)) else ''
                     ticket = Ticket(number=i[3].text, name=i[6].text, address=i[7].text,
@@ -254,7 +256,7 @@ class OldDesign(Auth):
                                     phone2=phone2,
                                     phone3=phone3,
                                     status=i[9].text, call_time=timer, operator=i[11].text,
-                                    id=i[0][0].get('id'))
+                                    id=phone1)
                     call_today_tickets.append(ticket)
         return call_today_tickets
 
@@ -272,6 +274,7 @@ class OldDesign(Auth):
                 if (timer <= datetime.date(cur_year, cur_month, last)) and (
                         timer >= datetime.date(cur_year, cur_month, 1)):
                     swithed_on_today = swithed_on_today = swithed_on_today + 1 if timer == datetime.datetime.now().date() else swithed_on_today
+                    phone1 = phone9(i[8].text)[0] if 0 < len(phone9(i[8].text)) else ''
                     phone2 = phone9(i[8].text)[1] if 1 < len(phone9(i[8].text)) else ''
                     phone3 = phone9(i[8].text)[2] if 2 < len(phone9(i[8].text)) else ''
                     ticket = Ticket(number=i[3].text, name=i[6].text, address=i[7].text,
@@ -279,7 +282,7 @@ class OldDesign(Auth):
                                     phone2=phone2,
                                     phone3=phone3,
                                     status=i[9].text, call_time=timer, operator=i[11].text,
-                                    id=i[0][0].get('id'), dns=find_dns(i[7].text))
+                                    id=phone1, dns=find_dns(i[7].text))
                     switched_tickets.append(ticket)
         return switched_tickets, swithed_on_today
 
