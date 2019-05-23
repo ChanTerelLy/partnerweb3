@@ -274,7 +274,7 @@ class OldDesign(Auth):
                 if (timer <= datetime.date(cur_year, cur_month, last)) and (
                         timer >= datetime.date(cur_year, cur_month, 1)):
                     swithed_on_today = swithed_on_today = swithed_on_today + 1 if timer == datetime.datetime.now().date() else swithed_on_today
-                    phone1 = phone9(i[8].text)[0] if 0 < len(phone9(i[8].text)) else ''
+                    phone1 = phone9(i[8].text)[0] if len(phone9(i[8].text)) else ''
                     phone2 = phone9(i[8].text)[1] if 1 < len(phone9(i[8].text)) else ''
                     phone3 = phone9(i[8].text)[2] if 2 < len(phone9(i[8].text)) else ''
                     ticket = Ticket(number=i[3].text, name=i[6].text, address=i[7].text,
@@ -491,7 +491,7 @@ class NewDesign(OldDesign):
                 g['services'] = g.get('services')
                 g['shop'] = g.get('shop')
                 g['shop_id'] = g.get('shop_id')
-                phone1 = g['phones'][0]['phone'] if 1 < len(g['phones']) else ''
+                phone1 = g['phones'][0]['phone'] if len(g['phones']) else ''
                 phone2 = g['phones'][1]['phone'] if 1 < len(g['phones']) else ''
                 phone3 = g['phones'][2]['phone'] if 2 < len(g['phones']) else ''
                 ticket = Ticket(address=g['address'], address_id=g['address_id'],
