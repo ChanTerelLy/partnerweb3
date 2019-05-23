@@ -80,7 +80,9 @@
     <tbody id="myTable">
       {% for ticket in call_for_today %}
         <tr>
-          <td class="align-middle "><a href="{% url 'ticket_info' ticket.id %}" target="_blank">{{ ticket.number }}</a>  </td>
+          <td class="align-middle ">
+            <a href="{% url 'ticket_info' ticket.id %}" target="_blank">{{ ticket.number }}</a>
+          </td>
           <td>
             <a class="align-middle" >{{ ticket.name }}</a>
             <small class="text-muted d-block">{{ ticket.address }}</small>

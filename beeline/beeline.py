@@ -45,7 +45,7 @@ def find_dns(address):
     return dns
 
 
-def numers(mystr):
+def phone9(mystr):
     if mystr != None:
         mystr = re.sub(r"[-]", "", mystr)
         mystr = mystr.replace(' 8', '')
@@ -77,7 +77,7 @@ def last_day_current_month():
     return last_day, cur_month, cur_year
 
 
-def formate_date(date):
+def url_formate_date(date):
     return date.strftime("%d.%m.%Y")
 
 
@@ -85,25 +85,23 @@ def formate_date_schedule(str_date):
     return datetime.datetime.strptime(str_date, '%Y-%m-%dT%H:%M:%S+00:00').strftime('%H:%M')
 
 
-def filter_previous_month(date_first, date_second):
+def delta_current_month(date_first, date_second):
     date_second = date_second - datetime.timedelta(days=30)
     date_first = date_first - datetime.timedelta(days=30)
     return date_first, date_second
 
 
-def current_moth_date():
+def range_current_month():
     now_date = datetime.date.today()
     date_first = now_date - datetime.timedelta(days=30)
     date_second = now_date + datetime.timedelta(days=1)
     return date_first, date_second
 
-
 def current_year_date():
     now_date = datetime.date.today()
-    date_first = formate_date(now_date - datetime.timedelta(days=365))
-    date_second = formate_date(now_date + datetime.timedelta(days=1))
+    date_first = url_formate_date(now_date - datetime.timedelta(days=365))
+    date_second = url_formate_date(now_date + datetime.timedelta(days=1))
     return date_first, date_second
-
 
 class Auth:
 
@@ -217,17 +215,17 @@ class OldDesign(Auth):
         for i in table:
             if i[2].text == 'Заявка на подключение' and i[9].text == 'Назначено в график':
                 full_info = self.ticket_info(i[0][0].get('id'))  # id ticket
-                # for comment in full_info.comments:
-                #     if find_asssigned_date(comment['text']):
-                #         assigned_date = comment['date']
-                #         assigned_today = assigned_today = assigned_today + 1 if (
-                #                     datetime.datetime.strptime(assigned_date, '%d.%m.%Y %H:%M').date() ==
-                #                     datetime.datetime.now().date()) else assigned_today
-                #         break
-                phone2 = numers(i[8].text)[1] if 1 < len(numers(i[8].text)) else ''
-                phone3 = numers(i[8].text)[2] if 2 < len(numers(i[8].text)) else ''
+                for comment in full_info.comments:
+                    if find_asssigned_date(comment['text']):
+                        assigned_date = comment['date']
+                        assigned_today = assigned_today = assigned_today + 1 if (
+                                    datetime.datetime.strptime(assigned_date, '%d.%m.%Y %H:%M').date() ==
+                                    datetime.datetime.now().date()) else assigned_today
+                        break
+                phone2 = phone9(i[8].text)[1] if 1 < len(phone9(i[8].text)) else ''
+                phone3 = phone9(i[8].text)[2] if 2 < len(phone9(i[8].text)) else ''
                 ticket = Ticket(number=i[3].text, name=i[6].text, address=i[7].text,
-                                phone1=numers(i[8].text)[0],
+                                phone1=phone9(i[8].text)[0],
                                 phone2=phone2,
                                 phone3=phone3,
                                 status=i[9].text,
@@ -249,10 +247,10 @@ class OldDesign(Auth):
                     continue
                 if timer <= datetime.datetime.now().date() or None:
                     timer = datetime.datetime.strptime(i[10].text, '%d.%m.%Y %H.%M')
-                    phone2 = numers(i[8].text)[1] if 1 < len(numers(i[8].text)) else ''
-                    phone3 = numers(i[8].text)[2] if 2 < len(numers(i[8].text)) else ''
+                    phone2 = phone9(i[8].text)[1] if 1 < len(phone9(i[8].text)) else ''
+                    phone3 = phone9(i[8].text)[2] if 2 < len(phone9(i[8].text)) else ''
                     ticket = Ticket(number=i[3].text, name=i[6].text, address=i[7].text,
-                                    phone1=numers(i[8].text)[0],
+                                    phone1=phone9(i[8].text)[0],
                                     phone2=phone2,
                                     phone3=phone3,
                                     status=i[9].text, call_time=timer, operator=i[11].text,
@@ -274,10 +272,10 @@ class OldDesign(Auth):
                 if (timer <= datetime.date(cur_year, cur_month, last)) and (
                         timer >= datetime.date(cur_year, cur_month, 1)):
                     swithed_on_today = swithed_on_today = swithed_on_today + 1 if timer == datetime.datetime.now().date() else swithed_on_today
-                    phone2 = numers(i[8].text)[1] if 1 < len(numers(i[8].text)) else ''
-                    phone3 = numers(i[8].text)[2] if 2 < len(numers(i[8].text)) else ''
+                    phone2 = phone9(i[8].text)[1] if 1 < len(phone9(i[8].text)) else ''
+                    phone3 = phone9(i[8].text)[2] if 2 < len(phone9(i[8].text)) else ''
                     ticket = Ticket(number=i[3].text, name=i[6].text, address=i[7].text,
-                                    phone1=numers(i[8].text)[0],
+                                    phone1=phone9(i[8].text)[0],
                                     phone2=phone2,
                                     phone3=phone3,
                                     status=i[9].text, call_time=timer, operator=i[11].text,
@@ -286,7 +284,7 @@ class OldDesign(Auth):
         return switched_tickets, swithed_on_today
 
     def three_month_tickets(self):
-        date_first, date_second = current_moth_date()
+        date_first, date_second = range_current_month()
         assigned_tickets = []
         assigned_tickets_today = 0
         call_today_tickets = []
@@ -294,7 +292,7 @@ class OldDesign(Auth):
         switched_on_tickets_today = 0
         created_today_tickets = 0
         for month in range(2):
-            data = dict(date_start=str(formate_date(date_first)), date_end=str(formate_date(date_second)))
+            data = dict(date_start=str(url_formate_date(date_first)), date_end=str(url_formate_date(date_second)))
             filter_page = self.session.post('https://partnerweb.beeline.ru/main/', data)
             doc = lxml.html.fromstring(filter_page.content)
             table = doc.cssselect('table.tablesorter')[0][1]
@@ -307,7 +305,7 @@ class OldDesign(Auth):
             created_today_tickets = created_today_tickets + self.count_created_today(table)
             assigned_tickets_today = assigned_tickets_today + assigned_today
             switched_on_tickets_today = switched_on_tickets_today + switched_on_today
-            date_first, date_second = filter_previous_month(date_first, date_second)
+            date_first, date_second = delta_current_month(date_first, date_second)
         return assigned_tickets, assigned_tickets_today, call_today_tickets, switched_tickets, switched_on_tickets_today, created_today_tickets
 
     def change_ticket(self, id, timer, comment, phone):
@@ -320,9 +318,9 @@ class OldDesign(Auth):
         book = Workbook()
         sheet = book.active
         row = '2'  # number row of excel
-        date_first, date_second = current_moth_date()
+        date_first, date_second = range_current_month()
         for x in range(num_months):
-            data = dict(date_start=str(formate_date(date_first)), date_end=str(formate_date(date_second)))
+            data = dict(date_start=str(url_formate_date(date_first)), date_end=str(url_formate_date(date_second)))
             filter_page = self.session.post('https://partnerweb.beeline.ru/main/', data)
             doc = lxml.html.fromstring(filter_page.content)
             table = doc.cssselect('table.tablesorter')[0][1]
@@ -331,13 +329,13 @@ class OldDesign(Auth):
                     sheet['D' + row] = i[3].text  # номер заявки
                     sheet['A' + row] = i[6].text  # фио
                     sheet['B' + row] = i[7].text  # адрес
-                    sheet['C' + row] = numers(str(i[8].text))  # номер телефона
+                    sheet['C' + row] = phone9(str(i[8].text))  # номер телефона
                     sheet['E' + row] = i[9].text  # статус
                     sheet['F' + row] = i[10].text  # таймер
                     sheet['G' + row] = i[11].text  # сотрудник
                     # sheet['H' + str(g)] = get_comments(str(i[3].text))
                     row = str(int(row) + 1)
-            date_first, date_second = filter_previous_month(date_first, date_second)
+            date_first, date_second = delta_current_month(date_first, date_second)
         sheet.column_dimensions['D'].width = str(12)
         sheet.column_dimensions['A'].width = str(30)
         sheet.column_dimensions['B'].width = str(50)
@@ -355,10 +353,10 @@ class OldDesign(Auth):
         book.save("tableb.xlsx")
 
     def global_search(self):
-        date_first, date_second = current_moth_date()
+        date_first, date_second = range_current_month()
         tickets = []
         for month in range(4):
-            data = dict(date_start=str(formate_date(date_first)), date_end=str(formate_date(date_second)))
+            data = dict(date_start=str(url_formate_date(date_first)), date_end=str(url_formate_date(date_second)))
             filter_page = self.session.post('https://partnerweb.beeline.ru/main/', data)
             doc = lxml.html.fromstring(filter_page.content)
             table = doc.cssselect('table.tablesorter')[0][1]
@@ -369,10 +367,10 @@ class OldDesign(Auth):
                     timer = datetime.datetime.strptime(i[10].text, '%d.%m.%Y %H.%M').date()
                 except:
                     continue
-                phone2 = numers(i[8].text)[1] if 1 < len(numers(i[8].text)) else ''
-                phone3 = numers(i[8].text)[2] if 2 < len(numers(i[8].text)) else ''
+                phone2 = phone9(i[8].text)[1] if 1 < len(phone9(i[8].text)) else ''
+                phone3 = phone9(i[8].text)[2] if 2 < len(phone9(i[8].text)) else ''
                 ticket = Ticket(type=i[1].text, date=i[4].text, number=i[3].text, name=i[6].text, address=i[7].text,
-                                phone1=numers(i[8].text)[0],
+                                phone1=phone9(i[8].text)[0],
                                 phone2=phone2,
                                 phone3=phone3,
                                 status=i[9].text, call_time=timer, operator=i[11].text,
@@ -382,6 +380,7 @@ class OldDesign(Auth):
 
 
 class NewDesign(OldDesign):
+
 
     def get_gp(self, num_houme, all=False):
         gp_session = Auth.session.get('https://partnerweb.beeline.ru/restapi/hd/global_problems_on_house/'
@@ -430,19 +429,6 @@ class NewDesign(OldDesign):
         else:
             print('ОК!')
 
-    def assigned_tickets(self, tickets):
-        assigned_tickets_today = 0
-        assigned_tickets = []
-        for ticket in tickets:
-            if ticket.type_id == 1 and ticket.allow_schedule == False and ticket.allow_change_status == True:
-                for comment in self.ticket_info(ticket.id).comments:
-                    if find_asssigned_date(comment['text']):
-                        if datetime.datetime.strptime(comment['date'], '%d.%m.%Y %H:%M').date() == datetime.datetime.now().date():
-                            assigned_tickets_today =+1
-                        break
-                assigned_tickets.append(ticket)
-        return assigned_tickets, assigned_tickets_today
-
     def search_phone(self, phone, city='', dateFrom=False, dateTo=False, number='',
                      shop='', status='', pages=None):
         tickets = self.tickets(city=city, dateFrom=dateFrom, dateTo=dateTo, number=number, phone=phone,
@@ -454,53 +440,47 @@ class NewDesign(OldDesign):
         tickets = self.tickets(city=city, dateFrom=dateFrom, dateTo=dateTo, number=number, phone=phone,
                                shop='', status=status, pages=pages)
         return tickets
+    def create_ticket(self, house_id, flat, client_name, client_patrony, client_surname, phone_number_1,
+                      need_schedule=False):
+        data = {"house_id": house_id, "flat": flat, "create_contract": 1, "client_name": client_name,
+                "client_patrony": client_patrony, "client_surname": client_surname, "phone_number_1": phone_number_1,
+                "sms_warnto_1": 1, "service_type": "typical", "simple_vpdn": "M130990",
+                "basket": {"MAIN": {"VPDN": {"S_ID": "M130990"}}}, "need_schedule": need_schedule}
+        self.session.get('https://partnerweb.beeline.ru/ngapp#!/newaddress/connect_ticket/house_id/446187')
+        self.session.headers["origin"] = "https://partnerweb.beeline.ru"
+        self.session.headers["accept-language"] = "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
+        self.session.headers["x-requested-with"] = "XMLHttpRequest"
+        self.session.headers['content-type'] = 'application/json'
+        self.session.headers[
+            "http_referer"] = "https://partnerweb.beeline.ru/ngapp#!/newaddress/connect_ticket/house_id/450541"
+        send_ticket = self.session.post('https://partnerweb.beeline.ru/restapi/tickets/', json.dumps(data))
 
-    def call_for_today(self, city='', dateFrom=False, dateTo=False, number='', phone='',
-                       shop='', pages=1):
-        station = (7, 9, 1, 11)  # ждем звонка , позвонить клиенту и позвонить срочно, новая, резерв
-        tickets = []
-        for i in station:
-            status = i
-            if not dateFrom and not dateTo:
-                dateFrom, dateTo = current_year_date()
-            ticket_dict = {}
-            for pageCount in range(1, pages + 1):
-                url = urllib.parse.urlencode(
-                    dict(city=city, dateFrom=dateFrom, dateTo=dateTo, number=number, page=pageCount,
-                         phone=phone, shop=shop, status=status))
-                new_design_ticket_info = self.session.get('https://partnerweb.beeline.ru/restapi/tickets/?'
-                                                          + url).json()
-                if len(new_design_ticket_info) == 0:
-                    break
-                else:
-                    ticket_dict[pageCount] = new_design_ticket_info
-            for i in range(1, len(ticket_dict) + 1):
-                for g in ticket_dict[i]:
-                    if g['type_id'] == 1:
-                        try:
-                            timer = datetime.datetime.strptime(g['call_time'], '%d.%m.%Y %H:%M').date()
-                        except:
-                            continue
-                        if timer <= datetime.datetime.now().date() or None:
-                            g['comments'] = g.get('comments')
-                            g['services'] = g.get('services')
-                            g['shop'] = g.get('shop')
-                            g['shop_id'] = g.get('shop_id')
-                            ticket = Ticket(address=g['address'], address_id=g['address_id'],
-                                            allow_change_status=g['allow_change_status'],
-                                            allow_schedule=g['allow_schedule'], call_time=g['call_time'],
-                                            comments=g['comments'],
-                                            date=g['date'], id=g['id'], name=g['name'], number=g['number'],
-                                            operator=g['operator'],
-                                            phones=g['phones'],
-                                            services=g['services'], shop=g['shop'], shop_id=g['shop_id'],
-                                            status=g['status'],
-                                            ticket_paired=g['ticket_paired'], type=g['type'], type_id=g['type_id'])
-                            tickets.append(ticket)
-        return tickets
+
+    def assigned_tickets(self, tickets):
+        assigned_tickets_today = 0
+        assigned_tickets = []
+        for ticket in tickets:
+            if (ticket.type_id == 1) and ticket.allow_schedule == False and ticket.allow_change_status == True:
+                assigned_tickets.append(ticket)
+        return assigned_tickets, assigned_tickets_today
+
+    def switched_tickets(self, tickets):
+        switched_tickets = []
+        switched_on_tickets_today = 0
+        last, cur_month, cur_year = last_day_current_month()
+        for ticket in tickets:
+            if ticket.type_id == 1:
+                if self.definde_satellit_ticket(ticket.status)\
+                        and ((datetime.datetime.strptime(ticket.call_time,"%d.%m.%Y %H:%M").date()
+                              <= datetime.date(cur_year, cur_month, last)) and
+                             ((datetime.datetime.strptime(ticket.call_time,"%d.%m.%Y %H:%M").date()
+                               >= datetime.date(cur_year, cur_month, 1)))):
+                    switched_on_tickets_today = switched_on_tickets_today + 1 if ticket.call_time == datetime.datetime.now().date() else switched_on_tickets_today
+                    switched_tickets.append(ticket)
+        return switched_tickets, switched_on_tickets_today
 
     def tickets(self, city='', dateFrom=False, dateTo=False, number='', phone='',
-                shop='', status='', pages=6):
+                shop='', status='', pages=8):
         ticket_dict, tickets = self.base_ticket_info(city, dateFrom, dateTo, number, pages, phone, shop, status)
         for i in range(1, len(ticket_dict) + 1):
             for g in ticket_dict[i]:
@@ -508,11 +488,13 @@ class NewDesign(OldDesign):
                 g['services'] = g.get('services')
                 g['shop'] = g.get('shop')
                 g['shop_id'] = g.get('shop_id')
+                phone2 = g['phones'][1]['phone'] if 1 < len(g['phones']) else ''
+                phone3 = g['phones'][2]['phone'] if 2 < len(g['phones']) else ''
                 ticket = Ticket(address=g['address'], address_id=g['address_id'],
                                 allow_change_status=g['allow_change_status'],
                                 allow_schedule=g['allow_schedule'], call_time=g['call_time'], comments=g['comments'],
                                 date=g['date'], id=g['id'], name=g['name'], number=g['number'], operator=g['operator'],
-                                phones=g['phones'],
+                                phones=g['phones'],phone1=g['phones'][0]['phone'], phone2=phone2, phone3=phone3,
                                 services=g['services'], shop=g['shop'], shop_id=g['shop_id'], status=g['status'],
                                 ticket_paired=g['ticket_paired'], type=g['type'], type_id=g['type_id'])
                 tickets.append(ticket)
@@ -535,38 +517,69 @@ class NewDesign(OldDesign):
                 ticket_dict[pageCount] = new_design_ticket_info
         return ticket_dict, tickets
 
-    def create_ticket(self, house_id, flat, client_name, client_patrony, client_surname, phone_number_1,
-                      need_schedule=False):
-        data = {"house_id": house_id, "flat": flat, "create_contract": 1, "client_name": client_name,
-                "client_patrony": client_patrony, "client_surname": client_surname, "phone_number_1": phone_number_1,
-                "sms_warnto_1": 1, "service_type": "typical", "simple_vpdn": "M130990",
-                "basket": {"MAIN": {"VPDN": {"S_ID": "M130990"}}}, "need_schedule": need_schedule}
-        self.session.get('https://partnerweb.beeline.ru/ngapp#!/newaddress/connect_ticket/house_id/446187')
-        self.session.headers["origin"] = "https://partnerweb.beeline.ru"
-        self.session.headers["accept-language"] = "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
-        self.session.headers["x-requested-with"] = "XMLHttpRequest"
-        self.session.headers['content-type'] = 'application/json'
-        self.session.headers[
-            "http_referer"] = "https://partnerweb.beeline.ru/ngapp#!/newaddress/connect_ticket/house_id/450541"
-        send_ticket = self.session.post('https://partnerweb.beeline.ru/restapi/tickets/', json.dumps(data))
+    def call_today_tickets(self, tickets):
+        call_today_tickets = []
+        for ticket in tickets:
+            try:
+                if (ticket.type_id == 1) and  self.define_calling_tickets(ticket.status)\
+                        and ((datetime.datetime.strptime(ticket.call_time,"%d.%m.%Y %H:%M").date()
+                              <= datetime.date.today())):
+                    call_today_tickets.append(ticket)
+            except:
+                continue
+        return call_today_tickets
+
+    def count_created_today(self, tickets):
+        count_created_today = 0
+        for ticket in tickets:
+            try:
+                if (ticket.type_id == 1)\
+                        and ((datetime.datetime.strptime(ticket.date,"%d.%m.%Y %H:%M").date()
+                              == datetime.date.today())):
+                    count_created_today =+ 1
+            except:
+                continue
+        return count_created_today
 
     def three_month_tickets(self):
-        assigned_tickets = []
-        assigned_tickets_today = 0
-        call_today_tickets = []
-        switched_tickets = []
-        switched_on_tickets_today = 0
-        created_today_tickets = 0
         tickets = self.tickets()
-
+        assigned_tickets, assigned_tickets_today = self.assigned_tickets(tickets)
+        call_today_tickets = self.call_today_tickets(tickets)
+        switched_tickets, switched_on_tickets_today = self.switched_tickets(tickets)
+        created_today_tickets = self.count_created_today(tickets)
         return assigned_tickets, assigned_tickets_today, call_today_tickets, switched_tickets, switched_on_tickets_today, created_today_tickets
+
+    @staticmethod
+    def definde_satellit_ticket(name):
+        pattern_iptv = r'Закрыта'
+        pattern_error_conv = r'Ошибка при конвергенции'
+        pattern_switched = r'Подключен'
+        if re.search(pattern_iptv, name) or re.search(pattern_error_conv, name) or re.search(pattern_switched, name):
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def define_calling_tickets(name):
+        pattern_call = r'Позвонить клиенту'
+        pattern_call_asset = r'Ждем звонка клиента'
+        pattern_call_urgent = r'Позвонить клиенту(срочные)'
+        pattern_call_new = r'Новая'
+        pattern_call_store = r'Резерв'
+        pattern_call_get_in_work = r'Принято в обзвон'
+        if re.search(pattern_call, name) or re.search(pattern_call_asset, name) \
+                or re.search(pattern_call_urgent, name) or re.search(pattern_call_new, name)\
+                or re.search(pattern_call_store, name) or re.search(pattern_call_get_in_work, name):
+            return True
+        else:
+            return False
 
 
 
 if __name__ == "__main__":
     start = time.time()
-    #auth = NewDesign('G800-37', 'Корытов_Р.В.', 'roma456')
-    auth = OldDesign('G800-37', 'Корытов_Р.В.', 'roma456')
-    print(auth.three_month_tickets())
+    auth = NewDesign('G800-37', 'Корытов_Р.В.', 'roma456')
+    #auth = OldDesign('G800-37', 'Корытов_Р.В.', 'roma456')
+    ticket = auth.three_month_tickets()
     end = time.time()
     print(end - start)

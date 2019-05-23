@@ -10,7 +10,8 @@
           <form method="post" novalidate>
             {% csrf_token %}
             {% include 'includes/form_beeline.html' %}
-            <button type="submit" class="btn btn-primary btn-block">Log in</button>
+            <button type="submit" name="OldDesign" class="btn btn-primary btn-block">OldDesign</button>
+            <button type="submit" name="NewDesign" class="btn btn-primary btn-block">NewDesign</button>
           </form>
         </div>
       </div>

@@ -5,7 +5,11 @@ from .form import AuthForm, DateTimeForm
 
 
 def main_page(request):
-    accounts = OldDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
+    accounts = ''
+    if 'NewDesign' in request.session:
+        accounts = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
+    elif 'OldDesign' in request.session:
+        accounts = OldDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
     all_assigned_tickets, all_assigned_today, all_call_for_today, all_switched_on_tickets,\
     all_switched_on_today, all_created_today_tickets = [],0,[],[],0,0
     assigned_tickets, assigned_today, call_for_today, switched_on_tickets, \
@@ -25,7 +29,6 @@ def main_page(request):
 def global_search(request):
     accounts = OldDesign( request.session['sell_code'],request.session['operator'],request.session['password'])
     tickets = accounts.global_search()
-
     return render(request, 'global_search.html', {'tickets':tickets})
 
 def ticket_info(request, id):
@@ -42,6 +45,10 @@ def auth(request):
     form = AuthForm(request.POST)
     if request.method == 'POST':
         form = AuthForm(request.POST)
+        if 'NewDesign' in request.POST:
+            request.session['NewDesign'] = 'NewDesign'
+        elif 'OldDesign' in request.POST:
+            request.session['OldDesign'] = 'OldDesign'
         request.session['sell_code'], request.session['operator'],request.session['password'] = form['sell_code'].value(), form['operator'].value(), form['password'].value()
         if form.is_valid():
             return redirect('main_page_tickets')
