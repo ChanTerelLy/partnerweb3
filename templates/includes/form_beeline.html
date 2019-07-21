@@ -1,9 +1,8 @@
-{% load form_tags widget_tweaks %}
-
-
 {% for field in form %}
-  <div class="form-group">
-    {{ field.label_tag }}
-    {% render_field field %}
-  </div>
+    <div class="fieldWrapper">
+        {{ field.label_tag }} {{ field }}
+        {% if field.help_text %}
+        <p class="help">{{ field.help_text|safe }}</p>
+        {% endif %}
+    </div>
 {% endfor %}

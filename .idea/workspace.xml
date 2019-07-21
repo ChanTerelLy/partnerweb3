@@ -2,8 +2,98 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f1c6bf8-20d3-48d9-8b24-edf1263d533c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/beeline/beeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/beeline/beeline.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/R_User_Library.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/partnerweb_project/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tickets_handler/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tickets_handler/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/django.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/django.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Procfile" beforeDir="false" afterPath="$PROJECT_DIR$/Procfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/partnerweb_project/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/forms.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/migrations/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/tests/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/tests/test_form_signup.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/tests/test_mail_password_reset.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/tests/test_view_password_change.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/tests/test_view_password_reset.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/tests/test_view_signup.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/beeline/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/beeline/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/beeline/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/beeline/beeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/beeline.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/beeline/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/beeline/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/beeline/migrations/0002_auto_20190103_0229.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/beeline/migrations/0003_auto_20190103_0231.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/beeline/migrations/0004_auto_20190103_0233.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/beeline/migrations/0005_auto_20190103_0234.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/beeline/migrations/0006_auto_20190103_0235.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/beeline/migrations/0007_auto_20190103_0235.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/beeline/migrations/0008_auto_20190103_0236.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/beeline/migrations/0009_auto_20190103_0237.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/beeline/migrations/0010_auth.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/beeline/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/beeline/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/beeline/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/beeline/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boards/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/boards/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/boards/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/boards/forms.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/boards/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/boards/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/boards/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/boards/templatetags/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/boards/templatetags/form_tags.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/boards/tests/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/boards/tests/test_templatetag.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/boards/tests/test_views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/boards/views.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/auth_beeline.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/beeline_html/auth_beeline.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base_accounts.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/global_search.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/beeline_html/global_search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/includes/form.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/includes/form_beeline.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/includes/form_beeline.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/new_topic.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/password_change.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/password_change_done.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/password_reset.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/password_reset_complete.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/password_reset_confirm.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/password_reset_done.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/password_reset_email.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/password_reset_subject.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/signup.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/telegram_news.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/beeline_html/telegram_news.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/test2.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/ticket_info.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/beeline_html/ticket_info.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/tickets_main_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/beeline_html/tickets_main_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/topics.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_project/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_project/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/partnerweb_project/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_project/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_project/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/partnerweb_project/wsgi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/data" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/views.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -55,61 +145,31 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/auth_beeline.html">
+        <entry file="file://$PROJECT_DIR$/templates/beeline_html/ticket_info.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="16" column="12" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/beeline/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1160">
-              <caret line="58" selection-start-line="58" selection-end-line="58" />
+            <state relative-caret-position="66">
+              <caret line="15" column="72" selection-start-line="15" selection-start-column="72" selection-end-line="15" selection-end-column="72" />
               <folding>
-                <element signature="e#0#42#0" expanded="true" />
+                <element signature="n#style#0;n#h4#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/accounts/views.py">
+        <entry file="file://$PROJECT_DIR$/tickets_handler/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="3" column="24" lean-forward="true" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="29" />
+            <state relative-caret-position="88">
+              <caret line="4" column="47" selection-start-line="4" selection-start-column="44" selection-end-line="4" selection-end-column="47" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/accounts/forms.py">
+        <entry file="file://$PROJECT_DIR$/templates/beeline_html/tickets_main_page.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="5" column="44" lean-forward="true" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="57" />
-              <folding>
-                <element signature="e#0#24#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/accounts/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/tickets_main_page.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="89" column="14" lean-forward="true" selection-start-line="89" selection-start-column="14" selection-end-line="89" selection-end-column="14" />
+            <state relative-caret-position="22">
+              <caret line="13" column="8" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="8" />
               <folding>
                 <element signature="n#style#0;n#b#0;n#small#0;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#b#0;n#small#0;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#div#2;n#!!top" expanded="true" />
@@ -119,10 +179,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/beeline/form.py">
+        <entry file="file://$PROJECT_DIR$/tickets_handler/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="11" column="41" lean-forward="true" selection-start-line="11" selection-start-column="41" selection-end-line="11" selection-end-column="41" />
+            <state relative-caret-position="227">
+              <caret line="45" column="22" lean-forward="true" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="22" />
+              <folding>
+                <element signature="e#0#60#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tickets_handler/form.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="218">
+              <caret line="12" column="83" selection-start-line="12" selection-start-column="83" selection-end-line="12" selection-end-column="83" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
               </folding>
@@ -131,11 +203,12 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/beeline/beeline.py">
+        <entry file="file://$PROJECT_DIR$/tickets_handler/beeline.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="493" column="76" lean-forward="true" selection-start-line="493" selection-start-column="76" selection-end-line="493" selection-end-column="76" />
+            <state relative-caret-position="106">
+              <caret line="315" column="30" selection-start-line="315" selection-start-column="30" selection-end-line="315" selection-end-column="30" />
               <folding>
+                <element signature="e#0#15#0" expanded="true" />
                 <element signature="e#190#319#0" />
                 <element signature="e#358#475#0" />
                 <element signature="e#505#1283#0" />
@@ -154,8 +227,6 @@
                 <element signature="e#3125#3702#0" />
                 <element signature="e#3326#3610#0" />
                 <element signature="e#3341#3498#0" />
-                <element signature="e#3724#5520#0" />
-                <element signature="e#4180#5461#0" />
                 <element signature="e#5495#5520#0" />
                 <element signature="e#5586#6349#0" />
                 <element signature="e#6391#6988#0" />
@@ -165,56 +236,53 @@
                 <element signature="e#8322#8610#0" />
                 <element signature="e#8376#8581#0" />
                 <element signature="e#8433#8581#0" />
+                <element signature="e#8659#10172#0" />
+                <element signature="e#8744#10124#0" />
+                <element signature="e#8839#10124#0" />
+                <element signature="e#8971#9373#0" />
                 <element signature="e#9036#9373#0" />
-                <element signature="e#13046#14507#0" />
-                <element signature="e#14573#14790#0" />
-                <element signature="e#14842#16697#0" />
-                <element signature="e#15033#16071#0" />
-                <element signature="e#15390#15988#0" />
-                <element signature="e#15451#15988#0" />
-                <element signature="e#16736#18075#0" />
-                <element signature="e#16848#18052#0" />
-                <element signature="e#17230#18052#0" />
-                <element signature="e#18160#18592#0" />
-                <element signature="e#18633#19396#0" />
-                <element signature="e#19459#20287#0" />
-                <element signature="e#19486#19614#0" />
-                <element signature="e#19686#19842#0" />
-                <element signature="e#20070#20216#0" />
-                <element signature="e#20124#20216#0" />
-                <element signature="e#20345#20642#0" />
-                <element signature="e#20790#20976#0" />
-                <element signature="e#21126#21312#0" />
-                <element signature="e#21470#22521#0" />
-                <element signature="e#21477#21868#0" />
-                <element signature="e#22573#22876#0" />
-                <element signature="e#22673#22820#0" />
-                <element signature="e#22927#23858#0" />
-                <element signature="e#23091#23799#0" />
-                <element signature="e#23131#23799#0" />
-                <element signature="e#23553#23799#0" />
-                <element signature="e#25431#26166#0" />
-                <element signature="e#25618#26130#0" />
-                <element signature="e#26219#26670#0" />
-                <element signature="e#26286#26636#0" />
-                <element signature="e#26307#26591#0" />
-                <element signature="e#26724#27114#0" />
-                <element signature="e#26791#27079#0" />
-                <element signature="e#26812#27034#0" />
-                <element signature="e#27159#27622#0" />
-                <element signature="e#27689#27991#0" />
-                <element signature="e#28057#28674#0" />
-                <element signature="e#28709#28932#0" />
+                <element signature="e#10219#11651#0" />
+                <element signature="e#10279#11617#0" />
+                <element signature="e#10602#11617#0" />
+                <element signature="e#10840#11617#0" />
+                <element signature="e#11702#13224#0" />
+                <element signature="e#11789#13174#0" />
+                <element signature="e#11875#13174#0" />
+                <element signature="e#12319#13174#0" />
+                <element signature="e#13559#14586#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/re.py">
+        <entry file="file://$PROJECT_DIR$/tickets_handler/tests.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/beeline_html/auth_beeline.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5460">
-              <caret line="276" selection-start-line="276" selection-end-line="276" />
+            <state relative-caret-position="174">
+              <caret line="9" column="41" lean-forward="true" selection-start-line="9" selection-start-column="10" selection-end-line="9" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/includes/form_beeline.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="22">
+              <caret line="1" column="30" selection-start-line="1" selection-start-column="30" selection-end-line="1" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/.virtualenvs/partnerweb3_-_Copy-1S83JCF5/Lib/site-packages/django/forms/forms.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="107">
+              <caret line="193" selection-start-line="193" selection-end-line="193" />
             </state>
           </provider>
         </entry>
@@ -224,16 +292,13 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>id</find>
-      <find>numer</find>
-      <find>boar</find>
       <find>call</find>
       <find>colla</find>
       <find>main</find>
@@ -261,6 +326,9 @@
       <find>datetime</find>
       <find>strptime</find>
       <find>нова</find>
+      <find>test</find>
+      <find>beelin</find>
+      <find>позвон</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -270,21 +338,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Pipfile" />
-        <option value="$PROJECT_DIR$/accounts/tests/est_form_signup.py" />
-        <option value="$PROJECT_DIR$/accounts/tests/rest_form_signup.py" />
-        <option value="$PROJECT_DIR$/accounts/tests/test_form_signup.py" />
-        <option value="$PROJECT_DIR$/static/css/accounts.css" />
-        <option value="$PROJECT_DIR$/templates/includes/test2.html" />
-        <option value="$PROJECT_DIR$/templates/base_accounts.html" />
-        <option value="$PROJECT_DIR$/templates/login.html" />
-        <option value="$PROJECT_DIR$/templates/signup.html" />
-        <option value="$PROJECT_DIR$/templates/templatetags/__init__.py" />
-        <option value="$PROJECT_DIR$/templates/templatetags/form_tags.py" />
-        <option value="$PROJECT_DIR$/boards/templatetags/form_tags.py" />
-        <option value="$PROJECT_DIR$/boards/tests/test_views.py" />
-        <option value="$PROJECT_DIR$/boards/tests/test_templatetag.py" />
-        <option value="$PROJECT_DIR$/templates/password_reset.html" />
         <option value="$PROJECT_DIR$/templates/password_reset_subject.txt" />
         <option value="$PROJECT_DIR$/templates/password_reset_email.html" />
         <option value="$PROJECT_DIR$/accounts/tests/test_mail_password_reset.py" />
@@ -298,29 +351,44 @@
         <option value="$PROJECT_DIR$/templates/test.html" />
         <option value="$PROJECT_DIR$/beeline/admin.py" />
         <option value="$PROJECT_DIR$/templates/global_search" />
-        <option value="$PROJECT_DIR$/templates/index.html" />
-        <option value="$PROJECT_DIR$/boards/views.py" />
         <option value="$PROJECT_DIR$/beeline/testtest.py" />
-        <option value="$PROJECT_DIR$/accounts/views.py" />
-        <option value="$PROJECT_DIR$/templates/global_search.html" />
-        <option value="$PROJECT_DIR$/Procfile" />
         <option value="$PROJECT_DIR$/boards/date_form.py" />
         <option value="$PROJECT_DIR$/boards/forms.py" />
-        <option value="$PROJECT_DIR$/templates/test2.html" />
-        <option value="$PROJECT_DIR$/beeline/form.py" />
         <option value="$PROJECT_DIR$/templates/includes/form.html" />
         <option value="$PROJECT_DIR$/templates/telegram_news.html" />
-        <option value="$PROJECT_DIR$/templates/includes/form_beeline.html" />
+        <option value="$PROJECT_DIR$/templates/auth_beeline.html" />
         <option value="$PROJECT_DIR$/beeline/models.py" />
+        <option value="$PROJECT_DIR$/beeline/form.py" />
+        <option value="$PROJECT_DIR$/beeline/beeline.py" />
+        <option value="$PROJECT_DIR$/templates/global_search.html" />
         <option value="$PROJECT_DIR$/templates/ticket_info.html" />
-        <option value="$PROJECT_DIR$/test_project/settings.py" />
-        <option value="$PROJECT_DIR$/test_project/urls.py" />
+        <option value="$PROJECT_DIR$/templates/tickets_main_page.html" />
+        <option value="$PROJECT_DIR$/templates/test2.html" />
+        <option value="$PROJECT_DIR$/beeline/urls.py" />
+        <option value="$PROJECT_DIR$/boards/urls.py" />
+        <option value="$PROJECT_DIR$/beeline/views.py" />
+        <option value="$PROJECT_DIR$/boards/views.py" />
+        <option value="$PROJECT_DIR$/templates/index.html" />
+        <option value="$PROJECT_DIR$/accounts/views.py" />
+        <option value="$PROJECT_DIR$/accounts/urls.py" />
         <option value="$PROJECT_DIR$/templates/base.html" />
         <option value="$PROJECT_DIR$/beeline/tests.py" />
-        <option value="$PROJECT_DIR$/templates/tickets_main_page.html" />
-        <option value="$PROJECT_DIR$/templates/auth_beeline.html" />
-        <option value="$PROJECT_DIR$/beeline/views.py" />
-        <option value="$PROJECT_DIR$/beeline/beeline.py" />
+        <option value="$PROJECT_DIR$/test_project/urls.py" />
+        <option value="$PROJECT_DIR$/test_project/settings.py" />
+        <option value="$PROJECT_DIR$/Procfile" />
+        <option value="$PROJECT_DIR$/partnerweb_project/wsgi.py" />
+        <option value="$PROJECT_DIR$/partnerweb_project/settings.py" />
+        <option value="$PROJECT_DIR$/partnerweb_project/urls.py" />
+        <option value="$PROJECT_DIR$/tickets_handler/models.py" />
+        <option value="$PROJECT_DIR$/tickets_handler/admin.py" />
+        <option value="$PROJECT_DIR$/tickets_handler/apps.py" />
+        <option value="$PROJECT_DIR$/templates/includes/form_beeline.html" />
+        <option value="$PROJECT_DIR$/templates/beeline_html/auth_beeline.html" />
+        <option value="$PROJECT_DIR$/tickets_handler/tests.py" />
+        <option value="$PROJECT_DIR$/tickets_handler/views.py" />
+        <option value="$PROJECT_DIR$/templates/beeline_html/ticket_info.html" />
+        <option value="$PROJECT_DIR$/tickets_handler/form.py" />
+        <option value="$PROJECT_DIR$/tickets_handler/beeline.py" />
       </list>
     </option>
   </component>
@@ -335,10 +403,11 @@
     <other-services-enabled>true</other-services-enabled>
     <auto-save>true</auto-save>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="948" />
-    <option name="width" value="981" />
-    <option name="height" value="1032" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="-5" />
+    <option name="y" value="-5" />
+    <option name="width" value="985" />
+    <option name="height" value="1035" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -348,6 +417,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -358,17 +428,18 @@
             <path>
               <item name="partnerweb3" type="b2602c69:ProjectViewProjectNode" />
               <item name="partnerweb3" type="462c0819:PsiDirectoryNode" />
-              <item name="beeline" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="partnerweb3" type="b2602c69:ProjectViewProjectNode" />
-              <item name="partnerweb3" type="462c0819:PsiDirectoryNode" />
-              <item name="boards" type="462c0819:PsiDirectoryNode" />
+              <item name="partnerweb_project" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="partnerweb3" type="b2602c69:ProjectViewProjectNode" />
               <item name="partnerweb3" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="partnerweb3" type="b2602c69:ProjectViewProjectNode" />
+              <item name="partnerweb3" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="beeline_html" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="partnerweb3" type="b2602c69:ProjectViewProjectNode" />
@@ -379,13 +450,12 @@
             <path>
               <item name="partnerweb3" type="b2602c69:ProjectViewProjectNode" />
               <item name="partnerweb3" type="462c0819:PsiDirectoryNode" />
-              <item name="test_project" type="462c0819:PsiDirectoryNode" />
+              <item name="tickets_handler" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -393,9 +463,9 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="database.console.LAST_STATE" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates/includes" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -406,15 +476,15 @@
     </option>
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\zvezd\Desktop\partnerweb3\templates\includes" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\zvezd\Desktop\partnerweb3\templates\accounts_html" />
+      <recent name="C:\Users\zvezd\Desktop\partnerweb3\templates\boards_html" />
+      <recent name="C:\Users\zvezd\Desktop\partnerweb3\templates\beeline_html" />
       <recent name="C:\Users\zvezd\Desktop\django_Beeline\django\templates" />
       <recent name="C:\Users\zvezd\Desktop\django_Beeline\django\boards\tests" />
-      <recent name="C:\Users\zvezd\Desktop\django_Beeline\django\boards" />
-      <recent name="C:\Users\zvezd\Desktop\django_Beeline\django\accounts\tests" />
-      <recent name="C:\Users\zvezd\Desktop\django\beeline" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\zvezd\Desktop\partnerweb3\templates\includes" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -480,7 +550,7 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\Users\zvezd\.virtualenvs\zvezd-NuZciClx\Scripts\python.exe" />
+      <option name="SDK_HOME" value="C:\Users\Roman\.virtualenvs\partnerweb3_-_Copy-1S83JCF5\Scripts\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -538,17 +608,33 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Unittests for tests.SimpleTests" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="django" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tickets_handler" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.SimpleTests&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Python.manage" />
       <item itemvalue="Python.__init__" />
       <item itemvalue="Python.beeline" />
-      <item itemvalue="Python.testtest" />
       <item itemvalue="Python.tests" />
+      <item itemvalue="Python.testtest" />
+      <item itemvalue="Python tests.Unittests for tests.SimpleTests" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.beeline" />
+        <item itemvalue="Python tests.Unittests for tests.SimpleTests" />
         <item itemvalue="Python.tests" />
+        <item itemvalue="Python.beeline" />
         <item itemvalue="Python.__init__" />
         <item itemvalue="Python.testtest" />
       </list>
@@ -760,6 +846,23 @@
     <option name="localTasksCounter" value="22" />
     <servers />
   </component>
+  <component name="TestHistory">
+    <history-entry file="Unittests_for_tests_SimpleTests - 2019.06.19 at 07h 25m 44s.xml">
+      <configuration name="Unittests for tests.SimpleTests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_tests_SimpleTests - 2019.07.21 at 22h 59m 48s.xml">
+      <configuration name="Unittests for tests.SimpleTests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_tests_SimpleTests - 2019.07.21 at 23h 09m 10s.xml">
+      <configuration name="Unittests for tests.SimpleTests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_tests_SimpleTests - 2019.07.21 at 23h 09m 28s.xml">
+      <configuration name="Unittests for tests.SimpleTests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_tests_SimpleTests - 2019.07.21 at 23h 09m 38s.xml">
+      <configuration name="Unittests for tests.SimpleTests" configurationId="tests" />
+    </history-entry>
+  </component>
   <component name="TimeTrackingManager">
     <option name="totallyTimeSpent" value="172311000" />
   </component>
@@ -773,22 +876,22 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49557522" visible="true" weight="0.17235902" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49557522" visible="true" weight="0.16420911" />
       <window_info id="Structure" order="1" sideWeight="0.50442475" side_tool="true" weight="0.1350278" />
       <window_info id="Favorites" order="2" sideWeight="0.5013123" side_tool="true" weight="0.19271255" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32446808" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49722" visible="true" weight="0.29432625" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.6099291" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4966488" visible="true" weight="0.34512022" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.47807637" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.3280142" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49841017" weight="0.3283582" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49841017" weight="0.36347517" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50277996" side_tool="true" weight="0.37056738" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32673267" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49841017" weight="0.3280142" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49722" weight="0.36209336" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5033512" side_tool="true" weight="0.2036775" />
       <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.49878544" weight="0.3280142" />
       <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="12" weight="0.3283582" />
@@ -801,6 +904,8 @@
       <window_info anchor="right" id="Database" order="3" weight="0.32955465" />
       <window_info anchor="right" id="SciView" order="4" weight="0.32955465" />
       <window_info anchor="right" id="Coverage" order="5" side_tool="true" />
+      <window_info anchor="right" id="R Graphics" order="6" />
+      <window_info anchor="right" id="R Packages" order="7" />
     </layout>
     <layout-to-restore>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49557522" visible="true" weight="0.1350278" />
@@ -919,267 +1024,190 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/beeline/testtest.py" />
-    <entry file="file://$PROJECT_DIR$/venv2/Lib/site-packages/django/forms/models.py" />
-    <entry file="file://$PROJECT_DIR$/venv2/Lib/site-packages/django/contrib/auth/views.py" />
-    <entry file="file://$PROJECT_DIR$/venv2/Lib/site-packages/django/contrib/auth/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/venv2/Lib/site-packages/django/contrib/auth/models.py" />
-    <entry file="file://$PROJECT_DIR$/templates/home.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manage.py">
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/django/contrib/auth/views.py" />
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/locale.py" />
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/_strptime.py" />
+    <entry file="file://$PROJECT_DIR$/templates/boards_html/topics.html" />
+    <entry file="file://$PROJECT_DIR$/templates/beeline_html/global_search.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
+        <state relative-caret-position="520">
+          <caret line="26" column="35" selection-start-line="26" selection-start-column="35" selection-end-line="26" selection-end-column="35" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/testing/views.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$USER_HOME$/.virtualenvs/zvezd-NuZciClx/Lib/site-packages/django/core/handlers/base.py" />
-    <entry file="file://$USER_HOME$/.virtualenvs/zvezd-NuZciClx/Lib/site-packages/django/forms/models.py" />
-    <entry file="file://$USER_HOME$/.virtualenvs/zvezd-NuZciClx/Lib/site-packages/django/db/models/base.py" />
-    <entry file="file://$USER_HOME$/.virtualenvs/zvezd-NuZciClx/Lib/site-packages/django/core/handlers/wsgi.py" />
-    <entry file="file://$USER_HOME$/.virtualenvs/zvezd-NuZciClx/Lib/site-packages/django/core/handlers/exception.py" />
-    <entry file="file://$PROJECT_DIR$/templates/global_search.html">
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/re.py" />
+    <entry file="file://$PROJECT_DIR$/templates/boards_html/test2.html" />
+    <entry file="file://$PROJECT_DIR$/boards/urls.py" />
+    <entry file="file://$PROJECT_DIR$/templates/index.html" />
+    <entry file="file://$PROJECT_DIR$/accounts/forms.py" />
+    <entry file="file://$PROJECT_DIR$/accounts/models.py" />
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/django/contrib/auth/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/accounts/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/accounts/views.py" />
+    <entry file="file://$PROJECT_DIR$/boards/views.py" />
+    <entry file="file://$PROJECT_DIR$/accounts/urls.py" />
+    <entry file="file://$PROJECT_DIR$/accounts/tests/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/accounts/tests/test_form_signup.py" />
+    <entry file="file://$PROJECT_DIR$/accounts/tests/test_mail_password_reset.py" />
+    <entry file="file://$PROJECT_DIR$/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="17" column="30" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="30" />
+        <state relative-caret-position="276">
+          <caret line="32" column="16" selection-start-line="32" selection-start-column="16" selection-end-line="32" selection-end-column="16" />
+          <folding>
+            <element signature="n#link#1;n#head#0;n#html#0;n#!!top" />
+            <element signature="n#script#0;n#head#0;n#html#0;n#!!top" />
+            <element signature="n#script#1;n#head#0;n#html#0;n#!!top" />
+            <element signature="n#script#2;n#head#0;n#html#0;n#!!top" />
+            <element signature="n#script#6;n#head#0;n#html#0;n#!!top" />
+            <element signature="n#script#7;n#head#0;n#html#0;n#!!top" />
+            <element signature="n#nav#0;n#body#0;n#html#0;n#!!top" />
+            <element signature="n#div#0;n#nav#0;n#body#0;n#html#0;n#!!top" />
+            <element signature="n#button#0;n#div#0;n#nav#0;n#body#0;n#html#0;n#!!top" />
+            <element signature="n#div#0;n#div#0;n#nav#0;n#body#0;n#html#0;n#!!top" />
+            <element signature="n#form#0;n#div#0;n#div#0;n#nav#0;n#body#0;n#html#0;n#!!top" />
+            <element signature="n#div#0;n#body#0;n#html#0;n#!!top" />
+            <element signature="n#ol#0;n#div#0;n#body#0;n#html#0;n#!!top" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Procfile">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="57" selection-start-column="57" selection-end-column="57" />
+          <caret column="24" selection-start-column="24" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/boards/date_form.py" />
-    <entry file="file://$PROJECT_DIR$/boards/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="6" column="51" selection-start-line="6" selection-start-column="51" selection-end-line="6" selection-end-column="51" />
-          <folding>
-            <element signature="e#0#24#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/django/forms/__init__.py">
+    <entry file="file://$PROJECT_DIR$/manage.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/base_accounts.html">
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/django/apps/config.py" />
+    <entry file="file://$PROJECT_DIR$/tickets_handler/apps.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="8" selection-start-line="8" selection-end-line="16" selection-end-column="14" />
+        <state relative-caret-position="60">
+          <caret line="3" column="25" lean-forward="true" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/css/accounts.css">
+    <entry file="file://$PROJECT_DIR$/tickets_handler/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="32" selection-start-column="32" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tickets_handler/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/css/bootstrap.min.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/topics.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/telegram_news.html">
+    <entry file="file://$PROJECT_DIR$/templates/includes/form.html" />
+    <entry file="file://$PROJECT_DIR$/templates/base_accounts.html" />
+    <entry file="file://$PROJECT_DIR$/partnerweb_project/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="2" column="97" selection-start-line="2" selection-start-column="97" selection-end-line="2" selection-end-column="97" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/includes/form_beeline.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="6" column="25" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/test2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="14" column="7" lean-forward="true" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="22" column="30" lean-forward="true" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/new_topic.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/signup.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="11" column="12" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/includes/form.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="10" selection-start-line="10" selection-end-line="12" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/boards/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-43">
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/beeline/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="117">
-          <caret line="39" column="31" selection-start-line="39" selection-start-column="22" selection-end-line="39" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/django/contrib/auth/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4440">
-          <caret line="247" column="28" lean-forward="true" selection-start-line="247" selection-start-column="28" selection-end-line="247" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/boards/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
-          <folding>
-            <element signature="e#0#43#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/ticket_info.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="22" column="10" lean-forward="true" selection-start-line="22" selection-start-column="10" selection-end-line="22" selection-end-column="10" />
-          <folding>
-            <element signature="n#style#0;n#h4#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_project/wsgi.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_project/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_project/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="700">
-          <caret line="35" column="24" lean-forward="true" selection-start-line="35" selection-start-column="24" selection-end-line="35" selection-end-column="24" />
+        <state relative-caret-position="638">
+          <caret line="31" column="35" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="35" />
           <folding>
             <element signature="e#311#320#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_project/urls.py">
+    <entry file="file://$PROJECT_DIR$/partnerweb_project/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="13" column="25" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
+        <state relative-caret-position="88">
+          <caret line="6" column="37" selection-start-line="6" selection-start-column="37" selection-end-line="6" selection-end-column="37" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/base.html">
+    <entry file="file://$PROJECT_DIR$/partnerweb_project/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/partnerweb_project/wsgi.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="800">
-          <caret line="40" column="46" selection-start-line="40" selection-start-column="46" selection-end-line="40" selection-end-column="46" />
+        <state relative-caret-position="242">
+          <caret line="13" column="59" selection-start-line="13" selection-start-column="59" selection-end-line="13" selection-end-column="59" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/locale.py">
+    <entry file="file://$PROJECT_DIR$/tickets_handler/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="586" selection-start-line="586" selection-end-line="586" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/_strptime.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="392" selection-start-line="392" selection-end-line="392" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/beeline/tests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="2" column="25" lean-forward="true" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/auth_beeline.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="16" column="12" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/re.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5460">
-          <caret line="276" selection-start-line="276" selection-end-line="276" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/accounts/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/beeline/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1160">
-          <caret line="58" selection-start-line="58" selection-end-line="58" />
+        <state relative-caret-position="154">
+          <caret line="7" column="55" selection-start-line="7" selection-start-column="38" selection-end-line="7" selection-end-column="55" />
           <folding>
-            <element signature="e#0#42#0" expanded="true" />
+            <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/accounts/views.py">
+    <entry file="file://$USER_HOME$/.virtualenvs/partnerweb3_-_Copy-1S83JCF5/Lib/site-packages/django/utils/deprecation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="3" column="24" lean-forward="true" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="29" />
+        <state relative-caret-position="344">
+          <caret line="96" selection-start-line="96" selection-end-line="96" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/accounts/forms.py">
+    <entry file="file://$USER_HOME$/.virtualenvs/partnerweb3_-_Copy-1S83JCF5/Lib/site-packages/django/core/handlers/exception.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="5" column="44" lean-forward="true" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="57" />
-          <folding>
-            <element signature="e#0#24#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="202">
+          <caret line="36" selection-start-line="36" selection-end-line="36" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/tickets_main_page.html">
+    <entry file="file://$USER_HOME$/.virtualenvs/partnerweb3_-_Copy-1S83JCF5/Lib/site-packages/django/core/handlers/base.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="89" column="14" lean-forward="true" selection-start-line="89" selection-start-column="14" selection-end-line="89" selection-end-column="14" />
+        <state relative-caret-position="114">
+          <caret line="112" selection-start-line="112" selection-end-line="112" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.virtualenvs/partnerweb3_-_Copy-1S83JCF5/Lib/site-packages/django/forms/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.virtualenvs/partnerweb3_-_Copy-1S83JCF5/Lib/site-packages/django/utils/datastructures.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="122" selection-start-line="122" selection-end-line="122" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.virtualenvs/partnerweb3_-_Copy-1S83JCF5/Lib/site-packages/django/forms/widgets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="257" selection-start-line="257" selection-end-line="257" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.virtualenvs/partnerweb3_-_Copy-1S83JCF5/Lib/site-packages/django/forms/fields.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="107">
+          <caret line="197" selection-start-line="197" selection-end-line="197" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.virtualenvs/partnerweb3_-_Copy-1S83JCF5/Lib/site-packages/django/forms/boundfield.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="107">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.virtualenvs/partnerweb3_-_Copy-1S83JCF5/Lib/site-packages/django/forms/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="107">
+          <caret line="193" selection-start-line="193" selection-end-line="193" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/beeline_html/tickets_main_page.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="13" column="8" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="8" />
           <folding>
             <element signature="n#style#0;n#b#0;n#small#0;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#b#0;n#small#0;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#div#2;n#!!top" expanded="true" />
@@ -1187,21 +1215,66 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/beeline/form.py">
+    <entry file="file://$PROJECT_DIR$/tickets_handler/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="11" column="41" lean-forward="true" selection-start-line="11" selection-start-column="41" selection-end-line="11" selection-end-column="41" />
+        <state relative-caret-position="88">
+          <caret line="4" column="47" selection-start-line="4" selection-start-column="44" selection-end-line="4" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tickets_handler/tests.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/beeline_html/ticket_info.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="15" column="72" selection-start-line="15" selection-start-column="72" selection-end-line="15" selection-end-column="72" />
+          <folding>
+            <element signature="n#style#0;n#h4#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/beeline_html/auth_beeline.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="9" column="41" lean-forward="true" selection-start-line="9" selection-start-column="10" selection-end-line="9" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/includes/form_beeline.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="1" column="30" selection-start-line="1" selection-start-column="30" selection-end-line="1" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tickets_handler/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="45" column="22" lean-forward="true" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#60#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tickets_handler/form.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="12" column="83" selection-start-line="12" selection-start-column="83" selection-end-line="12" selection-end-column="83" />
           <folding>
             <element signature="e#0#24#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/beeline/beeline.py">
+    <entry file="file://$PROJECT_DIR$/tickets_handler/beeline.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="493" column="76" lean-forward="true" selection-start-line="493" selection-start-column="76" selection-end-line="493" selection-end-column="76" />
+        <state relative-caret-position="106">
+          <caret line="315" column="30" selection-start-line="315" selection-start-column="30" selection-end-line="315" selection-end-column="30" />
           <folding>
+            <element signature="e#0#15#0" expanded="true" />
             <element signature="e#190#319#0" />
             <element signature="e#358#475#0" />
             <element signature="e#505#1283#0" />
@@ -1220,8 +1293,6 @@
             <element signature="e#3125#3702#0" />
             <element signature="e#3326#3610#0" />
             <element signature="e#3341#3498#0" />
-            <element signature="e#3724#5520#0" />
-            <element signature="e#4180#5461#0" />
             <element signature="e#5495#5520#0" />
             <element signature="e#5586#6349#0" />
             <element signature="e#6391#6988#0" />
@@ -1231,46 +1302,20 @@
             <element signature="e#8322#8610#0" />
             <element signature="e#8376#8581#0" />
             <element signature="e#8433#8581#0" />
+            <element signature="e#8659#10172#0" />
+            <element signature="e#8744#10124#0" />
+            <element signature="e#8839#10124#0" />
+            <element signature="e#8971#9373#0" />
             <element signature="e#9036#9373#0" />
-            <element signature="e#13046#14507#0" />
-            <element signature="e#14573#14790#0" />
-            <element signature="e#14842#16697#0" />
-            <element signature="e#15033#16071#0" />
-            <element signature="e#15390#15988#0" />
-            <element signature="e#15451#15988#0" />
-            <element signature="e#16736#18075#0" />
-            <element signature="e#16848#18052#0" />
-            <element signature="e#17230#18052#0" />
-            <element signature="e#18160#18592#0" />
-            <element signature="e#18633#19396#0" />
-            <element signature="e#19459#20287#0" />
-            <element signature="e#19486#19614#0" />
-            <element signature="e#19686#19842#0" />
-            <element signature="e#20070#20216#0" />
-            <element signature="e#20124#20216#0" />
-            <element signature="e#20345#20642#0" />
-            <element signature="e#20790#20976#0" />
-            <element signature="e#21126#21312#0" />
-            <element signature="e#21470#22521#0" />
-            <element signature="e#21477#21868#0" />
-            <element signature="e#22573#22876#0" />
-            <element signature="e#22673#22820#0" />
-            <element signature="e#22927#23858#0" />
-            <element signature="e#23091#23799#0" />
-            <element signature="e#23131#23799#0" />
-            <element signature="e#23553#23799#0" />
-            <element signature="e#25431#26166#0" />
-            <element signature="e#25618#26130#0" />
-            <element signature="e#26219#26670#0" />
-            <element signature="e#26286#26636#0" />
-            <element signature="e#26307#26591#0" />
-            <element signature="e#26724#27114#0" />
-            <element signature="e#26791#27079#0" />
-            <element signature="e#26812#27034#0" />
-            <element signature="e#27159#27622#0" />
-            <element signature="e#27689#27991#0" />
-            <element signature="e#28057#28674#0" />
-            <element signature="e#28709#28932#0" />
+            <element signature="e#10219#11651#0" />
+            <element signature="e#10279#11617#0" />
+            <element signature="e#10602#11617#0" />
+            <element signature="e#10840#11617#0" />
+            <element signature="e#11702#13224#0" />
+            <element signature="e#11789#13174#0" />
+            <element signature="e#11875#13174#0" />
+            <element signature="e#12319#13174#0" />
+            <element signature="e#13559#14586#0" />
           </folding>
         </state>
       </provider>

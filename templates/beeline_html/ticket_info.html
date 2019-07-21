@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h3>{{ ticket_info.number }}</h3>
+    <h4 style="color: gray; font-size: medium">{{ ticket_info.type }}</h4>
+    <h5>Дата создания: {{ ticket_info.date }}</h5>
+    <h5>Дата статуса: {{ ticket_info.call_time }}</h5>
+    <h4>{{ ticket_info.name }}</h4>
+    <h5>{{ ticket_info.address }}</h5>
+    <h5>{{ ticket_info.status }}</h5>
+    {% for item in  ticket_info.phones %}
+<h5><a href="tel:8{{item.phone}}">{{ item.phone }}</a> - {{ item.comment }}</h5>
+    {% endfor %}
+    <div class="content container">
+        <div class="row">
+            <div class="col-md-8">
+    <form method="POST" autocomplete="off"  class="post-form" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default" formmethod="post" >Send</button>
+    </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" >
+                $('#id_datetime').datetimepicker({
+      format: 'd.m.Y H:i',
+    });
+    </script>
+
+    <table class="table table-hover table-bordered">
+
+        <thead>
+        <tr>
+            <th>
+                Дата
+            </th>
+            <th>
+                Комментарий
+            </th>
+        </tr>
+        </thead>
+        {% for i in ticket_info.comments %}
+        <tbody>
+        <tr>
+            <td>
+                {{ i.date }}
+            </td>
+            <td>
+                {{ i.text  | safe}}
+            </td>
+        </tr>
+        </tbody>
+    {% endfor %}
+    </table>
+{% endblock %}
