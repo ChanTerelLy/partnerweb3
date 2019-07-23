@@ -314,10 +314,10 @@ class OldDesign(Auth):
     def change_ticket(self,id,  timer, comment='', status_id=21):
         url_status = 'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{}'.format(str(id))
         if status_id == '2028':
-            data_timer = {"status_id": 21, "call_time": '31.12.2028 00:00', "comment": comment}
+            data_timer = {"status_id": 21, "call_time": '31.12.2028 00:00', "comment": '; '.join(comment)}
             self.session.post(url_status, data_timer)
         else:
-            data_timer = {"status_id":int(status_id),"call_time":timer, "comment":comment}
+            data_timer = {"status_id":int(status_id),"call_time":timer, "comment":'; '.join(comment)}
             self.session.post(url_status, data_timer)
 
 
