@@ -589,8 +589,5 @@ class NewDesign(OldDesign):
 
 if __name__ == "__main__":
     start = time.time()
-    auth = NewDesign('G800-37', 'Корытов_Р.В.', 'roma456')
-    #auth = OldDesign('G800-37', 'Корытов_Р.В.', 'roma456')
-    ticket = auth.three_month_tickets()
     end = time.time()
     print(end - start)

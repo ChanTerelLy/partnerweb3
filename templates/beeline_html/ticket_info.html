@@ -16,7 +16,7 @@
     <form method="POST" autocomplete="off"  class="post-form" novalidate>
         {% csrf_token %}
         {{ form.as_p }}
-        <select class="mdb-select md-form" multiple>
+        <select class="mdb-select md-form" id="id_comments" multiple>
             <optgroup label="team 1">
                 <option value="1">Option 1</option>
                 <option value="2">Option 2</option>
@@ -26,7 +26,6 @@
                 <option value="4">Option 4</option>
             </optgroup>
         </select>
-        <button class="btn-save btn btn-primary btn-sm">Save</button>
         <button type="submit" class="save btn btn-primary" formmethod="post" >Send</button>
     </form>
             </div>

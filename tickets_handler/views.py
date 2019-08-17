@@ -1,4 +1,4 @@
-from tickets_handler.beeline import Auth,NewDesign,OldDesign
+from tickets_handler.tickets_manager import Auth,NewDesign,OldDesign
 from django.shortcuts import render, get_object_or_404, redirect
 from .form import AuthForm, DateTimeForm
 
