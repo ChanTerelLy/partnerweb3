@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1f1c6bf8-20d3-48d9-8b24-edf1263d533c" name="Default Changelist" comment="">
+    <list default="true" id="1f1c6bf8-20d3-48d9-8b24-edf1263d533c" name="Default Changelist" comment="-">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/beeline_html/ticket_info.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/beeline_html/ticket_info.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tickets_handler/beeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/tickets_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tickets_handler/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/form.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tickets_handler/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tickets_handler/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tickets_handler/beeline_parser/date_func.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/beeline_parser/date_func.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tickets_handler/beeline_parser/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/beeline_parser/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tickets_handler/beeline_parser/tickets_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/beeline_parser/tickets_manager.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -66,6 +65,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
   </component>
@@ -89,7 +93,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="database.console.LAST_STATE" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/tickets_handler/beeline_parser/date_func.py" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
@@ -102,15 +106,15 @@
     </option>
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\zvezd\Desktop\partnerweb3\templates\includes" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Roman\OneDrive - Северный Арктический Федеральный Университет\ЛЧ\beeline\partnerweb3\tickets_handler\beeline_parser" />
       <recent name="C:\Users\zvezd\Desktop\partnerweb3\templates\accounts_html" />
       <recent name="C:\Users\zvezd\Desktop\partnerweb3\templates\boards_html" />
       <recent name="C:\Users\zvezd\Desktop\partnerweb3\templates\beeline_html" />
       <recent name="C:\Users\zvezd\Desktop\django_Beeline\django\templates" />
-      <recent name="C:\Users\zvezd\Desktop\django_Beeline\django\boards\tests" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\zvezd\Desktop\partnerweb3\templates\includes" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -126,49 +130,6 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.manage">
-    <configuration name="__init__" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="django" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test_project" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_project/__init__.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="beeline" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="django" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="C:\Users\zvezd\AppData\Local\Programs\Python\Python37\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/beeline" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/beeline/beeline.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="manage" type="PythonConfigurationType" factoryName="Python">
       <module name="django" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -191,7 +152,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="tests" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="tickets_manager (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="django" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -199,11 +160,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/beeline" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tickets_handler/beeline_parser" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/beeline/tests.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tickets_handler/beeline_parser/tickets_manager.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -212,29 +173,35 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="testtest" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="Unittests for tests.TestNewDesign" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="django" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/beeline" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tickets_handler/beeline_parser" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/beeline/testtest.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.TestNewDesign&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests for tests.SimpleTests" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="Unittests for tests.TestNewDesign.test_define_calling_tickets" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="django" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tickets_handler/beeline_parser" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.TestNewDesign.test_define_calling_tickets&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for tickets_handler.beeline_parser.tests.TestNewDesign.test_definde_satellit_ticket" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="django" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -244,25 +211,39 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.SimpleTests&quot;" />
+      <option name="_new_target" value="&quot;tickets_handler.beeline_parser.tests.TestNewDesign.test_definde_satellit_ticket&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for tickets_handler.beeline_parser.tests.TestNewDesign.test_define_calling_tickets" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="django" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tickets_handler/beeline_parser" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tickets_handler.beeline_parser.tests.TestNewDesign.test_define_calling_tickets&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <list>
       <item itemvalue="Python.manage" />
-      <item itemvalue="Python.__init__" />
-      <item itemvalue="Python.beeline" />
-      <item itemvalue="Python.tests" />
-      <item itemvalue="Python.testtest" />
-      <item itemvalue="Python tests.Unittests for tests.SimpleTests" />
+      <item itemvalue="Python.tickets_manager (1)" />
+      <item itemvalue="Python tests.Unittests for tickets_handler.beeline_parser.tests.TestNewDesign.test_definde_satellit_ticket" />
+      <item itemvalue="Python tests.Unittests for tickets_handler.beeline_parser.tests.TestNewDesign.test_define_calling_tickets" />
+      <item itemvalue="Python tests.Unittests for tests.TestNewDesign.test_define_calling_tickets" />
+      <item itemvalue="Python tests.Unittests for tests.TestNewDesign" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Unittests for tests.SimpleTests" />
-        <item itemvalue="Python.tests" />
-        <item itemvalue="Python.beeline" />
-        <item itemvalue="Python.__init__" />
-        <item itemvalue="Python.testtest" />
+        <item itemvalue="Python tests.Unittests for tests.TestNewDesign" />
+        <item itemvalue="Python tests.Unittests for tests.TestNewDesign.test_define_calling_tickets" />
+        <item itemvalue="Python tests.Unittests for tickets_handler.beeline_parser.tests.TestNewDesign.test_define_calling_tickets" />
+        <item itemvalue="Python tests.Unittests for tickets_handler.beeline_parser.tests.TestNewDesign.test_definde_satellit_ticket" />
+        <item itemvalue="Python.tickets_manager (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -476,7 +457,21 @@
       <option name="project" value="LOCAL" />
       <updated>1563893388197</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="-">
+      <created>1566015905751</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1566015905751</updated>
+    </task>
+    <task id="LOCAL-00024" summary="refactor exchanges">
+      <created>1566479772186</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1566479772186</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -558,10 +553,24 @@
     <MESSAGE value="switched tickets, add function and view" />
     <MESSAGE value="long auth, counter assigned and swithed on, dns house" />
     <MESSAGE value="button changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="button changes" />
+    <MESSAGE value="-" />
+    <MESSAGE value="refactor exchanges" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor exchanges" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tickets_handler/views.py</url>
+          <line>13</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tickets_handler/beeline_parser/tickets_manager.py</url>
+          <line>381</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">

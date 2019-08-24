@@ -5,7 +5,6 @@ from datetime import datetime as dt
 
 def current_date():
     now_date = datetime.date.today()  # Текущая дата (без времени)
-    now_time = datetime.datetime.now()  # Текущая дата со временем
     cur_year = now_date.year  # Год текущий
     cur_month = now_date.month  # Месяц текущий
     cur_day = now_date.day  # День текущий
