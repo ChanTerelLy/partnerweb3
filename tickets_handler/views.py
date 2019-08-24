@@ -1,4 +1,4 @@
-from tickets_handler.beeline_parser.tickets_manager import NewDesign,OldDesign
+from tickets_handler.beeline_parser.manager import NewDesign,OldDesign
 from django.shortcuts import render, redirect
 from .form import AuthForm, DateTimeForm
 
@@ -19,7 +19,7 @@ def main_page(request):
     all_switched_on_tickets.extend(switched_on_tickets)
     all_switched_on_today += switched_on_today
     all_created_today_tickets += created_today_tickets
-    return render( request,'beeline_html/tickets_main_page.html',
+    return render( request,'beeline_html/main_page_tickets.html',
               {'assigned_tickets':all_assigned_tickets,
                'call_for_today':all_call_for_today,
                'switched_on_tickets': all_switched_on_tickets,'assigned_today':all_assigned_today,'switched_on_today':
@@ -58,7 +58,7 @@ def auth(request):
         request.session['sell_code'], request.session['operator'],request.session['password'] = form['sell_code'].value(), form['operator'].value(), form['password'].value()
         if form.is_valid():
             return redirect('main_page_tickets')
-    return render(request, 'beeline_html/auth_beeline.html', {'form': form})
+    return render(request, 'beeline_html/login_beeline.html', {'form': form})
 
 def telegram_news(requser):
     return render(requser, 'beeline_html/telegram_news.html')

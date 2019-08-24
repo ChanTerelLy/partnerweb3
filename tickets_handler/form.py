@@ -7,5 +7,5 @@ class AuthForm(forms.Form):
 
 class DateTimeForm(forms.Form):
     datetime = forms.DateField(widget=forms.DateTimeInput(attrs={'readonly':'readonly'}),  required=False)
-    comments = forms.TextInput()
     status = forms.ChoiceField(choices=[(21, 'Позвонить клиенту'),(2028,'Отказ 2028')], required=False)
+    comments = forms.Field()

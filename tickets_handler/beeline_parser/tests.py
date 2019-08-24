@@ -1,10 +1,10 @@
 import unittest
-from tickets_handler.beeline_parser import tickets_manager
+from tickets_handler.beeline_parser import manager
 
 class TestAuth(unittest.TestCase):
 
     def setUp(self):
-        auth = tickets_manager.Auth('G800-37', '9642907288', 'roma456')
+        auth = manager.Auth('G800-37', '9642907288', 'roma456')
 
 
 
@@ -13,7 +13,7 @@ class TestAuth(unittest.TestCase):
 class TestNewDesign(unittest.TestCase):
 
     def setUp(self):
-        self.ND = tickets_manager.NewDesign('G800-37', '9642907288', 'roma456')
+        self.ND = manager.NewDesign('G800-37', '9642907288', 'roma456')
 
     def test_define_calling_tickets(self):
         self.assertTrue(self.ND.define_call_ts('Позвонить клиенту 15.09.2019 00:00'))
