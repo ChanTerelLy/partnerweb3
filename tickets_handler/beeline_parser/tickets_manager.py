@@ -1,6 +1,5 @@
 import requests
 import lxml.html
-import datetime
 from datetime import datetime as dt
 from datetime import date as date
 from openpyxl import Workbook
@@ -15,6 +14,8 @@ from tickets_handler.beeline_parser.text_func import find_asssigned_date, find_d
 
 
 class Auth:
+    """This class not use anymore, only as parent class and support old fithes.
+     Partnerweb developer fix NewDesign, parse old version partnerweb is not need anymore"""
 
     def __init__(self, login, workercode, password):
         self.session = requests.Session()
@@ -35,7 +36,7 @@ class Ticket:
                  date='', id='', name='', number='', operator='', phones='', services='', shop='', shop_id='',
                  status='',
                  ticket_paired='', type='', type_id='', phone1='', phone2='', phone3='', comment1='', comment2='',
-                 comment3='', assigned_date=None, dns=''):
+                 comment3='', assigned_date=None, dns='', statuses=''):
         self.address = address  # Архангельск, проспект Новгородский, д. 186, кв. 47
         self.address_id = address_id  # 14383557
         self.allow_change_status = allow_change_status  # true
@@ -63,6 +64,7 @@ class Ticket:
         self.type_id = type_id  # 286
         self.assigned_date = assigned_date
         self.dns = dns
+        self.statuses = statuses # [0: {name: "Ждем звонка клиента", id: 16}]
 
     def __repr__(self):
         return str(self.__dict__)
@@ -126,7 +128,7 @@ class OldDesign(Auth):
                 for comment in full_info.comments:
                     if find_asssigned_date(comment['text']):
                         assigned_date = comment['date']
-                        assigned_today = assigned_today = assigned_today + 1 if (
+                        assigned_today = assigned_today + 1 if (
                                 dt.strptime(assigned_date, '%d.%m.%Y %H:%M').date() ==
                                 dt.now().date()) else assigned_today
                         break
@@ -430,14 +432,13 @@ class NewDesign(OldDesign):
         return call_ts_today
 
     def count_created_today(self, tickets):
-        count_created_today = 0
+        count = 0
         for ticket in tickets:
             try:
-                if (ticket.type_id == 1) and (dmYHM_to_date(ticket.date) == today()):
-                    count_created_today = + 1
+                count += 1 if (ticket.type_id == 1) and (dmYHM_to_date(ticket.date) == today()) else count
             except:
                 continue
-        return count_created_today
+        return count
 
     def three_month_tickets(self):
         tickets = self.tickets()
@@ -453,17 +454,18 @@ class NewDesign(OldDesign):
 
     def definde_satellit_ticket(self, name):
         ticket_patterns = ('Подключен', 'Ошибка при конвергенции', 'Закрыта')
+        name = list([w for w in name.split() if not w.isdigit()])[0]
         return True if re.search(name, ''.join(ticket_patterns)) else False
 
 
     def define_call_ts(self, name):
         ticket_patterns = ('Позвонить клиенту', 'Ждем звонка клиента',
                            'Позвонить клиенту(срочные)', 'Новая', 'Резерв', 'Принято в обзвон')
-        return True if re.search(name, ' '.join(ticket_patterns)) else False
+        name = list([w for w in name.split() if not w.isdigit()])[0]
+        return True if re.search(name, r'|'.join(ticket_patterns)) else False
 
 
 if __name__ == "__main__":
     start = time.time()
-    print(dir(NewDesign))
     end = time.time()
     print(end - start)
