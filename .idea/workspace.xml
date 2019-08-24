@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1f1c6bf8-20d3-48d9-8b24-edf1263d533c" name="Default Changelist" comment="-">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="1f1c6bf8-20d3-48d9-8b24-edf1263d533c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tickets_handler/beeline_parser/date_func.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/beeline_parser/date_func.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/beeline_html/auth_beeline.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/beeline_html/login_beeline.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/beeline_html/telegram_news.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/beeline_html/telegram_news.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/beeline_html/ticket_info.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/beeline_html/ticket_info.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/beeline_html/tickets_main_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/beeline_html/main_page_tickets.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/includes/form_beeline.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/includes/form_beeline.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tickets_handler/beeline_parser/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/beeline_parser/tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tickets_handler/beeline_parser/tickets_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/beeline_parser/tickets_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tickets_handler/beeline_parser/tickets_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/beeline_parser/manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tickets_handler/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tickets_handler/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -93,7 +99,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="database.console.LAST_STATE" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/tickets_handler/beeline_parser/date_func.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
@@ -164,7 +170,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tickets_handler/beeline_parser/tickets_manager.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\Roman\OneDrive - Северный Арктический Федеральный Университет\ЛЧ\beeline\partnerweb3\tickets_handler\beeline_parser\manager.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -229,23 +235,6 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <list>
-      <item itemvalue="Python.manage" />
-      <item itemvalue="Python.tickets_manager (1)" />
-      <item itemvalue="Python tests.Unittests for tickets_handler.beeline_parser.tests.TestNewDesign.test_definde_satellit_ticket" />
-      <item itemvalue="Python tests.Unittests for tickets_handler.beeline_parser.tests.TestNewDesign.test_define_calling_tickets" />
-      <item itemvalue="Python tests.Unittests for tests.TestNewDesign.test_define_calling_tickets" />
-      <item itemvalue="Python tests.Unittests for tests.TestNewDesign" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Python tests.Unittests for tests.TestNewDesign" />
-        <item itemvalue="Python tests.Unittests for tests.TestNewDesign.test_define_calling_tickets" />
-        <item itemvalue="Python tests.Unittests for tickets_handler.beeline_parser.tests.TestNewDesign.test_define_calling_tickets" />
-        <item itemvalue="Python tests.Unittests for tickets_handler.beeline_parser.tests.TestNewDesign.test_definde_satellit_ticket" />
-        <item itemvalue="Python.tickets_manager (1)" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -302,6 +291,8 @@
       <workItem from="1549870181201" duration="622000" />
       <workItem from="1550041853380" duration="108000" />
       <workItem from="1550042183076" duration="4000" />
+      <workItem from="1566633059614" duration="5000" />
+      <workItem from="1566633084485" duration="3223000" />
     </task>
     <task id="LOCAL-00001" summary="set up blog">
       <created>1544994845106</created>
@@ -471,11 +462,15 @@
       <option name="project" value="LOCAL" />
       <updated>1566479772186</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="fix bugs">
+      <created>1566625757176</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1566625757176</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
-  </component>
-  <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="172311000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -555,7 +550,8 @@
     <MESSAGE value="button changes" />
     <MESSAGE value="-" />
     <MESSAGE value="refactor exchanges" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor exchanges" />
+    <MESSAGE value="fix bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bugs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -563,21 +559,9 @@
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/tickets_handler/views.py</url>
           <line>13</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/tickets_handler/beeline_parser/tickets_manager.py</url>
-          <line>381</line>
-          <option name="timeStamp" value="13" />
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
-      <default-breakpoints>
-        <breakpoint type="python-exception">
-          <properties notifyOnTerminate="true" exception="BaseException">
-            <option name="notifyOnTerminate" value="true" />
-          </properties>
-        </breakpoint>
-      </default-breakpoints>
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">

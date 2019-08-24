@@ -183,7 +183,7 @@ class OldDesign(Auth):
                 last, cur_month, cur_year = last_day_current_month()  # filter for current month
                 if (timer <= date(cur_year, cur_month, last)) and (
                         timer >= date(cur_year, cur_month, 1)):
-                    swithed_on_today += 1 if timer == dt.now().date() else swithed_on_today
+                    swithed_on_today += 1 if timer == dt.now().date() else 0
                     phone1 = phone9(i[8].text)[0] if len(phone9(i[8].text)) else ''
                     phone2 = phone9(i[8].text)[1] if 1 < len(phone9(i[8].text)) else ''
                     phone3 = phone9(i[8].text)[2] if 2 < len(phone9(i[8].text)) else ''
@@ -371,7 +371,12 @@ class NewDesign(OldDesign):
         asig_ts, asig_ts_today  = [], 0
         for ticket in tickets:
             if (ticket.type_id == 1) and ticket.allow_schedule == False and ticket.allow_change_status == True:
+                as_t = list([c['date'] for c in self.ticket_info(ticket.id).comments if find_asssigned_date(c['text'])])
+                ticket.assigned_date = as_t[0]
+                if dmYHM_to_date(ticket.assigned_date) == dt.now():
+                    asig_ts_today += 1
                 asig_ts.append(ticket)
+
         return asig_ts, asig_ts_today
 
     def switched_tickets(self, tickets):
@@ -381,7 +386,7 @@ class NewDesign(OldDesign):
             if t.type_id == 1:
                 if self.definde_satellit_ticket(t.status) and \
                         (date(cur_year, cur_month, 1) <= dmYHM_to_date(t.call_time) <= date(cur_year, cur_month, last)):
-                    sw_ts_today += 1 if dmYHM_to_date(t.call_time) == today() else sw_ts_today
+                    sw_ts_today += 1 if dmYHM_to_date(t.call_time) == today() else 0
                     sw_ts.append(t)
         return sw_ts, sw_ts_today
 
@@ -435,7 +440,7 @@ class NewDesign(OldDesign):
         count = 0
         for ticket in tickets:
             try:
-                count += 1 if (ticket.type_id == 1) and (dmYHM_to_date(ticket.date) == today()) else count
+                count += 1 if (ticket.type_id == 1) and (dmYHM_to_date(ticket.date) == today()) else 0
             except:
                 continue
         return count
@@ -463,6 +468,7 @@ class NewDesign(OldDesign):
                            'Позвонить клиенту(срочные)', 'Новая', 'Резерв', 'Принято в обзвон')
         name = list([w for w in name.split() if not w.isdigit()])[0]
         return True if re.search(name, r'|'.join(ticket_patterns)) else False
+
 
 
 if __name__ == "__main__":
