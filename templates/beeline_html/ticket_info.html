@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+
 <div class="jumbotron">
     <h3>{{ ticket_info.number }}</h3>
     <h4 style="color: gray; font-size: medium">{{ ticket_info.type }}</h4>
@@ -10,17 +11,24 @@
     <h5><mark>{{ ticket_info.status }}</mark></h5>
     <h5>Номера телефонов:</h5>
     {% for item in ticket_info.phones %}
-    <h5><a href="tel:8{{item.phone}}">{{ item.phone }}</a> - {{ item.comment }}</h5>
+    <h5><a href="tel:8{{item.phone}}">{{ item.phone }}</a>  {{ item.comment }}</h5>
     {% endfor %}
-    <div class="container-fluid">
+    <div class="container">
                 <form method="POST" autocomplete="off" class="post-form" novalidate>
                     {% csrf_token %}
                     {% include 'includes/form_beeline.html' %}
                     <p></p>
-                    <button type="submit" class="save btn btn-primary" formmethod="post">Send</button>
+                    <div class="container">
+                        <div class="alert alert-danger">
+                            <strong> Внимание, все отправленные данные записываются!</strong>
+                        </div>
+                    </div>
+                    <button type="submit" class="save btn btn-primary btn-lg" formmethod="post">Отправить</button>
                 </form>
     </div>
+
 </div>
+
     <script type="text/javascript">
                 $('#id_datetime').datetimepicker({
       format: 'd.m.Y H:i',
