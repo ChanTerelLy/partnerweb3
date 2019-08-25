@@ -3,6 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="1f1c6bf8-20d3-48d9-8b24-edf1263d533c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/beeline_html/login_beeline.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/beeline_html/login_beeline.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/beeline_html/main_page_tickets.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/beeline_html/main_page_tickets.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/beeline_html/ticket_info.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/beeline_html/ticket_info.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -84,6 +88,7 @@
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -473,7 +478,14 @@
       <option name="project" value="LOCAL" />
       <updated>1566694184007</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="requerments.txt">
+      <created>1566695325552</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1566695325553</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TodoView">
@@ -529,10 +541,10 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <ignored-roots>
       <path value="$PROJECT_DIR$/beeline-django" />
     </ignored-roots>
-    <MESSAGE value="2" />
     <MESSAGE value="set up blog" />
     <MESSAGE value="igor loh commit" />
     <MESSAGE value="work version with bootstrap" />
@@ -557,7 +569,8 @@
     <MESSAGE value="fix bugs" />
     <MESSAGE value="assign today ND add" />
     <MESSAGE value="design and back end minor upgrades" />
-    <option name="LAST_COMMIT_MESSAGE" value="design and back end minor upgrades" />
+    <MESSAGE value="requerments.txt" />
+    <option name="LAST_COMMIT_MESSAGE" value="requerments.txt" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
