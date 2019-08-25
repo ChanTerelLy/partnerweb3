@@ -4,16 +4,6 @@
     <list default="true" id="1f1c6bf8-20d3-48d9-8b24-edf1263d533c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/beeline_html/auth_beeline.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/beeline_html/login_beeline.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/beeline_html/telegram_news.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/beeline_html/telegram_news.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/beeline_html/ticket_info.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/beeline_html/ticket_info.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/beeline_html/tickets_main_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/beeline_html/main_page_tickets.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/includes/form_beeline.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/includes/form_beeline.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tickets_handler/beeline_parser/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/beeline_parser/tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tickets_handler/beeline_parser/tickets_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/beeline_parser/manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tickets_handler/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/form.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tickets_handler/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -135,7 +125,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.manage">
+  <component name="RunManager">
     <configuration name="manage" type="PythonConfigurationType" factoryName="Python">
       <module name="django" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -293,6 +283,7 @@
       <workItem from="1550042183076" duration="4000" />
       <workItem from="1566633059614" duration="5000" />
       <workItem from="1566633084485" duration="3223000" />
+      <workItem from="1566692142198" duration="599000" />
     </task>
     <task id="LOCAL-00001" summary="set up blog">
       <created>1544994845106</created>
@@ -469,7 +460,14 @@
       <option name="project" value="LOCAL" />
       <updated>1566625757176</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="assign today ND add">
+      <created>1566648598693</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1566648598694</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TodoView">
@@ -551,18 +549,10 @@
     <MESSAGE value="-" />
     <MESSAGE value="refactor exchanges" />
     <MESSAGE value="fix bugs" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix bugs" />
+    <MESSAGE value="assign today ND add" />
+    <option name="LAST_COMMIT_MESSAGE" value="assign today ND add" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/tickets_handler/views.py</url>
-          <line>13</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="all_assigned_tickets" />
