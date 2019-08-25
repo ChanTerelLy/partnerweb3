@@ -32,21 +32,23 @@
 <body>
 {% block body %}
 <nav class="navbar navbar-dark bg-dark">
-  <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand" href="{% url 'login_beeline' %}">Выйти</a>
+    <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse"
+            data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="{% url 'login_beeline' %}">Выйти</a>
 
-  <div class="navbar-collapse collapse" id="navbarColor02" style="">
-    <ul class="navbar-nav mr-auto">
-              <li class="nav-item">
-        <a class="nav-link" href="{% url 'main_page_tickets' %}">Главная страница</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'global_search' %}">Все заявки</a>
-      </li>
-    </ul>
-  </div>
+    <div class="navbar-collapse collapse" id="navbarColor02" style="">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'main_page_tickets' %}">Главная страница</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'global_search' %}">Все заявки</a>
+            </li>
+        </ul>
+    </div>
 </nav>
 <p></p>
 <div class="container">
