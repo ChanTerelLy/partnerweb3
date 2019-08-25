@@ -24,7 +24,6 @@ def main_page(request):
                'call_for_today':all_call_for_today,
                'switched_on_tickets': all_switched_on_tickets,'assigned_today':all_assigned_today,'switched_on_today':
                    all_switched_on_today, 'created_today_tickets': all_created_today_tickets})
-
 def global_search(request):
     accounts = ''
     if request.session['Design'] == 'NewDesign' :
@@ -38,8 +37,7 @@ def ticket_info(request, id):
     accounts = ''
     if request.session['Design'] == 'NewDesign' :
         accounts = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
-    elif request.session['Design'] == 'OldDesign':
-        accounts = OldDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
+    elif request.session['Design'] == 'OldDesign':        accounts = OldDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
     ticket_info = accounts.ticket_info(id)
     dateform = DateTimeForm(request.POST)
     if request.method == 'POST':

@@ -1,12 +1,10 @@
-<div class="card" style="width: 18rem;">
-    <div class="fieldWrapper">
-{% for field in form %}
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">{{ field.label_tag }} {{ field }}</li>
-        </ul>
+<div class="container">
+    <ul class="list-group ">
+        {% for field in form %}
+        <li class="list-group-item">{{ field.label_tag }} {{ field }}</li>
         {% if field.help_text %}
         <p class="help">{{ field.help_text|safe }}</p>
         {% endif %}
-{% endfor %}
-    </div>
+    </ul>
+    {% endfor %}
 </div>

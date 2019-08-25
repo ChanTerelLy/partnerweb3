@@ -1,5 +1,7 @@
 import unittest
+
 from tickets_handler.beeline_parser import manager
+
 
 class TestAuth(unittest.TestCase):
 
