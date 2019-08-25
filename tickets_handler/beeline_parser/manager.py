@@ -223,11 +223,12 @@ class OldDesign(Auth):
 
     def change_ticket(self, id, timer, comment='', status_id=21):
         url_status = f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{id}'
+        comment = '; '.join(comment) if isinstance(comment, list) else comment
         if status_id == '2028':
-            data_timer = {"status_id": 21, "call_time": '31.12.2028 00:00', "comment": '; '.join(comment)}
+            data_timer = {"status_id": 21, "call_time": '31.12.2028 00:00', "comment": comment}
             self.session.post(url_status, data_timer)
         else:
-            data_timer = {"status_id": int(status_id), "call_time": timer, "comment": '; '.join(comment)}
+            data_timer = {"status_id": int(status_id), "call_time": timer, "comment": comment}
             self.session.post(url_status, data_timer)
 
     def months_report(self, num_months):
