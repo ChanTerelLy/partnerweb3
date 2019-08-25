@@ -1,14 +1,27 @@
 {% extends 'base.html' %}
 {% block content %}
-<p>
-  <span class="badge badge-warning"><assigned_count></assigned_count></span>
-  <span class="badge badge-success"><switched_count></switched_count></span>
-  <span class="badge badge-warning">Назначенных заявок сегодня: {{ assigned_today }}</span>
-  <span class="badge badge-success">Подключеных заявок сегодня: {{ switched_on_today }}</span>
-  <span class="badge badge-info">Созданых заявок сегодня: {{ created_today_tickets }}</span>
-</p><!--label bar-->
-<input class="form-control" id="myInput" type="text" placeholder="Search..">
-<br>
+<div class="container">
+  <p>
+    <span class="badge badge-warning"><assigned_count></assigned_count></span>
+    <span class="badge badge-success"><switched_count></switched_count></span>
+    <span class="badge badge-warning">Назначенных заявок сегодня: {{ assigned_today }}</span>
+    <span class="badge badge-success">Подключеных заявок сегодня: {{ switched_on_today }}</span>
+    <span class="badge badge-info">Созданых заявок сегодня: {{ created_today_tickets }}</span>
+  </p><!--label bar-->
+</div>
+<hr>
+<div class="container">
+  <div class="progress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width:70%"><switched_count></switched_count></div>
+    <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" style="width:30%"><assigned_count></assigned_count></div>
+    <br>
+  </div>
+</div>
+<hr>
+<div class="container">
+  <input class="form-control" id="myInput" type="text" placeholder="Search..">
+</div>
+<hr>
 <ol class="breadcrumb my-4">
     <li class="breadcrumb-item active"><span class="label label-danger">Назначенные в график</span></li>
 </ol>
@@ -138,6 +151,12 @@ $(document).ready(function(){
       var str = 'Назначенных заявок: ';
       $('assigned_count').html(str + ($('#assigned_badge tr').length - 1));
     });
+</script>
+<script>
+  $(document).ready(function() {
+    var str = 'Назначенных заявок: ';
+    $('assigned_count').html(str + ($('#assigned_badge tr').length - 1));
+  });
 </script>
 <script>
     $(function(){

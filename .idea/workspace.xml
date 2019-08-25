@@ -4,9 +4,16 @@
     <list default="true" id="1f1c6bf8-20d3-48d9-8b24-edf1263d533c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/beeline_html/global_search.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/beeline_html/global_search.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/beeline_html/login_beeline.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/beeline_html/login_beeline.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/beeline_html/main_page_tickets.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/beeline_html/main_page_tickets.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/beeline_html/ticket_info.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/beeline_html/ticket_info.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/includes/form_beeline.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/includes/form_beeline.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tickets_handler/beeline_parser/date_func.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/beeline_parser/date_func.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tickets_handler/beeline_parser/manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/beeline_parser/manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tickets_handler/beeline_parser/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/beeline_parser/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tickets_handler/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tickets_handler/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -130,6 +137,9 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.manage">
+    <configuration name="global_search.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/partnerweb3/templates/beeline_html/global_search.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
     <configuration name="manage" type="PythonConfigurationType" factoryName="Python">
       <module name="django" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -145,27 +155,6 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/manage.py" />
       <option name="PARAMETERS" value="runserver" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="tickets_manager (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="django" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tickets_handler/beeline_parser" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="C:\Users\Roman\OneDrive - Северный Арктический Федеральный Университет\ЛЧ\beeline\partnerweb3\tickets_handler\beeline_parser\manager.py" />
-      <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -288,6 +277,7 @@
       <workItem from="1566633059614" duration="5000" />
       <workItem from="1566633084485" duration="3223000" />
       <workItem from="1566692142198" duration="599000" />
+      <workItem from="1566713039960" duration="1671000" />
     </task>
     <task id="LOCAL-00001" summary="set up blog">
       <created>1544994845106</created>
@@ -485,17 +475,15 @@
       <option name="project" value="LOCAL" />
       <updated>1566695325553</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="design">
+      <created>1566698795235</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1566698795235</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
-  </component>
-  <component name="TodoView">
-    <todo-panel id="selected-file">
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-    <todo-panel id="all">
-      <are-packages-shown value="true" />
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -545,7 +533,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/beeline-django" />
     </ignored-roots>
-    <MESSAGE value="set up blog" />
     <MESSAGE value="igor loh commit" />
     <MESSAGE value="work version with bootstrap" />
     <MESSAGE value="2 branch, beeline and boards" />
@@ -570,9 +557,24 @@
     <MESSAGE value="assign today ND add" />
     <MESSAGE value="design and back end minor upgrades" />
     <MESSAGE value="requerments.txt" />
-    <option name="LAST_COMMIT_MESSAGE" value="requerments.txt" />
+    <MESSAGE value="design" />
+    <option name="LAST_COMMIT_MESSAGE" value="design" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tickets_handler/beeline_parser/manager.py</url>
+          <line>447</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tickets_handler/views.py</url>
+          <line>13</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="all_assigned_tickets" />

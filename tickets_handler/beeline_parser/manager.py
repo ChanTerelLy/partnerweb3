@@ -1,15 +1,17 @@
-import requests
-import lxml.html
-from datetime import datetime as dt
-from datetime import date as date
-from openpyxl import Workbook
-import re
 import json
-import urllib.parse
+import re
 import time
+import urllib.parse
+from datetime import date as date
+from datetime import datetime as dt
+
+import lxml.html
+import requests
+from openpyxl import Workbook
+
 from tickets_handler.beeline_parser.date_func import current_date, last_day_current_month, url_formate_date, \
     formate_date_schedule, \
-    delta_current_month, range_current_month, current_year_date, dmYHM_to_date, today
+    delta_current_month, range_current_month, current_year_date, dmYHM_to_date, today, dmY_to_date
 from tickets_handler.beeline_parser.text_func import find_asssigned_date, find_dns, phone9, encode
 
 
@@ -441,7 +443,7 @@ class NewDesign(OldDesign):
         count = 0
         for ticket in tickets:
             try:
-                count += 1 if (ticket.type_id == 1) and (dmYHM_to_date(ticket.date) == today()) else 0
+                count += 1 if (ticket.type_id == 1) and (dmY_to_date(ticket.date) == today()) else 0
             except:
                 continue
         return count
