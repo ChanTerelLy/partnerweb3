@@ -58,5 +58,8 @@ def auth(request):
             return redirect('main_page_tickets')
     return render(request, 'beeline_html/login_beeline.html', {'form': form})
 
-def telegram_news(requser):
-    return render(requser, 'beeline_html/telegram_news.html')
+def telegram_news(request):
+    return render(request, 'beeline_html/telegram_news.html')
+
+def redirect_auth(request):
+    return redirect('/login_beeline/')
