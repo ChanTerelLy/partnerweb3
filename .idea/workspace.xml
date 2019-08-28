@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f1c6bf8-20d3-48d9-8b24-edf1263d533c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/django.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/django.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tickets_handler/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tickets_handler/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -496,7 +487,14 @@
       <option name="project" value="LOCAL" />
       <updated>1566732052565</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="redirect login">
+      <created>1566898925451</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1566898925451</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -558,7 +556,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/beeline-django" />
     </ignored-roots>
-    <MESSAGE value="work version with bootstrap" />
     <MESSAGE value="2 branch, beeline and boards" />
     <MESSAGE value="beeline project" />
     <MESSAGE value="work station, half widget" />
@@ -583,7 +580,8 @@
     <MESSAGE value="requerments.txt" />
     <MESSAGE value="design" />
     <MESSAGE value="datetime problems fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="datetime problems fix" />
+    <MESSAGE value="redirect login" />
+    <option name="LAST_COMMIT_MESSAGE" value="redirect login" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
