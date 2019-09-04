@@ -4,7 +4,7 @@ import time
 import urllib.parse
 from datetime import date as date
 from datetime import datetime as dt
-
+from . import system
 import lxml.html
 import requests
 from openpyxl import Workbook
@@ -370,18 +370,20 @@ class NewDesign(OldDesign):
                                                "house_id/450541"
         self.session.post('https://partnerweb.beeline.ru/restapi/tickets/', json.dumps(data))
 
+    @system.my_timer
     def assigned_tickets(self, tickets):
         asig_ts, asig_ts_today  = [], 0
         for ticket in tickets:
             if (ticket.type_id == 1) and ticket.allow_schedule == False and ticket.allow_change_status == True:
                 as_t = list([c['date'] for c in self.ticket_info(ticket.id).comments if find_asssigned_date(c['text'])])
                 ticket.assigned_date = as_t[0]
-                if dmYHM_to_date(ticket.assigned_date) == dt.now():
+                if dmYHM_to_date(ticket.assigned_date) == dt.now().date():
                     asig_ts_today += 1
                 asig_ts.append(ticket)
 
         return asig_ts, asig_ts_today
 
+    @system.my_timer
     def switched_tickets(self, tickets):
         sw_ts, sw_ts_today = [], 0
         last, cur_month, cur_year = last_day_current_month()
@@ -393,6 +395,7 @@ class NewDesign(OldDesign):
                     sw_ts.append(t)
         return sw_ts, sw_ts_today
 
+    @system.my_timer
     def tickets(self, city='', dateFrom=False, dateTo=False, number='', phone='',
                 shop='', status='', pages=8):
         ticket_dict, tickets = self.base_ticket_info(city, dateFrom, dateTo, number, pages, phone, shop, status)
@@ -415,6 +418,7 @@ class NewDesign(OldDesign):
                 tickets.append(ticket)
         return tickets
 
+    @system.my_timer
     def base_ticket_info(self, city, dateFrom, dateTo, number, pages, phone, shop, status):
         if not dateFrom and not dateTo:
             dateFrom, dateTo = current_year_date()
@@ -471,10 +475,3 @@ class NewDesign(OldDesign):
                            'Позвонить клиенту(срочные)', 'Новая', 'Резерв', 'Принято в обзвон')
         name = list([w for w in name.split() if not w.isdigit()])[0]
         return True if re.search(name, r'|'.join(ticket_patterns)) else False
-
-
-
-if __name__ == "__main__":
-    start = time.time()
-    end = time.time()
-    print(end - start)
