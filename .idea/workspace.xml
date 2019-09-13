@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1f1c6bf8-20d3-48d9-8b24-edf1263d533c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="1f1c6bf8-20d3-48d9-8b24-edf1263d533c" name="Default Changelist" comment="num to name exchanger">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/django.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/django.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tickets_handler/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tickets_handler/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/tickets_handler/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -40,17 +35,6 @@
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
         <item name="db" type="feb32156:DbDataSourceImpl" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="db" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="db" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="main: schema" type="981a47c2:SqliteImplModel$Schema" />
       </path>
     </expand>
     <select />
@@ -97,11 +81,12 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="DatabaseDriversLRU" value="postgresql" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="database.console.LAST_STATE" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/partnerweb_project/settings.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../FronEndProjects/rock-scizor-paper" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
@@ -138,9 +123,6 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.manage">
-    <configuration name="global_search.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/partnerweb3/templates/beeline_html/global_search.html">
-      <method v="2" />
-    </configuration>
     <configuration name="manage" type="PythonConfigurationType" factoryName="Python">
       <module name="django" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -156,6 +138,28 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/manage.py" />
       <option name="PARAMETERS" value="runserver" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="manager" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="django" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tickets_handler/beeline_parser" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tickets_handler/beeline_parser/manager.py" />
+      <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -223,6 +227,11 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.manager" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -285,6 +294,10 @@
       <workItem from="1566713039960" duration="1671000" />
       <workItem from="1566734032123" duration="124000" />
       <workItem from="1566734689444" duration="539000" />
+      <workItem from="1567593405257" duration="3139000" />
+      <workItem from="1568209017543" duration="2398000" />
+      <workItem from="1568242922433" duration="1945000" />
+      <workItem from="1568334390109" duration="11199000" />
     </task>
     <task id="LOCAL-00001" summary="set up blog">
       <created>1544994845106</created>
@@ -496,11 +509,22 @@
       <option name="project" value="LOCAL" />
       <updated>1566732052565</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="system utils&#10;templates cdn add">
+      <created>1567594931010</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1567594931010</updated>
+    </task>
+    <task id="LOCAL-00032" summary="num to name exchanger">
+      <created>1568345957912</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1568345957912</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
-  </component>
-  <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="663000" />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -558,8 +582,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/beeline-django" />
     </ignored-roots>
-    <MESSAGE value="work version with bootstrap" />
-    <MESSAGE value="2 branch, beeline and boards" />
     <MESSAGE value="beeline project" />
     <MESSAGE value="work station, half widget" />
     <MESSAGE value="boards full work, beeline normal table" />
@@ -575,7 +597,6 @@
     <MESSAGE value="switched tickets, add function and view" />
     <MESSAGE value="long auth, counter assigned and swithed on, dns house" />
     <MESSAGE value="button changes" />
-    <MESSAGE value="-" />
     <MESSAGE value="refactor exchanges" />
     <MESSAGE value="fix bugs" />
     <MESSAGE value="assign today ND add" />
@@ -583,15 +604,18 @@
     <MESSAGE value="requerments.txt" />
     <MESSAGE value="design" />
     <MESSAGE value="datetime problems fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="datetime problems fix" />
+    <MESSAGE value="-" />
+    <MESSAGE value="system utils&#10;templates cdn add" />
+    <MESSAGE value="num to name exchanger" />
+    <option name="LAST_COMMIT_MESSAGE" value="num to name exchanger" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/tickets_handler/views.py</url>
-          <line>13</line>
-          <option name="timeStamp" value="4" />
+          <url>file://$PROJECT_DIR$/tickets_handler/models.py</url>
+          <line>12</line>
+          <option name="timeStamp" value="18" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -601,6 +625,10 @@
         <watch expression="i" />
       </configuration>
     </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/partnerweb3$manage.coverage" NAME="manage Coverage Results" MODIFIED="1568345471734" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/partnerweb3$manager.coverage" NAME="manager Coverage Results" MODIFIED="1568345330918" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tickets_handler/beeline_parser" />
   </component>
   <component name="masterDetails">
     <states>
