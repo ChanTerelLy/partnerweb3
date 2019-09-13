@@ -4,11 +4,11 @@ import time
 import urllib.parse
 from datetime import date as date
 from datetime import datetime as dt
-from . import system
+from tickets_handler.beeline_parser import system
 import lxml.html
 import requests
 from openpyxl import Workbook
-
+from bs4 import BeautifulSoup
 from tickets_handler.beeline_parser.date_func import current_date, last_day_current_month, url_formate_date, \
     formate_date_schedule, \
     delta_current_month, range_current_month, current_year_date, dmYHM_to_date, today, dmY_to_date
@@ -16,9 +16,6 @@ from tickets_handler.beeline_parser.text_func import find_asssigned_date, find_d
 
 
 class Auth:
-    """This class not use anymore, only as parent class and support old fithes.
-     Partnerweb developer fix NewDesign, parse old version partnerweb is not need anymore"""
-
     def __init__(self, login, workercode, password):
         self.session = requests.Session()
         self.data = {}
@@ -73,6 +70,8 @@ class Ticket:
 
 
 class OldDesign(Auth):
+    """This class not use anymore, only as parent class and support old fithes.
+     Partnerweb developer fix NewDesign, parse old version partnerweb is not need anymore"""
 
     def ticket_info(self, id):
         g = self.session.get(f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{id}').json()
@@ -475,3 +474,34 @@ class NewDesign(OldDesign):
                            'Позвонить клиенту(срочные)', 'Новая', 'Резерв', 'Принято в обзвон')
         name = list([w for w in name.split() if not w.isdigit()])[0]
         return True if re.search(name, r'|'.join(ticket_patterns)) else False
+
+class Worker:
+    def __init__(self, name, number, master, status, url):
+        self.name = name
+        self.number = number
+        self.master = master
+        self.status = status
+        self.url = url
+
+    @staticmethod
+    def get_workers(auth):
+        workers = []
+        workers_html = auth.session.get('https://partnerweb.beeline.ru/partner/workers/').text
+        soup = BeautifulSoup(workers_html, 'lxml')
+        table_body = soup.find('table', attrs={'class':'form-table'})
+        rows = table_body.find_all('tr')
+        for row in rows:
+            cols=row.find_all('td')
+            cols = [x.text.strip() for x in cols]
+            a = 'https://partnerweb.beeline.ru' + row.find('a').get('href') if row.find('a') is not None else []
+            if len(cols) != 0:
+                cols[3] = True if cols[3] == 'Включен' else False
+                worker = Worker(cols[0], cols[1], cols[2], cols[3], a)
+                workers.append(worker)
+        return workers
+
+
+if __name__ == '__main__':
+    auth = Auth('G800-37', 'Хоменко', '1604')
+    for worker in Worker.get_workers(auth):
+        print(worker.url)
