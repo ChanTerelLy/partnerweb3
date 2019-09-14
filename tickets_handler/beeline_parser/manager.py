@@ -396,7 +396,7 @@ class NewDesign(OldDesign):
 
     @system.my_timer
     def tickets(self, city='', dateFrom=False, dateTo=False, number='', phone='',
-                shop='', status='', pages=8):
+                shop='', status='', pages=14):
         ticket_dict, tickets = self.base_ticket_info(city, dateFrom, dateTo, number, pages, phone, shop, status)
         for parse_tickets in range(1, len(ticket_dict) + 1):
             for attr in ticket_dict[parse_tickets]:
