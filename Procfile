@@ -1,1 +1,1 @@
-web: gunicorn partnerweb_project.wsgi --timeout 180 --log-file -
+web: gunicorn partnerweb_project.wsgi --timeout 1800 --log-file -
