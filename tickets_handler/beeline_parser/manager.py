@@ -1,3 +1,5 @@
+from gevent import monkey as curious_george
+curious_george.patch_all(thread=False, select=False)
 import json
 import re
 import time
@@ -13,7 +15,7 @@ from tickets_handler.beeline_parser.date_func import current_date, last_day_curr
     formate_date_schedule, \
     delta_current_month, range_current_month, current_year_date, dmYHM_to_date, today, dmY_to_date
 from tickets_handler.beeline_parser.text_func import find_asssigned_date, find_dns, phone9, encode
-
+import grequests
 
 class Auth:
     def __init__(self, login, workercode, password):
@@ -322,7 +324,6 @@ class Adress(OldDesign):
     def get_homes(self, street_id):
         return self.session.get('https://partnerweb.beeline.ru/ngapi/find_by_house/' + str(street_id) + '/').json()
 
-
 class NewDesign(OldDesign):
 
     def get_gp(self, num_house):
@@ -396,10 +397,10 @@ class NewDesign(OldDesign):
 
     @system.my_timer
     def tickets(self, city='', dateFrom=False, dateTo=False, number='', phone='',
-                shop='', status='', pages=14):
-        ticket_dict, tickets = self.base_ticket_info(city, dateFrom, dateTo, number, pages, phone, shop, status)
-        for parse_tickets in range(1, len(ticket_dict) + 1):
-            for attr in ticket_dict[parse_tickets]:
+                shop='', status='', pages=20):
+        ticket_dict, tickets = self.async_base_tickets(city, dateFrom, dateTo, number, pages, phone, shop, status)
+        for key, item in ticket_dict.items():
+            for attr in item:
                 attr['comments'] = attr.get('comments')
                 attr['services'] = attr.get('services')
                 attr['shop'] = attr.get('shop')
@@ -475,6 +476,22 @@ class NewDesign(OldDesign):
         name = list([w for w in name.split() if not w.isdigit()])[0]
         return True if re.search(name, r'|'.join(ticket_patterns)) else False
 
+    @system.my_timer
+    def async_base_tickets(self, city, dateFrom, dateTo, number, pages, phone, shop, status):
+            if not dateFrom and not dateTo:
+                dateFrom, dateTo = current_year_date()
+            ticket_dict, tickets, urls = {}, [], []
+            for pageCount in range(1, pages + 1):
+                url = 'https://partnerweb.beeline.ru/restapi/tickets/?' + \
+                      urllib.parse.urlencode(dict(city=city, dateFrom=dateFrom, dateTo=dateTo, number=number,
+                                                  page=pageCount, phone=phone, shop=shop, status=status))
+                urls.append(url)
+            s = self.session
+            rc = [grequests.get(url, session=s) for url in urls]
+            for index, response in enumerate(grequests.map(rc)):
+                ticket_dict[index] = response.json()
+            return ticket_dict, tickets
+
 class Worker:
     def __init__(self, name, number, master, status, url):
         self.name = name
@@ -502,6 +519,7 @@ class Worker:
 
 
 if __name__ == '__main__':
-    auth = Auth('G800-37', 'Хоменко', '1604')
-    for worker in Worker.get_workers(auth):
-        print(worker.url)
+    auth = NewDesign('G800-37', '9642907288', 'roma456')
+    auth.async_base_tickets(city='', dateFrom=False, dateTo=False, number='', phone='',
+                shop='', status='', pages=14)
+    print('sdaf')

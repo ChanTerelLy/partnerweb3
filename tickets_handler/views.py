@@ -3,8 +3,9 @@ from django.shortcuts import render, redirect
 from .form import AuthForm, DateTimeForm
 from .models import Workers as WorkersModel
 from django.http import HttpResponse
+from tickets_handler.beeline_parser import system
 
-
+@system.my_timer
 def main_page(request):
     auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
     all_assigned_tickets, all_assigned_today, all_call_for_today, all_switched_on_tickets,\
@@ -17,15 +18,6 @@ def main_page(request):
     all_assigned_today += assigned_today
     all_switched_on_today += switched_on_today
     all_created_today_tickets += created_today_tickets
-    # for ticket in all_assigned_tickets:
-    #     worker = WorkersModel.objects.get(number=ticket.operator)
-    #     ticket.operator = worker.name
-    # for ticket in all_call_for_today:
-    #     worker = WorkersModel.objects.get(number=ticket.operator)
-    #     ticket.operator = worker.name
-    # for ticket in all_switched_on_tickets:
-    #     worker = WorkersModel.objects.get(number=ticket.operator)
-    #     ticket.operator = worker.name
     return render(request, 'beeline_html/main_page_tickets.html',
                   {'assigned_tickets': WorkersModel.replace_num_worker(all_assigned_tickets),
                    'call_for_today': WorkersModel.replace_num_worker(all_call_for_today),
