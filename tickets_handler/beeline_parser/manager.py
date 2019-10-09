@@ -1,5 +1,3 @@
-from gevent import monkey as curious_george
-curious_george.patch_all(thread=False, select=False)
 import json
 import re
 import time
@@ -335,14 +333,25 @@ class NewDesign(OldDesign):
 
     def ticket_info(self, id):
         attr = self.session.get(f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{id}').json()
-        ticket = Ticket(address=attr['address'], address_id=attr['address_id'],
-                        allow_change_status=attr['allow_change_status'],
-                        allow_schedule=attr['allow_schedule'], call_time=attr['call_time'], comments=attr['comments'],
-                        date=attr['date'], id=attr['id'], name=attr['name'], number=attr['number'],
-                        operator=attr['operator'], phones=attr['phones'],
-                        services=attr['services'], shop=attr['shop'], shop_id=attr['shop_id'], status=attr['status'],
-                        ticket_paired=attr['ticket_paired'], type=attr['type'], type_id=attr['type_id'])
+        ticket = self.ticket_instance_info(attr)
         return ticket
+
+    def ticket_instance_info(self, attr):
+        return Ticket(address=attr['address'], address_id=attr['address_id'],
+               allow_change_status=attr['allow_change_status'],
+               allow_schedule=attr['allow_schedule'], call_time=attr['call_time'], comments=attr['comments'],
+               date=attr['date'], id=attr['id'], name=attr['name'], number=attr['number'],
+               operator=attr['operator'], phones=attr['phones'],
+               services=attr['services'], shop=attr['shop'], shop_id=attr['shop_id'], status=attr['status'],
+               ticket_paired=attr['ticket_paired'], type=attr['type'], type_id=attr['type_id'])
+
+
+    def assync_get_ticket(self, urls):
+        ticket_dict = {}
+        rc = [grequests.get(url, session=self.session) for url in urls]
+        for index, response in enumerate(grequests.map(rc)):
+            ticket_dict[index] = response.json()
+        return ticket_dict
 
     def fraud_check(self, flat=0, num_house=0):
         flat_session = self.session.get(
@@ -372,14 +381,24 @@ class NewDesign(OldDesign):
 
     @system.my_timer
     def assigned_tickets(self, tickets):
-        asig_ts, asig_ts_today  = [], 0
+        asig_ts, asig_ts_today, urls  = [], 0, []
         for ticket in tickets:
             if (ticket.type_id == 1) and ticket.allow_schedule == False and ticket.allow_change_status == True:
-                as_t = list([c['date'] for c in self.ticket_info(ticket.id).comments if find_asssigned_date(c['text'])])
-                ticket.assigned_date = as_t[0]
-                if dmYHM_to_date(ticket.assigned_date) == dt.now().date():
-                    asig_ts_today += 1
+                    urls.append(f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{ticket.id}')
+        parse_tickets = self.assync_get_ticket(urls)
+        a_t = [self.ticket_instance_info(attr) for attr in parse_tickets]
+        for ticket in a_t:
+            as_t = list([c['date'] for c in ticket.comments if find_asssigned_date(c['text'])])
+            ticket.assigned_date = as_t[0]
+            if dmYHM_to_date(ticket.assigned_date) == dt.now().date():
+                asig_ts_today += 1
                 asig_ts.append(ticket)
+
+                # as_t = list([c['date'] for c in self.ticket_info(ticket.id).comments if find_asssigned_date(c['text'])])
+                # ticket.assigned_date = as_t[0]
+                # if dmYHM_to_date(ticket.assigned_date) == dt.now().date():
+                #     asig_ts_today += 1
+                #     asig_ts.append(ticket)
 
         return asig_ts, asig_ts_today
 
@@ -480,16 +499,13 @@ class NewDesign(OldDesign):
     def async_base_tickets(self, city, dateFrom, dateTo, number, pages, phone, shop, status):
             if not dateFrom and not dateTo:
                 dateFrom, dateTo = current_year_date()
-            ticket_dict, tickets, urls = {}, [], []
-            for pageCount in range(1, pages + 1):
+            tickets, urls = [], []
+            for pages in range(1, pages + 1):
                 url = 'https://partnerweb.beeline.ru/restapi/tickets/?' + \
                       urllib.parse.urlencode(dict(city=city, dateFrom=dateFrom, dateTo=dateTo, number=number,
-                                                  page=pageCount, phone=phone, shop=shop, status=status))
+                                                  page=pages, phone=phone, shop=shop, status=status))
                 urls.append(url)
-            s = self.session
-            rc = [grequests.get(url, session=s) for url in urls]
-            for index, response in enumerate(grequests.map(rc)):
-                ticket_dict[index] = response.json()
+            ticket_dict = self.assync_get_ticket(urls)
             return ticket_dict, tickets
 
 class Worker:
@@ -522,4 +538,3 @@ if __name__ == '__main__':
     auth = NewDesign('G800-37', '9642907288', 'roma456')
     auth.async_base_tickets(city='', dateFrom=False, dateTo=False, number='', phone='',
                 shop='', status='', pages=14)
-    print('sdaf')
