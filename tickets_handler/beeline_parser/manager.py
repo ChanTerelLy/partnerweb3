@@ -427,7 +427,7 @@ class NewDesign(OldDesign):
 
     @system.my_timer
     def tickets(self, city='', dateFrom=False, dateTo=False, number='', phone='',
-                shop='', status='', pages=20):
+                shop='', status='', pages=40):
         ticket_dict, tickets = self.async_base_tickets(city, dateFrom, dateTo, number, pages, phone, shop, status)
         for key, item in ticket_dict.items():
             for attr in item:
