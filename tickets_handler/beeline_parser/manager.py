@@ -15,6 +15,7 @@ from tickets_handler.beeline_parser.date_func import current_date, last_day_curr
 from tickets_handler.beeline_parser.text_func import find_asssigned_date, find_dns, phone9, encode
 import grequests
 
+
 class Auth:
     def __init__(self, login, workercode, password):
         self.session = requests.Session()
@@ -63,7 +64,7 @@ class Ticket:
         self.type_id = type_id  # 286
         self.assigned_date = assigned_date
         self.dns = dns
-        self.statuses = statuses # [0: {name: "Ждем звонка клиента", id: 16}]
+        self.statuses = statuses  # [0: {name: "Ждем звонка клиента", id: 16}]
 
     def __repr__(self):
         return str(self.__dict__)
@@ -106,7 +107,10 @@ class OldDesign(Auth):
         num_house = dic['t_address']['h']['h_dealer']['id']
         schedule_session = self.session.get('https://partnerweb.beeline.ru/restapi/schedule/get_day_schedule/'
                                             + str(num_house) + '?' + str(urllib.parse.urlencode({'day': str(day),
-                                            'month': str(cur_month),'year': str(cur_year)}))).json()
+                                                                                                 'month': str(
+                                                                                                     cur_month),
+                                                                                                 'year': str(
+                                                                                                     cur_year)}))).json()
         get_free_time = schedule_session['data']['classic_schedule']
         for i in get_free_time:
             print(formate_date_schedule(i['intbegin']), '-', formate_date_schedule(i['intend']))
@@ -322,6 +326,7 @@ class Adress(OldDesign):
     def get_homes(self, street_id):
         return self.session.get('https://partnerweb.beeline.ru/ngapi/find_by_house/' + str(street_id) + '/').json()
 
+
 class NewDesign(OldDesign):
 
     def get_gp(self, num_house):
@@ -337,14 +342,21 @@ class NewDesign(OldDesign):
         return ticket
 
     def ticket_instance_info(self, attr):
+        phone1, phone2, phone3 = self.get_phone123(attr)
         return Ticket(address=attr['address'], address_id=attr['address_id'],
-               allow_change_status=attr['allow_change_status'],
-               allow_schedule=attr['allow_schedule'], call_time=attr['call_time'], comments=attr['comments'],
-               date=attr['date'], id=attr['id'], name=attr['name'], number=attr['number'],
-               operator=attr['operator'], phones=attr['phones'],
-               services=attr['services'], shop=attr['shop'], shop_id=attr['shop_id'], status=attr['status'],
-               ticket_paired=attr['ticket_paired'], type=attr['type'], type_id=attr['type_id'])
+                      allow_change_status=attr['allow_change_status'],
+                      allow_schedule=attr['allow_schedule'], call_time=attr['call_time'], comments=attr['comments'],
+                      date=attr['date'], id=attr['id'], name=attr['name'], number=attr['number'],
+                      operator=attr['operator'], phones=attr['phones'],
+                      services=attr['services'], shop=attr['shop'], shop_id=attr['shop_id'], status=attr['status'],
+                      ticket_paired=attr['ticket_paired'], type=attr['type'], type_id=attr['type_id'], phone1=phone1,
+                      phone2=phone2, phone3=phone3)
 
+    def get_phone123(self, attr):
+        phone1 = attr['phones'][0]['phone'] if len(attr['phones']) else ''
+        phone2 = attr['phones'][1]['phone'] if 1 < len(attr['phones']) else ''
+        phone3 = attr['phones'][2]['phone'] if 2 < len(attr['phones']) else ''
+        return phone1, phone2, phone3
 
     def assync_get_ticket(self, urls):
         ticket_dict = {}
@@ -357,7 +369,6 @@ class NewDesign(OldDesign):
         flat_session = self.session.get(
             f'https://partnerweb.beeline.ru/restapi/tickets/checkfraud/{num_house}/{flat}').json()
         return flat_session['metadata']['message'] if flat_session['metadata']['status'] == 40002 else 'ОК!'
-
 
     def search_by(self, phone, city='', dateFrom=False, dateTo=False, number='', shop='', status='', pages=None):
         tickets = self.tickets(city=city, dateFrom=dateFrom, dateTo=dateTo, number=number, phone=phone,
@@ -381,10 +392,10 @@ class NewDesign(OldDesign):
 
     @system.my_timer
     def assigned_tickets(self, tickets):
-        asig_ts, asig_ts_today, urls  = [], 0, []
+        asig_ts, asig_ts_today, urls = [], 0, []
         for ticket in tickets:
             if (ticket.type_id == 1) and ticket.allow_schedule == False and ticket.allow_change_status == True:
-                    urls.append(f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{ticket.id}')
+                urls.append(f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{ticket.id}')
         parse_tickets = self.assync_get_ticket(urls)
         a_t = [self.ticket_instance_info(value) for key, value in parse_tickets.items()]
         for ticket in a_t:
@@ -424,15 +435,16 @@ class NewDesign(OldDesign):
                 attr['services'] = attr.get('services')
                 attr['shop'] = attr.get('shop')
                 attr['shop_id'] = attr.get('shop_id')
-                phone1 = attr['phones'][0]['phone'] if len(attr['phones']) else ''
-                phone2 = attr['phones'][1]['phone'] if 1 < len(attr['phones']) else ''
-                phone3 = attr['phones'][2]['phone'] if 2 < len(attr['phones']) else ''
+                phone1, phone2, phone3 = self.get_phone123(attr)
                 ticket = Ticket(address=attr['address'], address_id=attr['address_id'],
-                                allow_change_status=attr['allow_change_status'],allow_schedule=attr['allow_schedule'],
-                                call_time=attr['call_time'], comments=attr['comments'], date=attr['date'], id=attr['id'],
-                                name=attr['name'], number=attr['number'], operator=attr['operator'],phones=attr['phones'],
-                                phone1=phone1, phone2=phone2, phone3=phone3,services=attr['services'], shop=attr['shop'],
-                                shop_id=attr['shop_id'], status=attr['status'],ticket_paired=attr['ticket_paired'],
+                                allow_change_status=attr['allow_change_status'], allow_schedule=attr['allow_schedule'],
+                                call_time=attr['call_time'], comments=attr['comments'], date=attr['date'],
+                                id=attr['id'],
+                                name=attr['name'], number=attr['number'], operator=attr['operator'],
+                                phones=attr['phones'],
+                                phone1=phone1, phone2=phone2, phone3=phone3, services=attr['services'],
+                                shop=attr['shop'],
+                                shop_id=attr['shop_id'], status=attr['status'], ticket_paired=attr['ticket_paired'],
                                 type=attr['type'], type_id=attr['type_id'])
                 tickets.append(ticket)
         return tickets
@@ -444,8 +456,8 @@ class NewDesign(OldDesign):
         ticket_dict, tickets = {}, []
         for pageCount in range(1, pages + 1):
             url = urllib.parse.urlencode(dict(city=city, dateFrom=dateFrom, dateTo=dateTo, number=number,
-                                              page=pageCount,phone=phone, shop=shop, status=status))
-            new_design_ticket_info = self.session.get('https://partnerweb.beeline.ru/restapi/tickets/?'+ url).json()
+                                              page=pageCount, phone=phone, shop=shop, status=status))
+            new_design_ticket_info = self.session.get('https://partnerweb.beeline.ru/restapi/tickets/?' + url).json()
             if len(new_design_ticket_info) == 0:
                 break
             else:
@@ -477,7 +489,7 @@ class NewDesign(OldDesign):
         call_today_tickets = self.call_today_tickets(tickets)
         switched_tickets, switched_on_tickets_today = self.switched_tickets(tickets)
         created_today_tickets = self.count_created_today(tickets)
-        return assigned_tickets, assigned_tickets_today, call_today_tickets, switched_tickets,\
+        return assigned_tickets, assigned_tickets_today, call_today_tickets, switched_tickets, \
                switched_on_tickets_today, created_today_tickets
 
     def global_search(self):
@@ -488,7 +500,6 @@ class NewDesign(OldDesign):
         name = list([w for w in name.split() if not w.isdigit()])[0]
         return True if re.search(name, ''.join(ticket_patterns)) else False
 
-
     def define_call_ts(self, name):
         ticket_patterns = ('Позвонить клиенту', 'Ждем звонка клиента',
                            'Позвонить клиенту(срочные)', 'Новая', 'Резерв', 'Принято в обзвон')
@@ -497,16 +508,17 @@ class NewDesign(OldDesign):
 
     @system.my_timer
     def async_base_tickets(self, city, dateFrom, dateTo, number, pages, phone, shop, status):
-            if not dateFrom and not dateTo:
-                dateFrom, dateTo = current_year_date()
-            tickets, urls = [], []
-            for pages in range(1, pages + 1):
-                url = 'https://partnerweb.beeline.ru/restapi/tickets/?' + \
-                      urllib.parse.urlencode(dict(city=city, dateFrom=dateFrom, dateTo=dateTo, number=number,
-                                                  page=pages, phone=phone, shop=shop, status=status))
-                urls.append(url)
-            ticket_dict = self.assync_get_ticket(urls)
-            return ticket_dict, tickets
+        if not dateFrom and not dateTo:
+            dateFrom, dateTo = current_year_date()
+        tickets, urls = [], []
+        for pages in range(1, pages + 1):
+            url = 'https://partnerweb.beeline.ru/restapi/tickets/?' + \
+                  urllib.parse.urlencode(dict(city=city, dateFrom=dateFrom, dateTo=dateTo, number=number,
+                                              page=pages, phone=phone, shop=shop, status=status))
+            urls.append(url)
+        ticket_dict = self.assync_get_ticket(urls)
+        return ticket_dict, tickets
+
 
 class Worker:
     def __init__(self, name, number, master, status, url):
@@ -521,10 +533,10 @@ class Worker:
         workers = []
         workers_html = auth.session.get('https://partnerweb.beeline.ru/partner/workers/').text
         soup = BeautifulSoup(workers_html, 'lxml')
-        table_body = soup.find('table', attrs={'class':'form-table'})
+        table_body = soup.find('table', attrs={'class': 'form-table'})
         rows = table_body.find_all('tr')
         for row in rows:
-            cols=row.find_all('td')
+            cols = row.find_all('td')
             cols = [x.text.strip() for x in cols]
             a = 'https://partnerweb.beeline.ru' + row.find('a').get('href') if row.find('a') is not None else []
             if len(cols) != 0:
@@ -537,4 +549,4 @@ class Worker:
 if __name__ == '__main__':
     auth = NewDesign('G800-37', '9642907288', 'roma456')
     auth.async_base_tickets(city='', dateFrom=False, dateTo=False, number='', phone='',
-                shop='', status='', pages=14)
+                            shop='', status='', pages=14)
