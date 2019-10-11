@@ -70,7 +70,7 @@ class Ticket:
 
 
 class OldDesign(Auth):
-    """This class not use anymore, only as parent class and support old fithes.
+    """This class not use anymore, only as parent class and support old fitches.
      Partnerweb developer fix NewDesign, parse old version partnerweb is not need anymore"""
 
     def ticket_info(self, id):
@@ -386,7 +386,7 @@ class NewDesign(OldDesign):
             if (ticket.type_id == 1) and ticket.allow_schedule == False and ticket.allow_change_status == True:
                     urls.append(f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{ticket.id}')
         parse_tickets = self.assync_get_ticket(urls)
-        a_t = [self.ticket_instance_info(attr) for attr in parse_tickets]
+        a_t = [self.ticket_instance_info(value) for key, value in parse_tickets.items()]
         for ticket in a_t:
             as_t = list([c['date'] for c in ticket.comments if find_asssigned_date(c['text'])])
             ticket.assigned_date = as_t[0]

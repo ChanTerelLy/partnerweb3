@@ -86,23 +86,23 @@ WSGI_APPLICATION = 'partnerweb_project.wsgi.application'
 # import dj_database_url
 # DATABASES = {'default' : dj_database_url.config(conn_max_age=600, ssl_require=True)}
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd77hjv0hgec2f',
-        'USER': 'goyuyfjghakxil',
-        'PASSWORD': 'f407f08843bcb66f74e6b278f9b9eaf0e68e2023cd1374a9cd281636e3c3bab6',
-        'HOST': 'ec2-54-228-252-67.eu-west-1.compute.amazonaws.com',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'd77hjv0hgec2f',
+#         'USER': 'goyuyfjghakxil',
+#         'PASSWORD': 'f407f08843bcb66f74e6b278f9b9eaf0e68e2023cd1374a9cd281636e3c3bab6',
+#         'HOST': 'ec2-54-228-252-67.eu-west-1.compute.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

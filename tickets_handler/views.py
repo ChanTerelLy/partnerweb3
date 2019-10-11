@@ -4,6 +4,7 @@ from .form import AuthForm, DateTimeForm
 from .models import Workers as WorkersModel
 from django.http import HttpResponse
 from tickets_handler.beeline_parser import system
+import grequests
 
 @system.my_timer
 def main_page(request):
@@ -70,3 +71,22 @@ def update_workers(request):
     return HttpResponse(
         'Done'
     )
+
+def test_page(request):
+    urls = [
+        "www.yandex.ru", "www.google.com"
+    ]
+    resp = (grequests.get(u) for u in urls)
+    responses = grequests.map(resp)
+    a = responses[0].json()
+    b = responses[1].json()
+    fix_1 = a['api']['fixtures']
+    api_2 = b['api']['leagues']
+
+    context = {
+
+        'fix_1': fix_1,
+        'api_2': api_2,
+    }
+
+    return HttpResponse('Fine')
