@@ -47,7 +47,7 @@ def current_year_date():
     return date_first, date_second
 
 def dmYHM_to_date(ticket_call_time):
-        return dt.strptime(ticket_call_time, "%d.%m.%Y %H:%M").date()
+    return dt.strptime(ticket_call_time, "%d.%m.%Y %H:%M").date()
 
 def dmY_to_date(ticket_call_time):
     return dt.strptime(ticket_call_time, "%d.%m.%Y").date()

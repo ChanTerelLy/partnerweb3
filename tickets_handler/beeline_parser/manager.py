@@ -419,7 +419,8 @@ class NewDesign(OldDesign):
         last, cur_month, cur_year = last_day_current_month()
         for t in tickets:
             if t.type_id == 1:
-                if self.definde_satellit_ticket(t.status) and \
+
+                if self.definde_satellit_ticket(t.status) and t.call_time != None and \
                         (date(cur_year, cur_month, 1) <= dmYHM_to_date(t.call_time) <= date(cur_year, cur_month, last)):
                     sw_ts_today += 1 if dmYHM_to_date(t.call_time) == today() else 0
                     sw_ts.append(t)
