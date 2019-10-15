@@ -26,7 +26,6 @@ SECRET_KEY = 'z#_r8@zx)9lb5w0v-u&7lqaq*15=8eub2odjujtk6@lh_+ctei'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-
 ALLOWED_HOSTS = ['*']
 
 LOGOUT_REDIRECT_URL = 'login_beeline'
