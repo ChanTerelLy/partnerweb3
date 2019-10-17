@@ -2,8 +2,8 @@
 import os
 import sys
 # TURN ON FOR DEBUG
-# from gevent import monkey
-# monkey.patch_all()
+#__import__('gevent.monkey').monkey.patch_all()
+
 if __name__ == '__main__':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'partnerweb_project.settings')
     try:
