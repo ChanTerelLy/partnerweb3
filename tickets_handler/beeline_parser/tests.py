@@ -1,5 +1,8 @@
+import requests
 import unittest
+import tracemalloc
 from tickets_handler.beeline_parser import manager
+
 
 class TestAuth(unittest.TestCase):
 
@@ -7,9 +10,9 @@ class TestAuth(unittest.TestCase):
         self.auth_supervisor = manager.Auth('G800-37', 'Хоменко', '1604')
         self.auth_agent = manager.Auth('G800-37', '9642907288', 'roma456')
 
-    # def test_ping_partnerweb(self):
-    #     auth = requests.session().get('https://partnerweb.beeline.ru/#!/').status_code
-    #     self.assertEqual(auth, 200)
+    def test_ping_partnerweb(self):
+        auth = requests.session().get('https://partnerweb.beeline.ru/#!/').status_code
+        self.assertEqual(auth, 200)
 
     def test_auth(self):
         auth_s = self.auth_supervisor.session.get('https://partnerweb.beeline.ru/restapi/auth/current-user/')

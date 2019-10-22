@@ -2,7 +2,8 @@
 import os
 import sys
 # TURN ON FOR DEBUG
-#__import__('gevent.monkey').monkey.patch_all()
+__import__('gevent.monkey').monkey.patch_all()
+from requests.packages.urllib3.util.ssl_ import create_urllib3_context
 
 if __name__ == '__main__':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'partnerweb_project.settings')
