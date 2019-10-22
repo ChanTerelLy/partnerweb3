@@ -9,6 +9,6 @@ urlpatterns = [
     url(r'^telegram_news/', telegram_news, name='telegram_news'),
     url('admin/', admin.site.urls),
     url('update_worker/', update_workers, name='update_workers'),
-    url('test_page', test_page, name='test_page')
-    #url('', redirect_auth, name='redirect_auth'),
+    url('test_page', test_page, name='test_page'),
+    url('', redirect_auth, name='redirect_auth')
 ]
