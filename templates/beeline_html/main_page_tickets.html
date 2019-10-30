@@ -173,14 +173,9 @@
         });
         setInterval(function () {
             $('result_call').html(($('#keywords tr').filter(':visible').length - 1));
-        }, 1000);
-                setInterval(function () {
             $('result_switch').html(($('#switch_table tr').filter(':visible').length - 1));
-        }, 1000);
-                setInterval(function () {
             $('result_assign').html(($('#assign_table tr').filter(':visible').length - 1));
-        }, 1000);
-
+        }, 500);
     });
     </script>
 {% endblock %}
