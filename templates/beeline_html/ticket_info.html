@@ -1,21 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="jumbotron">
+<div class="jumbotron" style="width: 600px">
     <h3>{{ ticket_info.number }}</h3>
+    <hr>
     <h4 style="color: gray; font-size: medium">{{ ticket_info.type }}</h4>
-    <h5>Дата создания: {{ ticket_info.date }}</h5>
-    <h5>Дата статуса: {{ ticket_info.call_time }}</h5>
+    <h5 class="text-success">Дата создания: {{ ticket_info.date }}</h5>
+    <h5 class="text-warning">Дата статуса: {{ ticket_info.call_time }}</h5>
+    <hr>
     <h4>{{ ticket_info.name }}</h4>
     <h5>{{ ticket_info.address }}</h5>
-    <h5>
-        <mark>{{ ticket_info.status }}</mark>
-    </h5>
+    <hr>
+    <h5 class="text-danger">{{ ticket_info.status }}</h5>
+    <hr>
     <h5>Номера телефонов:</h5>
     {% for item in ticket_info.phones %}
     <h5><a href="tel:8{{item.phone}}">{{ item.phone }}</a> {{ item.comment }}</h5>
     {% endfor %}
-    <form method="POST" autocomplete="off" class="post-form" novalidate>
+    <hr>
+    <form style="margin-left: -15px" method="POST" autocomplete="off" class="post-form" style="margin-right: 150px" novalidate>
         {% csrf_token %}
         {% include 'includes/form_beeline.html' %}
         <p></p>
@@ -24,7 +27,7 @@
                 <strong> Внимание, все отправленные данные записываются!</strong>
             </div>
         </div>
-        <button type="submit" class="save btn btn-primary btn-lg" formmethod="post">Отправить</button>
+        <button style="margin-left: 15px" type="submit" class="save btn btn-primary btn-lg" formmethod="post">Отправить</button>
     </form>
 
 </div>

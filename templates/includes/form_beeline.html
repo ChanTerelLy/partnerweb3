@@ -1,10 +1,13 @@
 <div class="container">
-    <ul class="list-group ">
-        {% for field in form %}
-        <li class="list-group-item">{{ field.label_tag }} {{ field }}</li>
-        {% if field.help_text %}
-        <p class="help">{{ field.help_text|safe }}</p>
-        {% endif %}
-    </ul>
+
+    {% for field in form %}
+        <div class="input-group mb-3" style="margin-bottom: -1rem">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1" style="width: 100px">{{ field.label_tag }}</span>
+            </div>
+            {{ field }}
+        </div>
+
     {% endfor %}
+
 </div>
