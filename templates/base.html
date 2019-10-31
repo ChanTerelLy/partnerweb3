@@ -6,13 +6,14 @@
     <title>{% block title %}Partnerweb{% endblock %}</title>
     <link rel="shortcut icon" type="image/png" href="{% static 'image/favicon.ico' %}"/>
     {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
-          integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
+              integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous"/>
     {% endblock %}
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
             crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
             integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
@@ -23,38 +24,35 @@
     <script src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/jquery.tablesorter.js'></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
             integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
 </head>
 <body>
 {% block body %}
-<nav class="navbar navbar-dark bg-dark">
-    <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse"
-            data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false"
-            aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="{% url 'login_beeline' %}">Выйти</a>
+    <nav class="navbar navbar-dark bg-dark">
+        <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse"
+                data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="{% url 'login_beeline' %}">Выйти</a>
 
-    <div class="navbar-collapse collapse" id="navbarColor02" style="">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'main_page_tickets' %}">Главная страница</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'global_search' %}">Все заявки</a>
-            </li>
-        </ul>
+        <div class="navbar-collapse collapse" id="navbarColor02" style="">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'main_page_tickets' %}">Главная страница</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'global_search' %}">Все заявки</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <p></p>
+    <div class="container">
+        {% block content %}
+        {% endblock %}
     </div>
-</nav>
-<p></p>
-<div class="container">
-    {% block content %}
-    {% endblock %}
-</div>
 {% endblock body %}
 </body>
 </html>

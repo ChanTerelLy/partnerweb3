@@ -99,7 +99,7 @@ class OldDesign(Auth):
             comments.append(i)
         return comments
 
-    def schedule(self, ticket_id, day):
+    def schedule(self, ticket_id, year, month, day):
         address_session = self.session.get('https://partnerweb.beeline.ru/restapi/tickets/api/ticket/'
                                            + str(ticket_id) + '?rnduncache=5466&')
         dic = address_session.json()
@@ -108,17 +108,20 @@ class OldDesign(Auth):
         schedule_session = self.session.get('https://partnerweb.beeline.ru/restapi/schedule/get_day_schedule/'
                                             + str(num_house) + '?' + str(urllib.parse.urlencode({'day': str(day),
                                                                                                  'month': str(
-                                                                                                     cur_month),
+                                                                                                     month),
                                                                                                  'year': str(
-                                                                                                     cur_year)}))).json()
+                                                                                                     year)}))).json()
         get_free_time = schedule_session['data']['cells']
         time_intervals = []
-        for cell in get_free_time:
+        datepicker_interval = {}
+        for key, cell in enumerate(get_free_time):
             #if ticket have other tickets in the same interval
             if cell.get('tickets_info'):
                 continue
             time_intervals.append(formate_date_schedule(cell['sc_intbegin']) + '-' + formate_date_schedule(cell['sc_intend']))
-        return {i:time_intervals.count(i) for i in time_intervals}
+            datepicker_interval[key] = formate_date_schedule(cell['sc_intbegin'])
+        count_interval_by_time = {i:time_intervals.count(i) for i in time_intervals}
+        return datepicker_interval
 
     def count_created_today(self, table):
         created_today = 0

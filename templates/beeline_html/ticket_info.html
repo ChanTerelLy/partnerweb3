@@ -1,68 +1,113 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="jumbotron" style="width: 600px">
-    <h3>{{ ticket_info.number }}</h3>
-    <hr>
-    <h4 style="color: gray; font-size: medium">{{ ticket_info.type }}</h4>
-    <h5 class="text-success">Дата создания: {{ ticket_info.date }}</h5>
-    <h5 class="text-warning">Дата статуса: {{ ticket_info.call_time }}</h5>
-    <hr>
-    <h4>{{ ticket_info.name }}</h4>
-    <h5>{{ ticket_info.address }}</h5>
-    <hr>
-    <h5 class="text-danger">{{ ticket_info.status }}</h5>
-    <hr>
-    <h5>Номера телефонов:</h5>
-    {% for item in ticket_info.phones %}
-    <h5><a href="tel:8{{item.phone}}">{{ item.phone }}</a> {{ item.comment }}</h5>
-    {% endfor %}
-    <hr>
-    <form style="margin-left: -15px" method="POST" autocomplete="off" class="post-form" style="margin-right: 150px" novalidate>
-        {% csrf_token %}
-        {% include 'includes/form_beeline.html' %}
-        <p></p>
-        <div class="container">
-            <div class="alert alert-danger">
-                <strong> Внимание, все отправленные данные записываются!</strong>
+    <div style="display: inline">
+
+
+        <div class="jumbotron" style="width: 600px">
+            <h3>{{ ticket_info.number }}</h3>
+            <hr>
+            <h4 style="color: gray; font-size: medium">{{ ticket_info.type }}</h4>
+            <h5 class="text-success">Дата создания: {{ ticket_info.date }}</h5>
+            <h5 class="text-warning">Дата статуса: {{ ticket_info.call_time }}</h5>
+            <hr>
+            <h4>{{ ticket_info.name }}</h4>
+            <h5>{{ ticket_info.address }}</h5>
+            <hr>
+            <h5 class="text-danger">{{ ticket_info.status }}</h5>
+            <hr>
+            <h5>Номера телефонов:</h5>
+            {% for item in ticket_info.phones %}
+                <h5><a href="tel:8{{ item.phone }}">{{ item.phone }}</a> {{ item.comment }}</h5>
+            {% endfor %}
+            <hr>
+            <form style="margin-left: -15px" method="POST" autocomplete="off" class="post-form"
+                  style="margin-right: 150px"
+                  novalidate>
+                {% csrf_token %}
+                {% include 'includes/form_beeline.html' %}
+                <p></p>
+                <div class="container">
+                    <div class="alert alert-danger">
+                        <strong> Внимание, все отправленные данные записываются!</strong>
+                    </div>
+                </div>
+                <button style="margin-left: 15px" type="submit" class="save btn btn-primary btn-lg" formmethod="post">
+                    Отправить
+                </button>
+            </form>
+
+        </div>
+
+        <div style="overflow:hidden;">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div id="datetimepicker12"></div>
+                    </div>
+                </div>
             </div>
         </div>
-        <button style="margin-left: 15px" type="submit" class="save btn btn-primary btn-lg" formmethod="post">Отправить</button>
-    </form>
+    </div>
+    <table class="table table-hover table-bordered">
 
-</div>
+        <thead>
+        <tr>
+            <th>
+                Дата
+            </th>
+            <th>
+                Комментарий
+            </th>
+        </tr>
+        </thead>
+        {% for i in ticket_info.comments %}
+            <tbody>
+            <tr>
+                <td>
+                    {{ i.date }}
+                </td>
+                <td>
+                    {{ i.text | safe }}
+                </td>
+            </tr>
+            </tbody>
+        {% endfor %}
+    </table>
 
-<script type="text/javascript">
-    $('#id_datetime').datetimepicker({
-        format: 'd.m.Y H:i',
-    });
+    <script type="text/javascript">
+        $('#id_datetime').datetimepicker({
+            format: 'd.m.Y H:i',
+        });
+        $(function () {
+            let globalDate = ['00:00'];
+            $('#datetimepicker12').datetimepicker(
+                {
+                    format: 'd.m.Y H:i',
+                    inline: true,
+                    sideBySide: true,
+                    allowTimes: globalDate,
+                    theme: 'dark',
+                    todayButton: true,
+                    timepickerScrollbar: false,
+                    onSelectDate: function () {
+                        $.getJSON("./schedule/2019/11/1", function (result) {
+                            $.each(result, function (i, field) {
+                                alert(field);
+                            });
+                        });
+                        //$.ajax({
 
-
-
-</script>
-
-<table class="table table-hover table-bordered">
-
-    <thead>
-    <tr>
-        <th>
-            Дата
-        </th>
-        <th>
-            Комментарий
-        </th>
-    </tr>
-    </thead>
-    {% for i in ticket_info.comments %}
-    <tbody>
-    <tr>
-        <td>
-            {{ i.date }}
-        </td>
-        <td>
-            {{ i.text | safe}}
-        </td>
-    </tr>
-    </tbody>
-    {% endfor %}
-</table>
+                        //url: './schedule/{{ ticket_info.id }}/2019/11/1',
+                        //success: function (data) {
+                        //    alert(data);
+                        //},
+                        //failure: function (data) {
+                        //    alert('Got an error dude');
+                        //}
+                        //});
+                        //}
+                    }
+                });
+        });
+    </script>
 {% endblock %}

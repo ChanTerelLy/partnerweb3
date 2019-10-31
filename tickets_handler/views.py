@@ -2,7 +2,7 @@ from tickets_handler.beeline_parser.manager import NewDesign,OldDesign, Worker
 from django.shortcuts import render, redirect
 from .form import AuthForm, DateTimeForm
 from .models import Workers as WorkersModel, Installer
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from tickets_handler.beeline_parser import system
 import grequests
 
@@ -95,3 +95,7 @@ def test_page(request):
     }
 
     return HttpResponse('Fine')
+
+def get_schedule(request, ticket, year, month, day):
+    auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
+    return JsonResponse(auth.schedule(ticket, year, month, day), safe=False)
