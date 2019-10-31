@@ -82,8 +82,8 @@ WSGI_APPLICATION = 'partnerweb_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-# import dj_database_url
-# DATABASES = {'default' : dj_database_url.config(conn_max_age=600, ssl_require=True)}
+import dj_database_url
+DATABASES = {'default' : dj_database_url.config(conn_max_age=600, ssl_require=True)}
 
 # DATABASES = {
 #     'default': {
@@ -95,10 +95,10 @@ WSGI_APPLICATION = 'partnerweb_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd77hjv0hgec2f',
-        'USER': 'goyuyfjghakxil',
-        'PASSWORD': 'f407f08843bcb66f74e6b278f9b9eaf0e68e2023cd1374a9cd281636e3c3bab6',
-        'HOST': 'ec2-54-228-252-67.eu-west-1.compute.amazonaws.com',
+        'NAME': 'd6q279gp07k5',
+        'USER': 'bavlobnifkxdcs',
+        'PASSWORD': 'c4b866d5779f9325f9d55c76f292e28fcdfdc927db7f84af059445a3f41a2db7',
+        'HOST': 'ec2-54-75-249-16.eu-west-1.compute.amazonaws.com',
         'PORT': '5432',
     }
 }

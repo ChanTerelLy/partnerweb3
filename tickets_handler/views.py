@@ -1,7 +1,7 @@
 from tickets_handler.beeline_parser.manager import NewDesign,OldDesign, Worker
 from django.shortcuts import render, redirect
 from .form import AuthForm, DateTimeForm
-from .models import Workers as WorkersModel
+from .models import Workers as WorkersModel, Installer
 from django.http import HttpResponse
 from tickets_handler.beeline_parser import system
 import grequests
@@ -71,6 +71,11 @@ def update_workers(request):
     return HttpResponse(
         'Done'
     )
+
+def update_installers(request):
+    homenko = Installer.parse_installers({'login': 'G800-37', 'operator': 'Хоменко', 'password': '1604'})
+    return HttpResponse('Done')
+
 
 def test_page(request):
     urls = [
