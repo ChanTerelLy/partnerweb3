@@ -111,10 +111,14 @@ class OldDesign(Auth):
                                                                                                      cur_month),
                                                                                                  'year': str(
                                                                                                      cur_year)}))).json()
-        get_free_time = schedule_session['data']['classic_schedule']
-        for i in get_free_time:
-            print(formate_date_schedule(i['intbegin']), '-', formate_date_schedule(i['intend']))
-        return num_house
+        get_free_time = schedule_session['data']['cells']
+        time_intervals = []
+        for cell in get_free_time:
+            #if ticket have other tickets in the same interval
+            if cell.get('tickets_info'):
+                continue
+            time_intervals.append(formate_date_schedule(cell['sc_intbegin']) + '-' + formate_date_schedule(cell['sc_intend']))
+        return {i:time_intervals.count(i) for i in time_intervals}
 
     def count_created_today(self, table):
         created_today = 0
@@ -302,7 +306,7 @@ class OldDesign(Auth):
         return tickets
 
 
-class Adress(OldDesign):
+class Address(OldDesign):
     def get_num_house(self, name, id_street=False):
         city, street_name, street_id = self.get_street_info(name)
         homes_json = self.get_homes(street_id)
@@ -326,15 +330,19 @@ class Adress(OldDesign):
     def get_homes(self, street_id):
         return self.session.get('https://partnerweb.beeline.ru/ngapi/find_by_house/' + str(street_id) + '/').json()
 
-
-class NewDesign(OldDesign):
-
     def get_gp(self, num_house):
         gp_session = self.session.get(f'https://partnerweb.beeline.ru/restapi/hd/global_problems_on_house/'
                                       f'{num_house}?rnd=1544255167014').json()
         areas = list([i['description'] for i in gp_session['data']['areas']])
         houses = list([i['description'] for i in gp_session['data']['houses']])
         return areas, houses
+
+    def check_fraud(self, flat=0, num_house=0):
+        flat_session = self.session.get(
+            f'https://partnerweb.beeline.ru/restapi/tickets/checkfraud/{num_house}/{flat}').json()
+        return flat_session['metadata']['message'] if flat_session['metadata']['status'] == 40002 else 'ОК!'
+
+class NewDesign(OldDesign):
 
     def ticket_info(self, id):
         attr = self.session.get(f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{id}').json()
@@ -364,11 +372,6 @@ class NewDesign(OldDesign):
         for index, response in enumerate(grequests.map(rc)):
             ticket_dict[index] = response.json()
         return ticket_dict
-
-    def fraud_check(self, flat=0, num_house=0):
-        flat_session = self.session.get(
-            f'https://partnerweb.beeline.ru/restapi/tickets/checkfraud/{num_house}/{flat}').json()
-        return flat_session['metadata']['message'] if flat_session['metadata']['status'] == 40002 else 'ОК!'
 
     def search_by(self, phone, city='', dateFrom=False, dateTo=False, number='', shop='', status='', pages=None):
         tickets = self.tickets(city=city, dateFrom=dateFrom, dateTo=dateTo, number=number, phone=phone,
@@ -548,6 +551,5 @@ class Worker:
 
 
 if __name__ == '__main__':
-    auth = NewDesign('G800-37', '9642907288', 'roma456')
-    auth.async_base_tickets(city='', dateFrom=False, dateTo=False, number='', phone='',
-                            shop='', status='', pages=14)
+    auth = NewDesign('G800-37', 'Хоменко', '1604').schedule(107682029, 1)
+    print(auth)
