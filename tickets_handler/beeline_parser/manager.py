@@ -106,22 +106,22 @@ class OldDesign(Auth):
         cur_day, cur_month, cur_year = current_date()
         num_house = dic['t_address']['h']['h_dealer']['id']
         schedule_session = self.session.get('https://partnerweb.beeline.ru/restapi/schedule/get_day_schedule/'
-                                            + str(num_house) + '?' + str(urllib.parse.urlencode({'day': str(day),
-                                                                                                 'month': str(
-                                                                                                     month),
-                                                                                                 'year': str(
-                                                                                                     year)}))).json()
+                                            + str(num_house) + '?'
+                                            + str(urllib.parse.urlencode({'day': str(day),
+                                                                          'month': str(
+                                                                              month),
+                                                                          'year': str(
+                                                                              year)}))).json()
         get_free_time = schedule_session['data']['cells']
         time_intervals = []
-        datepicker_interval = {}
         for key, cell in enumerate(get_free_time):
             #if ticket have other tickets in the same interval
             if cell.get('tickets_info'):
                 continue
-            time_intervals.append(formate_date_schedule(cell['sc_intbegin']) + '-' + formate_date_schedule(cell['sc_intend']))
-            datepicker_interval[key] = formate_date_schedule(cell['sc_intbegin'])
+            time_intervals.append(formate_date_schedule(cell['sc_intbegin']))
         count_interval_by_time = {i:time_intervals.count(i) for i in time_intervals}
-        return datepicker_interval
+
+        return count_interval_by_time
 
     def count_created_today(self, table):
         created_today = 0
