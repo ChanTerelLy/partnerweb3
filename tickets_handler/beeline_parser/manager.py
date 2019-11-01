@@ -103,7 +103,6 @@ class OldDesign(Auth):
         address_session = self.session.get('https://partnerweb.beeline.ru/restapi/tickets/api/ticket/'
                                            + str(ticket_id) + '?rnduncache=5466&')
         dic = address_session.json()
-        cur_day, cur_month, cur_year = current_date()
         num_house = dic['t_address']['h']['h_dealer']['id']
         schedule_session = self.session.get('https://partnerweb.beeline.ru/restapi/schedule/get_day_schedule/'
                                             + str(num_house) + '?'
@@ -112,13 +111,13 @@ class OldDesign(Auth):
                                                                               month),
                                                                           'year': str(
                                                                               year)}))).json()
-        get_free_time = schedule_session['data']['cells']
+        get_free_time = schedule_session['data']['classic_schedule']
         time_intervals = []
         for key, cell in enumerate(get_free_time):
             #if ticket have other tickets in the same interval
             if cell.get('tickets_info'):
                 continue
-            time_intervals.append(formate_date_schedule(cell['sc_intbegin']))
+            time_intervals.append(formate_date_schedule(cell['intbegin']))
         count_interval_by_time = {i:time_intervals.count(i) for i in time_intervals}
 
         return count_interval_by_time
