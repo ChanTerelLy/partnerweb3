@@ -309,41 +309,7 @@ class OldDesign(Auth):
         return tickets
 
 
-class Address(OldDesign):
-    def get_num_house(self, name, id_street=False):
-        city, street_name, street_id = self.get_street_info(name)
-        homes_json = self.get_homes(street_id)
-        num_house = self.get_id_house(homes_json)
-        return num_house
 
-    def get_street_info(self, name):
-        streets = self.session.get('https://partnerweb.beeline.ru/ngapi/find_by_city_and_street/'
-                                   '?cityPattern=&streetPattern=' + str(encode(name))).json()
-        for street in streets:
-            if street['s_city'] == 69 or street['s_city'] == 241 or street['s_city'] == 86:
-                return street['city'], street['street_name'], street['s_id']
-
-    def get_id_house(self, homes_json):
-        for street in homes_json:
-            if street['h_status'] == "connected":
-                h_list = street['house_address'].split(',')
-                house_number, house_id = h_list[2], street['h_id']
-                return house_number, house_id
-
-    def get_homes(self, street_id):
-        return self.session.get('https://partnerweb.beeline.ru/ngapi/find_by_house/' + str(street_id) + '/').json()
-
-    def get_gp(self, num_house):
-        gp_session = self.session.get(f'https://partnerweb.beeline.ru/restapi/hd/global_problems_on_house/'
-                                      f'{num_house}?rnd=1544255167014').json()
-        areas = list([i['description'] for i in gp_session['data']['areas']])
-        houses = list([i['description'] for i in gp_session['data']['houses']])
-        return areas, houses
-
-    def check_fraud(self, flat=0, num_house=0):
-        flat_session = self.session.get(
-            f'https://partnerweb.beeline.ru/restapi/tickets/checkfraud/{num_house}/{flat}').json()
-        return flat_session['metadata']['message'] if flat_session['metadata']['status'] == 40002 else 'ОК!'
 
 class NewDesign(OldDesign):
 
@@ -526,6 +492,52 @@ class NewDesign(OldDesign):
         ticket_dict = self.assync_get_ticket(urls)
         return ticket_dict, tickets
 
+    def get_gp_addres_search(self, ticket_id):
+        address_session = self.session.get('https://partnerweb.beeline.ru/restapi/tickets/api/ticket/'
+                                           + str(ticket_id) + '?rnduncache=5466&')
+        dic = address_session.json()
+        num_house = dic['t_address']['h']['h_dealer']['id']
+        gp_session = self.session.get(f'https://partnerweb.beeline.ru/restapi/hd/global_problems_on_house/'
+                                      f'{num_house}?rnd=1572632963408').json()
+        areas = list([i['description'] for i in gp_session['data']['areas']])
+        houses = list([i['description'] for i in gp_session['data']['houses']])
+        return areas, houses
+
+    def get_gp_ticket_serch(self, id):
+        gp_session = self.session.get(f'https://partnerweb.beeline.ru/restapi/schedule/validate/ticket/{id}').json()
+        descriptions = gp_session['global_problems_context']['connection_related_gp_list']
+        return list([i['description'] for i in descriptions])
+
+class Address(NewDesign):
+    def get_num_house(self, name, id_street=False):
+        city, street_name, street_id = self.get_street_info(name)
+        homes_json = self.get_homes(street_id)
+        num_house = self.get_id_house(homes_json)
+        return num_house
+
+    def get_street_info(self, name):
+        streets = self.session.get('https://partnerweb.beeline.ru/ngapi/find_by_city_and_street/'
+                                   '?cityPattern=&streetPattern=' + str(encode(name))).json()
+        for street in streets:
+            if street['s_city'] == 69 or street['s_city'] == 241 or street['s_city'] == 86:
+                return street['city'], street['street_name'], street['s_id']
+
+    def get_id_house(self, homes_json):
+        for street in homes_json:
+            if street['h_status'] == "connected":
+                h_list = street['house_address'].split(',')
+                house_number, house_id = h_list[2], street['h_id']
+                return house_number, house_id
+
+    def get_homes(self, street_id):
+        return self.session.get('https://partnerweb.beeline.ru/ngapi/find_by_house/' + str(street_id) + '/').json()
+
+
+
+    def check_fraud(self, flat=0, num_house=0):
+        flat_session = self.session.get(
+            f'https://partnerweb.beeline.ru/restapi/tickets/checkfraud/{num_house}/{flat}').json()
+        return flat_session['metadata']['message'] if flat_session['metadata']['status'] == 40002 else 'ОК!'
 
 class Worker:
     def __init__(self, name, number, master, status, url):

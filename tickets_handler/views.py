@@ -36,10 +36,12 @@ def ticket_info(request, id):
     auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
     ticket_info = auth.ticket_info(id)
     dateform = DateTimeForm(request.POST)
+    gp_houses = auth.get_gp_ticket_serch(id)
     if request.method == 'POST':
         auth.change_ticket(id, dateform['datetime'].value(),dateform['comments'].value(), dateform['status'].value())
         return redirect('ticket_info', id)
-    return render(request,'beeline_html/ticket_info.html', {'ticket_info':ticket_info, 'form': dateform})
+    return render(request,'beeline_html/ticket_info.html', {'ticket_info':ticket_info, 'form': dateform,
+                                                            'gp_houses': gp_houses})
 
 def auth(request):
     form = AuthForm(request.POST)
