@@ -13,6 +13,7 @@ urlpatterns = [
     url('update_installers', update_installers, name='update_installers'),
     url(r'^info/(?P<ticket>\d+)/schedule/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$', get_schedule, name='schedule'),
     url('street_search', street_search, name='street_search'),
+    url('get_homes_by_street', get_homes_by_street, name='get_homes_by_street'),
     url('fast_house_search', fast_house_search, name='fast_house_search'),
     # url('', redirect_auth, name='redirect_auth'),
 ]

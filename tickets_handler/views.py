@@ -75,7 +75,7 @@ def update_workers(request):
     )
 
 def update_installers(request):
-    homenko = Installer.parse_installers({'login': 'G800-37', 'operator': 'Хоменко', 'password': '1604'})
+    Installer.parse_installers({'login': 'G800-37', 'operator': 'Хоменко', 'password': '1604'})
     return HttpResponse('Done')
 
 
@@ -103,6 +103,12 @@ def street_search(request):
     input = request.GET.get('streetPattern', '')
     print(input)
     return JsonResponse(auth.street_search_type(input), safe=False)
+
+def get_homes_by_street(request):
+    auth = NewDesign('G800-37', 'Хоменко', '1604')
+    house_id = request.GET.get('house_id', '')
+    data = auth.get_houses_by_street(auth.get_homes(house_id))
+    return JsonResponse(data, safe=False)
 
 def fast_house_search(request):
     return render(request, 'beeline_html/fast_house_search.html')

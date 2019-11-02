@@ -313,10 +313,33 @@ class OldDesign(Auth):
                 tickets.append(ticket)
         return tickets
 
+class Address(OldDesign):
+    def get_street_info(self, name):
+        streets = self.session.get('https://partnerweb.beeline.ru/ngapi/find_by_city_and_street/'
+                                   '?cityPattern=&streetPattern=' + str(encode(name))).json()
+        for street in streets:
+            if street['s_city'] == 69 or street['s_city'] == 241 or street['s_city'] == 86:
+                return street['city'], street['street_name'], street['s_id']
+
+    def get_houses_by_street(self, homes_json):
+        homes = []
+        for home in homes_json:
+            if home['h_status'] == "connected":
+                h_list = home['house_address'].split(',')
+                homes.append(h_list[2])
+        return homes
+
+    def get_homes(self, street_id):
+        return self.session.get('https://partnerweb.beeline.ru/ngapi/find_by_house/' + str(street_id) + '/').json()
+
+    def check_fraud(self, flat=0, num_house=0):
+        flat_session = self.session.get(
+            f'https://partnerweb.beeline.ru/restapi/tickets/checkfraud/{num_house}/{flat}').json()
+        return flat_session['metadata']['message'] if flat_session['metadata']['status'] == 40002 else 'ОК!'
 
 
 
-class NewDesign(OldDesign):
+class NewDesign(Address):
 
     def ticket_info(self, id):
         attr = self.session.get(f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{id}').json()
@@ -523,34 +546,6 @@ class NewDesign(OldDesign):
         return addresses
 
 
-class Address(NewDesign):
-    def get_num_house(self, name, id_street=False):
-        city, street_name, street_id = self.get_street_info(name)
-        homes_json = self.get_homes(street_id)
-        num_house = self.get_id_house(homes_json)
-        return num_house
-
-    def get_street_info(self, name):
-        streets = self.session.get('https://partnerweb.beeline.ru/ngapi/find_by_city_and_street/'
-                                   '?cityPattern=&streetPattern=' + str(encode(name))).json()
-        for street in streets:
-            if street['s_city'] == 69 or street['s_city'] == 241 or street['s_city'] == 86:
-                return street['city'], street['street_name'], street['s_id']
-
-    def get_id_house(self, homes_json):
-        for street in homes_json:
-            if street['h_status'] == "connected":
-                h_list = street['house_address'].split(',')
-                house_number, house_id = h_list[2], street['h_id']
-                return house_number, house_id
-
-    def get_homes(self, street_id):
-        return self.session.get('https://partnerweb.beeline.ru/ngapi/find_by_house/' + str(street_id) + '/').json()
-
-    def check_fraud(self, flat=0, num_house=0):
-        flat_session = self.session.get(
-            f'https://partnerweb.beeline.ru/restapi/tickets/checkfraud/{num_house}/{flat}').json()
-        return flat_session['metadata']['message'] if flat_session['metadata']['status'] == 40002 else 'ОК!'
 
 class Worker:
     def __init__(self, name, number, master, status, url):
