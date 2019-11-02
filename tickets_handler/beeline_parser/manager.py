@@ -100,10 +100,7 @@ class OldDesign(Auth):
         return comments
 
     def schedule(self, ticket_id, year, month, day):
-        address_session = self.session.get('https://partnerweb.beeline.ru/restapi/tickets/api/ticket/'
-                                           + str(ticket_id) + '?rnduncache=5466&')
-        dic = address_session.json()
-        num_house = dic['t_address']['h']['h_dealer']['id']
+        num_house = self.get_num_house_by_id(ticket_id)['num_house']
         schedule_session = self.session.get('https://partnerweb.beeline.ru/restapi/schedule/get_day_schedule/'
                                             + str(num_house) + '?'
                                             + str(urllib.parse.urlencode({'day': str(day),
@@ -121,6 +118,15 @@ class OldDesign(Auth):
         count_interval_by_time = {i:time_intervals.count(i) for i in time_intervals}
 
         return count_interval_by_time
+
+    def get_num_house_by_id(self, ticket_id):
+        address_session = self.session.get('https://partnerweb.beeline.ru/restapi/tickets/api/ticket/'
+                                           + str(ticket_id) + '?rnduncache=5466&')
+        dic = address_session.json()
+        address = {'num_house' : dic['t_address']['h']['h_dealer']['id'],
+        'district' : dic['t_address']['ar_name'],
+        'city' : dic['t_address']['h']['city']}
+        return address
 
     def count_created_today(self, table):
         created_today = 0
@@ -507,6 +513,16 @@ class NewDesign(OldDesign):
         descriptions = gp_session['global_problems_context']['connection_related_gp_list']
         return list([i['description'] for i in descriptions])
 
+    def street_search_type(self, name):
+        streets = self.session.get('https://partnerweb.beeline.ru/ngapi/find_by_city_and_street/'
+                                   '?cityPattern=&streetPattern=' + str(encode(name))).json()
+        addresses = []
+        for street in streets:
+            if street['s_city'] == 69 or street['s_city'] == 241 or street['s_city'] == 86:
+                addresses.append({'city': street['city'], 'street_name': street['street_name'], 's_id': street['s_id']})
+        return addresses
+
+
 class Address(NewDesign):
     def get_num_house(self, name, id_street=False):
         city, street_name, street_id = self.get_street_info(name)
@@ -530,8 +546,6 @@ class Address(NewDesign):
 
     def get_homes(self, street_id):
         return self.session.get('https://partnerweb.beeline.ru/ngapi/find_by_house/' + str(street_id) + '/').json()
-
-
 
     def check_fraud(self, flat=0, num_house=0):
         flat_session = self.session.get(
@@ -565,5 +579,5 @@ class Worker:
 
 
 if __name__ == '__main__':
-    auth = NewDesign('G800-37', 'Хоменко', '1604').schedule(107682029, 1)
+    auth = NewDesign('G800-37', 'Хоменко', '1604').street_search_type('в')
     print(auth)

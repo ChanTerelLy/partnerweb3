@@ -98,6 +98,15 @@ def test_page(request):
 
     return HttpResponse('Fine')
 
+def street_search(request):
+    auth = NewDesign('G800-37', 'Хоменко', '1604')
+    input = request.GET.get('streetPattern', '')
+    print(input)
+    return JsonResponse(auth.street_search_type(input), safe=False)
+
+def fast_house_search(request):
+    return render(request, 'beeline_html/fast_house_search.html')
+
 def get_schedule(request, ticket, year, month, day):
     auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
     return JsonResponse(auth.schedule(ticket, year, month, day), safe=False)
