@@ -43,24 +43,32 @@
                     <p>График монтажников</p>
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div>
                                 <div id="datetimepicker12"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div>
+                <div class="accordion" id="accordionExample">
+                    {% for gp in gp_houses %}
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse"
+                                            data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Глобальная проблема #{{ forloop.counter }}
+                                    </button>
+                                </h2>
+                            </div>
 
-                        <table class="table">
-                        <tbody>
-                        {%  for gp in gp_houses%}
-                        <tr>
-                            <td>{{ gp }}</td>
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                        </table>
-
+                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                                 data-parent="#accordionExample">
+                                <div class="card-body">
+                                    {{ gp }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
