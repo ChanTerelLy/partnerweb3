@@ -4,13 +4,12 @@
 {% block content %}
     <div class="row justify-content-center">
         <div class="col-lg-4 col-md-6 col-sm-8">
-            <form name="auth_form" method="post" onclick="formValidation()" novalidate>
+            <form name="auth_form" method="post" novalidate>
                 <div>
                     {% csrf_token %}
                     {% include 'includes/form_beeline.html' %}
                     <p></p>
-                    <button type="submit" name="NewDesign" class="btn btn-primary" style="margin-left: 15px">
-                        <span class="spinner-grow spinner-grow-sm"></span>
+                    <button onclick="formValidation()" type="submit" name="NewDesign" class="btn btn-primary" style="margin-left: 15px">
                         Войти
                     </button>
                 </div>
@@ -19,7 +18,9 @@
     </div>
     <script>
         function formValidation() {
-            var form = document.forms['auth_form'].value;
+
+            let form = document.getElementsByName('auth_form')[0];
+            console.log(form)
             if (form === '') {
                 window.alert('Заполните все поля')
             }
