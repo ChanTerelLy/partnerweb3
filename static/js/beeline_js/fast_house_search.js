@@ -2,7 +2,6 @@ document.getElementById('input-search').addEventListener('keydown', function (va
     $.getJSON(`./street_search/?streetPattern=${document.getElementById('input-search').value}`,
         function (result) {
             document.getElementById('result').innerHTML = '';
-            console.log(result);
             $.each(result, function (key, value) {
                 document.getElementById('result').innerHTML += `<p id="${value.s_id}">${value.city} : ${value.street_name}<\p>`;
             });
@@ -13,15 +12,29 @@ document.getElementById('input-button').addEventListener('click', function (valu
     $.getJSON(`./street_search/?streetPattern=${document.getElementById('input-search').value}`,
         function (result) {
             document.getElementById('result').innerHTML = '';
-            console.log(result);
             $.each(result, function (key, value) {
                 document.getElementById('result').innerHTML += `<p id="${value.s_id}">${value.city} : ${value.street_name}<\p>`;
                 $.getJSON(`/get_homes_by_street?house_id=${value.s_id}`, function (houses) {
-                    $.each(houses, function (key, house)
-                    {
-                        document.getElementById(value.s_id).insertAdjacentHTML('beforeend', `<span class="badge-success">${house}</span>`);
+                    $.each(houses, function (key, house) {
+                        console.log(house.h_segment);
+                        let color_house = '';
+                        switch (house.h_segment) {
+                            case -1:
+                                color_house = 'bg-info';
+                                break;
+                            case 1:
+                                color_house = 'bg-dangerous';
+                                break;
+                            case  2:
+                                color_house = 'bg-warning';
+                                break;
+                            case  3:
+                                color_house = 'bg-success';
+                                break;
+                        }
+                        document.getElementById(value.s_id).insertAdjacentHTML('beforeend', `<span class=${color_house}>${house.name}</span>`);
                     });
-            });
-        })
-    });
+                });
+            })
+        });
 });

@@ -325,8 +325,8 @@ class Address(OldDesign):
         homes = []
         for home in homes_json:
             if home['h_status'] == "connected":
-                h_list = home['house_address'].split(',')
-                homes.append(h_list[2])
+                home = {'name' : home['house_address'].split(',')[2], 'h_segment' : home['h_segment']}
+                homes.append(home)
         return homes
 
     def get_homes(self, street_id):
