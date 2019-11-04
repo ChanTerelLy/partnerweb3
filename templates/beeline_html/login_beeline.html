@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Авторизация{% endblock %}
-
 {% block content %}
     <div class="row justify-content-center">
         <div class="col-lg-4 col-md-6 col-sm-8">
@@ -9,14 +9,22 @@
                     {% csrf_token %}
                     {% include 'includes/form_beeline.html' %}
                     <p></p>
-                    <button onclick="formValidation()" type="submit" name="NewDesign" class="btn btn-primary" style="margin-left: 15px">
+                    <button onclick="loading()" type="submit" name="NewDesign" class="btn btn-primary"
+                            style="margin-left: 15px">
                         Войти
                     </button>
                 </div>
             </form>
         </div>
     </div>
+    <div id="loading">
+        <img id="loading-image" src="{% static 'image/load_packman.gif' %}" alt="Loading..."/>
+    </div>
     <script>
+        function loading() {
+            document.getElementById('loading').style.visibility = 'visible'
+        }
+
         function formValidation() {
 
             let form = document.getElementsByName('auth_form')[0];
