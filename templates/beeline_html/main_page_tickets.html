@@ -2,8 +2,8 @@
 {% block content %}
     <div class="container">
         <p>
-            <span class="badge badge-warning"><assigned_count></assigned_count></span>
-            <span class="badge badge-success"><switched_count></switched_count></span>
+            <span id='assign_total' class="badge badge-warning"><assigned_count></assigned_count></span>
+            <span id='switch_total' class="badge badge-success"><switched_count></switched_count></span>
             <span class="badge badge-warning">Назначенных заявок сегодня: {{ assigned_today }}</span>
             <span class="badge badge-success">Подключеных заявок сегодня: {{ switched_on_today }}</span>
             <span class="badge badge-info">Созданых заявок сегодня: {{ created_today_tickets }}</span>
@@ -11,11 +11,11 @@
     </div>
     <hr>
     <div class="container">
-        <div class="progress">
-            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width:70%">
+        <div class="progress" style="height: 30px;">
+            <div id='switch_bar' class="progress-bar progress-bar-striped progress-bar-animated bg-success">
                 <switched_count></switched_count>
             </div>
-            <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" style="width:30%">
+            <div id='assign_bar' class="progress-bar progress-bar-striped progress-bar-animated bg-warning">
                 <assigned_count></assigned_count>
             </div>
             <br>
@@ -176,7 +176,16 @@
             $('result_switch').html(($('#switch_table tr').filter(':visible').length - 1));
             $('result_assign').html(($('#assign_table tr').filter(':visible').length - 1));
         }, 500);
+
+        // load listeners
     });
+            let assign_total = parseInt($('#assign_table tr').length - 1);
+            let switch_total = parseInt($('#switch_table tr').length - 1);
+            let swAndAssign = assign_total + switch_total;
+            let assign_bar = document.getElementById('assign_bar');
+            let switch_bar = document.getElementById('switch_bar');
+            switch_bar.style.width = (switch_total/swAndAssign)*100 + '%';
+            assign_bar.style.width = (assign_total/swAndAssign)*100 + '%';
     </script>
 {% endblock %}
 
