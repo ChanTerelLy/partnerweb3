@@ -101,7 +101,6 @@ def test_page(request):
 def street_search(request):
     auth = NewDesign('G800-37', 'Хоменко', '1604')
     input = request.GET.get('streetPattern', '')
-    print(input)
     return JsonResponse(auth.street_search_type(input), safe=False)
 
 def get_homes_by_street(request):
@@ -113,6 +112,14 @@ def get_homes_by_street(request):
 def fast_house_search(request):
     return render(request, 'beeline_html/fast_house_search.html')
 
+def get_schedule_color(request):
+    auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
+    house_id = request.GET.get('house_id', '')
+    ticket_id = request.GET.get('ticket_id', '')
+    return JsonResponse(auth.month_schedule_color(house_id, ticket_id), safe=False)
+
+
+
 def get_schedule(request, ticket, year, month, day):
     auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
-    return JsonResponse(auth.schedule(ticket, year, month, day), safe=False)
+    return JsonResponse(auth.schedule_interval_by_day(ticket, year, month, day), safe=False)

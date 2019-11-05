@@ -11,7 +11,7 @@ from openpyxl import Workbook
 from bs4 import BeautifulSoup
 from tickets_handler.beeline_parser.date_func import current_date, last_day_current_month, url_formate_date, \
     formate_date_schedule, \
-    delta_current_month, range_current_month, current_year_date, dmYHM_to_date, today, dmY_to_date
+    delta_current_month, range_current_month, current_year_date, dmYHM_to_date, today, dmY_to_date, convert_utc_string
 from tickets_handler.beeline_parser.text_func import find_asssigned_date, find_dns, phone9, encode
 import grequests
 
@@ -99,7 +99,7 @@ class OldDesign(Auth):
             comments.append(i)
         return comments
 
-    def schedule(self, ticket_id, year, month, day):
+    def schedule_interval_by_day(self, ticket_id, year, month, day):
         num_house = self.get_num_house_by_id(ticket_id)['num_house']
         schedule_session = self.session.get('https://partnerweb.beeline.ru/restapi/schedule/get_day_schedule/'
                                             + str(num_house) + '?'
@@ -118,6 +118,40 @@ class OldDesign(Auth):
         count_interval_by_time = {i:time_intervals.count(i) for i in time_intervals}
 
         return count_interval_by_time
+
+    def month_schedule_color(self, num_house, ticket_id=None):
+        if num_house:
+            num_house = self.get_num_house_by_id(ticket_id)['num_house']
+        data_schedule = []
+        schedule = self.session.get(f'https://partnerweb.beeline.ru/restapi/schedule/get_calendar/{num_house}').json()
+        for data in schedule['data']['calendar']:
+            month = int(data['month']) - 1 # from JS
+            year = data['year']
+            weeks = [day['weekdays'] for day in data['weeks']]
+            clear_day = []
+            for days in weeks:
+                clear_day.extend([{'day' : convert_utc_string(d['date']).day,
+                                   'status' : self.get_colors_by_status(d['status'])} for d in days if d != None])
+
+            data_schedule.append({'days': clear_day, "month": month, "year": year})
+
+        return (data_schedule)
+
+
+    @staticmethod
+    def get_colors_by_status(number):
+        number = int(number)
+        colors = {1: 'grey', #close
+        2: '', #empty
+        6: 'red', #full
+        4: 'yellow', #less than half
+        5: 'green', #more than half
+        7: '', #not created
+        3: '', #selectted time
+         }
+        return colors[number]
+
+
 
     def get_num_house_by_id(self, ticket_id):
         address_session = self.session.get('https://partnerweb.beeline.ru/restapi/tickets/api/ticket/'
@@ -574,5 +608,5 @@ class Worker:
 
 
 if __name__ == '__main__':
-    auth = NewDesign('G800-37', 'Хоменко', '1604').street_search_type('в')
+    auth = NewDesign('G800-37', 'Хоменко', '1604').month_schedule_color(3331162)
     print(auth)

@@ -54,3 +54,6 @@ def dmY_to_date(ticket_call_time):
 
 def today():
     return datetime.date.today()
+def convert_utc_string(date):
+    format = '%Y-%m-%dT%H:%M:%S%z'
+    return datetime.datetime.strptime(date, format)
