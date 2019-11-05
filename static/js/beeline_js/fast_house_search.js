@@ -32,7 +32,7 @@ document.getElementById('input-button').addEventListener('click', function (valu
                                 color_house = 'bg-success';
                                 break;
                         }
-                        document.getElementById(value.s_id).insertAdjacentHTML('beforeend', `<a href="./house_info/${house.h_id}" style="border: solid black" class=${color_house}>${house.name}</a>`);
+                        document.getElementById(value.s_id).insertAdjacentHTML('beforeend', `<a target="_blank" href="./house_info/${house.h_id}" style="border: solid black" class=${color_house}>${house.name}</a>`);
                     });
                 });
             })
