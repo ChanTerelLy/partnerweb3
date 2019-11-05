@@ -11,10 +11,13 @@ urlpatterns = [
     url('update_worker/', update_workers, name='update_workers'),
     url('test_page', test_page, name='test_page'),
     url('update_installers', update_installers, name='update_installers'),
-    url(r'^info/(?P<ticket>\d+)/schedule/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$', get_schedule, name='schedule'),
+    url(r'^info/(?P<ticket>\d+)/schedule/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$', get_schedule_by_ticket_id, name='schedule'),
+    url(r'^house_info/(?P<house_id>\d+)/schedule/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$', get_schedule_by_house_id, name='get_schedule_by_house_id'),
     url('street_search', street_search, name='street_search'),
     url('get_homes_by_street', get_homes_by_street, name='get_homes_by_street'),
     url('fast_house_search', fast_house_search, name='fast_house_search'),
-    url('get_schedule_color', get_schedule_color, name='get_schedule_color')
+    url('get_schedule_color', get_schedule_color, name='get_schedule_color'),
+    url(r'house_info/(?P<house_id>\d+)/$', house_info, name='house_info'),
+
     # url('', redirect_auth, name='redirect_auth'),
 ]

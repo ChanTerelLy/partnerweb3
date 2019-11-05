@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="accordion" id="accordionExample">
+                {% for gp in gp_houses %}
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse"
+                                        data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Глобальная проблема #{{ forloop.counter }}
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                             data-parent="#accordionExample">
+                            <div class="card-body">
+                                {{ gp }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div style="position: relative">
+                <div id="datetimepicker12"></div>
+                <img id='load' src="{% static 'image/load.gif' %}"
+                     style="visibility: hidden; top: 20px; left: 30px; z-index: 5; position: absolute">
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<body>
+<script type="text/javascript">
+    // get color of calendar
+    {#$.ajax({#}
+    {#        url: `./get_schedule_color?ticket_id={{ ticket_info.id }}&ar_id=0`,#}
+    {#        dataType: 'json',#}
+    {#        success: function (data) {#}
+    {#            $.each(data[0]['days'], function (key, i) {#}
+    {#                document.querySelectorAll(`[data-date="${i.day}"][data-month="${data[0].month}"][data-year="${data[0].year}"]`)[0].style.background = i.status#}
+    {#            })#}
+    {##}
+    {#        }#}
+    {#    }#}
+    {#);#}
+    //datetimepicker
+    $.datetimepicker.setLocale('ru');
+    $('#id_datetime').datetimepicker({
+        format: 'd.m.Y H:i',
+    });
+    $(function () {
+        $('#datetimepicker12').datetimepicker(
+            {
+                format: 'd.m.Y H:i',
+                inline: true,
+                sideBySide: true,
+                allowTimes: ['00:00'],
+                todayButton: true,
+                timepickerScrollbar: false,
+                onSelectDate: function (value) {
+                    let globalDate = [];
+                    $.ajax({
+                        url: `./schedule/${value.getFullYear()}/${value.getMonth() + 1}/${value.getDate()}`,
+                        dataType: "json",
+                        success: function (result) {
+                            $.each(result, function (key, value) {
+                                globalDate.push(key);
+                            });
+                            if (globalDate.length < 1) {
+                                globalDate = ['00:00']
+                            }
+                            $('#datetimepicker12').datetimepicker('setOptions', {allowTimes: globalDate});
+                            {#.html(">')#}
+                            console.log(globalDate);
+                            document.getElementById('load').style.visibility = 'hidden'
+                        },
+                        beforeSend: function () {
+                            document.getElementById('load').style.visibility = 'visible'
+                        },
+                    });
+                }
+            });
+    });
+</script>
+</body>
+</html>
+{% endblock %}

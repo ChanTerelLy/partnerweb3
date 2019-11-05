@@ -105,7 +105,7 @@ def street_search(request):
 
 def get_homes_by_street(request):
     auth = NewDesign('G800-37', 'Хоменко', '1604')
-    house_id = request.GET.get('house_id', '')
+    house_id = request.GET.get('ar_id', '')
     data = auth.get_houses_by_street(auth.get_homes(house_id))
     return JsonResponse(data, safe=False)
 
@@ -114,12 +114,21 @@ def fast_house_search(request):
 
 def get_schedule_color(request):
     auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
-    house_id = request.GET.get('house_id', '')
+    house_id = request.GET.get('ar_id', '')
     ticket_id = request.GET.get('ticket_id', '')
     return JsonResponse(auth.month_schedule_color(house_id, ticket_id), safe=False)
 
+def house_info(request, house_id):
+    auth = NewDesign('G800-37', 'Хоменко', '1604')
+    gp_houses, areas = auth.get_gp_by_house_id(house_id)
+    gp = areas + gp_houses
+    return render(request, 'beeline_html/house_info.html', {'gp_houses' : gp})
 
 
-def get_schedule(request, ticket, year, month, day):
+def get_schedule_by_ticket_id(request, ticket, year, month, day):
     auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
-    return JsonResponse(auth.schedule_interval_by_day(ticket, year, month, day), safe=False)
+    return JsonResponse(auth.schedule_interval_by_day(ticket, year, month, day, house_id=False), safe=False)
+
+def get_schedule_by_house_id(request, house_id, year, month, day):
+    auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
+    return JsonResponse(auth.schedule_interval_by_day(ticket_id=False, year=year, month=month, day=day, house_id=house_id), safe=False)

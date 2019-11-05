@@ -99,10 +99,14 @@ class OldDesign(Auth):
             comments.append(i)
         return comments
 
-    def schedule_interval_by_day(self, ticket_id, year, month, day):
-        num_house = self.get_num_house_by_id(ticket_id)['num_house']
+    def schedule_interval_by_day(self, ticket_id, year, month, day, house_id=False):
+        ar_id = ''
+        if ticket_id:
+            ar_id = self.get_num_house_by_id(ticket_id)['num_house']
+        if house_id:
+            ar_id = self.get_house_info(house_id)['h_dealer']['ar_id']
         schedule_session = self.session.get('https://partnerweb.beeline.ru/restapi/schedule/get_day_schedule/'
-                                            + str(num_house) + '?'
+                                            + str(ar_id) + '?'
                                             + str(urllib.parse.urlencode({'day': str(day),
                                                                           'month': str(
                                                                               month),
@@ -118,6 +122,9 @@ class OldDesign(Auth):
         count_interval_by_time = {i:time_intervals.count(i) for i in time_intervals}
 
         return count_interval_by_time
+
+    def get_house_info(self, house_id):
+        return self.session.get(f'https://partnerweb.beeline.ru/ngapi/house/{house_id}/').json()
 
     def month_schedule_color(self, num_house, ticket_id=None):
         if num_house:
@@ -359,7 +366,8 @@ class Address(OldDesign):
         homes = []
         for home in homes_json:
             if home['h_status'] == "connected":
-                home = {'name' : home['house_address'].split(',')[2], 'h_segment' : home['h_segment']}
+                home = {'name' : home['house_address'].split(',')[2], 'h_segment' : home['h_segment'], 'h_id' :
+                    home['h_id']}
                 homes.append(home)
         return homes
 
@@ -411,7 +419,7 @@ class NewDesign(Address):
 
     def create_ticket(self, house_id, flat, client_name, client_patrony, client_surname, phone_number_1,
                       need_schedule=False):
-        data = {"house_id": house_id, "flat": flat, "create_contract": 1, "client_name": client_name,
+        data = {"ar_id": house_id, "flat": flat, "create_contract": 1, "client_name": client_name,
                 "client_patrony": client_patrony, "client_surname": client_surname, "phone_number_1": phone_number_1,
                 "sms_warnto_1": 1, "service_type": "typical", "simple_vpdn": "M130990",
                 "basket": {"MAIN": {"VPDN": {"S_ID": "M130990"}}}, "need_schedule": need_schedule}
@@ -421,7 +429,7 @@ class NewDesign(Address):
         self.session.headers["x-requested-with"] = "XMLHttpRequest"
         self.session.headers['content-type'] = 'application/json'
         self.session.headers["http_referer"] = "https://partnerweb.beeline.ru/ngapp#!/newaddress/connect_ticket/" \
-                                               "house_id/450541"
+                                               "ar_id/450541"
         self.session.post('https://partnerweb.beeline.ru/restapi/tickets/', json.dumps(data))
 
     @system.my_timer
@@ -559,8 +567,12 @@ class NewDesign(Address):
                                            + str(ticket_id) + '?rnduncache=5466&')
         dic = address_session.json()
         num_house = dic['t_address']['h']['h_dealer']['id']
+        areas, houses = self.get_gp_by_house_id(num_house)
+        return areas, houses
+
+    def get_gp_by_house_id(self, num_house):
         gp_session = self.session.get(f'https://partnerweb.beeline.ru/restapi/hd/global_problems_on_house/'
-                                      f'{num_house}?rnd=1572632963408').json()
+                                      f'{num_house}?rnd=1572982280349').json()
         areas = list([i['description'] for i in gp_session['data']['areas']])
         houses = list([i['description'] for i in gp_session['data']['houses']])
         return areas, houses
