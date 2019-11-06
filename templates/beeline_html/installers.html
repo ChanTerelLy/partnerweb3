@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Монтажники{% endblock %}
+{% block content %}
+    <table class="table-bordered" style="margin-left:auto;margin-right:auto;">
+    <thead>
+    <tr>
+        <td>Монтажник</td>
+        <td>Контактный номер</td>
+    </tr>
+    </thead>
+        {% for installer in installers %}
+        <tr>
+        <td><h4>{{installer.full_name}}</h4></td>
+            <td><h4><a href="tel:{{ installer.number }}">{{installer.number}}</a></h4></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

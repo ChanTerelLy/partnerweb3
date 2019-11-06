@@ -132,3 +132,7 @@ def get_schedule_by_ticket_id(request, ticket, year, month, day):
 def get_schedule_by_house_id(request, house_id, year, month, day):
     auth = NewDesign('G800-37', 'Хоменко', '1604')
     return JsonResponse(auth.schedule_interval_by_day(ticket_id=False, year=year, month=month, day=day, house_id=house_id), safe=False)
+
+def get_installers(request):
+    installers = Installer.objects.all()
+    return render(request, 'beeline_html/installers.html', {'installers' : installers})
