@@ -99,76 +99,6 @@ class OldDesign(Auth):
             comments.append(i)
         return comments
 
-    def schedule_interval_by_day(self, ticket_id, year, month, day, house_id=False):
-        ar_id = ''
-        if ticket_id:
-            ar_id = self.get_num_house_by_id(ticket_id)['num_house']
-        if house_id:
-            ar_id = self.get_house_info(house_id)['h_dealer']['ar_id']
-        schedule_session = self.session.get('https://partnerweb.beeline.ru/restapi/schedule/get_day_schedule/'
-                                            + str(ar_id) + '?'
-                                            + str(urllib.parse.urlencode({'day': str(day),
-                                                                          'month': str(
-                                                                              month),
-                                                                          'year': str(
-                                                                              year)}))).json()
-        get_free_time = schedule_session['data']['classic_schedule']
-        time_intervals = []
-        for key, cell in enumerate(get_free_time):
-            #if ticket have other tickets in the same interval
-            if cell.get('tickets_info'):
-                continue
-            time_intervals.append(formate_date_schedule(cell['intbegin']))
-        count_interval_by_time = {i:time_intervals.count(i) for i in time_intervals}
-
-        return count_interval_by_time
-
-    def get_house_info(self, house_id):
-        return self.session.get(f'https://partnerweb.beeline.ru/ngapi/house/{house_id}/').json()
-
-    def month_schedule_color(self, num_house, ticket_id=None):
-        if num_house:
-            num_house = self.get_num_house_by_id(ticket_id)['num_house']
-        data_schedule = []
-        schedule = self.session.get(f'https://partnerweb.beeline.ru/restapi/schedule/get_calendar/{num_house}').json()
-        for data in schedule['data']['calendar']:
-            month = int(data['month']) - 1 # from JS
-            year = data['year']
-            weeks = [day['weekdays'] for day in data['weeks']]
-            clear_day = []
-            for days in weeks:
-                clear_day.extend([{'day' : convert_utc_string(d['date']).day,
-                                   'status' : self.get_colors_by_status(d['status'])} for d in days if d != None])
-
-            data_schedule.append({'days': clear_day, "month": month, "year": year})
-
-        return (data_schedule)
-
-
-    @staticmethod
-    def get_colors_by_status(number):
-        number = int(number)
-        colors = {1: 'grey', #close
-        2: '', #empty
-        6: 'red', #full
-        4: 'yellow', #less than half
-        5: 'green', #more than half
-        7: '', #not created
-        3: '', #selectted time
-         }
-        return colors[number]
-
-
-
-    def get_num_house_by_id(self, ticket_id):
-        address_session = self.session.get('https://partnerweb.beeline.ru/restapi/tickets/api/ticket/'
-                                           + str(ticket_id) + '?rnduncache=5466&')
-        dic = address_session.json()
-        address = {'num_house' : dic['t_address']['h']['h_dealer']['id'],
-        'district' : dic['t_address']['ar_name'],
-        'city' : dic['t_address']['h']['city']}
-        return address
-
     def count_created_today(self, table):
         created_today = 0
         for i in table:
@@ -279,16 +209,6 @@ class OldDesign(Auth):
             date_first, date_second = delta_current_month(date_first, date_second)
         return assigned_tickets, assigned_tickets_today, call_today_tickets, switched_tickets, switched_on_tickets_today, created_today_tickets
 
-    def change_ticket(self, id, timer, comment='', status_id=21):
-        url_status = f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{id}'
-        comment = '; '.join(comment) if isinstance(comment, list) else comment
-        if status_id == '2028':
-            data_timer = {"status_id": 21, "call_time": '31.12.2028 00:00', "comment": comment}
-            self.session.post(url_status, data_timer)
-        else:
-            data_timer = {"status_id": int(status_id), "call_time": timer, "comment": comment}
-            self.session.post(url_status, data_timer)
-
     def months_report(self, num_months):
         book = Workbook()
         sheet = book.active
@@ -354,7 +274,8 @@ class OldDesign(Auth):
                 tickets.append(ticket)
         return tickets
 
-class Address(OldDesign):
+
+class Address(Auth):
     def get_street_info(self, name):
         streets = self.session.get('https://partnerweb.beeline.ru/ngapi/find_by_city_and_street/'
                                    '?cityPattern=&streetPattern=' + str(encode(name))).json()
@@ -366,7 +287,7 @@ class Address(OldDesign):
         homes = []
         for home in homes_json:
             if home['h_status'] == "connected":
-                home = {'name' : home['house_address'].split(',')[2], 'h_segment' : home['h_segment'], 'h_id' :
+                home = {'name': home['house_address'].split(',')[2], 'h_segment': home['h_segment'], 'h_id':
                     home['h_id']}
                 homes.append(home)
         return homes
@@ -379,9 +300,71 @@ class Address(OldDesign):
             f'https://partnerweb.beeline.ru/restapi/tickets/checkfraud/{num_house}/{flat}').json()
         return flat_session['metadata']['message'] if flat_session['metadata']['status'] == 40002 else 'ОК!'
 
+    def get_house_info(self, house_id):
+        return self.session.get(f'https://partnerweb.beeline.ru/ngapi/house/{house_id}/').json()
+
+    def get_num_house_by_id(self, ticket_id):
+        address_session = self.session.get('https://partnerweb.beeline.ru/restapi/tickets/api/ticket/'
+                                           + str(ticket_id) + '?rnduncache=5466&')
+        dic = address_session.json()
+        address = {'num_house': dic['t_address']['h']['h_dealer']['id'],
+                   'district': dic['t_address']['ar_name'],
+                   'city': dic['t_address']['h']['city']}
+        return address
 
 
-class NewDesign(Address):
+class Schedule(Address):
+
+    def schedule_interval_by_day(self, ticket_id, year, month, day, house_id=False):
+        ar_id = ''
+        if ticket_id:
+            ar_id = self.get_num_house_by_id(ticket_id)['num_house']
+        if house_id:
+            ar_id = self.get_house_info(house_id)['h_dealer']['ar_id']
+        schedule_session = self.session.get(f'https://partnerweb.beeline.ru/restapi/schedule/get_day_schedule/{ar_id}?'
+                                            + urllib.parse.urlencode({'day': str(day), 'month': str(month),
+                                                                      'year': str(year)})).json()
+        get_free_time = schedule_session['data']['classic_schedule']
+        time_intervals = []
+        for key, cell in enumerate(get_free_time):
+            # if ticket have other tickets in the same interval
+            if cell.get('tickets_info'):
+                continue
+            time_intervals.append(formate_date_schedule(cell['intbegin']))
+        count_interval_by_time = {i: time_intervals.count(i) for i in time_intervals}
+        return count_interval_by_time
+
+    def month_schedule_color(self, num_house, ticket_id=None):
+        if num_house:
+            num_house = self.get_num_house_by_id(ticket_id)['num_house']
+        data_schedule = []
+        schedule = self.session.get(f'https://partnerweb.beeline.ru/restapi/schedule/get_calendar/{num_house}').json()
+        for data in schedule['data']['calendar']:
+            month = int(data['month']) - 1  # from JS
+            year = data['year']
+            weeks = [day['weekdays'] for day in data['weeks']]
+            clear_day = []
+            for days in weeks:
+                clear_day.extend([{'day': convert_utc_string(d['date']).day,
+                                   'status': self.get_colors_by_status(d['status'])} for d in days if d != None])
+            data_schedule.append({'days': clear_day, "month": month, "year": year})
+        return (data_schedule)
+
+    @staticmethod
+    def get_colors_by_status(number):
+        number = int(number)
+        colors = {1: 'grey',  # close
+                  2: '',  # empty
+                  6: 'red',  # full
+                  4: 'yellow',  # less than half
+                  5: 'green',  # more than half
+                  7: '',  # not created
+                  3: '',  # selectted time
+                  }
+        return colors[number]
+
+
+class NewDesign(Schedule):
 
     def ticket_info(self, id):
         attr = self.session.get(f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{id}').json()
@@ -446,13 +429,6 @@ class NewDesign(Address):
             if dmYHM_to_date(ticket.assigned_date) == dt.now().date():
                 asig_ts_today += 1
                 asig_ts.append(ticket)
-
-                # as_t = list([c['date'] for c in self.ticket_info(ticket.id).comments if find_asssigned_date(c['text'])])
-                # ticket.assigned_date = as_t[0]
-                # if dmYHM_to_date(ticket.assigned_date) == dt.now().date():
-                #     asig_ts_today += 1
-                #     asig_ts.append(ticket)
-
         return asig_ts, asig_ts_today
 
     @system.my_timer
@@ -591,6 +567,15 @@ class NewDesign(Address):
                 addresses.append({'city': street['city'], 'street_name': street['street_name'], 's_id': street['s_id']})
         return addresses
 
+    def change_ticket(self, id, timer, comment='', status_id=21):
+        url_status = f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{id}'
+        comment = '; '.join(comment) if isinstance(comment, list) else comment
+        if status_id == '2028':
+            data_timer = {"status_id": 21, "call_time": '31.12.2028 00:00', "comment": comment}
+            self.session.post(url_status, data_timer)
+        else:
+            data_timer = {"status_id": int(status_id), "call_time": timer, "comment": comment}
+            self.session.post(url_status, data_timer)
 
 
 class Worker:

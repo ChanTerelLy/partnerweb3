@@ -26,8 +26,6 @@ class TestAuth(unittest.TestCase):
         self.assertEqual(auth_a.json()['data']['convergence'], True)
 
 
-
-
 class TestNewDesign(unittest.TestCase):
 
     def setUp(self):
@@ -38,3 +36,6 @@ class TestNewDesign(unittest.TestCase):
 
     def test_definde_satellit_ticket(self):
         self.assertTrue(self.ND.definde_satellit_ticket('Закрыта 15.09.2019 00:00'))
+
+if __name__ == '__main__':
+    unittest.main()

@@ -56,9 +56,6 @@ def auth(request):
             return redirect('main_page_tickets')
     return render(request, 'beeline_html/login_beeline.html', {'form': form})
 
-def telegram_news(request):
-    return render(request, 'beeline_html/telegram_news.html')
-
 def redirect_auth(request):
     return redirect('/login_beeline/')
 
@@ -75,28 +72,13 @@ def update_workers(request):
     )
 
 def update_installers(request):
-    Installer.parse_installers({'login': 'G800-37', 'operator': 'Хоменко', 'password': '1604'})
+    Installer.parse_installers({'login': request.session['sell_code'], 'operator': request.session['operator'],
+                                'password': request.session['password']})
     return HttpResponse('Done')
 
-
-def test_page(request):
-    urls = [
-        "www.yandex.ru", "www.google.com"
-    ]
-    resp = (grequests.get(u) for u in urls)
-    responses = grequests.map(resp)
-    a = responses[0].json()
-    b = responses[1].json()
-    fix_1 = a['api']['fixtures']
-    api_2 = b['api']['leagues']
-
-    context = {
-
-        'fix_1': fix_1,
-        'api_2': api_2,
-    }
-
-    return HttpResponse('Fine')
+def get_installers(request):
+    installers = Installer.objects.all()
+    return render(request, 'beeline_html/installers.html', {'installers' : installers})
 
 def street_search(request):
     auth = NewDesign('G800-37', 'Хоменко', '1604')
@@ -124,7 +106,6 @@ def house_info(request, house_id):
     gp = areas + gp_houses
     return render(request, 'beeline_html/house_info.html', {'gp_houses' : gp})
 
-
 def get_schedule_by_ticket_id(request, ticket, year, month, day):
     auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
     return JsonResponse(auth.schedule_interval_by_day(ticket, year, month, day, house_id=False), safe=False)
@@ -132,3 +113,4 @@ def get_schedule_by_ticket_id(request, ticket, year, month, day):
 def get_schedule_by_house_id(request, house_id, year, month, day):
     auth = NewDesign('G800-37', 'Хоменко', '1604')
     return JsonResponse(auth.schedule_interval_by_day(ticket_id=False, year=year, month=month, day=day, house_id=house_id), safe=False)
+
