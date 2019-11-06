@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'tickets_handler',
 	'widget_tweaks',
+    'statistic'
 ]
 
 
