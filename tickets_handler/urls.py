@@ -17,5 +17,5 @@ urlpatterns = [
     url('get_schedule_color', get_schedule_color, name='get_schedule_color'),
     url(r'house_info/(?P<house_id>\d+)/$', house_info, name='house_info'),
 
-    # url('', redirect_auth, name='redirect_auth'),
+    #
 ]

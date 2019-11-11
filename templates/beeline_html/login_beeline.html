@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 {% load static %}
 {% block title %}Аутентификация{% endblock %}
 {% block content %}
@@ -7,8 +8,7 @@
             <form name="auth_form" method="post" novalidate>
                 <div>
                     {% csrf_token %}
-                    {% include 'includes/form_beeline.html' %}
-                    <p></p>
+                    {{ form|crispy }}
                     <button onclick="loading()" type="submit" name="NewDesign" class="btn btn-primary"
                             style="margin-left: 15px">
                         Войти
@@ -28,7 +28,7 @@
         function formValidation() {
 
             let form = document.getElementsByName('auth_form')[0];
-            console.log(form)
+            console.log(form);
             if (form === '') {
                 window.alert('Заполните все поля')
             }

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'tickets_handler',
 	'widget_tweaks',
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -148,4 +149,5 @@ STATICFILES_DIRS = [
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 django_heroku.settings(locals())
