@@ -43,7 +43,7 @@ def ticket_info(request, id):
     return render(request,'beeline_html/ticket_info.html', {'ticket_info':ticket_info, 'form': dateform,
                                                             'gp_houses': gp_houses})
 
-def auth(request):
+def login(request):
     form = AuthForm(request.POST)
     if request.method == 'POST':
         form = AuthForm(request.POST)
@@ -57,7 +57,7 @@ def auth(request):
     return render(request, 'beeline_html/login_beeline.html', {'form': form})
 
 def redirect_auth(request):
-    return redirect('/login_beeline/')
+    return redirect('login')
 
 def update_workers(request):
     auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
@@ -114,3 +114,6 @@ def get_schedule_by_house_id(request, house_id, year, month, day):
     auth = NewDesign('G800-37', 'Хоменко', '1604')
     return JsonResponse(auth.schedule_interval_by_day(ticket_id=False, year=year, month=month, day=day, house_id=house_id), safe=False)
 
+def logout(request):
+    request.session['sell_code'], request.session['operator'], request.session['password'] = '', '',''
+    return redirect('login')

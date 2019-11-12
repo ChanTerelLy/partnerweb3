@@ -2,7 +2,7 @@ from django.conf.urls import url
 from .views import *
 from django.contrib import admin
 urlpatterns = [
-    url(r'^login_beeline/$', auth, name='login_beeline'),
+    url(r'^login/$', login, name='login'),
     url(r'^info/(?P<id>\d+)/$', ticket_info, name='ticket_info'),
     url('global_search/', global_search, name='global_search'),
     url('^tickets/', main_page, name='main_page_tickets'),
@@ -16,6 +16,5 @@ urlpatterns = [
     url('fast_house_search', fast_house_search, name='fast_house_search'),
     url('get_schedule_color', get_schedule_color, name='get_schedule_color'),
     url(r'house_info/(?P<house_id>\d+)/$', house_info, name='house_info'),
-
-    #
+    url(r'logout', logout, name='logout')
 ]
