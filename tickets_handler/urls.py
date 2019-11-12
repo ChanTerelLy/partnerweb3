@@ -16,5 +16,6 @@ urlpatterns = [
     url('fast_house_search', fast_house_search, name='fast_house_search'),
     url('get_schedule_color', get_schedule_color, name='get_schedule_color'),
     url(r'house_info/(?P<house_id>\d+)/$', house_info, name='house_info'),
-    url(r'logout', logout, name='logout')
+    url(r'logout', logout, name='logout'),
+    url(r'login_beeline/', redirect_auth, name='login_beeline'),
 ]

@@ -29,10 +29,10 @@ DEBUG = True
 DEBUG_PROPAGATE_EXCEPTIONS = True
 ALLOWED_HOSTS = ['*']
 
-LOGOUT_REDIRECT_URL = 'login_beeline'
-LOGIN_REDIRECT_URL = 'login_beeline'
+LOGOUT_REDIRECT_URL = 'logout'
+LOGIN_REDIRECT_URL = 'login'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-LOGIN_URL = 'login_beeline'
+LOGIN_URL = 'login'
 # Application definition
 
 INSTALLED_APPS = [
