@@ -117,3 +117,9 @@ def get_schedule_by_house_id(request, house_id, year, month, day):
 def logout(request):
     request.session['sell_code'], request.session['operator'], request.session['password'] = '', '',''
     return redirect('login')
+
+def get_personal_info(request):
+    phone = request.GET.get('phone')
+    city = request.GET.get('city')
+    auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
+    return JsonResponse(auth.get_personal_info(phone, city), safe=False)

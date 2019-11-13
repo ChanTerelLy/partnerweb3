@@ -14,7 +14,8 @@ from tickets_handler.beeline_parser.date_func import current_date, last_day_curr
     delta_current_month, range_current_month, current_year_date, dmYHM_to_date, today, dmY_to_date, convert_utc_string
 from tickets_handler.beeline_parser.text_func import find_asssigned_date, find_dns, phone9, encode
 import grequests
-
+import random
+import time
 
 class Auth:
     def __init__(self, login, workercode, password):
@@ -577,6 +578,24 @@ class NewDesign(Schedule):
             data_timer = {"status_id": int(status_id), "call_time": timer, "comment": comment}
             self.session.post(url_status, data_timer)
 
+    def get_personal_info(self, phone, city):
+        id = self.get_q_id(phone, city)
+        personal_info = self.session.get(f'https://partnerweb.beeline.ru/restapi/convergent/result_check_conv_phone/'
+                                         f'{id}?rnd={random.random()}').json()
+        while personal_info['data'].get('wait'):
+            personal_info = self.session.get(
+                f'https://partnerweb.beeline.ru/restapi/convergent/result_check_conv_phone/'
+                f'{id}?rnd={random.random()}').json()
+            time.sleep(3)
+        return personal_info
+
+    def get_q_id(self, phone, city):
+        data = self.session.get(
+            f'https://partnerweb.beeline.ru/restapi/convergent/start_check_conv_phone/{phone}?city_id={city}'
+            f'&rnd={random.random()}').json()
+        return data['data']['q_id']
+
+
 
 class Worker:
     def __init__(self, name, number, master, status, url):
@@ -605,5 +624,6 @@ class Worker:
 
 
 if __name__ == '__main__':
-    auth = NewDesign('G800-37', 'Хоменко', '1604').month_schedule_color(3331162)
+
+    auth = NewDesign('G800-37', 'Хоменко', '1604').get_personal_info('9052933642',69)
     print(auth)

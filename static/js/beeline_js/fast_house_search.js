@@ -42,7 +42,7 @@ function parse_table(data){
               break;
       }
 
-    html += `<td class='${color_house}'><a href='/house_info/${data[i].h_id}/' target="_blank">${data[i].name}</a></td>`;
+    html += `<td class='${color_house} ' style="width:20%"><a href='/house_info/${data[i].h_id}/' target="_blank">${data[i].name}</a></td>`;
     // Break into next row
     var next = i+1;
     if (next%perrow==0 && next!=data.length) {
