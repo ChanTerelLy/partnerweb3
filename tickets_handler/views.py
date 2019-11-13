@@ -123,3 +123,7 @@ def get_personal_info(request):
     city = request.GET.get('city')
     auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
     return JsonResponse(auth.get_personal_info(phone, city), safe=False)
+
+def get_installers(request):
+    installers = Installer.objects.all()
+    return render(request, 'beeline_html/installers.html', {'installers' : installers})

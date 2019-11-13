@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'tickets_handler',
 	'widget_tweaks',
     'crispy_forms'
+    'statistic'
 ]
 
 MIDDLEWARE = [
