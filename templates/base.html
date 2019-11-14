@@ -39,25 +39,43 @@
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
-
         <div class="navbar-collapse collapse" id="navbarColor02" style="">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'main_page_tickets' %}">Главная страница</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'global_search' %}">Все заявки</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'fast_house_search' %}">Найти адрес</a>
-                </li>
-            </ul>
-            <span class="nav-item ml-auto">
-                                <a class="nav-link" href="{% url 'logout' %}">Выйти</a></span>
+                {% if request.session.operator %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'main_page_tickets' %}">Главная страница</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'global_search' %}">Все заявки</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'fast_house_search' %}">Найти адрес</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'installers' %}">Монтажники</a>
+                    </li>
+                    </ul>
+                    <div class="navbar-nav">
+                        <span class="nav-item nav-link">{{ request.session.operator }}</span>
+                        <a class="nav-item nav-link" href="{% url 'logout' %}">Выйти</a>
+                    </div>
+
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'fast_house_search' %}">Найти адрес</a>
+                    </li>
+                    </ul>
+                {% endif %}
         </div>
     </nav>
     <p></p>
+        {% if messages %}
+        {% for message in messages %}
+            <div class="col-6 alert alert-{{ message.tags }}" role="alert" style="margin: auto">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
     <div class="container">
         {% block content %}
         {% endblock %}
