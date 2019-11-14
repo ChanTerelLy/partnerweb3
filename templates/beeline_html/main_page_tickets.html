@@ -1,192 +1,200 @@
 {% extends 'base.html' %}
 {% block title %}Главная страница{% endblock %}
 {% block content %}
-    <div class="container">
-        <p>
-            <span id='assign_total' class="badge badge-warning"><assigned_count></assigned_count></span>
-            <span id='switch_total' class="badge badge-success"><switched_count></switched_count></span>
-            <span class="badge badge-warning">Назначенных заявок сегодня: {{ assigned_today }}</span>
-            <span class="badge badge-success">Подключеных заявок сегодня: {{ switched_on_today }}</span>
-            <span class="badge badge-info">Созданых заявок сегодня: {{ created_today_tickets }}</span>
-        </p><!--label bar-->
-    </div>
-    <hr>
-    <div class="container">
-        <div class="progress" style="height: 30px;">
-            <div id='switch_bar' class="progress-bar progress-bar-striped progress-bar-animated bg-success">
-                <switched_count></switched_count>
-            </div>
-            <div id='assign_bar' class="progress-bar progress-bar-striped progress-bar-animated bg-warning">
-                <assigned_count></assigned_count>
-            </div>
-            <br>
+        <div class="container">
+            <p>
+                <span id='assign_total' class="badge badge-warning"><assigned_count></assigned_count></span>
+                <span id='switch_total' class="badge badge-success"><switched_count></switched_count></span>
+                <span class="badge badge-warning">Назначенных заявок сегодня: {{ assigned_today }}</span>
+                <span class="badge badge-success">Подключеных заявок сегодня: {{ switched_on_today }}</span>
+                <span class="badge badge-info">Созданых заявок сегодня: {{ created_today_tickets }}</span>
+            </p><!--label bar-->
         </div>
-    </div>
-    <hr>
-    <div class="container">
-        <input class="form-control" id="myInput" type="text" placeholder="Search..">
-    </div>
-    <hr>
-    <ol class="breadcrumb my-4">
-        <li class="breadcrumb-item active"><span class="label label-danger">Назначенные в график: </span><result_assign></result_assign></li>
-    </ol>
-    <div class="container">
-        <table id="assign_table" class="table table-hover table-bordered table-warning">
-            <thead class="thead-inverse" style="background: #ffc620">
-            <tr>
-                <th>Номер заявки</th>
-                <th>ФИО\Адресс</th>
-                <th>Телефон</th>
-                <th>Статус</th>
-                <th>Таймер</th>
-                <th>Сотрудник</th>
-            </tr>
-            </thead>
-            <tbody id="myTable">
-            {% for ticket in assigned_tickets %}
+        <hr>
+        <div class="container">
+            <div class="progress" style="height: 30px;">
+                <div id='switch_bar' class="progress-bar progress-bar-striped progress-bar-animated bg-success">
+                    Подключеных заявок сегодня: {{ switched_on_today }}
+                </div>
+                <div id='assign_bar' class="progress-bar progress-bar-striped progress-bar-animated bg-warning">
+                    Назначенных заявок сегодня: {{ assigned_today }}
+                </div>
+                <br>
+            </div>
+        </div>
+        <hr>
+        <div class="container">
+            <input class="form-control" id="myInput" type="text" placeholder="Search..">
+        </div>
+        <hr>
+        <ol class="breadcrumb my-4">
+            <li class="breadcrumb-item active"><span class="label label-danger">Назначенные в график: </span>
+                <result_assign></result_assign>
+            </li>
+        </ol>
+        <div class="container">
+            <table id="assign_table" class="table table-hover table-bordered table-warning">
+                <thead class="thead-inverse" style="background: #ffc620">
                 <tr>
-                    <td class="align-middle "><a href="{% url 'ticket_info' ticket.id %}"
-                                                 target="_blank">{{ ticket.number }}</a></td>
-                    <td>
-                        <a class="align-middle">{{ ticket.name }}</a>
-                        <small class="text-muted d-block">{{ ticket.address }} <b
-                                style="color:red;">{{ ticket.dns }}</b> </small>
-                    </td>
-                    <td>
-                        <a class="align-middle" href="tel:8{{ ticket.phone1 }}">{{ ticket.phone1 }}</a>
-                        <small class="text-muted d-block"><a
-                                href="tel:8{{ ticket.phone2 }}">{{ ticket.phone2 }}</a></small>
-                        <small class="text-muted d-block"><a
-                                href="tel:8{{ ticket.phone3 }}">{{ ticket.phone3 }}</a></small>
-                    </td>
-                    <td class="align-middle">{{ ticket.status }}</td>
-                    <td class="align-middle">
-                        {{ ticket.call_time }}
-                        <small class="text-muted d-block"><abbr
-                                title="Последняя дата назначения">{{ ticket.assigned_date }}</abbr></small>
-                    </td>
-                    <td class="align-middle">{{ ticket.operator }}</td>
+                    <th>Номер заявки</th>
+                    <th>ФИО\Адресс</th>
+                    <th>Телефон</th>
+                    <th>Статус</th>
+                    <th>Таймер</th>
+                    <th>Сотрудник</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <ol class="breadcrumb my-4">
-        <li class="breadcrumb-item active"><span class="label label-danger">Перезвоны на сегодня: </span><result_call></result_call></li>
-    </ol>
-    <div class="container">
-        <table id="keywords" class="table table-hover table-bordered table-info">
-            <thead class="thead-inverse" style="background: #00ecff">
-            <tr>
-                <th>Номер заявки</th>
-                <th>ФИО\Адресс</th>
-                <th>Телефон</th>
-                <th>Статус</th>
-                <th>Таймер</th>
-                <th>Сотрудник</th>
-            </tr>
-            </thead>
-            <tbody id="myTable">
-            {% for ticket in call_for_today %}
+                </thead>
+                <tbody id="myTable">
+                {% for ticket in assigned_tickets %}
+                    <tr>
+                        <td class="align-middle "><a href="{% url 'ticket_info' ticket.id %}"
+                                                     target="_blank">{{ ticket.number }}</a></td>
+                        <td>
+                            <a class="align-middle">{{ ticket.name }}</a>
+                            <small class="text-muted d-block">{{ ticket.address }} <b
+                                    style="color:red;">{{ ticket.dns }}</b> </small>
+                        </td>
+                        <td>
+                            <a class="align-middle" href="tel:8{{ ticket.phone1 }}">{{ ticket.phone1 }}</a>
+                            <small class="text-muted d-block"><a
+                                    href="tel:8{{ ticket.phone2 }}">{{ ticket.phone2 }}</a></small>
+                            <small class="text-muted d-block"><a
+                                    href="tel:8{{ ticket.phone3 }}">{{ ticket.phone3 }}</a></small>
+                        </td>
+                        <td class="align-middle">{{ ticket.status }}</td>
+                        <td class="align-middle">
+                            {{ ticket.call_time }}
+                            <small class="text-muted d-block"><abbr
+                                    title="Последняя дата назначения">{{ ticket.assigned_date }}</abbr></small>
+                        </td>
+                        <td class="align-middle">{{ ticket.operator }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <ol class="breadcrumb my-4">
+            <li class="breadcrumb-item active"><span class="label label-danger">Перезвоны на сегодня: </span>
+                <result_call></result_call>
+            </li>
+        </ol>
+        <div class="container">
+            <table id="keywords" class="table table-hover table-bordered table-info">
+                <thead class="thead-inverse" style="background: #00ecff">
                 <tr>
-                    <td class="align-middle ">
-                        <a href="{% url 'ticket_info' ticket.id %}" target="_blank">{{ ticket.number }}</a>
-                    </td>
-                    <td>
-                        <a class="align-middle">{{ ticket.name }}</a>
-                        <small class="text-muted d-block">{{ ticket.address }}</small>
-                    </td>
-                    <td>
-                        <a class="align-middle" href="tel:8{{ ticket.phone1 }}">{{ ticket.phone1 }}</a>
-                        <small class="text-muted d-block"><a
-                                href="tel:8{{ ticket.phone2 }}">{{ ticket.phone2 }}</a></small>
-                        <small class="text-muted d-block"><a
-                                href="tel:8{{ ticket.phone3 }}">{{ ticket.phone3 }}</a></small>
-                    </td>
-                    <td class="align-middle">{{ ticket.status }}</td>
-                    <td class="align-middle">{{ ticket.call_time }}</td>
-                    <td class="align-middle">{{ ticket.operator }}</td>
+                    <th>Номер заявки</th>
+                    <th>ФИО\Адресс</th>
+                    <th>Телефон</th>
+                    <th>Статус</th>
+                    <th>Таймер</th>
+                    <th>Сотрудник</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <ol class="breadcrumb my-4">
-        <li class="breadcrumb-item active"><span class="label label-danger">Подключенные: </span><result_switch></result_switch></li>
-    </ol>
-    <div class="container">
-        <table id="switch_table" class="table table-hover table-bordered table-success">
-            <thead class="thead-inverse" style="background: #a3ff0a">
-            <tr>
-                <th>Номер заявки</th>
-                <th>ФИО\Адресс</th>
-                <th>Телефон</th>
-                <th>Статус</th>
-                <th>Таймер</th>
-                <th>Сотрудник</th>
-            </tr>
-            </thead>
-            <tbody id="myTable">
-            {% for ticket in switched_on_tickets %}
+                </thead>
+                <tbody id="myTable">
+                {% for ticket in call_for_today %}
+                    <tr>
+                        <td class="align-middle ">
+                            <a href="{% url 'ticket_info' ticket.id %}" target="_blank">{{ ticket.number }}</a>
+                        </td>
+                        <td>
+                            <a class="align-middle">{{ ticket.name }}</a>
+                            <small class="text-muted d-block">{{ ticket.address }}</small>
+                        </td>
+                        <td>
+                            <a class="align-middle" href="tel:8{{ ticket.phone1 }}">{{ ticket.phone1 }}</a>
+                            <small class="text-muted d-block"><a
+                                    href="tel:8{{ ticket.phone2 }}">{{ ticket.phone2 }}</a></small>
+                            <small class="text-muted d-block"><a
+                                    href="tel:8{{ ticket.phone3 }}">{{ ticket.phone3 }}</a></small>
+                        </td>
+                        <td class="align-middle">{{ ticket.status }}</td>
+                        <td class="align-middle">{{ ticket.call_time }}</td>
+                        <td class="align-middle">{{ ticket.operator }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <ol class="breadcrumb my-4">
+            <li class="breadcrumb-item active"><span class="label label-danger">Подключенные: </span>
+                <result_switch></result_switch>
+            </li>
+        </ol>
+        <div class="container">
+            <table id="switch_table" class="table table-hover table-bordered table-success">
+                <thead class="thead-inverse" style="background: #a3ff0a">
                 <tr>
-                    <td class="align-middle "><a href="{% url 'ticket_info' ticket.id %}"
-                                                 target="_blank">{{ ticket.number }}</a></td>
-                    <td>
-                        <a class="align-middle">{{ ticket.name }}</a>
-                        <small class="text-muted d-block">{{ ticket.address }} <b
-                                style="color:red;">{{ ticket.dns }}</b></small>
-                    </td>
-                    <td>
-                        <a class="align-middle" href="tel:8{{ ticket.phone1 }}">{{ ticket.phone1 }}</a>
-                        <small class="text-muted d-block"><a
-                                href="tel:8{{ ticket.phone2 }}">{{ ticket.phone2 }}</a></small>
-                        <small class="text-muted d-block"><a
-                                href="tel:8{{ ticket.phone3 }}">{{ ticket.phone3 }}</a></small>
-                    </td>
-                    <td class="align-middle">{{ ticket.status }}</td>
-                    <td class="align-middle">{{ ticket.call_time }}</td>
-                    <td class="align-middle">{{ ticket.operator }}</td>
+                    <th>Номер заявки</th>
+                    <th>ФИО\Адресс</th>
+                    <th>Телефон</th>
+                    <th>Статус</th>
+                    <th>Таймер</th>
+                    <th>Сотрудник</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody id="myTable">
+                {% for ticket in switched_on_tickets %}
+                    <tr>
+                        <td class="align-middle "><a href="{% url 'ticket_info' ticket.id %}"
+                                                     target="_blank">{{ ticket.number }}</a></td>
+                        <td>
+                            <a class="align-middle">{{ ticket.name }}</a>
+                            <small class="text-muted d-block">{{ ticket.address }} <b
+                                    style="color:red;">{{ ticket.dns }}</b></small>
+                        </td>
+                        <td>
+                            <a class="align-middle" href="tel:8{{ ticket.phone1 }}">{{ ticket.phone1 }}</a>
+                            <small class="text-muted d-block"><a
+                                    href="tel:8{{ ticket.phone2 }}">{{ ticket.phone2 }}</a></small>
+                            <small class="text-muted d-block"><a
+                                    href="tel:8{{ ticket.phone3 }}">{{ ticket.phone3 }}</a></small>
+                        </td>
+                        <td class="align-middle">{{ ticket.status }}</td>
+                        <td class="align-middle">{{ ticket.call_time }}</td>
+                        <td class="align-middle">{{ ticket.operator }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+{% endblock %}
+{% block extra_scripts %}
     <script>
-    $(function() {
-        // search line
-        $(document).ready(function () {
-            $("#myInput").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("#myTable tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        $(function () {
+            // search line
+            $(document).ready(function () {
+                $("#myInput").on("keyup", function () {
+                    var value = $(this).val().toLowerCase();
+                    $("#myTable tr").filter(function () {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                    });
                 });
             });
-        });
-        // assigned counter
-        $(document).ready(function () {
-            var str = 'Назначенных заявок: ';
-            $('assigned_count').html(str + ($('#assign_table tr').length - 1));
-        });
-        // switched counter
-        $(document).ready(function () {
-            var str = 'Подключенных заявок: ';
-            $('switched_count').html(str + ($('#switch_table tr').length - 1));
-        });
-        setInterval(function () {
-            $('result_call').html(($('#keywords tr').filter(':visible').length - 1));
-            $('result_switch').html(($('#switch_table tr').filter(':visible').length - 1));
-            $('result_assign').html(($('#assign_table tr').filter(':visible').length - 1));
-        }, 500);
+            // assigned counter
+            $(document).ready(function () {
+                var str = 'Назначенных заявок: ';
+                $('assigned_count').html(str + ($('#assign_table tr').length - 1));
+            });
+            // switched counter
+            $(document).ready(function () {
+                var str = 'Подключенных заявок: ';
+                $('switched_count').html(str + ($('#switch_table tr').length - 1));
+            });
+            setInterval(function () {
+                $('result_call').html(($('#keywords tr').filter(':visible').length - 1));
+                $('result_switch').html(($('#switch_table tr').filter(':visible').length - 1));
+                $('result_assign').html(($('#assign_table tr').filter(':visible').length - 1));
+            }, 500);
 
-        // load listeners
-    });
-            let assign_total = parseInt($('#assign_table tr').length - 1);
-            let switch_total = parseInt($('#switch_table tr').length - 1);
-            let swAndAssign = assign_total + switch_total;
-            let assign_bar = document.getElementById('assign_bar');
-            let switch_bar = document.getElementById('switch_bar');
-            switch_bar.style.width = (switch_total/swAndAssign)*100 + '%';
-            assign_bar.style.width = (assign_total/swAndAssign)*100 + '%';
+            // load listeners
+        });
+        let assign_total = {{ assigned_today }};
+        let switch_total = {{ switched_on_today }};
+        let swAndAssign = assign_total + switch_total;
+        let assign_bar = document.getElementById('assign_bar');
+        let switch_bar = document.getElementById('switch_bar');
+        switch_bar.style.width = (switch_total / swAndAssign) * 100 + '%';
+        assign_bar.style.width = (assign_total / swAndAssign) * 100 + '%';
     </script>
 {% endblock %}
 

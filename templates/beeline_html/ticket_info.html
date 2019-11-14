@@ -20,7 +20,8 @@
                     <hr>
                     <h5>Номера телефонов:</h5>
                     {% for item in ticket_info.phones %}
-                        <h5><a id="phone{{ forloop.counter }}" href="tel:8{{ item.phone }}">{{ item.phone }}</a> {{ item.comment }}</h5>
+                        <h5><a id="phone{{ forloop.counter }}"
+                               href="tel:8{{ item.phone }}">{{ item.phone }}</a> {{ item.comment }}</h5>
                     {% endfor %}
                     <hr>
                     <form style="margin-left: -15px" method="POST" autocomplete="off" class="post-form"
@@ -56,10 +57,14 @@
                     </div>
                 </div>
                 <div class="form-group" style="position: relative">
-                    <label for="phone" class="sr-only">Информация о номере телефона</label>
+                    <p>Информация о номере телефона:</p>
+                    <label for="phone" class="sr-only"></label>
                     <input type="number" class="form-control" id="phone" placeholder="9111111111">
-                    <button type="submit" class="btn btn-primary mb-2"  style="margin-top: 5px" onclick="getPersonalInfo()">Отправить запрос</button>
-                    <img id='load_person' src="{% static 'image/load_person.gif' %}" style="visibility: hidden;top:-80%; right: 30%; z-index: 5; position: absolute">
+                    <button type="submit" class="btn btn-primary mb-2" style="margin-top: 5px"
+                            onclick="getPersonalInfo()">Отправить запрос
+                    </button>
+                    <img id='load_person' src="{% static 'image/load_person.gif' %}"
+                         style="visibility: hidden;top:-80%; right: 30%; z-index: 5; position: absolute">
                 </div>
                 <div id="personal_info"></div>
                 <div class="accordion" id="accordionExample">
@@ -111,10 +116,9 @@
             </tbody>
         {% endfor %}
     </table>
-
+{% endblock %}
+{% block extra_scripts %}
     <script type="text/javascript">
-        {#returnFirstPhone = () => {document.getElementById('phone').innerHTML = document.getElementById('phone1').value;}#}
-        {#document.addEventListener('load', returnFirstPhone);#}
         // get color of calendar
         $.ajax({
                 url: `./get_schedule_color?ticket_id={{ ticket_info.id }}&house_id=0`,
@@ -161,36 +165,39 @@
                             beforeSend: function () {
                                 document.getElementById('load').style.visibility = 'visible'
                             },
+                            error: function () {
+                                alert('Произошка ошибка, попробуйте снова');
+                                document.getElementById('load').style.visibility = 'hidden'
+                            }
                         });
                     }
                 });
         });
-//
-    function getPersonalInfo() {
-        phone = document.getElementById('phone').value;
-        $.ajax({
-            url:`/personal_info/?phone=${phone}&city=69`,
-            dataType: "json",
-            success: function (result) {
-                console.log(result);
-                document.getElementById('personal_info').innerHTML = `
+
+        //
+        function getPersonalInfo() {
+            phone = document.getElementById('phone').value;
+            $.ajax({
+                url: `/personal_info/?phone=${phone}&city=69`,
+                dataType: "json",
+                success: function (result) {
+                    console.log(result);
+                    document.getElementById('personal_info').innerHTML = `
 <p><b>Баланс:</b> ${result.data.balance}</p>
 <p><b>ФИО:</b> ${result.data.ensemble_personal_data.clientRepName}</p>
 <p><b>Тариф:</b> ${result.data.ensemble_personal_data.soc_description}</p>
 <p><b>Основной номер:</b>${result.data.ensemble_personal_data.phoneHome}</p>
 <p><b>Логин ДИ:</b>${result.data.ensemble_data.ctn_validation.existing_login.value}</p>`;
-                document.getElementById('load_person').style.visibility = 'hidden'
-            },
-            beforeSend: function () {
-                document.getElementById('load_person').style.visibility = 'visible'
-            },
-            error: function () {
-                alert('Произошка ошибка, попробуйте снова');
-                document.getElementById('load_person').style.visibility = 'hidden'
-            }
-        })
-    }
-
-
+                    document.getElementById('load_person').style.visibility = 'hidden'
+                },
+                beforeSend: function () {
+                    document.getElementById('load_person').style.visibility = 'visible'
+                },
+                error: function () {
+                    alert('Произошка ошибка, попробуйте снова');
+                    document.getElementById('load_person').style.visibility = 'hidden'
+                }
+            })
+        }
     </script>
 {% endblock %}

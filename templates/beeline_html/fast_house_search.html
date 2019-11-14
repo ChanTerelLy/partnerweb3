@@ -4,18 +4,17 @@
 {% block content %}
     <div>
         <div class="input-group input-group-lg">
-        <div class="input-group-prepend">
-            <button class="btn btn-primary" id="input-button">Поиск</button>
-        </div>
-        <input id='input-search' type="text" class="form-control" aria-label="Large" placeholder="Партизанская" aria-describedby="inputGroup-sizing-sm">
-
-    </div>
-        </div>
-            <div id="result">
+            <div class="input-group-prepend">
+                <button class="btn btn-primary" id="input-button">Поиск</button>
             </div>
-
-
-<div id="container"></div>
+            <input id='input-search' type="text" class="form-control" aria-label="Large" placeholder="Партизанская"
+                   aria-describedby="inputGroup-sizing-sm">
+        </div>
+    </div>
+    <div id="result">
+    </div>
+    <div id="container"></div>
+{% endblock %}
+{% block extra_scripts %}
     <script src="{% static 'js/beeline_js/fast_house_search.js' %}"></script>
-
 {% endblock %}

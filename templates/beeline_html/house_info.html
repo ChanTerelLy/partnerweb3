@@ -2,12 +2,6 @@
 {% load static %}
 {% block title %}Информация о доме{% endblock %}
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-6">
@@ -42,23 +36,9 @@
         </div>
     </div>
 </div>
-</div>
-
-<body>
-<script type="text/javascript">
-    // get color of calendar
-    {#$.ajax({#}
-    {#        url: `./get_schedule_color?ticket_id={{ ticket_info.id }}&ar_id=0`,#}
-    {#        dataType: 'json',#}
-    {#        success: function (data) {#}
-    {#            $.each(data[0]['days'], function (key, i) {#}
-    {#                document.querySelectorAll(`[data-date="${i.day}"][data-month="${data[0].month}"][data-year="${data[0].year}"]`)[0].style.background = i.status#}
-    {#            })#}
-    {##}
-    {#        }#}
-    {#    }#}
-    {#);#}
-    //datetimepicker
+{% endblock %}
+{% block extra_scripts %}
+    <script type="text/javascript">
     $.datetimepicker.setLocale('ru');
     $('#id_datetime').datetimepicker({
         format: 'd.m.Y H:i',
@@ -92,11 +72,13 @@
                         beforeSend: function () {
                             document.getElementById('load').style.visibility = 'visible'
                         },
+                        error: function () {
+                            alert('Произошка ошибка, попробуйте снова');
+                            document.getElementById('load').style.visibility = 'hidden'
+                        }
                     });
                 }
             });
     });
 </script>
-</body>
-</html>
 {% endblock %}
