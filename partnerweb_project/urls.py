@@ -5,5 +5,6 @@ from tickets_handler import views
 
 urlpatterns = [
     path('', include('tickets_handler.urls')),
+    path('statistic/', include('statistic.urls')),
     url(r'^$', views.redirect_auth, name='redirect_auth'),
 ]
