@@ -27,12 +27,19 @@ class Auth:
         self.headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,'
                                       ' likeGecko) Chrome/70.0.3538.110 Safari/537.36',
                         'content-type': 'application/x-www-form-urlencoded', 'upgrade-insecure-requests': '1'}
-        self.auth_response = self.session.post('https://partnerweb.beeline.ru', self.data, headers=self.headers).text
+        self.auth = self.session.post('https://partnerweb.beeline.ru', self.data, headers=self.headers)
+        self.auth_response = self.auth.text
         self.auth_response_status = self.check_auth()
+        self.header = self.get_headers()
+        self.cookies = self.get_cookie()
 
     def check_auth(self):
         return False if self.auth_response.count('Ошибка авторизации') else True
 
+    def get_cookie(self):
+        return self.auth.cookies.get_dict()
+    def get_headers(self):
+        return self.auth.headers
 class Ticket:
 
     def __init__(self, address='', address_id='', allow_change_status='', allow_schedule='', call_time=None,
@@ -684,5 +691,7 @@ class Worker:
 
 if __name__ == '__main__':
 
-    auth = NewDesign('G800-37', 'Хоменко', '1604').auth_response_status
-    print(auth)
+    auth = NewDesign('G800-37', 'Хоменко', '1604')
+    print(auth.headers)
+    print(auth.cookies)
+
