@@ -51,9 +51,9 @@ def ticket_info(request, id):
                                                             'gp_houses': gp_houses})
 
 def login(request):
-    code, operator, password = request.session['sell_code'], request.session['operator'], request.session['password']
-    if Auth(code, operator, password).auth_response_status:
-        return redirect('main_page_tickets')
+    # code, operator, password = request.session['sell_code'], request.session['operator'], request.session['password']
+    # if Auth(code, operator, password).auth_response_status:
+    #     return redirect('main_page_tickets')
     form = AuthForm(request.POST)
     if request.method == 'POST':
         form = AuthForm(request.POST)
