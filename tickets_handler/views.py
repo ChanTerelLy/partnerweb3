@@ -33,10 +33,10 @@ def main_page(request):
         request.session['sell_code'], request.session['operator'], request.session['password'] = '','',''
         return redirect('login')
 
-
+@system.my_timer
 def global_search(request):
     auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
-    tickets = WorkersModel.replace_num_worker(auth.global_search())
+    tickets = auth.global_search()
     return render(request, 'beeline_html/global_search.html', {'tickets':tickets})
 
 def ticket_info(request, id):
@@ -51,6 +51,9 @@ def ticket_info(request, id):
                                                             'gp_houses': gp_houses})
 
 def login(request):
+    code, operator, password = request.session['sell_code'], request.session['operator'], request.session['password']
+    if Auth(code, operator, password).auth_response_status:
+        return redirect('main_page_tickets')
     form = AuthForm(request.POST)
     if request.method == 'POST':
         form = AuthForm(request.POST)

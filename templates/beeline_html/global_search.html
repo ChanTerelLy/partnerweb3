@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}Глобальный поиск{% endblock %}
 {% block content %}
+    <div class="container">
+    <p>Быстрый поиск:</p>
+        <input class="form-control" id="myInput" type="text" placeholder="Тут можно писать ╰(*°▽°*)╯">
+    </div>
+    <p></p>
 <div class="container">
   <table id="dtOrderExample"  class="table table-hover table-bordered">
     <thead class="thead-inverse">
@@ -38,16 +43,17 @@
     </tbody>
   </table>
 </div>
-<script>
-$(document).ready(function () {
-$('#dtOrderExample').DataTable({
-"order": [[ 3, "desc" ]]
-});
-$('.dataTables_length').addClass('bs-select');
-});
-</script>
 {% endblock %}
-
-<script>
-  $('.container tbody').alert()
-</script>
+{% block extra_scripts %}
+    <script>
+            // search line
+            $(document).ready(function () {
+                $("#myInput").on("keyup", function () {
+                    var value = $(this).val().toLowerCase();
+                    $("#myTable tr").filter(function () {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                    });
+                });
+            })
+    </script>
+{% endblock %}

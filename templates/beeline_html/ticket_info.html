@@ -29,15 +29,11 @@
                           novalidate>
                         {% csrf_token %}
                         {{ form|crispy }}
-                        <div class="container">
                             <div class="alert alert-danger">
                                 <strong> Внимание, все отправленные данные записываются!</strong>
-                            </div>
                         </div>
-                        <button style="margin-left: 15px" type="submit" class="save btn btn-primary btn-lg"
-                                formmethod="post">
-                            Отправить
-                        </button>
+                        <button type="submit" class="save btn btn-primary btn-lg"
+                                formmethod="post">Отправить</button>
                     </form>
                 </div>
             </div>
@@ -119,8 +115,10 @@
 {% endblock %}
 {% block extra_scripts %}
     <script type="text/javascript">
+        document.addEventListener('load', getColorSchedule());
         // get color of calendar
-        $.ajax({
+        function getColorSchedule(){
+                   $.ajax({
                 url: `./get_schedule_color?ticket_id={{ ticket_info.id }}&house_id=0`,
                 dataType: 'json',
                 success: function (data) {
@@ -131,6 +129,7 @@
                 }
             }
         );
+        }
         //datetimepicker
         $.datetimepicker.setLocale('ru');
         $('#id_datetime').datetimepicker({
@@ -151,6 +150,7 @@
                             url: `./schedule/${value.getFullYear()}/${value.getMonth() + 1}/${value.getDate()}`,
                             dataType: "json",
                             success: function (result) {
+                                getColorSchedule();
                                 $.each(result, function (key, value) {
                                     globalDate.push(key);
                                 });

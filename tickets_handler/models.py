@@ -1,6 +1,7 @@
 from django.db import models
 from tickets_handler.beeline_parser.manager import NewDesign
 import re
+from tickets_handler.beeline_parser import system
 class Workers(models.Model):
     name = models.CharField(max_length=250, unique=True)
     number = models.CharField(max_length=50, unique=True)
@@ -8,7 +9,9 @@ class Workers(models.Model):
     status = models.BooleanField()
     url = models.URLField()
 
+
     @classmethod
+    @system.my_timer
     def replace_num_worker(cls, tickets):
         if tickets is not None:
             for ticket in tickets:
