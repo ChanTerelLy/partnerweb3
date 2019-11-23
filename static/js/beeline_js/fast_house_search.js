@@ -14,7 +14,7 @@ document.getElementById('input-button').addEventListener('click', function (valu
             document.getElementById('result').innerHTML = '';
             $.each(result, function (key, value) {
                 document.getElementById('result').innerHTML += `<div id="${value.s_id}">${value.city} : ${value.street_name}<\div>`;
-                $.getJSON(`/get_homes_by_street?house_id=${value.s_id}`, function (houses) {
+                $.getJSON(`/get_homes_by_street?street_id=${value.s_id}`, function (houses) {
                     document.getElementById(value.s_id).insertAdjacentHTML('beforeend', parse_table(houses));
                 });
             })
@@ -42,7 +42,7 @@ function parse_table(data){
               break;
       }
 
-    html += `<td class='${color_house} ' style="width:20%"><a href='/house_info/${data[i].h_id}/' target="_blank">${data[i].name}</a></td>`;
+    html += `<td class='${color_house} ' style="width:20%"><a href='/house_info/${data[i].city_id}/${data[i].h_id}/' target="_blank">${data[i].name}</a></td>`;
     // Break into next row
     var next = i+1;
     if (next%perrow==0 && next!=data.length) {

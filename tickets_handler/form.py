@@ -9,3 +9,11 @@ class DateTimeForm(forms.Form):
     datetime = forms.DateField(widget=forms.DateTimeInput(attrs={'readonly':'readonly'}),label='Таймер',  required=False)
     status = forms.ChoiceField(choices=[(21, 'Позвонить клиенту'),(2028,'Отказ 2028')],label='Статус', required=False)
     comments = forms.CharField(max_length=300, label='Комментарий', required=False)
+
+class CreateTicketForm(forms.Form):
+    client_surname = forms.CharField(required=False, label='Фамилия', widget=forms.TextInput(
+        attrs={'class': 'text-form-control', 'placeholder': 'Иванов'}))
+    client_name = forms.CharField(required=False, label='Имя', widget=forms.TextInput(attrs={'class':'text-form-control', 'placeholder':'Иван'}))
+    client_patrony = forms.CharField(required=False, label='Отчество', widget=forms.TextInput(attrs={'class':'text-form-control', 'placeholder':'Иванович'}))
+    phone_number_1 = forms.CharField(required=False, label='Номер телефона', widget=forms.TextInput(attrs={'class':'text-form-control', 'placeholder':'9111111111'}))
+    basket = forms.ChoiceField()

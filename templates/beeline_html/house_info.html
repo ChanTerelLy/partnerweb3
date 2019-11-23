@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 {% load static %}
 {% block title %}Информация о доме{% endblock %}
 {% block content %}
 <div class="container-fluid">
+<h1>{{ name }}</h1>
+<p></p>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="accordion" id="accordionExample">
                 {% for gp in gp_houses %}
                     <div class="card">
@@ -27,7 +30,10 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="col-md-6">
+    <div class="col-md-4">
+            {{ form|crispy }}
+    </div>
+        <div class="col-md-4">
             <div style="position: relative">
                 <div id="datetimepicker12"></div>
                 <img id='load' src="{% static 'image/load.gif' %}"

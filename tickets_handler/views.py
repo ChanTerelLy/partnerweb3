@@ -1,6 +1,6 @@
-from tickets_handler.beeline_parser.manager import NewDesign,OldDesign, Worker, Auth
+from tickets_handler.beeline_parser.manager import NewDesign, OldDesign, Worker, Auth
 from django.shortcuts import render, redirect
-from .form import AuthForm, DateTimeForm
+from .form import AuthForm, DateTimeForm, CreateTicketForm
 from .models import Workers as WorkersModel, Installer
 from django.http import HttpResponse, JsonResponse
 from tickets_handler.beeline_parser import system
@@ -43,7 +43,7 @@ def ticket_info(request, id):
     auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
     ticket_info = auth.ticket_info(id)
     dateform = DateTimeForm(request.POST)
-    gp_houses = auth.get_gp_ticket_serch(id)
+    gp_houses = auth.get_gp_ticket_search(id)
     if request.method == 'POST':
         auth.change_ticket(id, dateform['datetime'].value(),dateform['comments'].value(), dateform['status'].value())
         return redirect('ticket_info', id)
@@ -51,9 +51,6 @@ def ticket_info(request, id):
                                                             'gp_houses': gp_houses})
 
 def login(request):
-    # code, operator, password = request.session['sell_code'], request.session['operator'], request.session['password']
-    # if Auth(code, operator, password).auth_response_status:
-    #     return redirect('main_page_tickets')
     form = AuthForm(request.POST)
     if request.method == 'POST':
         form = AuthForm(request.POST)
@@ -91,14 +88,14 @@ def get_installers(request):
     return render(request, 'beeline_html/installers.html', {'installers' : installers})
 
 def street_search(request):
-    auth = NewDesign('G800-37', 'Хоменко', '1604')
+    auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
     input = request.GET.get('streetPattern', '')
     return JsonResponse(auth.street_search_type(input), safe=False)
 
 def get_homes_by_street(request):
-    auth = NewDesign('G800-37', 'Хоменко', '1604')
-    house_id = request.GET.get('house_id', '')
-    data = auth.get_houses_by_street(auth.get_homes(house_id))
+    auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
+    street_id = request.GET.get('street_id', '')
+    data = auth.get_houses_by_street(auth.get_homes(street_id))
     return JsonResponse(data, safe=False)
 
 def fast_house_search(request):
@@ -110,18 +107,27 @@ def get_schedule_color(request):
     ticket_id = request.GET.get('ticket_id', '')
     return JsonResponse(auth.month_schedule_color(house_id, ticket_id), safe=False)
 
-def house_info(request, house_id):
-    auth = NewDesign('G800-37', 'Хоменко', '1604')
+def house_info(request, city_id, house_id):
+    auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
     gp_houses, areas = auth.get_gp_by_house_id(house_id)
+    mobile, presets = auth.get_mobile_preset(city_id, house_id), auth.get_presets(city_id, house_id)
+    bundles = auth.parse_preset(presets+mobile)
+    choose_bundels = list([(i['name'], i['id']) for i in bundles])
+    house_full_name = auth.get_full_house_info(house_id)['house_address']
+    form = CreateTicketForm()
+    form.fields['basket'].initial = choose_bundels
+    if request.method == 'POST':
+        pass
+        # create_ticket_form = auth.create_ticket(house_id,form.client_name, form.client_patrony, form.client_surname, form.phone_number_1 )
     gp = areas + gp_houses
-    return render(request, 'beeline_html/house_info.html', {'gp_houses' : gp})
+    return render(request, 'beeline_html/house_info.html', {'gp_houses' : gp, 'name': house_full_name, 'form' : form})
 
 def get_schedule_by_ticket_id(request, ticket, year, month, day):
     auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
     return JsonResponse(auth.schedule_interval_by_day(ticket, year, month, day, house_id=False), safe=False)
 
 def get_schedule_by_house_id(request, house_id, year, month, day):
-    auth = NewDesign('G800-37', 'Хоменко', '1604')
+    auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
     return JsonResponse(auth.schedule_interval_by_day(ticket_id=False, year=year, month=month, day=day, house_id=house_id), safe=False)
 
 def logout(request):

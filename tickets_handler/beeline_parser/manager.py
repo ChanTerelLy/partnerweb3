@@ -329,7 +329,7 @@ class Address(Auth):
         for home in homes_json:
             if home['h_status'] == "connected":
                 home = {'name': home['house_address'].split(',')[2], 'h_segment': home['h_segment'], 'h_id':
-                    home['h_id']}
+                    home['h_id'], 'city_id': home['city']['ct_id']}
                 homes.append(home)
         return homes
 
@@ -405,7 +405,28 @@ class Schedule(Address):
         return colors[number]
 
 
-class NewDesign(Schedule):
+class Basket(Schedule):
+
+    def get_mobile_preset(self, city_id, house_id):
+        return self.session.get(
+            f'https://partnerweb.beeline.ru/restapi/service/get_presets?city_id={city_id}&house_id={house_id}&is_mobile_presets=1').json()
+
+    def get_presets(self, city_id, house_id):
+        return self.session.get(
+            f'https://partnerweb.beeline.ru/restapi/service/get_presets?city_id={city_id}&house_id={house_id}').json()
+
+    def parse_preset(self, data):
+        presets = []
+        for d in data:
+            presets.append({"name": d.get('name'),
+             "city_id": d.get('city_id'),
+             "id": d.get('id'),
+             "service_type": d.get('service_type'),
+                            "VPDN": d['min_cost']['VPDN']['S_ID'],
+             "min_cost_total_price": d.get('min_cost_total_price')})
+        return presets
+
+class NewDesign(Basket):
 
     def ticket_info(self, id):
         attr = self.session.get(f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{id}').json()
@@ -467,20 +488,24 @@ class NewDesign(Schedule):
                                shop=shop, status=status, pages=pages)
         return tickets
 
-    def create_ticket(self, house_id, flat, client_name, client_patrony, client_surname, phone_number_1,
+    def create_ticket(self, house_id, flat, client_name, client_patrony, client_surname,id,service_type,vpdn, phone_number_1,phone_comment_1='',
+                      phone_number_2='', phone_comment_2='',phone_number_3='',phone_comment_3='',
                       need_schedule=False):
-        data = {"ar_id": house_id, "flat": flat, "create_contract": 1, "client_name": client_name,
-                "client_patrony": client_patrony, "client_surname": client_surname, "phone_number_1": phone_number_1,
-                "sms_warnto_1": 1, "service_type": "typical", "simple_vpdn": "M130990",
-                "basket": {"MAIN": {"VPDN": {"S_ID": "M130990"}}}, "need_schedule": need_schedule}
-        self.session.get('https://partnerweb.beeline.ru/ngapp#!/newaddress/connect_ticket/house_id/446187')
+        data = {"house_id":house_id,"flat":flat,"create_contract":1,"client_name":client_name,
+                "client_patrony":client_patrony,
+                "client_surname":client_surname,"phone_number_1":phone_number_1,"phone_comment_1":phone_comment_1,"sms_warnto_1":1,
+                "phone_number_2":phone_number_2,"phone_comment_2":phone_comment_2,"phone_number_3":phone_number_3,
+                "phone_comment_3":phone_comment_3,"preset_service":id,
+                "service_type":service_type.lower().replace('is_', '').join('_service'),
+                "basket":{"MAIN":{service_type:{"S_ID":id},"VPDN":{"S_ID":vpdn}}},
+                "need_schedule":False}
+        self.session.get(f'https://partnerweb.beeline.ru/ngapp#!/newaddress/connect_ticket/house_id/{house_id}')
         self.session.headers["origin"] = "https://partnerweb.beeline.ru"
         self.session.headers["accept-language"] = "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
         self.session.headers["x-requested-with"] = "XMLHttpRequest"
         self.session.headers['content-type'] = 'application/json'
-        self.session.headers["http_referer"] = "https://partnerweb.beeline.ru/ngapp#!/newaddress/connect_ticket/" \
-                                               "ar_id/450541"
-        self.session.post('https://partnerweb.beeline.ru/restapi/tickets/', json.dumps(data))
+        return self.session.post('https://partnerweb.beeline.ru/restapi/tickets/', json.dumps(data))
+
 
     @system.my_timer
     def assigned_tickets(self, tickets):
@@ -620,7 +645,7 @@ class NewDesign(Schedule):
         houses = list([i['description'] for i in gp_session['data']['houses']])
         return areas, houses
 
-    def get_gp_ticket_serch(self, id):
+    def get_gp_ticket_search(self, id):
         gp_session = self.session.get(f'https://partnerweb.beeline.ru/restapi/schedule/validate/ticket/{id}').json()
         descriptions = gp_session['global_problems_context']['connection_related_gp_list']
         return list([i['description'] for i in descriptions])
@@ -633,6 +658,9 @@ class NewDesign(Schedule):
             if street['s_city'] == 69 or street['s_city'] == 241 or street['s_city'] == 86:
                 addresses.append({'city': street['city'], 'street_name': street['street_name'], 's_id': street['s_id']})
         return addresses
+
+    def get_full_house_info(self, id):
+        return self.session.get(f'https://partnerweb.beeline.ru/ngapi/house/{id}/').json()
 
     def change_ticket(self, id, timer, comment='', status_id=21):
         url_status = f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{id}'
