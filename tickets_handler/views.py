@@ -112,21 +112,27 @@ def house_info(request, city_id, house_id):
     gp_houses, areas = auth.get_gp_by_house_id(house_id)
     mobile, presets = auth.get_mobile_preset(city_id, house_id), auth.get_presets(city_id, house_id)
     bundles = auth.parse_preset(presets+mobile)
-    choose_bundels = list([(i['name'], i['id']) for i in bundles])
+    choose_bundels = list([(i['id'], i['name']) for i in bundles])
     house_full_name = auth.get_full_house_info(house_id)['house_address']
-    form = CreateTicketForm()
-    form.fields['basket'].initial = choose_bundels
-    if request.method == 'POST':
-        pass
-        # create_ticket_form = auth.create_ticket(house_id,form.client_name, form.client_patrony, form.client_surname, form.phone_number_1 )
+    p_form = CreateTicketForm()
+    p_form.fields['basket'].choices = choose_bundels
     gp = areas + gp_houses
-    return render(request, 'beeline_html/house_info.html', {'gp_houses' : gp, 'name': house_full_name, 'form' : form})
+    if request.method == 'POST':
+        p_form = CreateTicketForm(request.POST)
+        bundel_id = p_form['basket'].value()
+        service_type, vpdn = list([(i['service_type'], i['VPDN']) for i in bundles if bundel_id == i['id']])[0]
+        create_ticket_form = auth.create_ticket(house_id, p_form['flat'].value(), p_form['client_name'].value(),
+                                                p_form['client_patrony'].value(), p_form['client_surname'].value(),
+                                                p_form['phone_number_1'].value(), bundel_id ,service_type, vpdn)
+        return redirect('ticket_info', create_ticket_form['data']['ticket_id'])
+    return render(request, 'beeline_html/house_info.html', {'gp_houses' : gp, 'name': house_full_name,
+                                                            'p_form' : p_form})
 
 def get_schedule_by_ticket_id(request, ticket, year, month, day):
     auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
     return JsonResponse(auth.schedule_interval_by_day(ticket, year, month, day, house_id=False), safe=False)
 
-def get_schedule_by_house_id(request, house_id, year, month, day):
+def get_schedule_by_house_id(request, city_id, house_id, year, month, day):
     auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
     return JsonResponse(auth.schedule_interval_by_day(ticket_id=False, year=year, month=month, day=day, house_id=house_id), safe=False)
 

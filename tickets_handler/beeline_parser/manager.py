@@ -412,8 +412,11 @@ class Basket(Schedule):
             f'https://partnerweb.beeline.ru/restapi/service/get_presets?city_id={city_id}&house_id={house_id}&is_mobile_presets=1').json()
 
     def get_presets(self, city_id, house_id):
-        return self.session.get(
+        presets = self.session.get(
             f'https://partnerweb.beeline.ru/restapi/service/get_presets?city_id={city_id}&house_id={house_id}').json()
+        bundles = self.session.get(
+            f'https://partnerweb.beeline.ru/restapi/service/get_bundles?city_id={city_id}&house_id={house_id}').json()
+        return presets
 
     def parse_preset(self, data):
         presets = []
@@ -488,23 +491,27 @@ class NewDesign(Basket):
                                shop=shop, status=status, pages=pages)
         return tickets
 
-    def create_ticket(self, house_id, flat, client_name, client_patrony, client_surname,id,service_type,vpdn, phone_number_1,phone_comment_1='',
-                      phone_number_2='', phone_comment_2='',phone_number_3='',phone_comment_3='',
+    def create_ticket(self, house_id, flat, client_name, client_patrony, client_surname, phone_number_1, id,service_type,vpdn,
                       need_schedule=False):
+        st = service_type.lower().replace('is_', '') + ('_service')
         data = {"house_id":house_id,"flat":flat,"create_contract":1,"client_name":client_name,
                 "client_patrony":client_patrony,
-                "client_surname":client_surname,"phone_number_1":phone_number_1,"phone_comment_1":phone_comment_1,"sms_warnto_1":1,
-                "phone_number_2":phone_number_2,"phone_comment_2":phone_comment_2,"phone_number_3":phone_number_3,
-                "phone_comment_3":phone_comment_3,"preset_service":id,
-                "service_type":service_type.lower().replace('is_', '').join('_service'),
+                "client_surname":client_surname,"phone_number_1":phone_number_1,st:id,
+                "service_type": st,
                 "basket":{"MAIN":{service_type:{"S_ID":id},"VPDN":{"S_ID":vpdn}}},
                 "need_schedule":False}
+        if service_type == 'IS_INAC_PRESET':
+            data['is_bundle'] = 0
         self.session.get(f'https://partnerweb.beeline.ru/ngapp#!/newaddress/connect_ticket/house_id/{house_id}')
         self.session.headers["origin"] = "https://partnerweb.beeline.ru"
         self.session.headers["accept-language"] = "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
         self.session.headers["x-requested-with"] = "XMLHttpRequest"
         self.session.headers['content-type'] = 'application/json'
-        return self.session.post('https://partnerweb.beeline.ru/restapi/tickets/', json.dumps(data))
+        response = self.session.post('https://partnerweb.beeline.ru/restapi/tickets/', json.dumps(data)).json()
+        return response
+
+    def parse_creation_response(self):
+        pass
 
 
     @system.my_timer
@@ -667,10 +674,10 @@ class NewDesign(Basket):
         comment = '; '.join(comment) if isinstance(comment, list) else comment
         if status_id == '2028':
             data_timer = {"status_id": 21, "call_time": '31.12.2028 00:00', "comment": comment}
-            self.session.post(url_status, data_timer)
+            return self.session.post(url_status, data_timer).json()
         else:
             data_timer = {"status_id": int(status_id), "call_time": timer, "comment": comment}
-            self.session.post(url_status, data_timer)
+            return self.session.post(url_status, data_timer).json()
 
     def get_personal_info(self, phone, city):
         id = self.get_q_id(phone, city)

@@ -11,9 +11,10 @@ class DateTimeForm(forms.Form):
     comments = forms.CharField(max_length=300, label='Комментарий', required=False)
 
 class CreateTicketForm(forms.Form):
+    flat = forms.IntegerField(required=False, label='Квартира')
     client_surname = forms.CharField(required=False, label='Фамилия', widget=forms.TextInput(
         attrs={'class': 'text-form-control', 'placeholder': 'Иванов'}))
     client_name = forms.CharField(required=False, label='Имя', widget=forms.TextInput(attrs={'class':'text-form-control', 'placeholder':'Иван'}))
     client_patrony = forms.CharField(required=False, label='Отчество', widget=forms.TextInput(attrs={'class':'text-form-control', 'placeholder':'Иванович'}))
     phone_number_1 = forms.CharField(required=False, label='Номер телефона', widget=forms.TextInput(attrs={'class':'text-form-control', 'placeholder':'9111111111'}))
-    basket = forms.ChoiceField()
+    basket = forms.ChoiceField(required=False, label='Тариф')

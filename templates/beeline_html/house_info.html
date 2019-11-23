@@ -31,7 +31,14 @@
             </div>
         </div>
     <div class="col-md-4">
-            {{ form|crispy }}
+                            <form method="POST" autocomplete="off" class="post-form"
+                          novalidate>
+                                {% csrf_token %}
+            {{ p_form|crispy }}
+        <button type="submit" formmethod="post" class="btn btn-danger">
+            Отправить
+        </button>
+                            </form>
     </div>
         <div class="col-md-4">
             <div style="position: relative">
