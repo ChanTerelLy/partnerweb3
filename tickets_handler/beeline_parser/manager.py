@@ -16,6 +16,7 @@ from tickets_handler.beeline_parser.text_func import find_asssigned_date, find_d
 import grequests
 import random
 import time
+import os
 
 class Auth:
     def __init__(self, login, workercode, password):
@@ -726,7 +727,7 @@ class Worker:
 
 if __name__ == '__main__':
 
-    auth = NewDesign('G800-37', 'Хоменко', '1604')
+    auth = NewDesign(os.getenv('SELL_CODE'),os.getenv('S_OPERATOR'),os.getenv('S_PASSWORD'))
     print(auth.headers)
     print(auth.cookies)
 

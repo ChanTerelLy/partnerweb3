@@ -2,6 +2,7 @@ from django.db import models
 from tickets_handler.beeline_parser.manager import NewDesign
 import re
 from tickets_handler.beeline_parser import system
+import os
 class Workers(models.Model):
     name = models.CharField(max_length=250, unique=True)
     number = models.CharField(max_length=50, unique=True)
@@ -61,4 +62,5 @@ class Installer(models.Model):
         return f'{self.full_name} {self.number}'
 
 if __name__ == '__main__':
-    homenko = Installer.parse_installers({'login': 'G800-37', 'operator': 'Хоменко', 'password': '1604'})
+    homenko = Installer.parse_installers({'login': os.getenv('SELL_CODE'), 'operator': os.getenv('S_OPERATOR'),
+                                          'password': os.getenv('S_PASSWORD')})
