@@ -18,6 +18,7 @@ let getCalendar = () => {
     $.datetimepicker.setLocale('ru');
     $('#id_datetime').datetimepicker({
         format: 'd.m.Y H:i',
+        dayOfWeekStart: 1,
     });
     $(function () {
         $('#datetimepicker12').datetimepicker(

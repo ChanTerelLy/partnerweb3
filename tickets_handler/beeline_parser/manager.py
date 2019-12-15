@@ -528,7 +528,7 @@ class NewDesign(Basket):
             ticket.assigned_date = as_t[0]
             if dmYHM_to_date(ticket.assigned_date) == dt.now().date():
                 asig_ts_today += 1
-                asig_ts.append(ticket)
+            asig_ts.append(ticket)
         return asig_ts, asig_ts_today
 
     @system.my_timer
@@ -726,7 +726,6 @@ class Worker:
 
 
 if __name__ == '__main__':
-
     auth = NewDesign(os.getenv('SELL_CODE'),os.getenv('S_OPERATOR'),os.getenv('S_PASSWORD'))
     print(auth.headers)
     print(auth.cookies)

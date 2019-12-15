@@ -32,7 +32,7 @@ function parse_table(data){
               color_house = 'bg-second';
               break;
           case 1:
-              color_house = 'bg-dangerous';
+              color_house = 'bg-danger';
               break;
           case  2:
               color_house = 'bg-warning';
