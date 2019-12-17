@@ -329,8 +329,12 @@ class Address(Auth):
         homes = []
         for home in homes_json:
             if home['h_status'] == "connected":
-                home = {'name': home['house_address'].split(',')[2], 'h_segment': home['h_segment'], 'h_id':
-                    home['h_id'], 'city_id': home['city']['ct_id']}
+                home_name = f"{home['h_house']}к{home['h_building']}" if home['h_building'] else home['h_house']
+                home = {'name': home_name,
+                        'h_segment': home['h_segment'],
+                        'h_id': home['h_id'],
+                        'city_id': home['city']['ct_id']
+                        }
                 homes.append(home)
         return homes
 
