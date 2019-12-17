@@ -86,3 +86,12 @@ function getPersonalInfo() {
         }
     })
 }
+
+function checkFraud() {
+    let flat = document.getElementById('id_flat').value;
+    $.ajax({
+            url: `./${flat}`,
+            success: function (data) { alert(data.result)}
+            }
+    );
+}

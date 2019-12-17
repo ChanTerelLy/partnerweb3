@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from .views import *
 from django.contrib import admin
+
 urlpatterns = [
     url(r'^login/$', login, name='login'),
     url(r'^info/(?P<id>\d+)/$', ticket_info, name='ticket_info'),
@@ -9,8 +10,10 @@ urlpatterns = [
     url('admin/', admin.site.urls),
     url('update_worker/', update_workers, name='update_workers'),
     url('update_installers', update_installers, name='update_installers'),
-    url(r'^info/(?P<ticket>\d+)/schedule/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$', get_schedule_by_ticket_id, name='schedule'),
-    url(r'^house_info/(?P<city_id>\d+)/(?P<house_id>\d+)/schedule/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$', get_schedule_by_house_id, name='get_schedule_by_house_id'),
+    url(r'^info/(?P<ticket>\d+)/schedule/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$', get_schedule_by_ticket_id,
+        name='schedule'),
+    url(r'^house_info/(?P<city_id>\d+)/(?P<house_id>\d+)/schedule/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$',
+        get_schedule_by_house_id, name='get_schedule_by_house_id'),
     url('street_search', street_search, name='street_search'),
     url('get_homes_by_street', get_homes_by_street, name='get_homes_by_street'),
     url('fast_house_search', fast_house_search, name='fast_house_search'),
@@ -21,4 +24,5 @@ urlpatterns = [
     url(r'personal_info/', get_personal_info, name='personal_info'),
     url('installers/', get_installers, name='installers'),
     url('check_number/', check_number, name='check_number'),
+    url(r'house_info/(?P<city_id>\d+)/(?P<house_id>\d+)/(?P<flat>\d+)$', check_fraud, name='check_fraud'),
 ]

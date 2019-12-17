@@ -31,6 +31,7 @@
                 </div>
             </div>
             <div class="col-md-4">
+                <button class="btn btn-info" onclick="checkFraud()">Проверить на ФРОД</button>
                 <form method="POST" autocomplete="off" class="post-form"
                       novalidate>
                     {% csrf_token %}

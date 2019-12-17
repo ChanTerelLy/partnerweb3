@@ -341,10 +341,10 @@ class Address(Auth):
     def get_homes(self, street_id):
         return self.session.get('https://partnerweb.beeline.ru/ngapi/find_by_house/' + str(street_id) + '/').json()
 
-    def check_fraud(self, flat=0, num_house=0):
-        flat_session = self.session.get(
-            f'https://partnerweb.beeline.ru/restapi/tickets/checkfraud/{num_house}/{flat}').json()
-        return flat_session['metadata']['message'] if flat_session['metadata']['status'] == 40002 else 'ОК!'
+    def check_fraud(self, house_id, flat):
+        response = self.session.get(
+            f'https://partnerweb.beeline.ru/restapi/tickets/checkfraud/{house_id}/{flat}').json()
+        return response
 
     def get_house_info(self, house_id):
         return self.session.get(f'https://partnerweb.beeline.ru/ngapi/house/{house_id}/').json()

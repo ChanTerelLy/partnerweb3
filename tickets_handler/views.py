@@ -148,3 +148,12 @@ def get_personal_info(request):
 
 def check_number(request):
     return render(request, 'beeline_html/check_number.html')
+
+def check_fraud(request, city_id, house_id, flat):
+    auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
+    res_data = auth.check_fraud(house_id, flat)
+    if res_data['data']:
+        return JsonResponse({'result': 'Можно создавать заявку'})
+    else:
+        return JsonResponse({'result': res_data['metadata']['message']})
+
