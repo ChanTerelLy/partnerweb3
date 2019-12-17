@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'login_beeline/', redirect_auth, name='login_beeline'),
     url(r'personal_info/', get_personal_info, name='personal_info'),
     url('installers/', get_installers, name='installers'),
+    url('check_number/', check_number, name='check_number'),
 ]

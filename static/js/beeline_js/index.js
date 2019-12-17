@@ -72,6 +72,7 @@ function getPersonalInfo() {
 <p><b>Баланс:</b> ${result.data.balance}</p>
 <p><b>ФИО:</b> ${result.data.ensemble_personal_data.clientRepName}</p>
 <p><b>Тариф:</b> ${result.data.ensemble_personal_data.soc_description}</p>
+<p><b>Прописка:</b> ${result.data.ensemble_personal_data.clientRepAddress}</p>
 <p><b>Основной номер:</b>${result.data.ensemble_personal_data.phoneHome}</p>
 <p><b>Логин ДИ:</b>${result.data.ensemble_data.ctn_validation.existing_login.value}</p>`;
             document.getElementById('load_person').style.visibility = 'hidden'

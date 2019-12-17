@@ -145,3 +145,6 @@ def get_personal_info(request):
     city = request.GET.get('city')
     auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
     return JsonResponse(auth.get_personal_info(phone, city), safe=False)
+
+def check_number(request):
+    return render(request, 'beeline_html/check_number.html')

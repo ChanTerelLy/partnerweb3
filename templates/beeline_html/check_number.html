@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}Информация о заявке{% endblock %}
+{% block content %}
+    <div class="form-group" style="position: relative">
+        <p>Информация о номере телефона:</p>
+        <label for="phone" class="sr-only"></label>
+        <input type="number" class="form-control" id="phone" placeholder="9111111111">
+        <button type="submit" class="btn btn-primary mb-2" style="margin-top: 5px"
+                onclick="getPersonalInfo()">Отправить запрос
+        </button>
+        <img id='load_person' src="{% static 'image/load_person.gif' %}"
+             style="visibility: hidden;top:-80%; right: 30%; z-index: 5; position: absolute">
+    </div>
+    <div id="personal_info"></div>
+{% endblock %}
+{% block extra_scripts %}
+    <script src="{% static 'js/beeline_js/index.js' %}"></script>
+{% endblock %}
