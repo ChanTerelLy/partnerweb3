@@ -66,7 +66,12 @@
                             <small class="text-muted d-block"><a
                                     href="tel:8{{ ticket.phone3 }}">{{ ticket.phone3 }}</a></small>
                         </td>
-                        <td class="align-middle">{{ ticket.ticket_paired_info.status }}</td>
+                        <td class="align-middle">
+                            {{ ticket.ticket_paired_info.status }}
+                            <small class="text-muted d-block">
+                                Тариф: {{ ticket.services.IS_PRESET_name }}{{ ticket.services.IS_INAC_PRESET_name }}
+                            </small>
+                        </td>
                         <td class="align-middle">
                             {{ ticket.call_time }}
                             <small class="text-muted d-block"><abbr
@@ -159,7 +164,9 @@
                             <small class="text-muted d-block"><a
                                     href="tel:8{{ ticket.phone3 }}">{{ ticket.phone3 }}</a></small>
                         </td>
-                        <td class="align-middle">{{ ticket.ticket_paired_info.status }}</td>
+                        <td class="align-middle">
+                            {{ ticket.ticket_paired_info.status }}
+                        </td>
                         <td class="align-middle">{{ ticket.ticket_paired_info.call_time }}</td>
                         <td class="align-middle">{{ ticket.operator }}</td>
                     </tr>
