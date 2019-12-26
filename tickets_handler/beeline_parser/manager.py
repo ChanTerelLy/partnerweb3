@@ -48,7 +48,7 @@ class Ticket:
                  date='', id='', name='', number='', operator='', phones='', services='', shop='', shop_id='',
                  status='',
                  ticket_paired='', type='', type_id='', phone1='', phone2='', phone3='', comment1='', comment2='',
-                 comment3='', assigned_date=None, dns='', statuses=''):
+                 comment3='', assigned_date=None, dns='', statuses='', ticket_paired_info={}):
         self.address = address  # Архангельск, проспект Новгородский, д. 186, кв. 47
         self.address_id = address_id  # 14383557
         self.allow_change_status = allow_change_status  # true
@@ -77,6 +77,7 @@ class Ticket:
         self.assigned_date = assigned_date
         self.dns = dns
         self.statuses = statuses  # [0: {name: "Ждем звонка клиента", id: 16}]
+        self.ticket_paired_info = ticket_paired_info
 
     def __repr__(self):
         return str(self.__dict__)
@@ -523,11 +524,13 @@ class NewDesign(Basket):
     def assigned_tickets(self, tickets):
         asig_ts, asig_ts_today, urls = [], 0, []
         for ticket in tickets:
-            if (ticket.type_id == 1) and ticket.allow_schedule == False and ticket.allow_change_status == True:
+            if (ticket.type_id == 286 or ticket.type_id == 250) \
+                    and ticket.allow_schedule == False and ticket.allow_change_status == True:
                 urls.append(f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{ticket.id}')
         parse_tickets = self.assync_get_ticket(urls)
         a_t = [self.ticket_instance_info(value) for key, value in parse_tickets.items()]
         for ticket in a_t:
+            ticket.ticket_paired_info = list([i for i in tickets if i.id == ticket.ticket_paired])[0]
             as_t = list([c['date'] for c in ticket.comments if find_asssigned_date(c['text'])])
             ticket.assigned_date = as_t[0]
             if dmYHM_to_date(ticket.assigned_date) == dt.now().date():
@@ -540,8 +543,7 @@ class NewDesign(Basket):
         sw_ts, sw_ts_today = [], 0
         last, cur_month, cur_year = last_day_current_month()
         for t in tickets:
-            if t.type_id == 1:
-
+            if t.type_id == 286 or t.type_id == 250:
                 if self.definde_satellit_ticket(t.status) and t.call_time != None and \
                         (date(cur_year, cur_month, 1) <= dmYHM_to_date(t.call_time) <= date(cur_year, cur_month, last)):
                     sw_ts_today += 1 if dmYHM_to_date(t.call_time) == today() else 0
@@ -559,6 +561,7 @@ class NewDesign(Basket):
                 attr['shop'] = attr.get('shop')
                 attr['shop_id'] = attr.get('shop_id')
                 phone1, phone2, phone3 = self.get_phone123(attr)
+                ticket_paired_info = ''
                 ticket = Ticket(address=attr['address'], address_id=attr['address_id'],
                                 allow_change_status=attr['allow_change_status'], allow_schedule=attr['allow_schedule'],
                                 call_time=attr['call_time'], comments=attr['comments'], date=attr['date'],
@@ -570,6 +573,9 @@ class NewDesign(Basket):
                                 shop_id=attr['shop_id'], status=attr['status'], ticket_paired=attr['ticket_paired'],
                                 type=attr['type'], type_id=attr['type_id'])
                 tickets.append(ticket)
+        for ticket in tickets:
+            if ticket.ticket_paired:
+                ticket.ticket_paired_info = self.check_paired_ticket_info(ticket.ticket_paired, tickets)
         return tickets
 
     @system.my_timer
@@ -587,11 +593,18 @@ class NewDesign(Basket):
                 ticket_dict[pageCount] = new_design_ticket_info
         return ticket_dict, tickets
 
+    def check_paired_ticket_info(self, ticket_paired_id, tickets):
+        try:
+            return list([i for i in tickets if i.id == ticket_paired_id])[0]
+        except:
+            return {'id': '', 'number': ''}
+
     def call_today_tickets(self, tickets):
         call_ts_today = []
         for t in tickets:
             try:
-                if (t.type_id == 1) and self.define_call_ts(t.status) and ((dmYHM_to_date(t.call_time) <= today())):
+                if (t.ticket_paired_info.type_id == 1) and self.define_call_ts(t.ticket_paired_info.status)\
+                        and ((dmYHM_to_date(t.ticket_paired_info.call_time) <= today())):
                     call_ts_today.append(t)
             except:
                 continue

@@ -48,8 +48,12 @@
                 <tbody id="myTable">
                 {% for ticket in assigned_tickets %}
                     <tr>
-                        <td class="align-middle "><a href="{% url 'ticket_info' ticket.id %}"
-                                                     target="_blank">{{ ticket.number }}</a></td>
+                        <td class="align-middle "><a href="{% url 'ticket_info' ticket.ticket_paired_info.id %}"
+                                                     target="_blank">{{ ticket.ticket_paired_info.number}}</a>
+                        <small class="text-muted d-block"><a href="{% url 'ticket_info' ticket.id %}"
+                                                     target="_blank">{{ ticket.number }}</a></small>
+                        </td>
+
                         <td>
                             <a class="align-middle">{{ ticket.name }}</a>
                             <small class="text-muted d-block">{{ ticket.address }} <b
@@ -62,7 +66,7 @@
                             <small class="text-muted d-block"><a
                                     href="tel:8{{ ticket.phone3 }}">{{ ticket.phone3 }}</a></small>
                         </td>
-                        <td class="align-middle">{{ ticket.status }}</td>
+                        <td class="align-middle">{{ ticket.ticket_paired_info.status }}</td>
                         <td class="align-middle">
                             {{ ticket.call_time }}
                             <small class="text-muted d-block"><abbr
@@ -94,8 +98,10 @@
                 <tbody id="myTable">
                 {% for ticket in call_for_today %}
                     <tr>
-                        <td class="align-middle ">
-                            <a href="{% url 'ticket_info' ticket.id %}" target="_blank">{{ ticket.number }}</a>
+                        <td class="align-middle "><a href="{% url 'ticket_info' ticket.ticket_paired_info.id %}"
+                                                     target="_blank">{{ ticket.ticket_paired_info.number}}</a>
+                        <small class="text-muted d-block"><a href="{% url 'ticket_info' ticket.id %}"
+                                                     target="_blank">{{ ticket.number }}</a></small>
                         </td>
                         <td>
                             <a class="align-middle">{{ ticket.name }}</a>
@@ -108,8 +114,8 @@
                             <small class="text-muted d-block"><a
                                     href="tel:8{{ ticket.phone3 }}">{{ ticket.phone3 }}</a></small>
                         </td>
-                        <td class="align-middle">{{ ticket.status }}</td>
-                        <td class="align-middle">{{ ticket.call_time }}</td>
+                        <td class="align-middle">{{ ticket.ticket_paired_info.status }}</td>
+                        <td class="align-middle">{{ ticket.ticket_paired_info.call_time }}</td>
                         <td class="align-middle">{{ ticket.operator }}</td>
                     </tr>
                 {% endfor %}
@@ -136,8 +142,11 @@
                 <tbody id="myTable">
                 {% for ticket in switched_on_tickets %}
                     <tr>
-                        <td class="align-middle "><a href="{% url 'ticket_info' ticket.id %}"
-                                                     target="_blank">{{ ticket.number }}</a></td>
+                        <td class="align-middle "><a href="{% url 'ticket_info' ticket.ticket_paired_info.id %}"
+                                                     target="_blank">{{ ticket.ticket_paired_info.number}}</a>
+                        <small class="text-muted d-block"><a href="{% url 'ticket_info' ticket.id %}"
+                                                     target="_blank">{{ ticket.number }}</a></small>
+                        </td>
                         <td>
                             <a class="align-middle">{{ ticket.name }}</a>
                             <small class="text-muted d-block">{{ ticket.address }} <b
@@ -150,8 +159,8 @@
                             <small class="text-muted d-block"><a
                                     href="tel:8{{ ticket.phone3 }}">{{ ticket.phone3 }}</a></small>
                         </td>
-                        <td class="align-middle">{{ ticket.status }}</td>
-                        <td class="align-middle">{{ ticket.call_time }}</td>
+                        <td class="align-middle">{{ ticket.ticket_paired_info.status }}</td>
+                        <td class="align-middle">{{ ticket.ticket_paired_info.call_time }}</td>
                         <td class="align-middle">{{ ticket.operator }}</td>
                     </tr>
                 {% endfor %}

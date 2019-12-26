@@ -3,13 +3,14 @@ from tickets_handler.beeline_parser.manager import NewDesign
 import re
 from tickets_handler.beeline_parser import system
 import os
+
+
 class Workers(models.Model):
     name = models.CharField(max_length=250, unique=True)
     number = models.CharField(max_length=50, unique=True)
     master = models.CharField(max_length=250)
     status = models.BooleanField()
     url = models.URLField()
-
 
     @classmethod
     @system.my_timer
@@ -25,6 +26,7 @@ class Workers(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Installer(models.Model):
     full_name = models.CharField(max_length=250, unique=True)
@@ -52,7 +54,7 @@ class Installer(models.Model):
     def find_installer_in_text(comments):
         for comment in comments:
             data = re.search(r'Назначен Сервис - инженер (\w* \w* \w*), телефон (\d{11})', comment['text'])
-            if(data):
+            if (data):
                 name = data.group(1)
                 phone = data.group(2)
                 return name, phone
@@ -60,6 +62,42 @@ class Installer(models.Model):
 
     def __str__(self):
         return f'{self.full_name} {self.number}'
+
+
+class AdditionalTicket(models.Model):
+    number = models.IntegerField()
+    positive = models.BooleanField()  # add or remove ticket
+    who_add = models.ForeignKey(Workers, on_delete=models.CASCADE)
+
+    @classmethod
+    def check_visability(cls, operator, tickets):
+        ad_tickets = cls.objects.get(who_add=operator)
+        if ad_tickets:
+            clear_tickets = []
+            for ticket in tickets:
+                try:
+                    cls.objects.get(number=ticket.number)
+                    continue
+                except:
+                    clear_tickets.append(ticket)
+        else:
+            return False
+
+
+class TicketPrice(models.Model):
+    ticket_number = models.IntegerField()
+    price = models.IntegerField()
+    ratio = models.IntegerField()
+
+    @classmethod
+    def set_price(cls, ticket_number, price, ratio=1):
+        cls(ticket_number, price, ratio).save()
+
+    @classmethod
+    def get_price(cls, ticket_number):
+        ticket = cls.objects.get(ticket_number)
+        return ticket.price
+
 
 if __name__ == '__main__':
     homenko = Installer.parse_installers({'login': os.getenv('SELL_CODE'), 'operator': os.getenv('S_OPERATOR'),

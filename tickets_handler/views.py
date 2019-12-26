@@ -1,11 +1,12 @@
 from tickets_handler.beeline_parser.manager import NewDesign, OldDesign, Worker, Auth
 from django.shortcuts import render, redirect
 from .form import AuthForm, DateTimeForm, CreateTicketForm
-from .models import Workers as WorkersModel, Installer
+from .models import Workers as WorkersModel, Installer, AdditionalTicket, TicketPrice
 from django.http import HttpResponse, JsonResponse
 from tickets_handler.beeline_parser import system
 from django.contrib import messages
 import grequests
+from django.core import serializers
 
 @system.my_timer
 def main_page(request):
@@ -156,4 +157,25 @@ def check_fraud(request, city_id, house_id, flat):
         return JsonResponse({'result': 'Можно создавать заявку'})
     else:
         return JsonResponse({'result': res_data['metadata']['message']})
+
+def delete_ticket(request, ticket):
+    operator = WorkersModel.objects.get(number=request.session['operator'])
+    ticket = AdditionalTicket(number=ticket, positive=False, who_add=operator)
+    ticket.save()
+    return HttpResponse('OK')
+
+def get_ticket_price(request, ticket):
+    price = TicketPrice.get_price(ticket)
+    serialized_obj = serializers.serialize('json', [price])
+    return JsonResponse(serialized_obj, safe=False)
+
+def set_ticket_price(request, ticket_number, price):
+    if request.POST == "POST":
+        try:
+            TicketPrice.set_price(ticket_number, price)
+        except:
+            return JsonResponse({'response': 'Error'})
+        return JsonResponse({'response': 'OK'})
+
+
 
