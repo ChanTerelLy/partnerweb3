@@ -25,5 +25,6 @@ urlpatterns = [
     url('installers/', get_installers, name='installers'),
     url('check_number/', check_number, name='check_number'),
     url(r'house_info/(?P<city_id>\d+)/(?P<house_id>\d+)/(?P<flat>\d+)$', check_fraud, name='check_fraud'),
-    url(r'delete_ticket/(?P<ticket>\d+)/', delete_ticket, name='delete_ticket')
+    url(r'delete_ticket/(?P<ticket>\d+)/', delete_ticket, name='delete_ticket'),
+    url(r'^ticket_info/(?P<id>\d+)/$', ticket_info_json, name='ticket_info_json'),
 ]

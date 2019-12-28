@@ -95,3 +95,14 @@ function checkFraud() {
             }
     );
 }
+
+function getTicketInfo(id) {
+    let tariff = document.getElementById(`t_${id}`);
+    $.ajax({
+            url: `/ticket_info/${id}/`,
+            success: function (data) { tariff.innerText = `${data.services.IS_INAC_PRESET_name} ${data.services.IS_PRESET_name}`}
+            }
+    );
+}
+
+

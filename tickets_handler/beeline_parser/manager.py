@@ -444,12 +444,13 @@ class NewDesign(Basket):
 
     def ticket_instance_info(self, attr):
         phone1, phone2, phone3 = self.get_phone123(attr)
+        services = self.parse_services(attr['services']).__dict__ if attr['services'] else ''
         return Ticket(address=attr['address'], address_id=attr['address_id'],
                       allow_change_status=attr['allow_change_status'],
                       allow_schedule=attr['allow_schedule'], call_time=attr['call_time'], comments=attr['comments'],
                       date=attr['date'], id=attr['id'], name=attr['name'], number=attr['number'],
                       operator=attr['operator'], phones=attr['phones'],
-                      services=self.parse_services(attr['services']), shop=attr['shop'], shop_id=attr['shop_id'], status=attr['status'],
+                      services=services, shop=attr['shop'], shop_id=attr['shop_id'], status=attr['status'],
                       ticket_paired=attr['ticket_paired'], type=attr['type'], type_id=attr['type_id'], phone1=phone1,
                       phone2=phone2, phone3=phone3)
 

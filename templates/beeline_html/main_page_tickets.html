@@ -87,8 +87,11 @@
             <li class="breadcrumb-item active"><span class="label label-danger">Перезвоны на сегодня: </span>
                 <result_call></result_call>
             </li>
+            <li class="ml-auto">
+                <button class="btn btn-warning btn-sm" onclick="getCallTariff()"> Показать тарифы</button>
+            </li>
         </ol>
-        <div class="container">
+    <div class="container">
             <table id="keywords" class="table table-hover table-bordered table-info">
                 <thead class="thead-inverse" style="background: #00ecff">
                 <tr>
@@ -119,7 +122,9 @@
                             <small class="text-muted d-block"><a
                                     href="tel:8{{ ticket.phone3 }}">{{ ticket.phone3 }}</a></small>
                         </td>
-                        <td class="align-middle">{{ ticket.ticket_paired_info.status }}</td>
+                        <td class="align-middle">{{ ticket.ticket_paired_info.status }}
+                            <small class="text-muted d-block" id="t_{{ ticket.id }}"></small>
+                        </td>
                         <td class="align-middle">{{ ticket.ticket_paired_info.call_time }}</td>
                         <td class="align-middle">{{ ticket.operator }}</td>
                     </tr>
@@ -127,12 +132,15 @@
                 </tbody>
             </table>
         </div>
-        <ol class="breadcrumb my-4">
-            <li class="breadcrumb-item active"><span class="label label-danger">Подключенные: </span>
-                <result_switch></result_switch>
-            </li>
-        </ol>
-        <div class="container">
+    <ol class="breadcrumb my-4">
+        <li class="breadcrumb-item active"><span class="label label-danger">Подключенные: </span>
+            <result_switch></result_switch>
+        </li>
+        <li class="ml-auto">
+            <button class="btn btn-warning btn-sm" onclick="getSwitchedTariff()"> Показать тарифы</button>
+        </li>
+    </ol>
+    <div class="container">
             <table id="switch_table" class="table table-hover table-bordered table-success">
                 <thead class="thead-inverse" style="background: #a3ff0a">
                 <tr>
@@ -166,6 +174,7 @@
                         </td>
                         <td class="align-middle">
                             {{ ticket.ticket_paired_info.status }}
+                            <small class="text-muted d-block" id="t_{{ ticket.id }}"></small>
                         </td>
                         <td class="align-middle">{{ ticket.ticket_paired_info.call_time }}</td>
                         <td class="align-middle">{{ ticket.operator }}</td>
@@ -176,6 +185,7 @@
         </div>
 {% endblock %}
 {% block extra_scripts %}
+    <script src="{% static 'js/beeline_js/index.js' %}"></script>
     <script>
         $(function () {
             // search line
@@ -212,6 +222,18 @@
         let switch_bar = document.getElementById('switch_bar');
         switch_bar.style.width = (switch_total / swAndAssign) * 100 + '%';
         assign_bar.style.width = (assign_total / swAndAssign) * 100 + '%';
+    </script>
+    <script>
+        getCallTariff = () => {
+            {% for ticket in call_for_today %}
+                getTicketInfo({{ticket.id}});
+            {% endfor %}
+        };
+        getSwitchedTariff = () => {
+            {% for ticket in switched_on_tickets %}
+                getTicketInfo({{ticket.id}});
+            {% endfor %}
+        }
     </script>
 {% endblock %}
 

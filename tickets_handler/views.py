@@ -6,6 +6,7 @@ from django.http import HttpResponse, JsonResponse
 from tickets_handler.beeline_parser import system
 from django.contrib import messages
 import grequests
+import json
 from django.core import serializers
 
 @system.my_timer
@@ -50,6 +51,10 @@ def ticket_info(request, id):
         return redirect('ticket_info', id)
     return render(request,'beeline_html/ticket_info.html', {'ticket_info':ticket_info, 'form': dateform,
                                                             'gp_houses': gp_houses})
+def ticket_info_json(request, id):
+    auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
+    ticket = auth.ticket_info(id).__dict__
+    return JsonResponse(ticket, safe=False)
 
 def login(request):
     form = AuthForm(request.POST)
