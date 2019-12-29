@@ -54,6 +54,9 @@
 {% block extra_scripts %}
     <script src="{% static 'js/beeline_js/index.js' %}"></script>
     <script type="text/javascript">
-        document.addEventListener('load', getCalendar())
+        document.addEventListener('load', getCalendar());
+        let url = getHouseID();
+        setMobilePresets(url[2], url[3]);
+        setPresets(url[2], url[3]);
     </script>
 {% endblock %}

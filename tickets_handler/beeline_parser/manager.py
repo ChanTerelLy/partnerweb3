@@ -413,7 +413,7 @@ class Schedule(Address):
 
 class Basket(Schedule):
 
-    def get_mobile_preset(self, city_id, house_id):
+    def get_mobile_presets(self, city_id, house_id):
         return self.session.get(
             f'https://partnerweb.beeline.ru/restapi/service/get_presets?city_id={city_id}&house_id={house_id}&is_mobile_presets=1').json()
 

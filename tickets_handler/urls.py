@@ -27,4 +27,6 @@ urlpatterns = [
     url(r'house_info/(?P<city_id>\d+)/(?P<house_id>\d+)/(?P<flat>\d+)$', check_fraud, name='check_fraud'),
     url(r'delete_ticket/(?P<ticket>\d+)/', delete_ticket, name='delete_ticket'),
     url(r'^ticket_info/(?P<id>\d+)/$', ticket_info_json, name='ticket_info_json'),
+    url(r'^get_mobile_presets/$', get_mobile_presets_json, name='get_mobile_presets_json'),
+    url(r'^get_presets/$', get_presets_json, name='get_presets_json'),
 ]

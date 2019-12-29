@@ -105,4 +105,44 @@ function getTicketInfo(id) {
     );
 }
 
+function getHouseID() {
+    let url = window.location.pathname;
+    return url.split('/');
+}
 
+function setMobilePresets(city_id, house_id) {
+    let tariff = document.getElementById('id_basket');
+    $.ajax({
+        url: `/get_mobile_presets?city_id=${city_id}&house_id=${house_id}&`,
+        success: function (data) {
+            for (let property of data) {
+                let option = document.createElement('option');
+                option.innerText = property.name;
+                option.setAttribute('bundel_id', property.id);
+                option.setAttribute('service_type', property.service_type);
+                option.setAttribute('vpdn', property.VPDN);
+                option.value = `${property.id};${property.service_type};${property.VPDN}`;
+                tariff.add(option);
+            }
+        }
+    });
+}
+
+function setPresets(city_id, house_id) {
+    let tariff = document.getElementById('id_basket');
+    $.ajax({
+        url: `/get_presets?city_id=${city_id}&house_id=${house_id}&`,
+        success: function (data) {
+            for (let property of data) {
+                if (!property.name) continue;
+                let option = document.createElement('option');
+                option.innerText = property.name;
+                option.setAttribute('bundel_id', property.id);
+                option.setAttribute('service_type', property.service_type);
+                option.setAttribute('VPDN', property.VPDN);
+                option.value = `${property.id};${property.service_type};${property.VPDN}`;
+                tariff.add(option);
+            }
+        }
+    });
+}

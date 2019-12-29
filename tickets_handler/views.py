@@ -116,23 +116,32 @@ def get_schedule_color(request):
 def house_info(request, city_id, house_id):
     auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
     gp_houses, areas = auth.get_gp_by_house_id(house_id)
-    mobile, presets = auth.get_mobile_preset(city_id, house_id), auth.get_presets(city_id, house_id)
-    bundles = auth.parse_preset(presets+mobile)
-    choose_bundels = list([(i['id'], i['name']) for i in bundles])
     house_full_name = auth.get_full_house_info(house_id)['house_address']
     p_form = CreateTicketForm()
-    p_form.fields['basket'].choices = choose_bundels
     gp = areas + gp_houses
     if request.method == 'POST':
         p_form = CreateTicketForm(request.POST)
-        bundel_id = p_form['basket'].value()
-        service_type, vpdn = list([(i['service_type'], i['VPDN']) for i in bundles if bundel_id == i['id']])[0]
+        bundel_id, service_type, vpdn = p_form['basket'].value().split(';')
         create_ticket_form = auth.create_ticket(house_id, p_form['flat'].value(), p_form['client_name'].value(),
                                                 p_form['client_patrony'].value(), p_form['client_surname'].value(),
                                                 p_form['phone_number_1'].value(), bundel_id ,service_type, vpdn)
         return redirect('ticket_info', create_ticket_form['data']['ticket_id'])
     return render(request, 'beeline_html/house_info.html', {'gp_houses' : gp, 'name': house_full_name,
                                                             'p_form' : p_form})
+def get_mobile_presets_json(request):
+    auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
+    city_id, house_id = request.GET.get('city_id'), request.GET.get('house_id')
+    data = auth.get_mobile_presets(city_id, house_id)
+    presets = auth.parse_preset(data)
+    return JsonResponse(presets , safe=False)
+
+def get_presets_json(request):
+    auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
+    city_id, house_id = request.GET.get('city_id'), request.GET.get('house_id')
+    data = auth.get_presets(city_id, house_id)
+    presets = auth.parse_preset(data)
+    return JsonResponse(presets, safe=False)
+
 
 def get_schedule_by_ticket_id(request, ticket, year, month, day):
     auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
