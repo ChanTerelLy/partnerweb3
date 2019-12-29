@@ -50,8 +50,7 @@
                     <tr>
                         <td class="align-middle "><a href="{% url 'ticket_info' ticket.ticket_paired_info.id %}"
                                                      target="_blank">{{ ticket.ticket_paired_info.number}}</a>
-                        <small class="text-muted d-block"><a href="{% url 'ticket_info' ticket.id %}"
-                                                     target="_blank">{{ ticket.number }}</a></small>
+                        <small class="text-muted d-block">{{ticket.status}}</small>
                         </td>
 
                         <td>
@@ -108,8 +107,7 @@
                     <tr>
                         <td class="align-middle "><a href="{% url 'ticket_info' ticket.ticket_paired_info.id %}"
                                                      target="_blank">{{ ticket.ticket_paired_info.number}}</a>
-                        <small class="text-muted d-block"><a href="{% url 'ticket_info' ticket.id %}"
-                                                     target="_blank">{{ ticket.number }}</a></small>
+                        <small class="text-muted d-block"></small>
                         </td>
                         <td>
                             <a class="align-middle">{{ ticket.name }}</a>

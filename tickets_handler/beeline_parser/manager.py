@@ -70,7 +70,7 @@ class Ticket:
         self.services = services  # list[{id,name,type}] only for satelit ticket
         self.shop = shop  # Корытов Роман Валерьевич
         self.shop_id = shop_id  # 26492, 20732
-        self.status = status  # Назначена в график 03.01.2019 12:00
+        self.status = self.clear_status(status)  # Назначена в график 03.01.2019 12:00
         self.ticket_paired = ticket_paired  # 97251015
         self.type = type  # Заказ подключения/Дозаказ оборудования
         self.type_id = type_id  # 286
@@ -78,6 +78,11 @@ class Ticket:
         self.dns = dns
         self.statuses = statuses  # [0: {name: "Ждем звонка клиента", id: 16}]
         self.ticket_paired_info = ticket_paired_info
+
+
+    def clear_status(self, s):
+        n = ''.join([i for i in s if (not i.isdigit()) and (i not in [':', '.'])])
+        return n
 
     def __repr__(self):
         return str(self.__dict__)
