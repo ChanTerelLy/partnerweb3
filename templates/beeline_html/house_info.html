@@ -43,7 +43,7 @@
             </div>
             <div class="col-md-4">
                 <div style="position: relative">
-                    <div id="datetimepicker12"></div>
+                    <div id="#installerschedule"></div>
                     <img id='load' src="{% static 'image/load.gif' %}"
                          style="visibility: hidden; top: 20px; left: 30px; z-index: 5; position: absolute">
                 </div>
@@ -54,7 +54,7 @@
 {% block extra_scripts %}
     <script src="{% static 'js/beeline_js/index.js' %}"></script>
     <script type="text/javascript">
-        document.addEventListener('load', getCalendar());
+        document.addEventListener('load', getSchedule('#installerschedule', true, 'load'));
         let url = getHouseID();
         setMobilePresets(url[2], url[3]);
         setPresets(url[2], url[3]);

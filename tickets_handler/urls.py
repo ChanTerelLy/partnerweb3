@@ -29,4 +29,5 @@ urlpatterns = [
     url(r'^ticket_info/(?P<id>\d+)/$', ticket_info_json, name='ticket_info_json'),
     url(r'^get_mobile_presets/$', get_mobile_presets_json, name='get_mobile_presets_json'),
     url(r'^get_presets/$', get_presets_json, name='get_presets_json'),
+    url(r'^send_mail/$', send_mail, name='send_mail'),
 ]

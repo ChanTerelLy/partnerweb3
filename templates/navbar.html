@@ -25,7 +25,7 @@
                 </li>
                 </ul>
                 <div class="navbar-nav">
-                    <span class="nav-item nav-link" style="color: #2ecc71" >{{ request.session.operator }}</span>
+                    <span class="nav-item nav-link" id="agent" style="color: #2ecc71" >{{ request.session.operator }}</span>
                     <a class="nav-item nav-link" href="{% url 'logout' %}">Выйти</a>
                 </div>
     </div>

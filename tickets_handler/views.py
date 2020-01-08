@@ -5,9 +5,8 @@ from .models import Workers as WorkersModel, Installer, AdditionalTicket, Ticket
 from django.http import HttpResponse, JsonResponse
 from tickets_handler.beeline_parser import system
 from django.contrib import messages
-import grequests
-import json
 from django.core import serializers
+from tickets_handler.beeline_parser.mail import send_mail_ticket
 
 @system.my_timer
 def main_page(request):
@@ -191,5 +190,10 @@ def set_ticket_price(request, ticket_number, price):
             return JsonResponse({'response': 'Error'})
         return JsonResponse({'response': 'OK'})
 
+def send_mail(request):
+    if request.is_ajax():
+        if request.method == "POST":
+            send_mail_ticket(request.body)
+    return HttpResponse('Sent')
 
 

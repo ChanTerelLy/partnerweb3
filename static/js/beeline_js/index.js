@@ -12,20 +12,23 @@ function getColorSchedule(ticket_id) {
         }
     );
 }
-
 //datetimepicker
-let getCalendar = () => {
+function call_timer() {
     $.datetimepicker.setLocale('ru');
     $('#id_datetime').datetimepicker({
         format: 'd.m.Y H:i',
         dayOfWeekStart: 1,
     });
+}
+
+
+let getSchedule = (id, inline, load_el) => {
     $(function () {
-        $('#datetimepicker12').datetimepicker(
+        $(id).datetimepicker(
             {
                 format: 'd.m.Y H:i',
                 dayOfWeekStart: 1,
-                inline: true,
+                inline: inline,
                 sideBySide: true,
                 allowTimes: ['00:00'],
                 todayButton: true,
@@ -36,23 +39,23 @@ let getCalendar = () => {
                         url: `./schedule/${value.getFullYear()}/${value.getMonth() + 1}/${value.getDate()}`,
                         dataType: "json",
                         success: function (result) {
-                            getColorSchedule();
+                            getColorSchedule(ticket_id);
                             $.each(result, function (key, value) {
                                 globalDate.push(key);
                             });
                             if (globalDate.length < 1) {
                                 globalDate = ['00:00']
                             }
-                            $('#datetimepicker12').datetimepicker('setOptions', {allowTimes: globalDate});
+                            $(id).datetimepicker('setOptions', {allowTimes: globalDate});
                             console.log(globalDate);
-                            document.getElementById('load').style.visibility = 'hidden'
+                            document.getElementById(load_el).style.visibility = 'hidden'
                         },
                         beforeSend: function () {
-                            document.getElementById('load').style.visibility = 'visible'
+                            document.getElementById(load_el).style.visibility = 'visible'
                         },
                         error: function () {
                             alert('Произошка ошибка, попробуйте снова');
-                            document.getElementById('load').style.visibility = 'hidden'
+                            document.getElementById(load_el).style.visibility = 'hidden'
                         }
                     });
                 }
@@ -143,6 +146,35 @@ function setPresets(city_id, house_id) {
                 option.value = `${property.id};${property.service_type};${property.VPDN}`;
                 tariff.add(option);
             }
+        }
+    });
+}
+
+function sendEmail(csrfmiddlewaretoken) {
+    let number = document.getElementById('ticket_number').innerText;
+    let agent = document.getElementById('agent').innerText;
+    let client_name = document.getElementById('client_name').innerText;
+    let address = document.getElementById('address').innerText;
+    let phone1 = document.getElementById('phone1').innerText;
+    let time = document.getElementById('installerscheduleform').value;
+    let tariff = document.getElementById('tariff_form').value;
+    let mail_to = document.getElementById('mail_to').value;
+    let comment = document.getElementById('comment_form').value;
+
+    payload = {'number': number, 'agent' : agent, 'client_name' : client_name, 'address' : address, 'phone1': phone1,
+    'time': time, 'tariff': tariff, 'mail_to': mail_to, 'comment': comment, 'csrfmiddlewaretoken': csrfmiddlewaretoken
+    };
+    $.ajax({
+        url: '/send_mail/',
+        type: 'POST',
+        contentType: 'application/json; charset=utf-8',
+        beforeSend: function (xhr) {
+                xhr.setRequestHeader("X-CSRFToken", csrfmiddlewaretoken);
+        },
+        data: JSON.stringify(payload),
+        dataType: 'text',
+        success: function (result) {
+            alert(result);
         }
     });
 }
