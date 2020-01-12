@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Главная страница{% endblock %}
+{% block content %}
+        <div class="container">
+            <p>
+                <span id='assign_total' class="badge badge-warning"><assigned_count></assigned_count></span>
+                <span id='switch_total' class="badge badge-success"><switched_count></switched_count></span>
+                <span class="badge badge-warning">Назначенных заявок сегодня: </span>
+                <span class="badge badge-success">Подключеных заявок сегодня: </span>
+                <span class="badge badge-info">Созданых заявок сегодня: </span>
+            </p><!--label bar-->
+        </div>
+        <div class="container">
+            <input class="form-control" id="myInput" type="text" placeholder="Search..">
+        </div>
+        <hr>
+        <ol class="breadcrumb my-4">
+            <li class="breadcrumb-item active"><span class="label label-danger">Назначенные в график: </span>
+                <result_assign></result_assign>
+            </li>
+        </ol>
+        <div class="container">
+            <table id="assign_table" class="table table-hover table-bordered table-warning">
+                <thead class="thead-inverse" style="background: #ffc620">
+                <tr>
+                    <th>Номер заявки</th>
+                    <th>ФИО\Адресс</th>
+                    <th>Телефон</th>
+                    <th>Статус</th>
+                    <th>Таймер</th>
+                    <th>Сотрудник</th>
+                </tr>
+                </thead>
+                <tbody id="myTable">
+                </tbody>
+            </table>
+        </div>
+        <ol class="breadcrumb my-4">
+            <li class="breadcrumb-item active"><span class="label label-danger">Перезвоны на сегодня: </span>
+                <result_call></result_call>
+            </li>
+            <li class="ml-auto">
+                <button class="btn btn-warning btn-sm" onclick="getCallTariff()"> Показать тарифы</button>
+            </li>
+        </ol>
+    <div class="container">
+            <table id="call_table" class="table table-hover table-bordered table-info">
+                <thead class="thead-inverse" style="background: #00ecff">
+                <tr>
+                    <th>Номер заявки</th>
+                    <th>ФИО\Адресс</th>
+                    <th>Телефон</th>
+                    <th>Статус</th>
+                    <th>Таймер</th>
+                    <th>Сотрудник</th>
+                </tr>
+                </thead>
+                <tbody id="myTable">
+                </tbody>
+            </table>
+        </div>
+    <ol class="breadcrumb my-4">
+        <li class="breadcrumb-item active"><span class="label label-danger">Подключенные: </span>
+            <result_switch></result_switch>
+        </li>
+        <li class="ml-auto">
+            <button class="btn btn-warning btn-sm" onclick="getSwitchedTariff()"> Показать тарифы</button>
+        </li>
+    </ol>
+    <div class="container">
+            <table id="switch_table" class="table table-hover table-bordered table-success">
+                <thead class="thead-inverse" style="background: #a3ff0a">
+                <tr>
+                    <th>Номер заявки</th>
+                    <th>ФИО\Адресс</th>
+                    <th>Телефон</th>
+                    <th>Статус</th>
+                    <th>Таймер</th>
+                    <th>Сотрудник</th>
+                </tr>
+                </thead>
+                <tbody id="myTable">
+                </tbody>
+            </table>
+        </div>
+{% endblock %}
+{% block extra_scripts %}
+    <script src="{% static 'js/beeline_js/index.js' %}"></script>
+    <script>
+    {#let assigned_tickets = get_assigned_tickets();#}
+    {#let call_today_tickets = get_call_today_tickets();#}
+    {#let switched_tickets = get_switched_tickets();#}
+    {#let count_created_today = get_count_created_today();#}
+    get_switched_tickets().then(
+            result => addTicketsToTable(result.switched_tickets, 'switch_table')
+    );
+    get_call_today_tickets().then(
+            result => addTicketsToTable(result, 'call_table')
+    );
+    get_assigned_tickets().then(
+            result => addTicketsToTable(result.assigned_tickets, 'assign_table')
+    )
+    </script>
+{% endblock %}
+

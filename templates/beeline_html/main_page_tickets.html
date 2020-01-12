@@ -206,7 +206,7 @@
                 $('switched_count').html(str + ($('#switch_table tr').length - 1));
             });
             setInterval(function () {
-                $('result_call').html(($('#keywords tr').filter(':visible').length - 1));
+                $('result_call').html(($('#call_table tr').filter(':visible').length - 1));
                 $('result_switch').html(($('#switch_table tr').filter(':visible').length - 1));
                 $('result_assign').html(($('#assign_table tr').filter(':visible').length - 1));
             }, 500);

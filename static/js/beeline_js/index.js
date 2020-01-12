@@ -1,7 +1,8 @@
 // get color of calendar
 function getColorSchedule(ticket_id) {
+    let url = house_id ? `./get_schedule_color?house_id=${house_id}&ticket_id=0` : `./get_schedule_color?ticket_id=${ticket_id}&house_id=0`;
     $.ajax({
-            url: `./get_schedule_color?ticket_id=${ticket_id}&house_id=0`,
+            url: url,
             dataType: 'json',
             success: function (data) {
                 $.each(data[0]['days'], function (key, i) {
@@ -12,9 +13,9 @@ function getColorSchedule(ticket_id) {
         }
     );
 }
+
 //datetimepicker
 function call_timer() {
-    $.datetimepicker.setLocale('ru');
     $('#id_datetime').datetimepicker({
         format: 'd.m.Y H:i',
         dayOfWeekStart: 1,
@@ -22,7 +23,8 @@ function call_timer() {
 }
 
 
-let getSchedule = (id, inline, load_el) => {
+let getSchedule = (id, inline, load_el, house_id=false) => {
+    $.datetimepicker.setLocale('ru');
     $(function () {
         $(id).datetimepicker(
             {
@@ -177,4 +179,52 @@ function sendEmail(csrfmiddlewaretoken) {
             alert(result);
         }
     });
+}
+
+get_assigned_tickets = () => {
+        return $.ajax({
+            url: `/assigned_tickets/`,
+            success: data => {return data},
+            error: error => console.log(error)
+            }
+    );
+};
+get_call_today_tickets = () => {
+        return $.ajax({
+            url: `/call_today_tickets/`,
+            success: data => {return data},
+            error: error => console.log(error)
+            }
+    );
+};
+get_switched_tickets = () => {
+        return $.ajax({
+            url: `/switched_tickets/`,
+            success: data => {return data},
+            error: error => console.log(error)
+            }
+    );
+};
+get_count_created_today = () => {
+        return $.ajax({
+            url: `/count_created_today/`,
+            success: data => {return data},
+            error: error => console.log(error)
+            }
+    );
+};
+
+addTicketsToTable = (tickets, table_id) => {
+    tickets = JSON.parse(tickets);
+    for (let ticket of tickets) {
+        let table = document.getElementById(table_id);
+        let row = table.insertRow(1);
+        row.insertCell(0).innerHTML = ticket.number;
+        row.insertCell(1).innerHTML = ticket.address;
+        row.insertCell(2).innerHTML = ticket.phone1;
+        row.insertCell(3).innerHTML = ticket.status;
+        row.insertCell(4).innerHTML = ticket.call_time;
+        row.insertCell(5).innerHTML = ticket.operator;
+    }
+
 }

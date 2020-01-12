@@ -348,8 +348,8 @@ class Address(Auth):
         return self.session.get('https://partnerweb.beeline.ru/ngapi/find_by_house/' + str(street_id) + '/').json()
 
     def check_fraud(self, house_id, flat):
-        response = self.session.get(
-            f'https://partnerweb.beeline.ru/restapi/tickets/checkfraud/{house_id}/{flat}').json()
+        url = f'https://partnerweb.beeline.ru/restapi/tickets/checkfraud/{house_id}/{flat}?rnd={round(random.random(), 16)}'
+        response = self.session.get(url).json()
         return response
 
     def get_house_info(self, house_id):

@@ -1,4 +1,6 @@
 from django.conf.urls import url
+
+from tickets_handler.json_view import *
 from .views import *
 from django.contrib import admin
 
@@ -30,4 +32,9 @@ urlpatterns = [
     url(r'^get_mobile_presets/$', get_mobile_presets_json, name='get_mobile_presets_json'),
     url(r'^get_presets/$', get_presets_json, name='get_presets_json'),
     url(r'^send_mail/$', send_mail, name='send_mail'),
+    url(r'^assigned_tickets/$', get_assigned_tickets, name='assigned_tickets'),
+    url(r'^call_today_tickets/$', get_call_today_tickets, name='call_today_tickets'),
+    url(r'^switched_tickets/$', get_switched_tickets, name='switched_tickets'),
+    url(r'^count_created_today/$', get_count_created_today, name='count_created_today'),
+    url(r'^index/$', index, name='index'),
 ]

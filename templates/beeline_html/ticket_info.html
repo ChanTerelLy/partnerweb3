@@ -171,6 +171,7 @@
 {% block extra_scripts %}
     <script src="{% static 'js/beeline_js/index.js' %}"></script>
     <script>
+        let house_id = false;
         let ticket_id = {{ ticket_info.id }};
         document.addEventListener('load', getColorSchedule(ticket_id));
         document.addEventListener('load', getSchedule('#installerschedule', true, 'load'));
