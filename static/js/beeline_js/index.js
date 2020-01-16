@@ -160,11 +160,13 @@ function sendEmail(csrfmiddlewaretoken) {
     let phone1 = document.getElementById('phone1').innerText;
     let time = document.getElementById('installerscheduleform').value;
     let tariff = document.getElementById('tariff_form').value;
-    let mail_to = document.getElementById('mail_to').value;
+    let mail_to = document.getElementById('mail_to').selectedOptions;
     let comment = document.getElementById('comment_form').value;
+    let mails = [];
+    for (let i of mail_to) mails.push(i.value);
 
     payload = {'number': number, 'agent' : agent, 'client_name' : client_name, 'address' : address, 'phone1': phone1,
-    'time': time, 'tariff': tariff, 'mail_to': mail_to, 'comment': comment, 'csrfmiddlewaretoken': csrfmiddlewaretoken
+    'time': time, 'tariff': tariff, 'mail_to': mails, 'comment': comment, 'csrfmiddlewaretoken': csrfmiddlewaretoken
     };
     $.ajax({
         url: '/send_mail/',

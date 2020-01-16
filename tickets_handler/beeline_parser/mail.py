@@ -10,7 +10,7 @@ def send_mail_ticket(text):
     message = MIMEMultipart("alternative")
     message["Subject"] = "Назначение заявки в график"
     message["From"] = sender_email
-    message["To"] = text['mail_to']
+    message["To"] = ', '.join(text['mail_to'])
     # Turn these into plain/html MIMEText objects
     telegramma = f'<html>' \
                  f'<p><b>Номер заявки: </b> {text["number"]} </p>' \
