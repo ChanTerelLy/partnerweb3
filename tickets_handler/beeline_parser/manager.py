@@ -48,7 +48,7 @@ class Ticket:
                  date='', id='', name='', number='', operator='', phones='', services='', shop='', shop_id='',
                  status='',
                  ticket_paired='', type='', type_id='', phone1='', phone2='', phone3='', comment1='', comment2='',
-                 comment3='', assigned_date=None, dns='', statuses='', ticket_paired_info={}):
+                 comment3='', assigned_date=None, dns='', statuses='', ticket_paired_info={}, status_id=''):
         self.address = address  # Архангельск, проспект Новгородский, д. 186, кв. 47
         self.address_id = address_id  # 14383557
         self.allow_change_status = allow_change_status  # true
@@ -78,6 +78,7 @@ class Ticket:
         self.dns = dns
         self.statuses = statuses  # [0: {name: "Ждем звонка клиента", id: 16}]
         self.ticket_paired_info = ticket_paired_info
+        self.status_id = status_id
 
 
     def clear_status(self, s):
@@ -457,7 +458,7 @@ class NewDesign(Basket):
                       operator=attr['operator'], phones=attr['phones'],
                       services=services, shop=attr['shop'], shop_id=attr['shop_id'], status=attr['status'],
                       ticket_paired=attr['ticket_paired'], type=attr['type'], type_id=attr['type_id'], phone1=phone1,
-                      phone2=phone2, phone3=phone3)
+                      phone2=phone2, phone3=phone3, status_id=attr['status_id'])
 
     def parse_services(self, data):
         services = Service()
@@ -550,10 +551,15 @@ class NewDesign(Basket):
         last, cur_month, cur_year = last_day_current_month()
         for t in tickets:
             if t.type_id == 286 or t.type_id == 250:
-                if self.definde_satellit_ticket(t.status) and t.call_time != None and \
-                        (date(cur_year, cur_month, 1) <= dmYHM_to_date(t.call_time) <= date(cur_year, cur_month, last)):
-                    sw_ts_today += 1 if dmYHM_to_date(t.call_time) == today() else 0
-                    sw_ts.append(t)
+                try:
+                    if t.ticket_paired_info.status_id == 4\
+                            and (t.status_id == 154 or t.status_id == 128)\
+                            and t.call_time != None and \
+                            (date(cur_year, cur_month, 1) <= dmYHM_to_date(t.ticket_paired_info.call_time) <= date(cur_year, cur_month, last)):
+                        sw_ts_today += 1 if dmYHM_to_date(t.ticket_paired_info.call_time) == today() else 0
+                        sw_ts.append(t)
+                except:
+                    continue
         return sw_ts, sw_ts_today
 
     @system.my_timer
@@ -577,7 +583,7 @@ class NewDesign(Basket):
                                 phone1=phone1, phone2=phone2, phone3=phone3, services=attr['services'],
                                 shop=attr['shop'],
                                 shop_id=attr['shop_id'], status=attr['status'], ticket_paired=attr['ticket_paired'],
-                                type=attr['type'], type_id=attr['type_id'])
+                                type=attr['type'], type_id=attr['type_id'], status_id=attr['status_id'])
                 tickets.append(ticket)
         for ticket in tickets:
             if ticket.ticket_paired:
