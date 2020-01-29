@@ -70,14 +70,15 @@ def redirect_auth(request):
 def update_workers(request):
     auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
     for worker in Worker.get_workers(auth):
+        operator = ''
         try:
-            WorkersModel(name=worker.name, number=worker.number, master=worker.master, status=worker.status,
-                                        url=worker.url).save()
+            operator = WorkersModel.objects.filter(number=worker.number)
         except:
+            WorkersModel(name=worker.name, number=worker.number, master=worker.master, status=worker.status,
+                         url=worker.url).save()
             continue
-    return HttpResponse(
-        'Done'
-    )
+        operator.update(name=worker.name, master=worker.master, status=worker.status, url=worker.url)
+    return HttpResponse('Done')
 
 def update_installers(request):
     Installer.parse_installers({'login': request.session['sell_code'], 'operator': request.session['operator'],
