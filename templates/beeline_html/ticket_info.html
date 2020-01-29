@@ -16,7 +16,7 @@
                     <h4 id="client_name">{{ ticket_info.name }}</h4>
                     <h5 id="address">{{ ticket_info.address }}</h5>
                     <hr>
-                    <h5 class="text-danger">{{ ticket_info.status }}</h5>
+                    <h5 class="text-danger" id="status">{{ ticket_info.status }}</h5>
                     <hr>
                     <h5>Номера телефонов:</h5>
                     {% for item in ticket_info.phones %}
@@ -44,7 +44,7 @@
             </div>
             <div class="col-md-6">
                 <div style="overflow:hidden; display: inline-block">
-                    <p>График монтажников</p>
+                    <p><b>График монтажников:</b></p>
                     <div class="form-group" style="position: relative">
 
                         <div class="row">
@@ -180,5 +180,6 @@
         document.addEventListener('load', getSchedule('#installerschedule', true, 'load'));
         document.addEventListener('load', getSchedule('#installerscheduleform', false, 'form_spiner'));
         document.addEventListener('load', call_timer());
+        document.addEventListener('load', forbidChanges(document.getElementById('status').innerText));
     </script>
 {% endblock %}

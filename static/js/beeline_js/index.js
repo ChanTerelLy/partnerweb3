@@ -229,4 +229,12 @@ addTicketsToTable = (tickets, table_id) => {
         row.insertCell(5).innerHTML = ticket.operator;
     }
 
-}
+};
+
+forbidChanges = (status) => {
+    if(status === 'Назначено в график' ||  status === 'Подключен' ||  status === 'Закрыта') {
+        document.getElementById('id_datetime').disabled = true;
+        document.getElementById('id_status').disabled = true;
+        document.getElementById('id_comments').disabled = true;
+    }
+};
