@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('number', models.IntegerField()),
                 ('positive', models.BooleanField()),
-                ('who_add', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='tickets_handler.Workers')),
+                ('operator', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='tickets_handler.Workers')),
             ],
         ),
     ]

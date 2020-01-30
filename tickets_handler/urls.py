@@ -27,7 +27,7 @@ urlpatterns = [
     url('installers/', get_installers, name='installers'),
     url('check_number/', check_number, name='check_number'),
     url(r'house_info/(?P<city_id>\d+)/(?P<house_id>\d+)/(?P<flat>\d+)$', check_fraud, name='check_fraud'),
-    url(r'delete_ticket/(?P<ticket>\d+)/', delete_ticket, name='delete_ticket'),
+    url(r'delete_ticket/(?P<ticket>\d+)/', delete_additional_ticket, name='delete_ticket'),
     url(r'^ticket_info/(?P<id>\d+)/$', ticket_info_json, name='ticket_info_json'),
     url(r'^get_mobile_presets/$', get_mobile_presets_json, name='get_mobile_presets_json'),
     url(r'^get_presets/$', get_presets_json, name='get_presets_json'),
@@ -37,4 +37,5 @@ urlpatterns = [
     url(r'^switched_tickets/$', get_switched_tickets, name='switched_tickets'),
     url(r'^count_created_today/$', get_count_created_today, name='count_created_today'),
     url(r'^index/$', index, name='index'),
+    url(r'^add_additional_ticket/$', add_additional_ticket, name='add_additional_ticket'),
 ]

@@ -3,7 +3,7 @@ from tickets_handler.beeline_parser.manager import NewDesign
 import re
 from tickets_handler.beeline_parser import system
 import os
-
+import json
 
 class Workers(models.Model):
     name = models.CharField(max_length=250, unique=True)
@@ -67,8 +67,9 @@ class Installer(models.Model):
 class AdditionalTicket(models.Model):
     number = models.IntegerField()
     positive = models.BooleanField()  # add or remove ticket
-    who_add = models.ForeignKey(Workers, on_delete=models.CASCADE)
+    operator = models.ForeignKey(Workers, on_delete=models.CASCADE)
 
+    #is it work?)
     @classmethod
     def check_visability(cls, operator, tickets):
         ad_tickets = cls.objects.get(who_add=operator)
@@ -82,7 +83,11 @@ class AdditionalTicket(models.Model):
                     clear_tickets.append(ticket)
         else:
             return False
-
+    @classmethod
+    def add(cls, payload):
+        payload = json.loads(payload.decode('utf-8'))
+        cls(number=payload['number'], positive=payload['positive'],
+            operator=Workers.objects.get(number=int(payload['operator']))).save()
 
 class TicketPrice(models.Model):
     ticket_number = models.IntegerField()

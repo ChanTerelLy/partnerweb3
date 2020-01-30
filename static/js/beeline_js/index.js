@@ -238,3 +238,26 @@ forbidChanges = (status) => {
         document.getElementById('id_comments').disabled = true;
     }
 };
+
+additionalTicketInfo = (positive) => {
+    let number = document.getElementById('extra_ticket').value;
+    let operator = document.getElementById('agent').innerText;
+    return {"number": number, "positive": positive, "operator":operator}
+};
+
+addAdditionalTicket = (positive, csrfmiddlewaretoken) => {
+    let payload = additionalTicketInfo(positive);
+    $.ajax({
+        url: '/add_additional_ticket/',
+        type: 'POST',
+        contentType: 'application/json; charset=utf-8',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("X-CSRFToken", csrfmiddlewaretoken);
+        },
+        data: JSON.stringify(payload),
+        dataType: 'text',
+        success: function (result) {
+            alert(result);
+        }
+    })
+};

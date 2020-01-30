@@ -118,11 +118,20 @@ def check_number(request):
     return render(request, 'beeline_html/check_number.html')
 
 
-def delete_ticket(request, ticket):
+def delete_additional_ticket(request, ticket):
     operator = WorkersModel.objects.get(number=request.session['operator'])
     ticket = AdditionalTicket(number=ticket, positive=False, who_add=operator)
     ticket.save()
     return HttpResponse('OK')
+
+def add_additional_ticket(request):
+    if request.is_ajax():
+        if request.method == "POST":
+            AdditionalTicket.add(request.body)
+    return HttpResponse('Done')
+
+def show_additional_tickets(request, operator):
+    return
 
 
 def send_mail(request):
