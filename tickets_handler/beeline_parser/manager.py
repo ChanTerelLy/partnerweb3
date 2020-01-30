@@ -531,9 +531,13 @@ class NewDesign(Basket):
     def assigned_tickets(self, tickets):
         asig_ts, asig_ts_today, urls = [], 0, []
         for ticket in tickets:
-            if (ticket.type_id == 286 or ticket.type_id == 250) \
-                    and ticket.allow_schedule == False and ticket.allow_change_status == True:
-                urls.append(f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{ticket.id}')
+            try:
+                if (ticket.type_id == 286 or ticket.type_id == 250) \
+                        and ticket.ticket_paired_info.allow_schedule == False \
+                        and ticket.ticket_paired_info.allow_change_status == True:
+                    urls.append(f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{ticket.id}')
+            except:
+                continue
         parse_tickets = self.assync_get_ticket(urls)
         a_t = [self.ticket_instance_info(value) for key, value in parse_tickets.items()]
         for ticket in a_t:
