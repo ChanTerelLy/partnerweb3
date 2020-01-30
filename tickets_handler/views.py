@@ -70,12 +70,10 @@ def redirect_auth(request):
 def update_workers(request):
     auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
     for worker in Worker.get_workers(auth):
-        operator = ''
-        try:
-            operator = WorkersModel.objects.filter(number=worker.number)
-        except:
+        operator = WorkersModel.objects.filter(number=worker.number)
+        if not operator:
             WorkersModel(name=worker.name, number=worker.number, master=worker.master, status=worker.status,
-                         url=worker.url).save()
+                             url=worker.url).save()
             continue
         operator.update(name=worker.name, master=worker.master, status=worker.status, url=worker.url)
     return HttpResponse('Done')

@@ -10,7 +10,7 @@ urlpatterns = [
     url('global_search/', global_search, name='global_search'),
     url('^tickets/', main_page, name='main_page_tickets'),
     url('admin/', admin.site.urls),
-    url('update_worker/', update_workers, name='update_workers'),
+    url('update_workers/', update_workers, name='update_workers'),
     url('update_installers', update_installers, name='update_installers'),
     url(r'^info/(?P<ticket>\d+)/schedule/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$', get_schedule_by_ticket_id,
         name='schedule'),
