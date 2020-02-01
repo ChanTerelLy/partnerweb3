@@ -645,7 +645,11 @@ class NewDesign(Basket):
                switched_on_tickets_today, created_today_tickets
 
     def global_search(self):
-        return self.tickets()
+        clear_tickets = []
+        for ticket in self.tickets():
+            if (ticket.type_id == 286 or ticket.type_id == 250):
+                clear_tickets.append(ticket)
+        return clear_tickets
 
     def definde_satellit_ticket(self, name):
         ticket_patterns = ('Подключен', 'Ошибка при конвергенции', 'Закрыта')

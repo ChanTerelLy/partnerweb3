@@ -48,10 +48,22 @@
     </thead>
     <tbody id="myTable">
       {% for ticket in tickets %}
-        <tr>
-          <td class="align-middle"><a href="{% url 'ticket_info' ticket.id %}" target="_blank"> {{ ticket.number }} </a></td>
-          <td class="align-middle"> {{ ticket.type }} </td>
-          <td class="align-middle"> {{ticket.date}} </td>
+          <tr>
+              {% url 'ticket_info' ticket.ticket_paired_info.id as var2 %}
+              <td class="align-middle "><a href="{{ var2 }}"
+                                           target="_blank">{{ ticket.ticket_paired_info.number }}</a>
+                  {% url 'ticket_info' ticket.id as var %}
+                  <small class="text-muted d-block"><a href="{{ var }}"
+                                                       target="_blank">{{ ticket.number }}</a></small>
+              </td>
+              <td class="align-middle">
+                  {{ ticket.ticket_paired_info.type }}
+                                <small class="text-muted d-block">{{ ticket.type }}</small>
+              </td>
+          <td class="align-middle">
+              {{ticket.ticket_paired_info.date}}
+          <small class="text-muted d-block">{{ ticket.date }}</small>
+          </td>
           <td>
             <a class="align-middle" >{{ ticket.name }}</a>
             <small class="text-muted d-block">{{ ticket.address }}</small>
@@ -61,8 +73,14 @@
             <small class="text-muted d-block">{{ ticket.phone2 }}</small>
             <small class="text-muted d-block">{{ ticket.phone3 }}</small>
           </td>
-          <td class="align-middle">{{ ticket.status }}</td>
-          <td class="align-middle">{{ ticket.call_time }}</td>
+          <td class="align-middle">
+              {{ticket.ticket_paired_info.status}}
+          <small class="text-muted d-block">{{ ticket.status }}</small>
+          </td>
+          <td class="align-middle">
+              {{ticket.ticket_paired_info.call_time}}
+          <small class="text-muted d-block">{{ ticket.call_time }}</small>
+          </td>
           <td class="align-middle">{{ ticket.operator }}</td>
         </tr>
       {% endfor %}
