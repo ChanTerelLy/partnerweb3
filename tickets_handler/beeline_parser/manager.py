@@ -33,6 +33,7 @@ class Auth:
         self.auth_response_status = self.check_auth()
         self.header = self.get_headers()
         self.cookies = self.get_cookie()
+        self.account_type = self.current_user()['data']['type']
 
     def check_auth(self):
         return False if self.auth_response.count('Ошибка авторизации') else True
@@ -41,6 +42,12 @@ class Auth:
         return self.auth.cookies.get_dict()
     def get_headers(self):
         return self.auth.headers
+
+    def current_user(self):
+        data = self.session.get('https://partnerweb.beeline.ru/restapi/auth/current-user/').json()
+        return data
+
+
 class Ticket:
 
     def __init__(self, address='', address_id='', allow_change_status='', allow_schedule='', call_time=None,

@@ -94,6 +94,11 @@ def fast_house_search(request):
 
 def house_info(request, city_id, house_id):
     auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
+    if auth.account_type != 4:
+        employer = Employer.objects.get(profile_name=request.session['operator'])
+        auth = NewDesign(request.session['sell_code'],
+                         employer.operator.number,
+                         employer.operator_password)
     gp_houses, areas = auth.get_gp_by_house_id(house_id)
     house_full_name = auth.get_full_house_info(house_id)['house_address']
     p_form = CreateTicketForm()

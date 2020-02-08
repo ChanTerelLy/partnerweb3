@@ -111,10 +111,13 @@ class TicketPrice(models.Model):
         return ticket.price
 
 class Employer(models.Model):
+    profile_name = models.TextField()
     name = models.TextField()
     email = models.EmailField()
     phone = models.CharField(max_length=10)
     position = models.TextField()
+    operator = models.ForeignKey(Workers, on_delete=models.CASCADE)
+    operator_password = models.TextField()
 
     @classmethod
     def find_master(cls, number):

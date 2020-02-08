@@ -1,12 +1,18 @@
 from django.core import serializers
 from django.http import JsonResponse
 from tickets_handler.beeline_parser.manager import NewDesign
-from tickets_handler.models import TicketPrice
+from tickets_handler.models import TicketPrice, Employer
 import jsonpickle
+
 
 
 def check_fraud(request, city_id, house_id, flat):
     auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
+    if auth.account_type != 4:
+        employer = Employer.objects.get(profile_name=request.session['operator'])
+        auth = NewDesign(request.session['sell_code'],
+                         employer.operator.number,
+                         employer.operator_password)
     res_data = auth.check_fraud(house_id, flat)
     if res_data['data']:
         return JsonResponse({'result': 'Можно создавать заявку'})
