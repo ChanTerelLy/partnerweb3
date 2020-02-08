@@ -1,11 +1,11 @@
 from tickets_handler.beeline_parser.manager import NewDesign, Worker, Auth
 from django.shortcuts import render, redirect
 from .form import AuthForm, DateTimeForm, CreateTicketForm
-from .models import Workers as WorkersModel, Installer, AdditionalTicket
+from .models import Workers as WorkersModel, Installer, AdditionalTicket, Employer
 from django.http import HttpResponse
 from tickets_handler.beeline_parser import system
 from django.contrib import messages
-from tickets_handler.beeline_parser.mail import send_mail_ticket
+from tickets_handler.beeline_parser.mail import assign_mail_ticket, fraud_mail_ticket
 
 @system.my_timer
 def main_page(request):
@@ -100,11 +100,28 @@ def house_info(request, city_id, house_id):
     gp = areas + gp_houses
     if request.method == 'POST':
         p_form = CreateTicketForm(request.POST)
-        bundel_id, service_type, vpdn = p_form['basket'].value().split(';')
-        create_ticket_form = auth.create_ticket(house_id, p_form['flat'].value(), p_form['client_name'].value(),
-                                                p_form['client_patrony'].value(), p_form['client_surname'].value(),
-                                                p_form['phone_number_1'].value(), bundel_id ,service_type, vpdn)
-        return redirect('ticket_info', create_ticket_form['data']['ticket_id'])
+        bundel_id, service_type, vpdn, service_name = p_form['basket'].value().split(';')
+        res_data = auth.check_fraud(house_id, p_form['flat'].value())
+        if res_data['data']:
+            create_ticket_form = auth.create_ticket(house_id, p_form['flat'].value(), p_form['client_name'].value(),
+                                                    p_form['client_patrony'].value(), p_form['client_surname'].value(),
+                                                    p_form['phone_number_1'].value(), bundel_id, service_type, vpdn)
+            return redirect('ticket_info', create_ticket_form['data']['ticket_id'])
+        else:
+            ticket = {'mail_to' : Employer.find_master(request.session['operator']).email,
+                      'client_name':  f" {p_form['client_name'].value()}"
+                                      f" {p_form['client_patrony'].value()}"
+                                      f" {p_form['client_surname'].value()}",
+                      'phone' : p_form['phone_number_1'].value(),
+                      'tariff' : service_name,
+                      'agent' : request.session['operator'],
+                      'address' : f'{house_full_name} кв {p_form["flat"].value()}'
+                      }
+            fraud_mail_ticket(ticket)
+            return HttpResponse(
+                'Ваша заявка содержит активный договор на адресе '
+                'и была отправлена супервайзеру для дальнейшего рассмотрения'
+            )
     return render(request, 'beeline_html/house_info.html', {'gp_houses' : gp, 'name': house_full_name,
                                                             'p_form' : p_form})
 
@@ -137,7 +154,7 @@ def show_additional_tickets(request, operator):
 def send_mail(request):
     if request.is_ajax():
         if request.method == "POST":
-            send_mail_ticket(request.body)
+            assign_mail_ticket(request.body)
     return HttpResponse('Отправленно')
 
 def index(request):

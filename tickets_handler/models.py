@@ -5,6 +5,7 @@ from tickets_handler.beeline_parser import system
 import os
 import json
 
+
 class Workers(models.Model):
     name = models.CharField(max_length=250, unique=True)
     number = models.CharField(max_length=50, unique=True)
@@ -69,7 +70,7 @@ class AdditionalTicket(models.Model):
     positive = models.BooleanField()  # add or remove ticket
     operator = models.ForeignKey(Workers, on_delete=models.CASCADE)
 
-    #is it work?)
+    # is it work?)
     @classmethod
     def check_visability(cls, operator, tickets):
         ad_tickets = cls.objects.get(who_add=operator)
@@ -83,11 +84,17 @@ class AdditionalTicket(models.Model):
                     clear_tickets.append(ticket)
         else:
             return False
+
     @classmethod
     def add(cls, payload):
         payload = json.loads(payload.decode('utf-8'))
         cls(number=payload['number'], positive=payload['positive'],
             operator=Workers.objects.get(number=int(payload['operator']))).save()
+
+    @classmethod
+    def show(cls, operator):
+        AdditionalTicket.objects.filter(operator=Workers.objects.get(phone=operator))
+
 
 class TicketPrice(models.Model):
     ticket_number = models.IntegerField()
@@ -102,6 +109,17 @@ class TicketPrice(models.Model):
     def get_price(cls, ticket_number):
         ticket = cls.objects.get(ticket_number)
         return ticket.price
+
+class Employer(models.Model):
+    name = models.TextField()
+    email = models.EmailField()
+    phone = models.CharField(max_length=10)
+    position = models.TextField()
+
+    @classmethod
+    def find_master(cls, number):
+        master = Workers.objects.get(number=number).master
+        return cls.objects.get(name=master)
 
 
 if __name__ == '__main__':

@@ -128,7 +128,7 @@ function setMobilePresets(city_id, house_id) {
                 option.setAttribute('bundel_id', property.id);
                 option.setAttribute('service_type', property.service_type);
                 option.setAttribute('vpdn', property.VPDN);
-                option.value = `${property.id};${property.service_type};${property.VPDN}`;
+                option.value = `${property.id};${property.service_type};${property.VPDN};${property.name}`;
                 tariff.add(option);
             }
         }
@@ -147,7 +147,7 @@ function setPresets(city_id, house_id) {
                 option.setAttribute('bundel_id', property.id);
                 option.setAttribute('service_type', property.service_type);
                 option.setAttribute('VPDN', property.VPDN);
-                option.value = `${property.id};${property.service_type};${property.VPDN}`;
+                option.value = `${property.id};${property.service_type};${property.VPDN};${property.service_name}`;
                 tariff.add(option);
             }
         }
