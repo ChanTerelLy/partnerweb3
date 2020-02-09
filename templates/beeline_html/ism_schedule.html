@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}График ИСМ{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-6">
+            <p><span style="color: red">Красный</span> - занятость принтера</p>
+            <p><span style="color: yellow">Желтый</span> - занятость коморки</p>
+            <p style="font-weight: bold;">Все графики занимают только после 17:00</p>
+        </div>
+        <div class="col-md-6">
+            <iframe src="https://calendar.google.com/calendar/embed?height=720&amp;wkst=2&amp;bgcolor=%23ffffff&amp;ctz=Europe%2FMoscow&amp;src=MW5zaHJyaTJ0MmxidmoxYnY2YnRuN2szMTBAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;src=cWdscHZyZ3Zwc2lsaGMzZGw5dWxwZ2psbTRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;color=%23E4C441&amp;color=%23D50000&amp;showTitle=0&amp;showCalendars=0&amp;mode=WEEK&amp;hl=ru&amp;showNav=1&amp;showDate=1&amp;showTabs=0&amp;showTz=0"
+                    style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+        </div>
+    </div>
+{% endblock %}

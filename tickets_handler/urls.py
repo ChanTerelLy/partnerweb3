@@ -39,4 +39,5 @@ urlpatterns = [
     url(r'^index/$', index, name='index'),
     url(r'^add_additional_ticket/$', add_additional_ticket, name='add_additional_ticket'),
     url(r'^feedback/$', feedback, name='feedback'),
+    url(r'^ism_schedule/$', ism_schedule, name='ism_schedule'),
 ]

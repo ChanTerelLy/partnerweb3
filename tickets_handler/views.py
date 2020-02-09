@@ -174,3 +174,5 @@ def feedback(request):
     return render(request, 'beeline_html/feedback.html', {'form':form})
 
 
+def ism_schedule(request):
+    return render(request, 'beeline_html/ism_schedule.html')
