@@ -38,4 +38,5 @@ urlpatterns = [
     url(r'^count_created_today/$', get_count_created_today, name='count_created_today'),
     url(r'^index/$', index, name='index'),
     url(r'^add_additional_ticket/$', add_additional_ticket, name='add_additional_ticket'),
+    url(r'^feedback/$', feedback, name='feedback'),
 ]

@@ -65,3 +65,25 @@ def fraud_mail_ticket(text):
             sender_email, text['mail_to'], message.as_string()
         )
 
+def feedback_mail(text):
+    sender_email = "support@arh-beeline.ru"
+    password = '123456QqQq'
+    message = MIMEMultipart("alternative")
+    message["Subject"] = "Жалобы и предложения"
+    message["From"] = sender_email
+    message["To"] = 'zvezdolom1@gmail.com'
+    # Turn these into plain/html MIMEText objects
+    telegramma = f'{text}'
+    part2 = MIMEText(telegramma, "html")
+
+    # Add HTML/plain-text parts to MIMEMultipart message
+    # The email client will try to render the last part first
+    message.attach(part2)
+
+    # Create secure connection with server and send email
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL("smtp.beget.com", 465, context=context) as server:
+        server.login(sender_email, password)
+        server.sendmail(
+            sender_email, 'zvezdolom1@gmail.com', message.as_string()
+        )

@@ -18,3 +18,6 @@ class CreateTicketForm(forms.Form):
     client_patrony = forms.CharField(required=False, label='Отчество', widget=forms.TextInput(attrs={'class':'text-form-control', 'placeholder':'Иванович'}))
     phone_number_1 = forms.CharField(required=False, label='Номер телефона', widget=forms.TextInput(attrs={'class':'text-form-control', 'placeholder':'9111111111'}))
     basket = forms.ChoiceField(required=False, label='Тариф')
+
+class Feedback(forms.Form):
+    descr = forms.CharField(widget=forms.Textarea, label='Опишите вашу проблему или предложение')
