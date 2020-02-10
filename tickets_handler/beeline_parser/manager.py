@@ -33,7 +33,7 @@ class Auth:
         self.auth_response_status = self.check_auth()
         self.header = self.get_headers()
         self.cookies = self.get_cookie()
-        self.account_type = self.current_user()['data']['type']
+        self.account_type = self.current_user().get('data').get('type')
 
     def check_auth(self):
         return False if self.auth_response.count('Ошибка авторизации') else True
@@ -539,18 +539,18 @@ class NewDesign(Basket):
         asig_ts, asig_ts_today, urls = [], 0, []
         for ticket in tickets:
             try:
-                if (ticket.type_id == 286 or ticket.type_id == 250) \
-                        and ticket.ticket_paired_info.allow_schedule == False \
-                        and ticket.ticket_paired_info.allow_change_status == True:
+                if ((ticket.type_id == 286 or ticket.type_id == 250)
+                        and (ticket.status_id == 157 or ticket.status_id == 132)):
                     urls.append(f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{ticket.id}')
             except:
                 continue
         parse_tickets = self.assync_get_ticket(urls)
         a_t = [self.ticket_instance_info(value) for key, value in parse_tickets.items()]
+        filter_satelit = []
         for ticket in a_t:
             ticket.ticket_paired_info = list([i for i in tickets if i.id == ticket.ticket_paired])[0]
             as_t = list([c['date'] for c in ticket.comments if find_asssigned_date(c['text'])])
-            ticket.assigned_date = as_t[0]
+            ticket.assigned_date = as_t[0] if as_t else None
             if dmYHM_to_date(ticket.assigned_date) == dt.now().date():
                 asig_ts_today += 1
             asig_ts.append(ticket)
