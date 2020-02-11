@@ -516,7 +516,10 @@ class NewDesign(Basket):
         st = service_type.lower().replace('is_', '') + ('_service')
         data = {"house_id":house_id,"flat":flat,"create_contract":1,"client_name":client_name,
                 "client_patrony":client_patrony,
-                "client_surname":client_surname,"phone_number_1":phone_number_1,st:id,
+                "client_surname":client_surname,
+                "phone_number_1":phone_number_1,
+                "sms_warnto_1" : 1,
+                st:id,
                 "service_type": st,
                 "basket":{"MAIN":{service_type:{"S_ID":id},"VPDN":{"S_ID":vpdn}}},
                 "need_schedule":False}
@@ -540,7 +543,10 @@ class NewDesign(Basket):
         for ticket in tickets:
             try:
                 if ((ticket.type_id == 286 or ticket.type_id == 250)
-                        and (ticket.status_id == 157 or ticket.status_id == 132)):
+                        and (ticket.status_id == 157 or ticket.status_id == 132
+                        or ticket.status_id == 154 or ticket.status_id == 128)) \
+                        and ticket.ticket_paired_info.allow_schedule == False \
+                        and ticket.ticket_paired_info.allow_change_status == True:
                     urls.append(f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{ticket.id}')
             except:
                 continue
