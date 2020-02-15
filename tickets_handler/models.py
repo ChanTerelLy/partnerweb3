@@ -133,6 +133,18 @@ class Reminder(models.Model):
     link = models.URLField(null=True, blank=True)
     recipient = models.TextField()
 
+class TicketSource(models.Model):
+    ticket_number = models.CharField(max_length=20)
+    source = models.CharField(max_length=50)
+
+    @classmethod
+    def add_source(cls, ticket_number, source):
+        cls(ticket_number=ticket_number, source=source).save()
+
+    @classmethod
+    def find_source(cls, ticket_numbet):
+        return cls.objects.get(ticket_numbet=ticket_numbet).source
+
 if __name__ == '__main__':
     homenko = Installer.parse_installers({'login': os.getenv('SELL_CODE'), 'operator': os.getenv('S_OPERATOR'),
                                           'password': os.getenv('S_PASSWORD')})

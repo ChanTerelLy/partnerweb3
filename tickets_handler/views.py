@@ -11,23 +11,24 @@ from tickets_handler.beeline_parser.mail import assign_mail_ticket, fraud_mail_t
 def main_page(request):
     code, operator, password = request.session['sell_code'], request.session['operator'], request.session['password']
     if Auth(code, operator, password).auth_response_status:
-        auth = NewDesign(code, operator, password)
-        all_assigned_tickets, all_assigned_today, all_call_for_today, all_switched_on_tickets,\
-        all_switched_on_today, all_created_today_tickets = [],0,[],[],0,0
-        assigned_tickets, assigned_today, call_for_today, switched_on_tickets, \
-        switched_on_today, created_today_tickets = auth.three_month_tickets()
-        all_assigned_tickets.extend(assigned_tickets)
-        all_call_for_today.extend(call_for_today)
-        all_switched_on_tickets.extend(switched_on_tickets)
-        all_assigned_today += assigned_today
-        all_switched_on_today += switched_on_today
-        all_created_today_tickets += created_today_tickets
-        return render(request, 'beeline_html/main_page_tickets.html',
-                      {'assigned_tickets': WorkersModel.replace_num_worker(all_assigned_tickets),
-                       'call_for_today': WorkersModel.replace_num_worker(all_call_for_today),
-                       'switched_on_tickets': WorkersModel.replace_num_worker(all_switched_on_tickets),
-                       'assigned_today': all_assigned_today, 'switched_on_today': all_switched_on_today,
-                       'created_today_tickets': all_created_today_tickets})
+        if request.method == 'GET':
+            auth = NewDesign(code, operator, password)
+            all_assigned_tickets, all_assigned_today, all_call_for_today, all_switched_on_tickets,\
+            all_switched_on_today, all_created_today_tickets = [],0,[],[],0,0
+            assigned_tickets, assigned_today, call_for_today, switched_on_tickets, \
+            switched_on_today, created_today_tickets, all_tickets = auth.three_month_tickets()
+            all_assigned_tickets.extend(assigned_tickets)
+            all_call_for_today.extend(call_for_today)
+            all_switched_on_tickets.extend(switched_on_tickets)
+            all_assigned_today += assigned_today
+            all_switched_on_today += switched_on_today
+            all_created_today_tickets += created_today_tickets
+            return render(request, 'beeline_html/main_page_tickets.html',
+                          {'assigned_tickets': WorkersModel.replace_num_worker(all_assigned_tickets),
+                           'call_for_today': WorkersModel.replace_num_worker(all_call_for_today),
+                           'switched_on_tickets': WorkersModel.replace_num_worker(all_switched_on_tickets),
+                           'assigned_today': all_assigned_today, 'switched_on_today': all_switched_on_today,
+                           'created_today_tickets': all_created_today_tickets, 'all_tickets' : all_tickets})
     else:
         messages.error(request, f'Ошибка Аутентификации, неправильный логин или пароль!')
         request.session['sell_code'], request.session['operator'], request.session['password'] = '','',''

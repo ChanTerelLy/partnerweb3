@@ -1,9 +1,10 @@
 from django.core import serializers
 from django.http import JsonResponse
 from tickets_handler.beeline_parser.manager import NewDesign
-from tickets_handler.models import TicketPrice, Employer
+from tickets_handler.models import TicketPrice, Employer, TicketSource
 import jsonpickle
-
+from types import SimpleNamespace
+import json
 
 
 def check_fraud(request, city_id, house_id, flat):
@@ -121,4 +122,14 @@ def get_count_created_today(request):
     tickets = auth.tickets()
     created_today_tickets = auth.count_created_today(tickets)
     return JsonResponse(created_today_tickets, safe=False)
+
+def source_tickets(request):
+    if request.GET.get('add', ''):
+        text = json.loads(request.body.decode('utf-8'))
+        d = SimpleNamespace(**text) # convert dict to variable
+        TicketSource.add_source(d.ticket_id, d.source)
+        return JsonResponse({'status':'ok'})
+    if request.POST.get('show', ''):
+        pass
+
 

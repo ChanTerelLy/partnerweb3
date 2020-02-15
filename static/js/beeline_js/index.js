@@ -263,3 +263,20 @@ addAdditionalTicket = (positive, csrfmiddlewaretoken) => {
         }
     })
 };
+
+sendSourceTicket = (ticket_id, source, csrfmiddlewaretoken) => {
+    let payload = {'source' : source.value, 'ticket_id': ticket_id};
+    $.ajax({
+        url: `/ticket_source/?add=${ticket_id}/`,
+        type: 'POST',
+        contentType: 'application/json; charset=utf-8',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("X-CSRFToken", csrfmiddlewaretoken);
+        },
+        data: JSON.stringify(payload),
+        dataType: 'text',
+        success: function (result) {
+            alert(result);
+        }
+    })
+};

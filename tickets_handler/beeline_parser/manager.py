@@ -655,7 +655,7 @@ class NewDesign(Basket):
         switched_tickets, switched_on_tickets_today = self.switched_tickets(tickets)
         created_today_tickets = self.count_created_today(tickets)
         return assigned_tickets, assigned_tickets_today, call_today_tickets, switched_tickets, \
-               switched_on_tickets_today, created_today_tickets
+               switched_on_tickets_today, created_today_tickets, tickets
 
     def global_search(self):
         clear_tickets = []

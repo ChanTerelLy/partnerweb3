@@ -178,7 +178,19 @@
                             <small class="text-muted d-block" id="t_{{ ticket.id }}"></small>
                         </td>
                         <td class="align-middle">{{ ticket.ticket_paired_info.call_time }}</td>
-                        <td class="align-middle">{{ ticket.operator }}</td>
+                        <td class="align-middle">
+                            {{ ticket.operator }}
+                                <select id="source_{{ ticket.ticket_paired_info.number }}">
+                                    <option>Не определено</option>
+                                    <option>Поквартирный обход</option>
+                                    <option>Обзвон</option>
+                                    <option>Залистовка</option>
+                                    <option>Другое</option>
+                                </select>
+                                <button onclick="sendSourceTicket({{ ticket.ticket_paired_info.number }},
+                                        this.previousElementSibling
+                                        , '{{ csrf_token  }}')">+</button>
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
