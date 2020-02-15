@@ -15,21 +15,23 @@
                     <a class="nav-link" href="{% url 'global_search' %}">Все заявки</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'installers' %}">Монтажники</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{% url 'fast_house_search' %}">Найти адрес</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'check_number' %}">Проверить номер</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'feedback' %}">Жалобы и Предложения</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Другое
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item"  href="{% url 'installers' %}">Монтажники</a>
+                        <a class="dropdown-item"  href="{% url 'ism_schedule' %}">График ИСМ</a>
+                        <a class="dropdown-item"  href="{% url 'feedback' %}">Жалобы и Предложения</a>
+                    </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'ism_schedule' %}">График ИСМ</a>
-                </li>
-                </ul>
+        </ul>
                 <div class="navbar-nav">
                     <span class="nav-item nav-link" id="agent" style="color: #2ecc71" >{{ request.session.operator }}</span>
                     <a class="nav-item nav-link" href="{% url 'logout' %}">Выйти</a>
