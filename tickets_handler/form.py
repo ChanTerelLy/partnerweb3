@@ -7,7 +7,7 @@ class AuthForm(forms.Form):
 
 class DateTimeForm(forms.Form):
     datetime = forms.DateField(widget=forms.DateTimeInput(attrs={'readonly':'readonly'}),label='Таймер',  required=False)
-    status = forms.ChoiceField(choices=[(21, 'Позвонить клиенту'),(2028,'Отказ 2028')],label='Статус', required=False)
+    status = forms.ChoiceField(choices=[(21, 'Позвонить клиенту'),(2028,'Отказ 2028'),(16,'ЖЗК 2028')],label='Статус', required=False)
     comments = forms.CharField(max_length=300, label='Комментарий', required=False)
 
 class CreateTicketForm(forms.Form):

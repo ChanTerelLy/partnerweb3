@@ -124,6 +124,14 @@ class Employer(models.Model):
         master = Workers.objects.get(number=number).master
         return cls.objects.get(name=master)
 
+class Reminder(models.Model):
+    ticket_number = models.TextField()
+    client_name = models.TextField()
+    client_number = models.CharField(max_length=10)
+    timer = models.DateTimeField()
+    operator = models.ForeignKey(Workers, on_delete=models.CASCADE)
+    link = models.URLField(null=True, blank=True)
+    recipient = models.TextField()
 
 if __name__ == '__main__':
     homenko = Installer.parse_installers({'login': os.getenv('SELL_CODE'), 'operator': os.getenv('S_OPERATOR'),

@@ -726,6 +726,9 @@ class NewDesign(Basket):
         if status_id == '2028':
             data_timer = {"status_id": 21, "call_time": '31.12.2028 00:00', "comment": comment}
             return self.session.post(url_status, data_timer).json()
+        if status_id == '16':
+            data_timer = {"status_id": 16, "call_time": '31.12.2028 00:00', "comment": comment}
+            return self.session.post(url_status, data_timer).json()
         else:
             data_timer = {"status_id": int(status_id), "call_time": timer, "comment": comment}
             return self.session.post(url_status, data_timer).json()
