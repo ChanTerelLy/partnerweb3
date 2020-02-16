@@ -127,9 +127,13 @@ def source_tickets(request):
     if request.GET.get('add', ''):
         text = json.loads(request.body.decode('utf-8'))
         d = SimpleNamespace(**text) # convert dict to variable
-        TicketSource.add_source(d.ticket_id, d.source)
-        return JsonResponse({'status':'ok'})
-    if request.POST.get('show', ''):
-        pass
+        TicketSource.add_source(d.ticket_id, d.source, d.operator)
+        return JsonResponse({'status':'done'})
+    if request.GET.get('show', ''):
+        try:
+            response = {'source': TicketSource.find_source(request.GET.get('show'))}
+            return JsonResponse(response)
+        except:
+            return JsonResponse({'source': "Не определено"})
 
 

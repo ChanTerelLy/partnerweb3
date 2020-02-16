@@ -264,8 +264,9 @@ addAdditionalTicket = (positive, csrfmiddlewaretoken) => {
     })
 };
 
-sendSourceTicket = (ticket_id, source, csrfmiddlewaretoken) => {
-    let payload = {'source' : source.value, 'ticket_id': ticket_id};
+sendSourceTicket = (self, ticket_id, source, csrfmiddlewaretoken) => {
+    let operator = self.parentElement.parentElement.parentElement;
+    let payload = {'source' : source.value, 'ticket_id': ticket_id, 'operator': operator.dataset.operator};
     $.ajax({
         url: `/ticket_source/?add=${ticket_id}/`,
         type: 'POST',
@@ -276,7 +277,18 @@ sendSourceTicket = (ticket_id, source, csrfmiddlewaretoken) => {
         data: JSON.stringify(payload),
         dataType: 'text',
         success: function (result) {
-            alert(result);
+            let data = JSON.parse(result);
+            alert(data.status);
+        }
+    })
+};
+
+showSourceTicket = (ticket_id) => {
+    $.ajax({
+        url: `/ticket_source/?show=${ticket_id}`,
+        type: 'GET',
+        success: function (result) {
+            document.getElementById(`source_${ticket_id}`).value = result.source;
         }
     })
 };

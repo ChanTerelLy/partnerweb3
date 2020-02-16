@@ -20,7 +20,7 @@ class Workers(models.Model):
             for ticket in tickets:
                 try:
                     worker = cls.objects.get(number=ticket.operator)
-                    ticket.operator = worker.name
+                    ticket.name_operator = worker.name
                 except:
                     continue
             return tickets
@@ -134,16 +134,23 @@ class Reminder(models.Model):
     recipient = models.TextField()
 
 class TicketSource(models.Model):
-    ticket_number = models.CharField(max_length=20)
+    ticket_number = models.CharField(max_length=20, unique=True)
     source = models.CharField(max_length=50)
+    agent = models.ForeignKey(Workers, on_delete=models.CASCADE)
 
     @classmethod
-    def add_source(cls, ticket_number, source):
-        cls(ticket_number=ticket_number, source=source).save()
+    def add_source(cls, ticket_number, source, operator):
+        try:
+            data = cls.objects.get(ticket_number=ticket_number)
+            data.source = source
+            data.save()
+        except:
+            cls(ticket_number=ticket_number, source=source,
+                agent=Workers.objects.get(number=operator)).save()
 
     @classmethod
-    def find_source(cls, ticket_numbet):
-        return cls.objects.get(ticket_numbet=ticket_numbet).source
+    def find_source(cls, ticket_number):
+        return cls.objects.get(ticket_number=ticket_number).source
 
 if __name__ == '__main__':
     homenko = Installer.parse_installers({'login': os.getenv('SELL_CODE'), 'operator': os.getenv('S_OPERATOR'),
