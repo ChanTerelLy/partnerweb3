@@ -223,7 +223,7 @@
             </tbody>
         </table>
     </div>
-    <!-- Modal -->
+    <!-- additional ticket modal menu -->
     <div class="modal fade" id="addTicket" tabindex="-1" role="dialog" aria-labelledby="addTicketLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -254,32 +254,9 @@
     <script>
         $(function () {
             $('#call_table').excelTableFilter();
-            // search line
-            $(document).ready(function () {
-                $("#myInput").on("keyup", function () {
-                    var value = $(this).val().toLowerCase();
-                    $("#myTable tr").filter(function () {
-                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                    });
-                });
-            });
-            // assigned counter
-            $(document).ready(function () {
-                var str = 'Назначенных заявок: ';
-                $('assigned_count').html(str + ($('#assign_table tr').length - 1));
-            });
-            // switched counter
-            $(document).ready(function () {
-                var str = 'Подключенных заявок: ';
-                $('switched_count').html(str + ($('#switch_table tr').length - 1));
-            });
-            setInterval(function () {
-                $('result_call').html(($('#call_table tr').filter(':visible').length - 1));
-                $('result_switch').html(($('#switch_table tr').filter(':visible').length - 1));
-                $('result_assign').html(($('#assign_table tr').filter(':visible').length - 1));
-            }, 500);
-
-            // load listeners
+            searchLine();
+            assignCounter();
+            switchCounter();
         });
         let assign_total = {{ assigned_today }};
         let switch_total = {{ switched_on_today }};
@@ -288,8 +265,6 @@
         let switch_bar = document.getElementById('switch_bar');
         switch_bar.style.width = (switch_total / swAndAssign) * 100 + '%';
         assign_bar.style.width = (assign_total / swAndAssign) * 100 + '%';
-    </script>
-    <script>
         getCallTariff = () => {
             {% for ticket in call_for_today %}
                 getTicketInfo({{ticket.id}});
@@ -300,8 +275,7 @@
                 getTicketInfo({{ticket.id}});
             {% endfor %}
         };
-
-        //show source for all switched tickets
+        //show source for all switched tickets and assigned
         {% for ticket in assigned_tickets %}
             showSourceTicket({{ticket.ticket_paired_info.number}});
         {% endfor %}

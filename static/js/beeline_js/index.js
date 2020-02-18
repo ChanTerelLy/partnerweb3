@@ -18,14 +18,14 @@ function getColorSchedule(ticket_id) {
 function call_timer() {
     $('#id_datetime').datetimepicker({
         format: 'd.m.Y H:i',
-        allowTimes: ['00:00','10:00', '11:00', '12:00','13:00', '14:00','15:00',
-            '16:00','17:00', '18:00','19:00', '20:00','21:00', '22:00'],
+        allowTimes: ['00:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00',
+            '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'],
         dayOfWeekStart: 1,
     });
 }
 
 
-let getSchedule = (id, inline, load_el, house_id=false) => {
+let getSchedule = (id, inline, load_el, house_id = false) => {
     $.datetimepicker.setLocale('ru');
     $(function () {
         $(id).datetimepicker(
@@ -98,8 +98,10 @@ function checkFraud() {
     let flat = document.getElementById('id_flat').value;
     $.ajax({
             url: `./${flat}`,
-            success: function (data) { alert(data.result)}
+            success: function (data) {
+                alert(data.result)
             }
+        }
     );
 }
 
@@ -107,8 +109,10 @@ function getTicketInfo(id) {
     let tariff = document.getElementById(`t_${id}`);
     $.ajax({
             url: `/ticket_info/${id}/`,
-            success: function (data) { tariff.innerText = `${data.services.IS_INAC_PRESET_name} ${data.services.IS_PRESET_name}`}
+            success: function (data) {
+                tariff.innerText = `${data.services.IS_INAC_PRESET_name} ${data.services.IS_PRESET_name}`
             }
+        }
     );
 }
 
@@ -167,15 +171,16 @@ function sendEmail(csrfmiddlewaretoken) {
     let mails = [];
     for (let i of mail_to) mails.push(i.value);
 
-    payload = {'number': number, 'agent' : agent, 'client_name' : client_name, 'address' : address, 'phone1': phone1,
-    'time': time, 'tariff': tariff, 'mail_to': mails, 'comment': comment, 'csrfmiddlewaretoken': csrfmiddlewaretoken
+    payload = {
+        'number': number, 'agent': agent, 'client_name': client_name, 'address': address, 'phone1': phone1,
+        'time': time, 'tariff': tariff, 'mail_to': mails, 'comment': comment, 'csrfmiddlewaretoken': csrfmiddlewaretoken
     };
     $.ajax({
         url: '/send_mail/',
         type: 'POST',
         contentType: 'application/json; charset=utf-8',
         beforeSend: function (xhr) {
-                xhr.setRequestHeader("X-CSRFToken", csrfmiddlewaretoken);
+            xhr.setRequestHeader("X-CSRFToken", csrfmiddlewaretoken);
         },
         data: JSON.stringify(payload),
         dataType: 'text',
@@ -186,35 +191,43 @@ function sendEmail(csrfmiddlewaretoken) {
 }
 
 get_assigned_tickets = () => {
-        return $.ajax({
+    return $.ajax({
             url: `/assigned_tickets/`,
-            success: data => {return data},
+            success: data => {
+                return data
+            },
             error: error => console.log(error)
-            }
+        }
     );
 };
 get_call_today_tickets = () => {
-        return $.ajax({
+    return $.ajax({
             url: `/call_today_tickets/`,
-            success: data => {return data},
+            success: data => {
+                return data
+            },
             error: error => console.log(error)
-            }
+        }
     );
 };
 get_switched_tickets = () => {
-        return $.ajax({
+    return $.ajax({
             url: `/switched_tickets/`,
-            success: data => {return data},
+            success: data => {
+                return data
+            },
             error: error => console.log(error)
-            }
+        }
     );
 };
 get_count_created_today = () => {
-        return $.ajax({
+    return $.ajax({
             url: `/count_created_today/`,
-            success: data => {return data},
+            success: data => {
+                return data
+            },
             error: error => console.log(error)
-            }
+        }
     );
 };
 
@@ -234,7 +247,7 @@ addTicketsToTable = (tickets, table_id) => {
 };
 
 forbidChanges = (status) => {
-    if(status === 'Назначено в график' ||  status === 'Подключен' ||  status === 'Закрыта') {
+    if (status === 'Назначено в график' || status === 'Подключен' || status === 'Закрыта') {
         document.getElementById('id_datetime').disabled = true;
         document.getElementById('id_status').disabled = true;
         document.getElementById('id_comments').disabled = true;
@@ -244,7 +257,7 @@ forbidChanges = (status) => {
 additionalTicketInfo = (positive) => {
     let number = document.getElementById('extra_ticket').value;
     let operator = document.getElementById('agent').innerText;
-    return {"number": number, "positive": positive, "operator":operator}
+    return {"number": number, "positive": positive, "operator": operator}
 };
 
 addAdditionalTicket = (positive, csrfmiddlewaretoken) => {
@@ -266,7 +279,7 @@ addAdditionalTicket = (positive, csrfmiddlewaretoken) => {
 
 sendSourceTicket = (self, ticket_id, source, csrfmiddlewaretoken) => {
     let operator = self.parentElement.parentElement.parentElement;
-    let payload = {'source' : source.value, 'ticket_id': ticket_id, 'operator': operator.dataset.operator};
+    let payload = {'source': source.value, 'ticket_id': ticket_id, 'operator': operator.dataset.operator};
     $.ajax({
         url: `/ticket_source/?add=${ticket_id}/`,
         type: 'POST',
@@ -292,3 +305,47 @@ showSourceTicket = (ticket_id) => {
         }
     })
 };
+
+function switchCounter() {
+    $(document).ready(function () {
+        var str = 'Подключенных заявок: ';
+        $('switched_count').html(str + ($('#switch_table tr').length - 1));
+    });
+    setInterval(function () {
+        $('result_call').html(($('#call_table tr').filter(':visible').length - 1));
+        $('result_switch').html(($('#switch_table tr').filter(':visible').length - 1));
+        $('result_assign').html(($('#assign_table tr').filter(':visible').length - 1));
+    }, 500);
+}
+
+function assignCounter() {
+    $(document).ready(function () {
+        var str = 'Назначенных заявок: ';
+        $('assigned_count').html(str + ($('#assign_table tr').length - 1));
+    });
+}
+
+function searchLine() {
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    });
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
