@@ -77,3 +77,5 @@ rsa==4.0
 sendgrid==6.1.0
 uritemplate==3.0.0
 yarl==1.4.2
+boto3==1.12.2
+django-storages==1.9.1

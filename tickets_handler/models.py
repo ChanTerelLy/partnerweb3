@@ -4,6 +4,7 @@ import re
 from tickets_handler.beeline_parser import system
 import os
 import json
+from PIL import Image
 
 
 class Workers(models.Model):
@@ -152,6 +153,24 @@ class TicketSource(models.Model):
     def find_source(cls, ticket_number):
         return cls.objects.get(ticket_number=ticket_number).source
 
-if __name__ == '__main__':
-    homenko = Installer.parse_installers({'login': os.getenv('SELL_CODE'), 'operator': os.getenv('S_OPERATOR'),
-                                          'password': os.getenv('S_PASSWORD')})
+class Area(models.Model):
+    name = models.CharField(max_length=70)
+    city = models.CharField(max_length=20)
+
+class Promouter(models.Model):
+    name = models.CharField(max_length=150)
+    phone = models.CharField(max_length=10)
+    age = models.CharField(max_length=2)
+    area = models.ForeignKey(Area, on_delete=models.CASCADE)
+
+class AddressData(models.Model):
+    address = models.CharField(max_length=70)
+    entrance = models.IntegerField()
+    flats = models.IntegerField()
+    entrance_img = models.ImageField()
+    flats_img = models.ImageField()
+
+
+# if __name__ == '__main__':
+#     homenko = Installer.parse_installers({'login': os.getenv('SELL_CODE'), 'operator': os.getenv('S_OPERATOR'),
+#                                           'password': os.getenv('S_PASSWORD')})
