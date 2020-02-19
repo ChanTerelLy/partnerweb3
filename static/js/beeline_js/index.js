@@ -349,3 +349,10 @@ function scrollFunction() {
     mybutton.style.display = "none";
   }
 }
+
+// getTariffOptions = (id) => {
+//     let group = document.getElementById(id);
+//     group.forEach(a => {
+//         console.log(a);
+//     })
+// };
