@@ -372,6 +372,29 @@ class Address(Auth):
                    'city': dic['t_address']['h']['city']}
         return address
 
+    def get_id_by_fullname(self, street, house, building):
+        street_id = self.street_search_type(street)[0]['s_id'] #
+        houses = self.get_homes(street_id)
+        for h in houses:
+            print(h['h_building'])
+            print(h['h_house'])
+            if str(h['h_house']) == str(house) and str(h['h_building']) == str(h['h_building']):
+                print('asdf')
+                return h['h_id']
+            else:
+                continue
+
+    def street_search_type(self, name):
+        streets = self.session.get('https://partnerweb.beeline.ru/ngapi/find_by_city_and_street/'
+                                   '?cityPattern=&streetPattern=' + str(encode(name))).json()
+        addresses = []
+        for street in streets:
+            if street['s_city'] == 69 or street['s_city'] == 241 or street['s_city'] == 86:
+                addresses.append({'city': street['city'], 'street_name': street['street_name'], 's_id': street['s_id']})
+        return addresses
+
+    def get_full_house_info(self, id):
+        return self.session.get(f'https://partnerweb.beeline.ru/ngapi/house/{id}/').json()
 
 class Schedule(Address):
 
@@ -708,17 +731,6 @@ class NewDesign(Basket):
         descriptions = gp_session['global_problems_context']['connection_related_gp_list']
         return list([i['description'] for i in descriptions])
 
-    def street_search_type(self, name):
-        streets = self.session.get('https://partnerweb.beeline.ru/ngapi/find_by_city_and_street/'
-                                   '?cityPattern=&streetPattern=' + str(encode(name))).json()
-        addresses = []
-        for street in streets:
-            if street['s_city'] == 69 or street['s_city'] == 241 or street['s_city'] == 86:
-                addresses.append({'city': street['city'], 'street_name': street['street_name'], 's_id': street['s_id']})
-        return addresses
-
-    def get_full_house_info(self, id):
-        return self.session.get(f'https://partnerweb.beeline.ru/ngapi/house/{id}/').json()
 
     def change_ticket(self, id, timer, comment='', status_id=21):
         url_status = f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{id}'
@@ -779,7 +791,8 @@ class Worker:
 
 
 if __name__ == '__main__':
-    auth = NewDesign(os.getenv('SELL_CODE'),os.getenv('S_OPERATOR'),os.getenv('S_PASSWORD'))
-    print(auth.headers)
-    print(auth.cookies)
-
+    from dotenv import load_dotenv
+    load_dotenv()
+    sell_code, login, password = os.getenv('SELL_CODE'),os.getenv('S_OPERATOR').encode('CP1251').decode('utf-8'),os.getenv('S_PASS')
+    auth = NewDesign(sell_code, login, password)
+    auth.get_id_by_fullname('Партизанская', '47','1')

@@ -170,6 +170,25 @@ class AddressData(models.Model):
     entrance_img = models.ImageField()
     flats_img = models.ImageField()
 
+class Address(models.Model):
+    street = models.CharField(max_length=70)
+    house = models.CharField(max_length=5)
+    building = models.CharField(max_length=5)
+    category = models.CharField(max_length=20) #red, yellow and etc
+    entrance = models.IntegerField()
+    floor = models.IntegerField()
+    flats = models.IntegerField()
+    p_link = models.URLField() #partnerweb link
+    # p_house_id = models.IntegerField(default=get_p_house_id(street, house, building))
+    #
+    # def get_p_house_id(self, street, house, building):
+    #     login = NewDesign(auth['login'], auth['operator'], auth['password'])
+    #     pass
+
+
+
+
+
 
 # if __name__ == '__main__':
 #     homenko = Installer.parse_installers({'login': os.getenv('SELL_CODE'), 'operator': os.getenv('S_OPERATOR'),
