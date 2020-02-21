@@ -118,7 +118,7 @@
             </tbody>
         {% endfor %}
     </table>
-{#    Modal contact form to assign to installator#}
+    {#    Modal contact form to assign to installator#}
     <div class="modal fade" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -141,26 +141,32 @@
                         <label data-error="wrong" data-success="right" for="form34">Время</label>
                     </div>
                     <div id="tariff_checkbox">
-                                            <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="tve">
-                        <label class="custom-control-label" for="tve">TVE</label>
+                        <div class="d-inline custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="tve">
+                            <label class="custom-control-label" for="tve">TVE</label>
+                        </div>
+                        <div class="d-inline custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="iptv">
+                            <label class="custom-control-label" for="iptv">IPTV</label>
+                        </div>
+                        <div class="d-inline custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="router">
+                            <label class="custom-control-label" for="router">Роутер</label>
+                        </div>
+                        <div class="d-inline custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="new_sim">
+                            <label class="custom-control-label" for="new_sim">Новая SIM</label>
+                        </div>
+                        <div class="d-inline custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="mnp">
+                            <label class="custom-control-label" for="mnp">MNP</label>
+                        </div>
                     </div>
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="iptv">
-                        <label class="custom-control-label" for="iptv">IPTV</label>
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="router">
-                        <label class="custom-control-label" for="router">Роутер</label>
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="new_sim">
-                        <label class="custom-control-label" for="new_sim">Новая SIM</label>
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="mnp">
-                        <label class="custom-control-label" for="mnp">MNP</label>
-                    </div>
+                    <div>
+                        <label for="entrance">Подъезд</label>
+                        <input id="entrance" size="2">
+                        <label>Этаж</label>
+                        <input id="floor" size="2">
                     </div>
                     <div class="md-form">
                         <i class="fas fa-envelope prefix grey-text"></i>
@@ -187,7 +193,8 @@
 
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button class="btn btn-unique" onclick="sendEmail('{{ csrf_token }}')" data-dismiss="modal">Отправить <i
+                    <button class="btn btn-unique" onclick="sendEmail('{{ csrf_token }}')" data-dismiss="modal">
+                        Отправить <i
                             class="fas fa-paper-plane-o ml-1"></i></button>
                 </div>
             </div>
@@ -205,6 +212,6 @@
         document.addEventListener('load', getSchedule('#installerscheduleform', false, 'form_spiner'));
         document.addEventListener('load', call_timer());
         document.addEventListener('load', forbidChanges(document.getElementById('status').innerText));
-    getTariffOptions('tariff_checkbox');
+        getTariffOptions('tariff_checkbox');
     </script>
 {% endblock %}

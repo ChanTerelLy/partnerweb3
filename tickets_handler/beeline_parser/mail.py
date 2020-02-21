@@ -16,6 +16,9 @@ def assign_mail_ticket(text):
                  f'<p><b>Номер заявки: </b> {text["number"]} </p>' \
                  f'<p><b>Время: </b> {text["time"]} </p>' \
                  f'<p><b>Тариф: </b> {text["tariff"]} </p>' \
+                 f'<p><b>Дополнительно к тарифу: </b> {text["tariff_menu"]} </p>' \
+                 f'<p><b>Номер абонента: </b> {text["phone1"]} </p>' \
+                 f'<p>Подъезд - {text["entrance"]}, Этаж - {text["floor"]}</p>' \
                  f'<p><b>Комментарий: </b> {text["comment"]} </p>' \
                  f'<p><b>Агент: </b> {text["agent"]} </p>' \
                  f'<br>' \

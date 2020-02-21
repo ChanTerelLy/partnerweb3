@@ -170,10 +170,17 @@ function sendEmail(csrfmiddlewaretoken) {
     let comment = document.getElementById('comment_form').value;
     let mails = [];
     for (let i of mail_to) mails.push(i.value);
-
+    tariff_options = document.getElementById('tariff_checkbox').querySelectorAll('input');
+    let tarrif_menu = [];
+    for (let i of tariff_options) {
+        if (i.checked === true) tarrif_menu.push(i.labels[0].innerText)
+    }
+    let entrance = document.getElementById('entrance').value;
+    let floor = document.getElementById('floor').value;
     payload = {
         'number': number, 'agent': agent, 'client_name': client_name, 'address': address, 'phone1': phone1,
-        'time': time, 'tariff': tariff, 'mail_to': mails, 'comment': comment, 'csrfmiddlewaretoken': csrfmiddlewaretoken
+        'time': time, 'tariff': tariff, 'mail_to': mails, 'comment': comment,
+        'csrfmiddlewaretoken': csrfmiddlewaretoken, 'tariff_menu': tarrif_menu, 'entrance': entrance, 'floor': floor
     };
     $.ajax({
         url: '/send_mail/',
@@ -338,16 +345,16 @@ function searchLine() {
 
 // When the user clicks on the button, scroll to the top of the document
 function topFunction() {
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
 }
 
 function scrollFunction() {
-  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-    mybutton.style.display = "block";
-  } else {
-    mybutton.style.display = "none";
-  }
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+    } else {
+        mybutton.style.display = "none";
+    }
 }
 
 // getTariffOptions = (id) => {
