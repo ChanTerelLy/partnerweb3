@@ -5,6 +5,7 @@ from tickets_handler.beeline_parser import system
 import os
 import json
 from PIL import Image
+import datetime
 
 
 class Workers(models.Model):
@@ -13,6 +14,7 @@ class Workers(models.Model):
     master = models.CharField(max_length=250)
     status = models.BooleanField()
     url = models.URLField()
+    hiring_date = models.DateField(auto_now=True, blank=True)
 
     @classmethod
     @system.my_timer
@@ -111,6 +113,7 @@ class TicketPrice(models.Model):
         ticket = cls.objects.get(ticket_number)
         return ticket.price
 
+
 class Employer(models.Model):
     profile_name = models.TextField()
     name = models.TextField()
@@ -125,6 +128,7 @@ class Employer(models.Model):
         master = Workers.objects.get(number=number).master
         return cls.objects.get(name=master)
 
+
 class Reminder(models.Model):
     ticket_number = models.TextField()
     client_name = models.TextField()
@@ -134,10 +138,12 @@ class Reminder(models.Model):
     link = models.URLField(null=True, blank=True)
     recipient = models.TextField()
 
+
 class TicketSource(models.Model):
     ticket_number = models.CharField(max_length=20, unique=True)
     source = models.CharField(max_length=50)
     agent = models.ForeignKey(Workers, on_delete=models.CASCADE)
+    date = models.DateField(auto_now=True, blank=True)
 
     @classmethod
     def add_source(cls, ticket_number, source, operator):
@@ -153,41 +159,65 @@ class TicketSource(models.Model):
     def find_source(cls, ticket_number):
         return cls.objects.get(ticket_number=ticket_number).source
 
+
 class Area(models.Model):
     name = models.CharField(max_length=70)
     city = models.CharField(max_length=20)
+
+
+def get_p_house_id(street, house, building):
+    return NewDesign(os.getenv('SELL_CODE'),
+                     os.getenv('S_OPERATOR').encode('CP1251').decode('utf-8'),
+                     os.getenv('S_PASS')).get_id_by_fullname(street, house, building)
+
+
+class Address(models.Model):
+    city = models.CharField(max_length=50)
+    street = models.CharField(max_length=70)
+    house = models.CharField(max_length=5)
+    building = models.CharField(max_length=5)
+    category = models.CharField(max_length=20, default=None)  # red, yellow and etc
+    entrance = models.IntegerField(default=None)
+    floor = models.IntegerField()
+    flats = models.IntegerField()
+    # p_link = models.URLField()  # partnerweb link
+    # p_house_id = models.IntegerField(default=get_p_house_id(street, house, building))
+
+    def __str__(self):
+        return f'{self.street} {self.house} {self.building}'
+
 
 class Promouter(models.Model):
     name = models.CharField(max_length=150)
     phone = models.CharField(max_length=10)
     age = models.CharField(max_length=2)
     area = models.ForeignKey(Area, on_delete=models.CASCADE)
+    date_hired = models.DateField(auto_now=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class EntranceImg(models.Model):
+    img = models.ImageField()
+    date_load = models.DateField(auto_now=True, blank=True)
+
+class MailBoxImg(models.Model):
+    img = models.ImageField()
+    date_load = models.DateField(auto_now=True, blank=True)
+
+class AddressToDo(models.Model):
+    address = models.ForeignKey(Address, on_delete=models.CASCADE)
+    to_promouter = models.ForeignKey(Promouter, on_delete=models.CASCADE)
+    date_start = models.DateField(auto_now=True, blank=True)
+    done = models.BooleanField(default=False)
 
 class AddressData(models.Model):
-    address = models.CharField(max_length=70)
-    entrance = models.IntegerField()
-    flats = models.IntegerField()
-    entrance_img = models.ImageField()
-    flats_img = models.ImageField()
-
-class Address(models.Model):
-    street = models.CharField(max_length=70)
-    house = models.CharField(max_length=5)
-    building = models.CharField(max_length=5)
-    category = models.CharField(max_length=20) #red, yellow and etc
-    entrance = models.IntegerField()
-    floor = models.IntegerField()
-    flats = models.IntegerField()
-    p_link = models.URLField() #partnerweb link
-    # p_house_id = models.IntegerField(default=get_p_house_id(street, house, building))
-    #
-    # def get_p_house_id(self, street, house, building):
-    #     login = NewDesign(auth['login'], auth['operator'], auth['password'])
-    #     pass
-
-
-
-
+    promouter = models.ForeignKey(Promouter, on_delete=models.CASCADE)
+    address = models.ForeignKey(AddressToDo, on_delete=models.CASCADE)
+    date_start = models.DateField(auto_now=True, blank=True)
+    entrance_img = models.ManyToManyField(EntranceImg)
+    mailbox_img = models.ManyToManyField(MailBoxImg)
 
 
 # if __name__ == '__main__':
