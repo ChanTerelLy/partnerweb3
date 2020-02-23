@@ -7,6 +7,7 @@ from tickets_handler.beeline_parser import system
 from django.contrib import messages
 from tickets_handler.beeline_parser.mail import assign_mail_ticket, fraud_mail_ticket, feedback_mail
 
+
 @system.my_timer
 def main_page(request):
     code, operator, password = request.session['sell_code'], request.session['operator'], request.session['password']
@@ -89,10 +90,6 @@ def get_installers(request):
     return render(request, 'beeline_html/installers.html', {'installers' : installers})
 
 
-def fast_house_search(request):
-    return render(request, 'beeline_html/fast_house_search.html')
-
-
 def house_info(request, city_id, house_id):
     auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
     if auth.account_type != 4:
@@ -137,10 +134,6 @@ def logout(request):
     return redirect('login')
 
 
-def check_number(request):
-    return render(request, 'beeline_html/check_number.html')
-
-
 def delete_additional_ticket(request, ticket):
     operator = WorkersModel.objects.get(number=request.session['operator'])
     ticket = AdditionalTicket(number=ticket, positive=False, who_add=operator)
@@ -163,8 +156,6 @@ def send_mail(request):
             assign_mail_ticket(request.body)
     return HttpResponse('Отправленно')
 
-def index(request):
-    return render(request, 'beeline_html/index.html')
 
 def feedback(request):
     form = Feedback()
@@ -175,5 +166,6 @@ def feedback(request):
     return render(request, 'beeline_html/feedback.html', {'form':form})
 
 
-def ism_schedule(request):
-    return render(request, 'beeline_html/ism_schedule.html')
+# def ism_schedule(request):
+#     return render(request, 'beeline_html/ism_schedule.html')
+

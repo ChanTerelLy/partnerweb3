@@ -1,6 +1,7 @@
 from django.conf.urls import url
 
-from tickets_handler.json_view import *
+from tickets_handler.json_views import *
+from tickets_handler.template_views import HouseSearch, CheckNumber, Index, IsmSchedule
 from .views import *
 from django.contrib import admin
 
@@ -18,14 +19,12 @@ urlpatterns = [
         get_schedule_by_house_id, name='get_schedule_by_house_id'),
     url('street_search', street_search, name='street_search'),
     url('get_homes_by_street', get_homes_by_street, name='get_homes_by_street'),
-    url('fast_house_search', fast_house_search, name='fast_house_search'),
     url('get_schedule_color', get_schedule_color, name='get_schedule_color'),
     url(r'house_info/(?P<city_id>\d+)/(?P<house_id>\d+)/$', house_info, name='house_info'),
     url(r'logout', logout, name='logout'),
     url(r'login_beeline/', redirect_auth, name='login_beeline'),
     url(r'personal_info/', get_personal_info, name='personal_info'),
     url('installers/', get_installers, name='installers'),
-    url('check_number/', check_number, name='check_number'),
     url(r'house_info/(?P<city_id>\d+)/(?P<house_id>\d+)/(?P<flat>\d+)$', check_fraud, name='check_fraud'),
     url(r'delete_ticket/(?P<ticket>\d+)/', delete_additional_ticket, name='delete_ticket'),
     url(r'^ticket_info/(?P<id>\d+)/$', ticket_info_json, name='ticket_info_json'),
@@ -36,9 +35,11 @@ urlpatterns = [
     url(r'^call_today_tickets/$', get_call_today_tickets, name='call_today_tickets'),
     url(r'^switched_tickets/$', get_switched_tickets, name='switched_tickets'),
     url(r'^count_created_today/$', get_count_created_today, name='count_created_today'),
-    url(r'^index/$', index, name='index'),
     url(r'^add_additional_ticket/$', add_additional_ticket, name='add_additional_ticket'),
     url(r'^feedback/$', feedback, name='feedback'),
-    url(r'^ism_schedule/$', ism_schedule, name='ism_schedule'),
     url(r'^ticket_source/$', source_tickets, name='source_tickets'),
+    url('house_search', HouseSearch.as_view(), name='house_search'),
+    url('check_number/', CheckNumber.as_view(), name='check_number'),
+    url(r'^index/$', Index.as_view(), name='index'),
+    url(r'^ism_schedule/$', IsmSchedule.as_view(), name='ism_schedule'),
 ]
