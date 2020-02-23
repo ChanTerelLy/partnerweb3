@@ -4,15 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.9, shrink-to-fit=no">
     <title>{% block title %}Partnerweb{% endblock %}</title>
-    {% block stylesheet %}{% include "styles.html" %}{% endblock %}
+    {% block stylesheet %}{% include "_styles.html" %}{% endblock %}
     {% block extra_stylesheet %}{% endblock %}
 </head>
 <body>
 {% block body %}
-    {% include "navbar.html" %}
-    {% include "message.html" %}
+    {% include "_navbar.html" %}
+    {% include "_message.html" %}
     <div class="container">{% block content %}{% endblock %}</div>
-    {% include "scripts.html" %}
+    {% include "_scripts.html" %}
     {% block extra_scripts %}{% endblock %}
 {% endblock body %}
 </body>
