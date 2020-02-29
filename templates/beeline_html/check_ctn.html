@@ -1,0 +1,20 @@
+{% extends '_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}Информация о заявке{% endblock %}
+{% block content %}
+    <div class="form-group" style="position: relative">
+        <p>Информация о CTN абонента:</p>
+        <label for="phone" class="sr-only"></label>
+        <input class="form-control" id="ctn" placeholder="085XXXXXXX" maxlength="10">
+        <button type="submit" class="btn btn-primary mb-2" style="margin-top: 5px"
+                onclick="getCTNinfo()">Отправить запрос
+        </button>
+        <img id='load_person' src="{% static 'image/load_person.gif' %}"
+             style="visibility: hidden;top:-80%; right: 30%; z-index: 5; position: absolute">
+    </div>
+    <div id="personal_info"></div>
+{% endblock %}
+{% block extra_scripts %}
+    <script src="{% static 'js/beeline_js/index.js' %}"></script>
+{% endblock %}

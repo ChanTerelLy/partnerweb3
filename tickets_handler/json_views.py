@@ -136,4 +136,8 @@ def source_tickets(request):
         except:
             return JsonResponse({'source': "Не определено"})
 
-
+def get_ctn_info(request):
+    ctn = request.GET.get('ctn', '')
+    auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
+    data = auth.get_ctn_info(ctn)
+    return JsonResponse(data)

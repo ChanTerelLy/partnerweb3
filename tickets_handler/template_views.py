@@ -15,3 +15,6 @@ class Index(TemplateView):
 
 class IsmSchedule(TemplateView):
     template_name = 'beeline_html/ism_schedule.html'
+
+class CheckCTN(TemplateView):
+    template_name = 'beeline_html/check_ctn.html'

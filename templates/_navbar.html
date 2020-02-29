@@ -18,8 +18,18 @@
                     <a class="nav-link" href="{% url 'house_search' %}">Найти адрес</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'check_number' %}">Проверить номер</a>
+
                 </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="checkNav" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Проверить данные
+                </a>
+                <div class="dropdown-menu" aria-labelledby="checkNav">
+                     <a class="dropdown-item" href="{% url 'check_number' %}">Проверить номер</a>
+                     <a class="dropdown-item" href="{% url 'check_ctn' %}">Проверить CTN</a>
+                </div>
+            </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">

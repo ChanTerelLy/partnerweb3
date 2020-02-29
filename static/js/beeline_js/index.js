@@ -256,6 +256,7 @@ addTicketsToTable = (tickets, table_id) => {
 forbidChanges = (status) => {
     if (status === 'Назначено в график' || status === 'Подключен' || status === 'Закрыта') {
         document.getElementById('id_datetime').disabled = true;
+        document.getElementById('id_datetime').style.backgroundColor = '#e9ecef';
         document.getElementById('id_status').disabled = true;
         document.getElementById('id_comments').disabled = true;
     }
@@ -355,6 +356,29 @@ function scrollFunction() {
     } else {
         mybutton.style.display = "none";
     }
+}
+
+function getCTNinfo() {
+    ctn = document.getElementById('ctn').value;
+    $.ajax({
+        url: `/get_ctn_info/?ctn=${ctn}`,
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            document.getElementById('personal_info').innerHTML = `
+<p><b>ФИО:</b> ${data.data.name}</p>
+<p><b>Адресс:</b> ${data.data.city} , ${data.data.street}, ${data.data.house}</p>`;
+            document.getElementById('load_person').style.visibility = 'hidden'
+        },
+        beforeSend: function () {
+            document.getElementById('load_person').style.visibility = 'visible'
+        },
+        error: function (err) {
+            alert('Произошка ошибка, попробуйте снова');
+            console.log(err);
+            document.getElementById('load_person').style.visibility = 'hidden'
+        }
+    })
 }
 
 // getTariffOptions = (id) => {

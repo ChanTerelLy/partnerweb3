@@ -762,6 +762,17 @@ class NewDesign(Basket):
             f'&rnd={random.random()}').json()
         return data['data']['q_id']
 
+    def get_ctn_info(self, ctn):
+        return self.session.\
+            get(f'https://partnerweb.beeline.ru/restapi/convergent/check_ctn/{ctn}?action=upsell').json()
+
+    # not working
+    def get_switch_lite_info(self, ctn):
+        self.session.get('https://partnerweb.beeline.ru/contract_lite/ctn/')
+        self.session.headers['sec-fetch-user'] = '?1'
+        self.session.headers['cookie'] = 'sessionid=zxs7i82iojbtd4en5mpuhm8worw4b5ey'
+        data = self.session.post('https://partnerweb.beeline.ru/contract_lite/ctn/', f'ctn_field={ctn}')
+        return data
 
 
 class Worker:
@@ -793,6 +804,6 @@ class Worker:
 if __name__ == '__main__':
     from dotenv import load_dotenv
     load_dotenv()
-    sell_code, login, password = os.getenv('SELL_CODE'),os.getenv('S_OPERATOR').encode('CP1251').decode('utf-8'),os.getenv('S_PASS')
+    sell_code, login, password = 'G800-37','9052933642','123456Qq'
     auth = NewDesign(sell_code, login, password)
-    auth.get_id_by_fullname('Партизанская', '47','1')
+    print(auth.get_ctn_info('0856279617'))

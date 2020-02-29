@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
 from tickets_handler.json_views import *
-from tickets_handler.template_views import HouseSearch, CheckNumber, Index, IsmSchedule
+from tickets_handler.template_views import HouseSearch, CheckNumber, Index, IsmSchedule, CheckCTN
 from .views import *
 from django.contrib import admin
 
@@ -42,4 +42,6 @@ urlpatterns = [
     url('check_number/', CheckNumber.as_view(), name='check_number'),
     url(r'^index/$', Index.as_view(), name='index'),
     url(r'^ism_schedule/$', IsmSchedule.as_view(), name='ism_schedule'),
+    url(r'^check_ctn/$', CheckCTN.as_view(), name='check_ctn'),
+    url(r'^get_ctn_info/$', get_ctn_info, name='get_ctn_info'),
 ]
