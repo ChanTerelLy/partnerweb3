@@ -11,7 +11,7 @@
                     <hr>
                     <h4 style="color: gray; font-size: medium">{{ ticket_info.type }}</h4>
                     <h5 class="text-success">Дата создания: {{ ticket_info.date }}</h5>
-                    <h5 class="text-warning">Дата статуса: {{ ticket_info.call_time }}</h5>
+                    <h5 class="text-warning">Дата статуса: <span id="cur_call_time">{{ ticket_info.call_time }}</span></h5>
                     <hr>
                     <h4 id="client_name">{{ ticket_info.name }}</h4>
                     <h5 id="address">{{ ticket_info.address }}</h5>
@@ -21,8 +21,61 @@
                     <h5>Номера телефонов:</h5>
                     {% for item in ticket_info.phones %}
                         <h5><a id="phone{{ forloop.counter }}"
-                               href="tel:8{{ item.phone }}">{{ item.phone }}</a> {{ item.comment }}</h5>
+                               href="tel:8{{ item.phone }}">{{ item.phone }}</a>
+                            <span id="phoneComment{{ forloop.counter }}">{{ item.comment }}</span></h5>
                     {% endfor %}
+                    <img id="img_change_phones" src="{% static '/icons/bootstrap/pencil.svg' %}" alt="" width="32" height="32" title="pencil"
+                         data-toggle="modal" data-target="#changePhones">
+                    <!-- Modal -->
+                    <div class="modal fade" id="changePhones" tabindex="-1" role="dialog"
+                         aria-labelledby="changePhonesLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="changePhonesLabel">Номера телефонов</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" id="changePhonesInputs">
+                                    <div class="form-row">
+                                        <div class="col-7">
+                                            <label for="changePhone1">Номер телефона 1</label>
+                                            <input id="changePhone1">
+                                        </div>
+                                        <div class="col-5">
+                                            <label for="changePhoneComment1">Комментарий</label>
+                                            <input id="changePhoneComment1">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-7">
+                                            <label for="changePhone2">Номер телефона 2</label>
+                                            <input id="changePhone2">
+                                        </div>
+                                        <div class="col-5">
+                                            <label for="changePhoneComment2">Комментарий</label>
+                                            <input id="changePhoneComment2">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-7">
+                                            <label for="changePhone3">Номер телефона 3</label>
+                                            <input id="changePhone3">
+                                        </div>
+                                        <div class="col-5">
+                                            <label for="changePhoneComment3">Комментарий</label>
+                                            <input id="changePhoneComment3">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="sendChangePhones('{{ csrf_token }}')">Изменить</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <hr>
                     <form style="margin-left: -15px" method="POST" autocomplete="off" class="post-form"
                           style="margin-right: 150px"
@@ -206,12 +259,14 @@
     <script>
         let house_id = false;
         let ticket_id = {{ ticket_info.id }};
+        let statuses = {{ ticket_info.statuses|safe  }}
         document.getElementById('id_datetime').style.backgroundColor = 'white';
         document.addEventListener('load', getColorSchedule(ticket_id));
         document.addEventListener('load', getSchedule('#installerschedule', true, 'load'));
         document.addEventListener('load', getSchedule('#installerscheduleform', false, 'form_spiner'));
         document.addEventListener('load', call_timer());
         document.addEventListener('load', forbidChanges(document.getElementById('status').innerText));
-        getTariffOptions('tariff_checkbox');
+        document.addEventListener('load', setChangePhones());
+        //getTariffOptions('tariff_checkbox');
     </script>
 {% endblock %}

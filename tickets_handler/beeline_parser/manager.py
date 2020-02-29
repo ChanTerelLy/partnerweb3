@@ -136,9 +136,9 @@ class OldDesign(Auth):
                         allow_change_status=g['allow_change_status'],
                         allow_schedule=g['allow_schedule'], call_time=g['call_time'], comments=g['comments'],
                         date=g['date'], id=g['id'], name=g['name'], number=g['number'], operator=g['operator'],
-                        phones=g['phones'],
-                        services=g['services'], shop=g['shop'], shop_id=g['shop_id'], status=g['status'],
-                        ticket_paired=g['ticket_paired'], type=g['type'], type_id=g['type_id'])
+                        phones=g['phones'],services=g['services'], shop=g['shop'], shop_id=g['shop_id'],
+                        status=g['status'], ticket_paired=g['ticket_paired'], type=g['type'],
+                        type_id=g['type_id'])
         return ticket
 
     def get_comments(self, id):
@@ -488,7 +488,7 @@ class NewDesign(Basket):
                       operator=attr['operator'], phones=attr['phones'],
                       services=services, shop=attr['shop'], shop_id=attr['shop_id'], status=attr['status'],
                       ticket_paired=attr['ticket_paired'], type=attr['type'], type_id=attr['type_id'], phone1=phone1,
-                      phone2=phone2, phone3=phone3, status_id=attr['status_id'])
+                      phone2=phone2, phone3=phone3, status_id=attr['status_id'], statuses=attr['statuses'])
 
     def parse_services(self, data):
         services = Service()
@@ -774,6 +774,18 @@ class NewDesign(Basket):
         data = self.session.post('https://partnerweb.beeline.ru/contract_lite/ctn/', f'ctn_field={ctn}')
         return data
 
+    def change_phone_info(self, ticket_id, data):
+        self.session.headers['sec-fetch-dest'] = 'empty'
+        self.session.headers['sec-fetch-mode'] = 'cors'
+        self.session.headers['sec-fetch-site'] = 'same-origin'
+        self.session.headers['accept'] = 'application/json, text/plain, */*'
+        self.session.headers['accept-encoding'] = 'gzip, deflate, br'
+        self.session.headers['accept-language'] = 'en-US,en;q=0.9,ru-RU;q=0.8,ru;q=0.7,en-GB;q=0.6'
+        self.session.headers['content-type'] = 'application/json;charset=UTF-8'
+        self.session.headers['cookie'] = 'sessionid=horo879x9yz8g3i86cxbr1uk7xjyfgj0'
+        data = json.loads(data)
+        return self.session.post(f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{ticket_id}',
+                                 json.dumps(data)).json()
 
 class Worker:
     def __init__(self, name, number, master, status, url):
@@ -806,4 +818,7 @@ if __name__ == '__main__':
     load_dotenv()
     sell_code, login, password = 'G800-37','9052933642','123456Qq'
     auth = NewDesign(sell_code, login, password)
-    print(auth.get_ctn_info('0856279617'))
+    data = {"status_id":21,"call_time":"31.12.2028 00:00","phones":
+        [{"phone":3333333377,"comment":"32"},{"phone":9555666677,"comment":"фвафыва"},
+         {"phone":9111111111,"comment":"12"}]}
+    print(auth.change_phone_info(102032560, data))

@@ -141,3 +141,13 @@ def get_ctn_info(request):
     auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
     data = auth.get_ctn_info(ctn)
     return JsonResponse(data)
+
+def change_phone_number(request):
+    auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
+    ticket_id = request.GET.get('ticket_id', '')
+    if request.is_ajax():
+        if request.method == "POST":
+
+            response = auth.change_phone_info(ticket_id, request.body)
+            return JsonResponse({'status' : 'ok'})
+    return JsonResponse({'status' : 'error'})

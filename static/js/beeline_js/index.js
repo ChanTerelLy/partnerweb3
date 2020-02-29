@@ -259,6 +259,7 @@ forbidChanges = (status) => {
         document.getElementById('id_datetime').style.backgroundColor = '#e9ecef';
         document.getElementById('id_status').disabled = true;
         document.getElementById('id_comments').disabled = true;
+        document.getElementById('img_change_phones').disabled = true;
     }
 };
 
@@ -379,6 +380,57 @@ function getCTNinfo() {
             document.getElementById('load_person').style.visibility = 'hidden'
         }
     })
+}
+
+function setChangePhones() {
+    for (let i = 1; i < 4; i++) {
+        try {
+            document.getElementById(`changePhone${i}`).value
+                = document.getElementById(`phone${i}`).innerText;
+        } catch (e) {
+            document.getElementById(`changePhone${i}`).value = ''
+        }
+        try {
+            document.getElementById(`changePhoneComment${i}`).value
+                = document.getElementById(`phoneComment${i}`).innerText;
+        } catch (e) {
+            document.getElementById(`changePhoneComment${i}`).value = ''
+        }
+    }
+}
+
+function sendChangePhones(csrfmiddlewaretoken) {
+        let time = document.querySelector("#cur_call_time").innerText;
+        let phones_info = {"status_id":21,"call_time":time,
+            "phones":[]};
+        for (let i = 1; i < 4; i++) {
+            let phone = '';
+            let comment = '';
+            try {
+                phone = document.getElementById(`changePhone${i}`).value
+            } catch (e) {
+                phone = document.getElementById(`changePhone${i}`).value = ''
+            }
+            try {
+                comment  = document.getElementById(`changePhoneComment${i}`).value;
+            } catch (e) {
+                comment  = document.getElementById(`changePhoneComment${i}`).value = ''
+            }
+            phones_info.phones.push({'phone': phone, "comment" : comment})
+    }
+        $.ajax({
+            url: `/change_phone_number/?ticket_id=${ticket_id}`,
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("X-CSRFToken", csrfmiddlewaretoken);
+            },
+            data: JSON.stringify(phones_info),
+            dataType: 'text',
+            success: function (data) {
+                location.reload();
+            }
+        })
 }
 
 // getTariffOptions = (id) => {

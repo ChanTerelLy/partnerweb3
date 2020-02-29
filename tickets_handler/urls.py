@@ -44,4 +44,5 @@ urlpatterns = [
     url(r'^ism_schedule/$', IsmSchedule.as_view(), name='ism_schedule'),
     url(r'^check_ctn/$', CheckCTN.as_view(), name='check_ctn'),
     url(r'^get_ctn_info/$', get_ctn_info, name='get_ctn_info'),
+    url(r'^change_phone_number/$', change_phone_number, name='change_phone_number'),
 ]
