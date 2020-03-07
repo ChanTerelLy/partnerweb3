@@ -17,6 +17,7 @@ import grequests
 import random
 import time
 import os
+from datetime import datetime as dt
 
 class Auth:
     def __init__(self, login, workercode, password):
@@ -655,11 +656,15 @@ class NewDesign(Basket):
         call_ts_today = []
         for t in tickets:
             try:
-                if (t.ticket_paired_info.type_id == 1) and self.define_call_ts(t.ticket_paired_info.status)\
-                        and ((dmYHM_to_date(t.ticket_paired_info.call_time) <= today())):
-                    call_ts_today.append(t)
+                time_value = dmYHM_to_date(t.ticket_paired_info.call_time)
             except:
+                print(t.number)
                 continue
+            try:
+                if (t.ticket_paired_info.status_id in [16, 21, 123, 122]) and (time_value == dt(1000, 1, 1) or time_value <= today()):
+                        call_ts_today.append(t)
+            except:
+                print(t.number)
         return call_ts_today
 
     def count_created_today(self, tickets):
@@ -673,8 +678,9 @@ class NewDesign(Basket):
 
     def three_month_tickets(self):
         tickets = self.remove_garbage_tickets(self.tickets())
+        clear_tickets = self.remove_garbage_tickets(self.global_search())
         assigned_tickets, assigned_tickets_today = self.assigned_tickets(tickets)
-        call_today_tickets = self.call_today_tickets(tickets)
+        call_today_tickets = self.call_today_tickets(clear_tickets)
         switched_tickets, switched_on_tickets_today = self.switched_tickets(tickets)
         created_today_tickets = self.count_created_today(tickets)
         return assigned_tickets, assigned_tickets_today, call_today_tickets, switched_tickets, \

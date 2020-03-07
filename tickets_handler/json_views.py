@@ -147,7 +147,6 @@ def change_phone_number(request):
     ticket_id = request.GET.get('ticket_id', '')
     if request.is_ajax():
         if request.method == "POST":
-
             response = auth.change_phone_info(ticket_id, request.body)
             return JsonResponse({'status' : 'ok'})
     return JsonResponse({'status' : 'error'})

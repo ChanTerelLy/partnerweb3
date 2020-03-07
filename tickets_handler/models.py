@@ -70,21 +70,7 @@ class AdditionalTicket(models.Model):
     number = models.IntegerField()
     positive = models.BooleanField()  # add or remove ticket
     operator = models.ForeignKey(Workers, on_delete=models.CASCADE)
-
-    # is it work?)
-    @classmethod
-    def check_visability(cls, operator, tickets):
-        ad_tickets = cls.objects.get(who_add=operator)
-        if ad_tickets:
-            clear_tickets = []
-            for ticket in tickets:
-                try:
-                    cls.objects.get(number=ticket.number)
-                    continue
-                except:
-                    clear_tickets.append(ticket)
-        else:
-            return False
+    datetime = models.DateTimeField(auto_now=True)
 
     @classmethod
     def add(cls, payload):
@@ -95,6 +81,17 @@ class AdditionalTicket(models.Model):
     @classmethod
     def show(cls, operator):
         AdditionalTicket.objects.filter(operator=Workers.objects.get(phone=operator))
+
+    @classmethod
+    def clear_switched_tickets(cls, sw_tickets, all_tickets):
+        for t in cls.objects.filter(datetime__month=datetime.datetime.now().month):
+            if t.positive:
+                for all_t in all_tickets:
+                    if all_t.ticket_paired == t.number:
+                        sw_tickets.append(all_t)
+                        break
+            elif not t.positive:
+                sw_tickets = [sw_t for sw_t in sw_tickets if t.number != sw_tickets.paired_ticket]
 
 
 class TicketPrice(models.Model):
