@@ -672,13 +672,16 @@ class NewDesign(Basket):
         return count
 
     def three_month_tickets(self):
-        tickets = self.tickets()
+        tickets = self.remove_garbage_tickets(self.tickets())
         assigned_tickets, assigned_tickets_today = self.assigned_tickets(tickets)
         call_today_tickets = self.call_today_tickets(tickets)
         switched_tickets, switched_on_tickets_today = self.switched_tickets(tickets)
         created_today_tickets = self.count_created_today(tickets)
         return assigned_tickets, assigned_tickets_today, call_today_tickets, switched_tickets, \
                switched_on_tickets_today, created_today_tickets, tickets
+
+    def remove_garbage_tickets(self, tickets):
+        return [t for t in tickets if t.status != 'Мусор']
 
     def global_search(self):
         clear_tickets = []
