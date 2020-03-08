@@ -2,10 +2,10 @@ import smtplib, ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import json
-
+import os
 def assign_mail_ticket(text):
-    sender_email = "support@arh-beeline.ru"
-    password = '123456QqQq'
+    sender_email = os.getenv('sender_email')
+    password = os.getenv('email_password')
     text = json.loads(text.decode('utf-8'))
     message = MIMEMultipart("alternative")
     message["Subject"] = "Назначение заявки в график"
@@ -33,15 +33,15 @@ def assign_mail_ticket(text):
 
     # Create secure connection with server and send email
     context = ssl.create_default_context()
-    with smtplib.SMTP_SSL("smtp.beget.com", 465, context=context) as server:
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
         server.login(sender_email, password)
         server.sendmail(
             sender_email, text['mail_to'], message.as_string()
         )
 
 def fraud_mail_ticket(text):
-    sender_email = "support@arh-beeline.ru"
-    password = '123456QqQq'
+    sender_email = os.getenv('sender_email')
+    password = os.getenv('email_password')
     message = MIMEMultipart("alternative")
     message["Subject"] = "Создать заявку"
     message["From"] = sender_email
@@ -62,15 +62,15 @@ def fraud_mail_ticket(text):
 
     # Create secure connection with server and send email
     context = ssl.create_default_context()
-    with smtplib.SMTP_SSL("smtp.beget.com", 465, context=context) as server:
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
         server.login(sender_email, password)
         server.sendmail(
             sender_email, text['mail_to'], message.as_string()
         )
 
 def feedback_mail(text):
-    sender_email = "support@arh-beeline.ru"
-    password = '123456QqQq'
+    sender_email = os.getenv('sender_email')
+    password = os.getenv('email_password')
     message = MIMEMultipart("alternative")
     message["Subject"] = "Жалобы и предложения"
     message["From"] = sender_email
@@ -85,7 +85,7 @@ def feedback_mail(text):
 
     # Create secure connection with server and send email
     context = ssl.create_default_context()
-    with smtplib.SMTP_SSL("smtp.beget.com", 465, context=context) as server:
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
         server.login(sender_email, password)
         server.sendmail(
             sender_email, 'zvezdolom1@gmail.com', message.as_string()
