@@ -21,10 +21,10 @@ class Workers(models.Model):
     def replace_num_worker(cls, tickets):
         if tickets is not None:
             for ticket in tickets:
-                worker, created = cls.objects.get_or_create(number=ticket.operator)
-                if not created:
+                try:
+                    worker = cls.objects.get(number=ticket.operator)
                     ticket.name_operator = worker.name
-                else:
+                except:
                     continue
             return tickets
 
@@ -142,13 +142,13 @@ class TicketSource(models.Model):
 
     @classmethod
     def add_source(cls, ticket_number, source, operator):
-            data, created = cls.objects.get_or_create(ticket_number=ticket_number)
-            if not created:
-                data.source = source
-                data.save()
-            else:
-                cls(ticket_number=ticket_number, source=source,
-                    agent=Workers.objects.get(number=operator)).save()
+        try:
+            data = cls.objects.get(ticket_number=ticket_number)
+            data.source = source
+            data.save()
+        except:
+            cls(ticket_number=ticket_number, source=source,
+                agent=Workers.objects.get(number=operator)).save()
 
     @classmethod
     def find_source(cls, ticket_number):
