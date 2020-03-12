@@ -1,6 +1,5 @@
 from django.views.generic import TemplateView
 
-
 class HouseSearch(TemplateView):
     template_name = 'beeline_html/house_search.html'
 

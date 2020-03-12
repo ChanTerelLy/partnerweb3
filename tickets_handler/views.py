@@ -6,9 +6,10 @@ from django.http import HttpResponse
 from tickets_handler.beeline_parser import system
 from django.contrib import messages
 from tickets_handler.beeline_parser.mail import assign_mail_ticket, fraud_mail_ticket, feedback_mail
-
+from .decorators import check_access
 
 @system.my_timer
+@check_access
 def main_page(request):
     code, operator, password = request.session['sell_code'], request.session['operator'], request.session['password']
     if Auth(code, operator, password).auth_response_status:
@@ -36,11 +37,13 @@ def main_page(request):
         return redirect('login')
 
 @system.my_timer
+@check_access
 def global_search(request):
     auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
     tickets = auth.global_search()
     return render(request, 'beeline_html/global_search.html', {'tickets':tickets})
 
+@check_access
 def ticket_info(request, id):
     auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
     ticket_info = auth.ticket_info(id)
@@ -69,6 +72,8 @@ def login(request):
 def redirect_auth(request):
     return redirect('login')
 
+
+@check_access
 def update_workers(request):
     auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
     for worker in Worker.get_workers(auth):
@@ -80,16 +85,18 @@ def update_workers(request):
         operator.update(name=worker.name, master=worker.master, status=worker.status, url=worker.url)
     return HttpResponse('Done')
 
+@check_access
 def update_installers(request):
     Installer.parse_installers({'login': request.session['sell_code'], 'operator': request.session['operator'],
                                 'password': request.session['password']})
     return HttpResponse('Done')
 
+@check_access
 def get_installers(request):
     installers = Installer.objects.all()
     return render(request, 'beeline_html/installers.html', {'installers' : installers})
 
-
+@check_access
 def house_info(request, city_id, house_id):
     auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
     if auth.account_type != 4:
@@ -156,7 +163,7 @@ def send_mail(request):
             assign_mail_ticket(request.body)
     return HttpResponse('Отправленно')
 
-
+@check_access
 def feedback(request):
     form = Feedback()
     if request.method == "POST":
@@ -165,7 +172,6 @@ def feedback(request):
         feedback_mail(text)
     return render(request, 'beeline_html/feedback.html', {'form':form})
 
-
-# def ism_schedule(request):
-#     return render(request, 'beeline_html/ism_schedule.html')
-
+@check_access
+def ism_schedule(request):
+    return render(request, 'beeline_html/ism_schedule.html')

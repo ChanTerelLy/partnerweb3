@@ -214,6 +214,10 @@ class AddressData(models.Model):
     entrance_img = models.ManyToManyField(EntranceImg)
     mailbox_img = models.ManyToManyField(MailBoxImg)
 
+class ACL(models.Model):
+    code = models.CharField(max_length=50)
+    date_end = models.DateField()
+
 
 # if __name__ == '__main__':
 #     homenko = Installer.parse_installers({'login': os.getenv('SELL_CODE'), 'operator': os.getenv('S_OPERATOR'),
