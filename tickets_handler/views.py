@@ -28,7 +28,9 @@ def main_page(request):
             return render(request, 'beeline_html/main_page_tickets.html',
                           {'assigned_tickets': WorkersModel.replace_num_worker(all_assigned_tickets),
                            'call_for_today': WorkersModel.replace_num_worker(all_call_for_today),
-                           'switched_on_tickets': WorkersModel.replace_num_worker(all_switched_on_tickets),
+                           'switched_on_tickets': WorkersModel.replace_num_worker(
+                               AdditionalTicket.clear_switched_tickets(all_switched_on_tickets, all_tickets)
+                           ),
                            'assigned_today': all_assigned_today, 'switched_on_today': all_switched_on_today,
                            'created_today_tickets': all_created_today_tickets, 'all_tickets' : all_tickets})
     else:

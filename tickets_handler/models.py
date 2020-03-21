@@ -91,7 +91,17 @@ class AdditionalTicket(models.Model):
                         sw_tickets.append(all_t)
                         break
             elif not t.positive:
-                sw_tickets = [sw_t for sw_t in sw_tickets if t.number != sw_tickets.paired_ticket]
+                for sw_t in sw_tickets:
+                    try:
+                        if t.number == sw_t.ticket_paired_info.number:
+                            sw_tickets.remove(sw_t)
+                            break
+                    except:
+                        continue
+        return sw_tickets
+
+    def __str__(self):
+        return str(self.number)
 
 
 class TicketPrice(models.Model):
@@ -217,7 +227,6 @@ class AddressData(models.Model):
 class ACL(models.Model):
     code = models.CharField(max_length=50)
     date_end = models.DateField()
-
 
 # if __name__ == '__main__':
 #     homenko = Installer.parse_installers({'login': os.getenv('SELL_CODE'), 'operator': os.getenv('S_OPERATOR'),
