@@ -416,7 +416,10 @@ function sendChangePhones(csrfmiddlewaretoken) {
             } catch (e) {
                 comment  = document.getElementById(`changePhoneComment${i}`).value = ''
             }
-            phones_info.phones.push({'phone': phone, "comment" : comment})
+            if (phone !== ''){
+                phones_info.phones.push({'phone': phone, "comment" : comment})
+            }
+
     }
         $.ajax({
             url: `/change_phone_number/?ticket_id=${ticket_id}`,

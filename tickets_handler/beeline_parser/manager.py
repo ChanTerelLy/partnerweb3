@@ -784,6 +784,7 @@ class NewDesign(Basket):
         return data
 
     def change_phone_info(self, ticket_id, data):
+        import ast
         self.session.headers['sec-fetch-dest'] = 'empty'
         self.session.headers['sec-fetch-mode'] = 'cors'
         self.session.headers['sec-fetch-site'] = 'same-origin'
@@ -791,10 +792,9 @@ class NewDesign(Basket):
         self.session.headers['accept-encoding'] = 'gzip, deflate, br'
         self.session.headers['accept-language'] = 'en-US,en;q=0.9,ru-RU;q=0.8,ru;q=0.7,en-GB;q=0.6'
         self.session.headers['content-type'] = 'application/json;charset=UTF-8'
-        self.session.headers['cookie'] = 'sessionid=horo879x9yz8g3i86cxbr1uk7xjyfgj0'
-        data = json.loads(data)
+        phones = json.loads(data)
         return self.session.post(f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{ticket_id}',
-                                 json.dumps(data)).json()
+                                 json.dumps(phones)).json()
 
 class Worker:
     def __init__(self, name, number, master, status, url):

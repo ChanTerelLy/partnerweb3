@@ -155,10 +155,6 @@ def add_additional_ticket(request):
             AdditionalTicket.add(request.body)
     return HttpResponse('Done')
 
-def show_additional_tickets(request, operator):
-    return
-
-
 def send_mail(request):
     if request.is_ajax():
         if request.method == "POST":
@@ -174,6 +170,3 @@ def feedback(request):
         feedback_mail(text)
     return render(request, 'beeline_html/feedback.html', {'form':form})
 
-@check_access
-def ism_schedule(request):
-    return render(request, 'beeline_html/ism_schedule.html')
