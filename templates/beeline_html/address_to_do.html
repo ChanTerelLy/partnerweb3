@@ -1,0 +1,30 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Залистовка Все{% endblock %}
+{% block content %}
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Адрес</td>
+            <td>Залстовщик</td>
+            <td>Фото подъезды</td>
+            <td>Фото стенды</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for address in addresses %}
+                <tr>
+                    <td>{{ address.address }}</td>
+                    <td>{{ address.to_promouter }}</td>
+                    <td><input type="file" multiple></td>
+                    <td><input type="file" multiple></td>
+                    <td>
+                        <button type="submit">Отправить</button>
+                    </td>
+                </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

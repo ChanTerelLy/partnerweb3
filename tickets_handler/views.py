@@ -1,13 +1,13 @@
 from tickets_handler.beeline_parser.manager import NewDesign, Worker, Auth
 from django.shortcuts import render, redirect
 from .form import AuthForm, DateTimeForm, CreateTicketForm, Feedback
-from .models import Workers as WorkersModel, Installer, AdditionalTicket, Employer
+from .models import Workers as WorkersModel, Installer, AdditionalTicket, Employer, AddressToDo as AddressToDoModel
 from django.http import HttpResponse
 from tickets_handler.beeline_parser import system
 from django.contrib import messages
 from tickets_handler.beeline_parser.mail import assign_mail_ticket, fraud_mail_ticket, feedback_mail
 from .decorators import check_access
-
+from django.views.generic import ListView, FormView
 @system.my_timer
 @check_access
 def main_page(request):
@@ -170,3 +170,13 @@ def feedback(request):
         feedback_mail(text)
     return render(request, 'beeline_html/feedback.html', {'form':form})
 
+
+class AddressToDo(ListView):
+    model = AddressToDoModel
+    template_name = 'beeline_html/address_to_do.html'
+    context_object_name = 'addresses'
+
+def send_image_todo_addresses(request):
+    if request.is_ajax():
+        if request.method == "POST":
+            pass

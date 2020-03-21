@@ -180,7 +180,7 @@ class Address(models.Model):
     city = models.CharField(max_length=50)
     street = models.CharField(max_length=70)
     house = models.CharField(max_length=5)
-    building = models.CharField(max_length=5)
+    building = models.CharField(max_length=5, null=True, blank=True)
     category = models.CharField(max_length=20, default=None)  # red, yellow and etc
     entrance = models.IntegerField(default=None)
     floor = models.IntegerField()
