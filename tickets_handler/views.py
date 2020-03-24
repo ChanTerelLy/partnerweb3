@@ -112,28 +112,29 @@ def house_info(request, city_id, house_id):
     gp = areas + gp_houses
     if request.method == 'POST':
         p_form = CreateTicketForm(request.POST)
-        bundel_id, service_type, vpdn, service_name = p_form['basket'].value().split(';')
-        res_data = auth.check_fraud(house_id, p_form['flat'].value())
-        if res_data['data']:
-            create_ticket_form = auth.create_ticket(house_id, p_form['flat'].value(), p_form['client_name'].value(),
-                                                    p_form['client_patrony'].value(), p_form['client_surname'].value(),
-                                                    p_form['phone_number_1'].value(), bundel_id, service_type, vpdn)
-            return redirect('ticket_info', create_ticket_form['data']['ticket_id'])
-        else:
-            ticket = {'mail_to' : Employer.find_master(request.session['operator']).email,
-                      'client_name':  f" {p_form['client_name'].value()}"
-                                      f" {p_form['client_patrony'].value()}"
-                                      f" {p_form['client_surname'].value()}",
-                      'phone' : p_form['phone_number_1'].value(),
-                      'tariff' : service_name,
-                      'agent' : request.session['operator'],
-                      'address' : f'{house_full_name} кв {p_form["flat"].value()}'
-                      }
-            fraud_mail_ticket(ticket)
-            return HttpResponse(
-                'Ваша заявка содержит активный договор на адресе '
-                'и была отправлена супервайзеру для дальнейшего рассмотрения'
-            )
+        if p_form.is_valid():
+            bundel_id, service_type, vpdn, service_name = p_form['basket'].value().split(';')
+            res_data = auth.check_fraud(house_id, p_form['flat'].value())
+            if res_data['data']:
+                create_ticket_form = auth.create_ticket(house_id, p_form['flat'].value(), p_form['client_name'].value(),
+                                                        p_form['client_patrony'].value(), p_form['client_surname'].value(),
+                                                        p_form['phone_number_1'].value(), bundel_id, service_type, vpdn)
+                return redirect('ticket_info', create_ticket_form['data']['ticket_id'])
+            else:
+                ticket = {'mail_to' : Employer.find_master(request.session['operator']).email,
+                          'client_name':  f" {p_form['client_name'].value()}"
+                                          f" {p_form['client_patrony'].value()}"
+                                          f" {p_form['client_surname'].value()}",
+                          'phone' : p_form['phone_number_1'].value(),
+                          'tariff' : service_name,
+                          'agent' : request.session['operator'],
+                          'address' : f'{house_full_name} кв {p_form["flat"].value()}'
+                          }
+                fraud_mail_ticket(ticket)
+                return HttpResponse(
+                    'Ваша заявка содержит активный договор на адресе '
+                    'и была отправлена супервайзеру для дальнейшего рассмотрения'
+                )
     return render(request, 'beeline_html/house_info.html', {'gp_houses' : gp, 'name': house_full_name,
                                                             'p_form' : p_form})
 
