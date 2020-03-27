@@ -1,7 +1,8 @@
 from django.conf.urls import url
 
 from tickets_handler.json_views import *
-from tickets_handler.template_views import HouseSearch, CheckNumber, Index, IsmSchedule, CheckCTN
+from tickets_handler.template_views import HouseSearch, CheckNumber, Index, IsmSchedule, CheckCTN, Installers, \
+    WorkersTable, AddressToDo
 from .views import *
 from django.contrib import admin
 
@@ -17,7 +18,7 @@ urlpatterns = [
     url(r'^get_ctn_info/$', get_ctn_info, name='get_ctn_info'),
     url(r'logout', logout, name='logout'),
     url(r'login_beeline/', redirect_auth, name='login_beeline'),
-    url('installers/', get_installers, name='installers'),
+
 
     # Template URLs
     url('house_search', HouseSearch.as_view(), name='house_search'),
@@ -26,6 +27,7 @@ urlpatterns = [
     url(r'^ism_schedule/$', IsmSchedule.as_view(), name='ism_schedule'),
     url(r'^check_ctn/$', CheckCTN.as_view(), name='check_ctn'),
     url(r'^workers/$', WorkersTable.as_view(), name='workers'),
+    url('installers/', Installers.as_view(), name='installers'),
 
     #Ajax URLs
     url(r'^assigned_tickets/$', get_assigned_tickets, name='assigned_tickets'),

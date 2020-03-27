@@ -7,6 +7,8 @@ from tickets_handler.beeline_parser import system
 from django.contrib import messages
 from tickets_handler.beeline_parser.mail import assign_mail_ticket, fraud_mail_ticket, feedback_mail
 from .decorators import check_access
+
+
 from django.views.generic import ListView, FormView
 from django.http import JsonResponse
 @system.my_timer
@@ -102,10 +104,6 @@ def update_installers(request):
                                 'password': request.session['password']})
     return HttpResponse('Done')
 
-@check_access
-def get_installers(request):
-    installers = Installer.objects.all()
-    return render(request, 'beeline_html/installers.html', {'installers' : installers})
 
 @check_access
 def house_info(request, city_id, house_id):

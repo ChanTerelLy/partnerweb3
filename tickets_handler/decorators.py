@@ -16,6 +16,4 @@ def check_access(function):
                 return function(request, *args, **kwargs)
         else:
             return function(request, *args, **kwargs)
-    wrap.__doc__ = function.__doc__
-    wrap.__name__ = function.__name__
     return wrap
