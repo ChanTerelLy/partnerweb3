@@ -1,7 +1,10 @@
-from django.views.generic import TemplateView, ListView
+from django.shortcuts import redirect
+from django.views.generic import TemplateView, ListView, FormView
 from django.utils.decorators import method_decorator
 
+from tickets_handler.beeline_parser.mail import feedback_mail
 from tickets_handler.decorators import check_access
+from tickets_handler.form import Feedback
 from tickets_handler.models import Installer, Workers as WorkersModel, AddressToDo as AddressToDoModel
 from .decorators import check_access
 
@@ -78,3 +81,17 @@ class AddressToDo(ListView):
     model = AddressToDoModel
     template_name = 'beeline_html/address_to_do.html'
     context_object_name = 'addresses'
+
+@method_decorator(check_access, name='dispatch')
+class Feedback(FormView):
+    template_name = 'beeline_html/feedback.html'
+    form_class = Feedback
+
+    def form_valid(self, form):
+        text = { 'descr' : form['descr'].value(), 'agent' : self.request.session['operator']}
+        feedback_mail(text)
+        return redirect('feedback')
+
+    @method_decorator(check_access)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)

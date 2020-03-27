@@ -24,3 +24,4 @@ class CreateTicketForm(forms.Form):
 
 class Feedback(forms.Form):
     descr = forms.CharField(widget=forms.Textarea, label='Опишите вашу проблему или предложение')
+

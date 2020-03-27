@@ -1,16 +1,15 @@
 from tickets_handler.beeline_parser.manager import NewDesign, Worker, Auth
 from django.shortcuts import render, redirect
-from .form import AuthForm, DateTimeForm, CreateTicketForm, Feedback
+from .form import AuthForm, DateTimeForm, CreateTicketForm
 from .models import Workers as WorkersModel, Installer, AdditionalTicket, Employer
 from django.http import HttpResponse
 from tickets_handler.beeline_parser import system
 from django.contrib import messages
-from tickets_handler.beeline_parser.mail import assign_mail_ticket, fraud_mail_ticket, feedback_mail
+from tickets_handler.beeline_parser.mail import assign_mail_ticket, fraud_mail_ticket
 from .decorators import check_access
 
 
-from django.views.generic import ListView, FormView
-from django.http import JsonResponse
+
 @system.my_timer
 @check_access
 def main_page(request):
@@ -168,15 +167,6 @@ def send_mail(request):
         if request.method == "POST":
             assign_mail_ticket(request.body)
     return HttpResponse('Отправленно')
-
-@check_access
-def feedback(request):
-    form = Feedback()
-    if request.method == "POST":
-        form = Feedback(request.POST)
-        text = { 'descr' : form['descr'].value(), 'agent' : request.session['operator']}
-        feedback_mail(text)
-    return render(request, 'beeline_html/feedback.html', {'form':form})
 
 class WorkersTable(ListView):
     model = WorkersModel

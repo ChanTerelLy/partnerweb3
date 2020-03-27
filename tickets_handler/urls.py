@@ -2,7 +2,7 @@ from django.conf.urls import url
 
 from tickets_handler.json_views import *
 from tickets_handler.template_views import HouseSearch, CheckNumber, Index, IsmSchedule, CheckCTN, Installers, \
-    WorkersTable, AddressToDo
+    WorkersTable, AddressToDo, Feedback
 from .views import *
 from django.contrib import admin
 
@@ -14,8 +14,6 @@ urlpatterns = [
     url(r'^info/(?P<id>\d+)/$', ticket_info, name='ticket_info'),
     url('global_search/', global_search, name='global_search'),
     url('^tickets/', main_page, name='main_page_tickets'),
-    url(r'^feedback/$', feedback, name='feedback'),
-    url(r'^get_ctn_info/$', get_ctn_info, name='get_ctn_info'),
     url(r'logout', logout, name='logout'),
     url(r'login_beeline/', redirect_auth, name='login_beeline'),
 
@@ -28,6 +26,7 @@ urlpatterns = [
     url(r'^check_ctn/$', CheckCTN.as_view(), name='check_ctn'),
     url(r'^workers/$', WorkersTable.as_view(), name='workers'),
     url('installers/', Installers.as_view(), name='installers'),
+    url(r'^feedback/$', Feedback.as_view(), name='feedback'),
 
     #Ajax URLs
     url(r'^assigned_tickets/$', get_assigned_tickets, name='assigned_tickets'),
@@ -43,6 +42,7 @@ urlpatterns = [
     url(r'^send_mail/$', send_mail, name='send_mail'),
     url(r'^add_additional_ticket/$', add_additional_ticket, name='add_additional_ticket'),
     url(r'personal_info/', get_personal_info, name='personal_info'),
+    url(r'^get_ctn_info/$', get_ctn_info, name='get_ctn_info'),
 
     #UpdateModels URLs
     url('update_workers/', update_workers, name='update_workers'),
