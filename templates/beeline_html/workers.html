@@ -1,0 +1,23 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Агенты{% endblock %}
+{% block content %}
+    <table class="table-bordered" style="margin-left:auto;margin-right:auto;">
+    <thead>
+    <tr>
+        <td>Агент</td>
+        <td>Логин</td>
+        <td>Супервайзер</td>
+    </tr>
+    </thead>
+        {% for worker in workers %}
+            {% if worker.status  %}
+        <tr>
+        <td><h4>{{worker.name}}</h4></td>
+            <td><h4>{{worker.number}}</h4></td>
+            <td><h4>{{worker.master}}</h4></td>
+        </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+{% endblock %}

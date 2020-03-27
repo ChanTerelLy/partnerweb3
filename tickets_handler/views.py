@@ -170,6 +170,11 @@ def feedback(request):
         feedback_mail(text)
     return render(request, 'beeline_html/feedback.html', {'form':form})
 
+class WorkersTable(ListView):
+    model = WorkersModel
+    template_name = 'beeline_html/workers.html'
+    context_object_name = 'workers'
+    ordering = 'master'
 
 class AddressToDo(ListView):
     model = AddressToDoModel
@@ -180,3 +185,4 @@ def send_image_todo_addresses(request):
     if request.is_ajax():
         if request.method == "POST":
             pass
+

@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^index/$', Index.as_view(), name='index'),
     url(r'^ism_schedule/$', IsmSchedule.as_view(), name='ism_schedule'),
     url(r'^check_ctn/$', CheckCTN.as_view(), name='check_ctn'),
+    url(r'^workers/$', WorkersTable.as_view(), name='workers'),
 
     #Ajax URLs
     url(r'^assigned_tickets/$', get_assigned_tickets, name='assigned_tickets'),
