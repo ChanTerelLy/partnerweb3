@@ -1,5 +1,5 @@
 from django.db import models
-from tickets_handler.beeline_parser.manager import NewDesign
+from tickets_handler.beeline_parser.manager import NewDesign, Ticket
 import re
 from tickets_handler.beeline_parser import system
 import os
@@ -87,9 +87,10 @@ class AdditionalTicket(models.Model):
         for t in cls.objects.filter(datetime__month=datetime.datetime.now().month):
             if t.positive:
                 for all_t in all_tickets:
-                    if all_t.ticket_paired == t.number:
-                        sw_tickets.append(all_t)
-                        break
+                    if isinstance(all_t.ticket_paired_info, Ticket):
+                        if all_t.ticket_paired_info.number == t.number:
+                            sw_tickets.append(all_t)
+                            continue
             elif not t.positive:
                 for sw_t in sw_tickets:
                     try:
