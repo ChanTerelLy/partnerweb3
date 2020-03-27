@@ -134,6 +134,9 @@ class Employer(models.Model):
         master = Workers.objects.get(number=number).master
         return cls.objects.get(name=master)
 
+    def __str__(self):
+        return self.name
+
 
 class Reminder(models.Model):
     ticket_number = models.TextField()
