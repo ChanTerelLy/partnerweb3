@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^login/$', login, name='login'),
     url(r'^info/(?P<id>\d+)/$', ticket_info, name='ticket_info'),
     url('global_search/', global_search, name='global_search'),
-    url('^tickets/', main_page, name='main_page_tickets'),
+    url('^tickets/', tickets, name='main_page_tickets'),
     url(r'logout', logout, name='logout'),
     url(r'login_beeline/', redirect_auth, name='login_beeline'),
 

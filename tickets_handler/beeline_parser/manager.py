@@ -1,9 +1,7 @@
 import json
 import re
-import time
 import urllib.parse
 from datetime import date as date
-from datetime import datetime as dt
 from tickets_handler.beeline_parser import system
 import lxml.html
 import requests
@@ -16,7 +14,6 @@ from tickets_handler.beeline_parser.text_func import find_asssigned_date, find_d
 import grequests
 import random
 import time
-import os
 from datetime import datetime as dt
 
 class Auth:
@@ -31,12 +28,12 @@ class Auth:
                         'content-type': 'application/x-www-form-urlencoded', 'upgrade-insecure-requests': '1'}
         self.auth = self.session.post('https://partnerweb.beeline.ru', self.data, headers=self.headers)
         self.auth_response = self.auth.text
-        self.auth_response_status = self.check_auth()
+        self.auth_status = self.check_auth_status()
         self.header = self.get_headers()
         self.cookies = self.get_cookie()
-        self.account_type = self.current_user().get('data').get('type')
+        self.account_type = self.get_account_type(self.user_rights())
 
-    def check_auth(self):
+    def check_auth_status(self):
         return False if self.auth_response.count('Ошибка авторизации') else True
 
     def get_cookie(self):
@@ -44,9 +41,23 @@ class Auth:
     def get_headers(self):
         return self.auth.headers
 
-    def current_user(self):
-        data = self.session.get('https://partnerweb.beeline.ru/restapi/auth/current-user/').json()
+    def user_rights(self):
+        try:
+            data = self.session.get('https://partnerweb.beeline.ru/restapi/auth/current-user/').json()
+        except Exception as e:
+            print(e)
+            return None
         return data
+
+    def check_auth_access(self, user_info):
+            if user_info.get('detail') == 'Учетные данные не были предоставлены.':
+                return False
+
+    def get_account_type(self, user_info):
+        if self.check_auth_access(user_info):
+            return user_info.get('data').get('type')
+        else:
+            return 0
 
 
 class Ticket:
