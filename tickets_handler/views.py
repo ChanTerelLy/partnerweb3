@@ -8,6 +8,7 @@ from django.contrib import messages
 from tickets_handler.beeline_parser.mail import assign_mail_ticket, fraud_mail_ticket, feedback_mail
 from .decorators import check_access
 from django.views.generic import ListView, FormView
+from django.http import JsonResponse
 @system.my_timer
 @check_access
 def main_page(request):
@@ -48,6 +49,10 @@ def global_search(request):
 @check_access
 def ticket_info(request, id):
     auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
+    show_comments = request.GET.get('show_comments', '')
+    if show_comments:
+        ticket_info = auth.ticket_info(id)
+        return JsonResponse(ticket_info.comments[:int(show_comments)], safe=False)
     ticket_info = auth.ticket_info(id)
     dateform = DateTimeForm(request.POST)
     gp_houses = auth.get_gp_ticket_search(id)

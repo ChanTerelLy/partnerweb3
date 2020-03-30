@@ -57,6 +57,9 @@
                         <a class="align-middle">{{ ticket.name }}</a>
                         <small class="text-muted d-block">{{ ticket.address }} <b
                                 style="color:red;">{{ ticket.dns }}</b> </small>
+                        <small id="installer_comments_{{ ticket.ticket_paired_info.id }}">
+
+                        </small>
                     </td>
                     <td>
                         <a class="align-middle" href="tel:8{{ ticket.phone1 }}">{{ ticket.phone1 }}</a>
@@ -278,6 +281,8 @@
         //show source for all switched tickets and assigned
         {% for ticket in assigned_tickets %}
             showSourceTicket({{ticket.ticket_paired_info.number}});
+            autoUpdateInstallerComments({{ ticket.ticket_paired_info.id }});
+
         {% endfor %}
         {% for ticket in switched_on_tickets %}
             showSourceTicket({{ticket.ticket_paired_info.number}});
