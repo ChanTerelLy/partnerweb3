@@ -88,13 +88,13 @@ class AdditionalTicket(models.Model):
             if t.positive:
                 for all_t in all_tickets:
                     if isinstance(all_t.ticket_paired_info, Ticket):
-                        if all_t.ticket_paired_info.number == t.number:
+                        if all_t.ticket_paired_info.number == t.number or all_t.number == t.number:
                             sw_tickets.append(all_t)
                             continue
             elif not t.positive:
                 for sw_t in sw_tickets:
                     try:
-                        if t.number == sw_t.ticket_paired_info.number:
+                        if t.number == sw_t.ticket_paired_info.number or sw_t.number == t.number:
                             sw_tickets.remove(sw_t)
                             break
                     except:
