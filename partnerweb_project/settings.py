@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'statistic',
     'call_center',
-    'storages'
+    'storages',
+    'territory',
 ]
 
 MIDDLEWARE = [
