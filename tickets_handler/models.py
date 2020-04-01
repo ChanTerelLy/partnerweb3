@@ -2,9 +2,7 @@ from django.db import models
 from tickets_handler.beeline_parser.manager import NewDesign, Ticket
 import re
 from tickets_handler.beeline_parser import system
-import os
 import json
-from PIL import Image
 import datetime
 
 
@@ -110,21 +108,6 @@ class AdditionalTicket(models.Model):
         return str(self.number)
 
 
-class TicketPrice(models.Model):
-    ticket_number = models.IntegerField()
-    price = models.IntegerField()
-    ratio = models.IntegerField()
-
-    @classmethod
-    def set_price(cls, ticket_number, price, ratio=1):
-        cls(ticket_number, price, ratio).save()
-
-    @classmethod
-    def get_price(cls, ticket_number):
-        ticket = cls.objects.get(ticket_number)
-        return ticket.price
-
-
 class Employer(models.Model):
     profile_name = models.TextField()
     name = models.TextField()
@@ -178,6 +161,3 @@ class ACL(models.Model):
     code = models.CharField(max_length=50)
     date_end = models.DateField()
 
-# if __name__ == '__main__':
-#     homenko = Installer.parse_installers({'login': os.getenv('SELL_CODE'), 'operator': os.getenv('S_OPERATOR'),
-#                                           'password': os.getenv('S_PASSWORD')})

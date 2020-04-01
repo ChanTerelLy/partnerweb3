@@ -13,18 +13,24 @@
         </thead>
         <tbody>
         {% for address in addresses %}
-                <tr>
-                    <td>{{ address.address }}</td>
-                    <td>{{ address.to_promouter }}</td>
-                    <td><input type="file" multiple></td>
-                    <td><input type="file" multiple></td>
+                <tr id="{{ address.add }}">
+                    <td id="id_address">{{ address.address }}</td>
+                    <td id="id_promouter">{{ address.to_promouter }}</td>
+                    <form method="post">
+                                            {% csrf_token %}
+                    {{ form }}
                     <td>
                         <button type="submit">Отправить</button>
                     </td>
+                    </form>
+
                 </tr>
         {% endfor %}
         </tbody>
     </table>
+    {% if all_address %}
+        {{ all_address }}
+    {% endif %}
 
 
 {% endblock %}

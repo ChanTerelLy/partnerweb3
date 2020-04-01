@@ -123,6 +123,7 @@
                 </div>
                 <div id="personal_info"></div>
                 <div class="accordion" id="accordionExample">
+                {% if gp_houses %}
                     {% for gp in gp_houses %}
                         <div class="card">
                             <div class="card-header" id="headingOne">
@@ -138,6 +139,13 @@
                                  data-parent="#accordionExample">
                                 <div class="card-body">
                                     {{ gp }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% else %}
+                    <h3>Произошла ошибка при загрузке глобальных проблем</h3>
+                {% endif %}
                                 </div>
                             </div>
                         </div>

@@ -35,7 +35,8 @@ class Address(models.Model):
     # p_house_id = models.IntegerField(default=get_p_house_id(street, house, building))
 
     def __str__(self):
-        return f'{self.street} {self.house} {self.building}'
+        return f'{self.street} {self.house} {self.building if self.building else ""}'
+
 
 
 
