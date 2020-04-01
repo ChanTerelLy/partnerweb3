@@ -161,13 +161,6 @@ def send_mail(request):
             assign_mail_ticket(request.body)
     return HttpResponse('Отправленно')
 
-class WorkersTable(ListView):
-    model = WorkersModel
-    template_name = 'beeline_html/workers.html'
-    context_object_name = 'workers'
-    ordering = 'master'
-
-
 def send_image_todo_addresses(request):
     if request.is_ajax():
         if request.method == "POST":

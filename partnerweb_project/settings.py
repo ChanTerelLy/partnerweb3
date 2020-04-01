@@ -43,12 +43,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'territory.apps.TerritoryConfig',
     'tickets_handler',
 	'widget_tweaks',
     'crispy_forms',
     'call_center',
     'storages',
-    'territory',
+
 ]
 
 MIDDLEWARE = [

@@ -2,7 +2,7 @@ from django.conf.urls import url
 
 from tickets_handler.json_views import *
 from tickets_handler.template_views import HouseSearch, CheckNumber, Index, IsmSchedule, CheckCTN, Installers, \
-    WorkersTable, AddressToDo, Feedback
+    WorkersTable, Feedback
 from .views import *
 from django.contrib import admin
 
