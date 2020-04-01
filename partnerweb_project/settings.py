@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'tickets_handler',
 	'widget_tweaks',
     'crispy_forms',
-    'statistic',
     'call_center',
     'storages',
     'territory',
