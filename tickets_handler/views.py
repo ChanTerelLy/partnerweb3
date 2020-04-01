@@ -55,7 +55,11 @@ def ticket_info(request, id):
         return JsonResponse(ticket_info.comments[:int(show_comments)], safe=False)
     ticket_info = auth.ticket_info(id)
     dateform = DateTimeForm(request.POST)
-    gp_houses = auth.get_gp_ticket_search(id)
+    try:
+        gp_houses = auth.get_gp_ticket_search(id)
+    except Exception as e:
+        print(e)
+        gp_houses = None
     if request.method == 'POST':
         auth.change_ticket(id, dateform['datetime'].value(),dateform['comments'].value(), dateform['status'].value())
         return redirect('ticket_info', id)
