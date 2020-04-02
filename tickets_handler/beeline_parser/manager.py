@@ -51,7 +51,9 @@ class Auth:
 
     def check_auth_access(self, user_info):
             if user_info.get('detail') == 'Учетные данные не были предоставлены.':
-                return False
+                return
+            else:
+                return True
 
     def get_account_type(self, user_info):
         if self.check_auth_access(user_info):
