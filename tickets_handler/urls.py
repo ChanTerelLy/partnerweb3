@@ -35,17 +35,15 @@ urlpatterns = [
     url(r'^count_created_today/$', get_count_created_today, name='count_created_today'),
     url(r'^ticket_source/$', source_tickets, name='source_tickets'),
     url(r'^change_phone_number/$', change_phone_number, name='change_phone_number'),
-    url(r'delete_ticket/(?P<ticket>\d+)/', delete_additional_ticket, name='delete_ticket'),
     url(r'^ticket_info/(?P<id>\d+)/$', ticket_info_json, name='ticket_info_json'),
     url(r'^info/(?P<ticket>\d+)/schedule/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$', get_schedule_by_ticket_id,
         name='schedule'),
     url(r'^send_mail/$', send_mail, name='send_mail'),
-    url(r'^add_additional_ticket/$', add_additional_ticket, name='add_additional_ticket'),
     url(r'personal_info/', get_personal_info, name='personal_info'),
     url(r'^get_ctn_info/$', get_ctn_info, name='get_ctn_info'),
 
     #UpdateModels URLs
-    url('update_workers/', update_workers, name='update_workers'),
+    url('update_workers/', WorkersTable.as_view(), name='update_workers'),
     url('update_installers', update_installers, name='update_installers'),
 
     #PresetSystem URLs

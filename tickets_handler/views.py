@@ -7,7 +7,7 @@ from tickets_handler.beeline_parser import system
 from django.contrib import messages
 from tickets_handler.beeline_parser.mail import assign_mail_ticket, fraud_mail_ticket
 from .decorators import check_access
-
+from django.http import JsonResponse
 
 
 @system.my_timer
@@ -143,26 +143,11 @@ def logout(request):
     return redirect('login')
 
 
-def delete_additional_ticket(request, ticket):
-    operator = WorkersModel.objects.get(number=request.session['operator'])
-    ticket = AdditionalTicket(number=ticket, positive=False, who_add=operator)
-    ticket.save()
-    return HttpResponse('OK')
-
-def add_additional_ticket(request):
-    if request.is_ajax():
-        if request.method == "POST":
-            AdditionalTicket.add(request.body)
-    return HttpResponse('Done')
-
 def send_mail(request):
     if request.is_ajax():
         if request.method == "POST":
             assign_mail_ticket(request.body)
     return HttpResponse('Отправленно')
 
-def send_image_todo_addresses(request):
-    if request.is_ajax():
-        if request.method == "POST":
-            pass
+
 

@@ -14,3 +14,5 @@ class TicketPrice(models.Model):
     def get_price(cls, ticket_number):
         ticket = cls.objects.get(ticket_number)
         return ticket.price
+
+
