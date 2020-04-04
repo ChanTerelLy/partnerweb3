@@ -8,6 +8,7 @@ from django.contrib import messages
 from tickets_handler.beeline_parser.mail import assign_mail_ticket, fraud_mail_ticket
 from .decorators import check_access
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 
 
 @system.my_timer
@@ -36,8 +37,10 @@ def tickets(request):
 @check_access
 def global_search(request):
     auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
-    tickets = auth.global_search()
-    return render(request, 'beeline_html/global_search.html', {'tickets':tickets})
+    tickets = Paginator(auth.global_search(), 100)
+    page_number = request.GET.get('page', 1)
+    page_obj = tickets.get_page(page_number)
+    return render(request, 'beeline_html/global_search.html', {'page_obj':page_obj})
 
 @check_access
 def ticket_info(request, id):

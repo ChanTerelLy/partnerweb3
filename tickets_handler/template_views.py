@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
-from django.views.generic import TemplateView, ListView, FormView
+from django.views.generic import TemplateView, ListView, FormView, ListView, View
 from django.utils.decorators import method_decorator
-
+from tickets_handler.beeline_parser.manager import NewDesign
 from tickets_handler.beeline_parser.mail import feedback_mail
 from tickets_handler.decorators import check_access
 from tickets_handler.form import Feedback
@@ -95,4 +95,3 @@ class WorkersTable(ListView):
     template_name = 'beeline_html/workers.html'
     context_object_name = 'workers'
     ordering = 'master'
-

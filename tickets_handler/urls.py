@@ -1,8 +1,7 @@
 from django.conf.urls import url
 
 from tickets_handler.json_views import *
-from tickets_handler.template_views import HouseSearch, CheckNumber, Index, IsmSchedule, CheckCTN, Installers, \
-    WorkersTable, Feedback
+from tickets_handler.template_views import *
 from .views import *
 from django.contrib import admin
 
@@ -43,7 +42,7 @@ urlpatterns = [
     url(r'^get_ctn_info/$', get_ctn_info, name='get_ctn_info'),
 
     #UpdateModels URLs
-    url('update_workers/', WorkersTable.as_view(), name='update_workers'),
+    url('update_workers/', update_workers, name='update_workers'),
     url('update_installers', update_installers, name='update_installers'),
 
     #PresetSystem URLs

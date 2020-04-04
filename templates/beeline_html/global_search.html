@@ -2,70 +2,91 @@
 {% load static %}
 {% block title %}Глобальный поиск{% endblock %}
 {% block content %}
-        <div class="progress-container">
-            <div class="progress-bar" id="myBar"></div>
-        </div>
+    <div class="progress-container">
+        <div class="progress-bar" id="myBar"></div>
+    </div>
     <div class="container">
-    <p>Быстрый поиск:</p>
+        <p>Быстрый поиск:</p>
         <input class="form-control" id="myInput" type="text" placeholder="Тут можно писать ╰(*°▽°*)╯">
     </div>
     <p></p>
-<div class="container">
-  <table id="dtOrderExample"  class="table table-hover table-bordered">
-    <thead class="thead-inverse">
-      <tr>
-        <th>Номер заявки</th>
-        <th>Тип</th>
-        <th>Дата создания</th>
-        <th>ФИО\Адресс</th>
-        <th>Телефон</th>
-        <th>Статус</th>
-        <th>Таймер</th>
-        <th>Сотрудник</th>
-      </tr>
-    </thead>
-    <tbody id="myTable">
-      {% for ticket in tickets %}
-          <tr>
-              {% url 'ticket_info' ticket.ticket_paired_info.id as var2 %}
-              <td class="align-middle "><a href="{{ var2 }}"
-                                           target="_blank">{{ ticket.ticket_paired_info.number }}</a>
-                  {% url 'ticket_info' ticket.id as var %}
-                  <small class="text-muted d-block"><a href="{{ var }}"
-                                                       target="_blank">{{ ticket.number }}</a></small>
-              </td>
-              <td class="align-middle">
-                  {{ ticket.ticket_paired_info.type }}
-                                <small class="text-muted d-block">{{ ticket.type }}</small>
-              </td>
-          <td class="align-middle">
-              {{ticket.ticket_paired_info.date}}
-          <small class="text-muted d-block">{{ ticket.date }}</small>
-          </td>
-          <td>
-            <a class="align-middle" >{{ ticket.name }}</a>
-            <small class="text-muted d-block">{{ ticket.address }}</small>
-          </td>
-          <td class="align-middle">
-            <a class="align-middle" >{{ ticket.phone1 }}</a>
-            <small class="text-muted d-block">{{ ticket.phone2 }}</small>
-            <small class="text-muted d-block">{{ ticket.phone3 }}</small>
-          </td>
-          <td class="align-middle">
-              {{ticket.ticket_paired_info.status}}
-          <small class="text-muted d-block">{{ ticket.status }}</small>
-          </td>
-          <td class="align-middle">
-              {{ticket.ticket_paired_info.call_time}}
-          <small class="text-muted d-block">{{ ticket.call_time }}</small>
-          </td>
-          <td class="align-middle">{{ ticket.operator }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
+    <div class="container">
+        <table id="dtOrderExample" class="table table-hover table-bordered">
+            <thead class="thead-inverse">
+            <tr>
+                <th>Номер заявки</th>
+                <th>Тип</th>
+                <th>Дата создания</th>
+                <th>ФИО\Адресс</th>
+                <th>Телефон</th>
+                <th>Статус</th>
+                <th>Таймер</th>
+                <th>Сотрудник</th>
+            </tr>
+            </thead>
+            <tbody id="myTable">
+            {% for ticket in page_obj %}
+                <tr>
+                    {% url 'ticket_info' ticket.ticket_paired_info.id as var2 %}
+                    <td class="align-middle "><a href="{{ var2 }}"
+                                                 target="_blank">{{ ticket.ticket_paired_info.number }}</a>
+                        {% url 'ticket_info' ticket.id as var %}
+                        <small class="text-muted d-block"><a href="{{ var }}"
+                                                             target="_blank">{{ ticket.number }}</a></small>
+                    </td>
+                    <td class="align-middle">
+                        {{ ticket.ticket_paired_info.type }}
+                        <small class="text-muted d-block">{{ ticket.type }}</small>
+                    </td>
+                    <td class="align-middle">
+                        {{ ticket.ticket_paired_info.date }}
+                        <small class="text-muted d-block">{{ ticket.date }}</small>
+                    </td>
+                    <td>
+                        <a class="align-middle">{{ ticket.name }}</a>
+                        <small class="text-muted d-block">{{ ticket.address }}</small>
+                    </td>
+                    <td class="align-middle">
+                        <a class="align-middle">{{ ticket.phone1 }}</a>
+                        <small class="text-muted d-block">{{ ticket.phone2 }}</small>
+                        <small class="text-muted d-block">{{ ticket.phone3 }}</small>
+                    </td>
+                    <td class="align-middle">
+                        {{ ticket.ticket_paired_info.status }}
+                        <small class="text-muted d-block">{{ ticket.status }}</small>
+                    </td>
+                    <td class="align-middle">
+                        {{ ticket.ticket_paired_info.call_time }}
+                        <small class="text-muted d-block">{{ ticket.call_time }}</small>
+                    </td>
+                    <td class="align-middle">{{ ticket.operator }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div>
+            {% if page_obj.has_previous %}
+                <a class="btn btn-outline-info mb-4" href="?page=1">Первая</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Следующая</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+            {% endif %}
+        </div>
+    </div>
     <button onclick="topFunction()" id="topButton" title="Go to top">&#8593;</button>
+
+
 {% endblock %}
 
 {% block extra_scripts %}
