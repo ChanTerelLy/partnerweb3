@@ -7,6 +7,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', include('tickets_handler.urls')),
     path('', include('call_center.urls')),
+    path('', include('analytic.urls')),
     url(r'^$', views.redirect_auth, name='redirect_auth'),
 ]
 
