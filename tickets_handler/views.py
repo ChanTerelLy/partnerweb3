@@ -5,7 +5,7 @@ from .models import Workers as WorkersModel, Installer, AdditionalTicket, Employ
 from django.http import HttpResponse
 from beeline_parser import system
 from django.contrib import messages
-from beeline_parser.mail import assign_mail_ticket, fraud_mail_ticket
+from beeline_parser.mail import assign_mail_ticket, fraud_mail_ticket, EmailSender
 from .decorators import check_access
 from django.http import JsonResponse
 from django.core.paginator import Paginator
@@ -132,7 +132,7 @@ def house_info(request, city_id, house_id):
                           'agent' : request.session['operator'],
                           'address' : f'{house_full_name} кв {p_form["flat"].value()}'
                           }
-                fraud_mail_ticket(ticket)
+                EmailSender().fraud_mail_ticket(ticket)
                 return HttpResponse(
                     'Ваша заявка содержит активный договор на адресе '
                     'и была отправлена супервайзеру для дальнейшего рассмотрения'
@@ -149,7 +149,7 @@ def logout(request):
 def send_mail(request):
     if request.is_ajax():
         if request.method == "POST":
-            assign_mail_ticket(request.body)
+            EmailSender().assign_mail_ticket(request.body)
     return HttpResponse('Отправленно')
 
 
