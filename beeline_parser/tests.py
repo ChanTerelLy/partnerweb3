@@ -1,15 +1,14 @@
 import requests
 import unittest
-import tracemalloc
-from tickets_handler.beeline_parser import manager
+from beeline_parser import manager
 import os
 
 
 class TestAuth(unittest.TestCase):
 
     def setUp(self):
-        self.auth_supervisor = manager.Auth(os.getenv('SELL_CODE'),os.getenv('S_OPERATOR'),os.getenv('S_PASSWORD'))
-        self.auth_agent = manager.Auth(os.getenv('SELL_CODE'),os.getenv('A_OPERATOR'),os.getenv('A_PASSWORD'))
+        self.auth_supervisor = manager.Auth(os.getenv('SELL_CODE'), os.getenv('S_OPERATOR'), os.getenv('S_PASSWORD'))
+        self.auth_agent = manager.Auth(os.getenv('SELL_CODE'), os.getenv('A_OPERATOR'), os.getenv('A_PASSWORD'))
 
     def test_ping_partnerweb(self):
         auth = requests.session().get('https://partnerweb.beeline.ru/#!/').status_code
@@ -30,7 +29,7 @@ class TestAuth(unittest.TestCase):
 class TestNewDesign(unittest.TestCase):
 
     def setUp(self):
-        self.ND = manager.NewDesign(os.getenv('SELL_CODE'),os.getenv('A_OPERATOR'),os.getenv('A_PASSWORD'))
+        self.ND = manager.NewDesign(os.getenv('SELL_CODE'), os.getenv('A_OPERATOR'), os.getenv('A_PASSWORD'))
 
     def test_define_calling_tickets(self):
         self.assertTrue(self.ND.define_call_ts('Позвонить клиенту 15.09.2019 00:00'))
