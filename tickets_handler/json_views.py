@@ -1,6 +1,6 @@
 from django.core import serializers
 from django.http import JsonResponse
-from tickets_handler.beeline_parser.manager import NewDesign
+from beeline_parser.manager import NewDesign
 from tickets_handler.models import Employer, TicketSource
 import jsonpickle
 from types import SimpleNamespace

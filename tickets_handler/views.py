@@ -1,11 +1,11 @@
-from tickets_handler.beeline_parser.manager import NewDesign, Worker, Auth
+from beeline_parser.manager import NewDesign, Worker, Auth
 from django.shortcuts import render, redirect
 from .form import AuthForm, DateTimeForm, CreateTicketForm
 from .models import Workers as WorkersModel, Installer, AdditionalTicket, Employer
 from django.http import HttpResponse
-from tickets_handler.beeline_parser import system
+from beeline_parser import system
 from django.contrib import messages
-from tickets_handler.beeline_parser.mail import assign_mail_ticket, fraud_mail_ticket
+from beeline_parser.mail import assign_mail_ticket, fraud_mail_ticket
 from .decorators import check_access
 from django.http import JsonResponse
 from django.core.paginator import Paginator

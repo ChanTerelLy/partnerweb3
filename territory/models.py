@@ -55,6 +55,8 @@ class PromoutingReport(models.Model):
     date = models.DateField()
     agent = models.CharField(max_length=100)
 
+    # class Meta:
+    #     ordering = 'date'
 
 class EntranceImg(models.Model):
     img = models.ImageField()

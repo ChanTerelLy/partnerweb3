@@ -1,7 +1,7 @@
 from django.db import models
-from tickets_handler.beeline_parser.manager import NewDesign, Ticket
+from beeline_parser.manager import NewDesign, Ticket
 import re
-from tickets_handler.beeline_parser import system
+from beeline_parser import system
 import json
 import datetime
 

@@ -1,9 +1,7 @@
 from django.shortcuts import redirect
-from django.views.generic import TemplateView, ListView, FormView, ListView, View
+from django.views.generic import TemplateView, FormView, ListView
 from django.utils.decorators import method_decorator
-from tickets_handler.beeline_parser.manager import NewDesign
-from tickets_handler.beeline_parser.mail import feedback_mail
-from tickets_handler.decorators import check_access
+from beeline_parser import feedback_mail
 from tickets_handler.form import Feedback
 from tickets_handler.models import Installer, Workers as WorkersModel
 from .decorators import check_access
