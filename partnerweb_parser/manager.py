@@ -2,15 +2,15 @@ import json
 import re
 import urllib.parse
 from datetime import date as date
-from beeline_parser import system
+from partnerweb_parser import system
 import lxml.html
 import requests
 from openpyxl import Workbook
 from bs4 import BeautifulSoup
-from beeline_parser.date_func import last_day_current_month, url_formate_date, \
+from partnerweb_parser.date_func import last_day_current_month, url_formate_date, \
     formate_date_schedule, \
     delta_current_month, range_current_month, current_year_date, dmYHM_to_date, today, dmY_to_date, convert_utc_string
-from beeline_parser.text_func import find_asssigned_date, find_dns, phone9, encode
+from partnerweb_parser.text_func import find_asssigned_date, find_dns, phone9, encode
 import grequests
 import random
 import time

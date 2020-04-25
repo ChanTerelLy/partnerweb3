@@ -67,3 +67,10 @@ class EmailSender():
         # Turn these into plain/html MIMEText objects
         telegramma = f'{text}'
         self.email_sender(message, telegramma, message['To'])
+
+    def error_mail(self, text):
+        message = self.email_helper('Жалобы и предложения')
+        message["To"] = 'zvezdolom1@gmail.com'
+        # Turn these into plain/html MIMEText objects
+        telegramma = f'{text}'
+        self.email_sender(message, telegramma, message['To'])

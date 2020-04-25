@@ -1,13 +1,13 @@
-from beeline_parser.manager import NewDesign, Worker, Auth
+from partnerweb_parser.manager import NewDesign, Worker, Auth
 from django.shortcuts import render, redirect
 from .form import AuthForm, DateTimeForm, CreateTicketForm
 from .models import Workers as WorkersModel, Installer, AdditionalTicket, Employer
 from django.http import HttpResponse
-from beeline_parser import system
+from partnerweb_parser import system
 from django.contrib import messages
-from beeline_parser.mail import assign_mail_ticket, fraud_mail_ticket, EmailSender
+from partnerweb_parser.mail import EmailSender
 from .decorators import check_access
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseServerError
 from django.core.paginator import Paginator
 
 
@@ -118,9 +118,13 @@ def house_info(request, city_id, house_id):
         if p_form.is_valid():
             res_data = auth.check_fraud(house_id, p_form['flat'].value())
             if res_data['data']:
-                create_ticket_form = auth.create_ticket(house_id, p_form['flat'].value(), p_form['client_name'].value(),
-                                                        p_form['client_patrony'].value(), p_form['client_surname'].value(),
-                                                        p_form['phone_number_1'].value(), bundel_id, service_type, vpdn)
+                try:
+                    create_ticket_form = auth.create_ticket(house_id, p_form['flat'].value(), p_form['client_name'].value(),
+                                                            p_form['client_patrony'].value(), p_form['client_surname'].value(),
+                                                            p_form['phone_number_1'].value(), bundel_id, service_type, vpdn)
+                except Exception as e:
+                    EmailSender().error_mail(e)
+                    return HttpResponseServerError("Что то пошло не так")
                 return redirect('ticket_info', create_ticket_form['data']['ticket_id'])
             else:
                 ticket = {'mail_to' : Employer.find_master(request.session['operator']).email,

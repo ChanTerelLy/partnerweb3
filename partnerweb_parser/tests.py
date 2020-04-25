@@ -1,6 +1,6 @@
 import requests
 import unittest
-from beeline_parser import manager
+from partnerweb_parser import manager
 import os
 
 
