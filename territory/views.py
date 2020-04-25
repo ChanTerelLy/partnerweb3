@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from .models import AddressToDo as AddressToDoModel,Address, PromoutingReport as PromouteReportModel
-from django.views.generic import ListView, FormView
+from django.views.generic import ListView, FormView, TemplateView
 from django.db.models import Q
-from .forms import PromoutingReportForm
+from .forms import PromoutingReportFindForm, PromoutingReportForm
 from datetime import datetime
 from django.shortcuts import redirect
 # Create your views here.
@@ -23,8 +23,11 @@ class PromouteReport(ListView):
     ordering = ('date')
 
     def get_queryset(self):
-        query = self.request.GET.get('q')
-        return PromouteReportModel.objects.filter(address__street__icontains=query).order_by('-date')
+        query = self.request.GET.get('q').split()
+        if len(query) == 1:
+            return PromouteReportModel.objects.filter(address__street__icontains=query[0]).order_by('-date')
+        if len(query) == 2:
+            return PromouteReportModel.objects.filter(Q(address__street__icontains=query[0])&Q(address__house__icontains=query[1])).order_by('-date')
 
 class PromouteReportInsertForm(FormView):
     form_class = PromoutingReportForm
@@ -41,5 +44,19 @@ class PromouteReportInsertForm(FormView):
             report = PromouteReportModel(address=addr_obj, agent=form['agent'].value(), date=datetime.today())
             report.save()
         return redirect('promoute-report-insert')
+
+class PromouteReportFindForm(FormView):
+    form_class = PromoutingReportFindForm
+    template_name = 'territory/promoute-report-find.html'
+
+    def form_valid(self, form):
+        street = form['street'].value().split()
+        if len(street) == 1:
+            return redirect(f'/promoute_report/?q={street[0]}')
+        elif len(street) == 2:
+            return redirect(f'/promoute_report/?q={street[0]}%20{street[1]}')
+
+class PromouteReportTemplateView(TemplateView):
+    template_name = 'territory/promoute-report-choose.html'
 
 
