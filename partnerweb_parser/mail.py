@@ -33,6 +33,7 @@ class EmailSender():
 
     def assign_mail_ticket(self, text):
         message = self.email_helper('Назначение заявки в график')
+        text = json.loads(text.decode('utf-8'))
         message["To"] = ', '.join(text['mail_to'])
         telegramma = f'<html>' \
                      f'<p><b>Номер заявки: </b> {text["number"]} </p>' \
@@ -74,3 +75,7 @@ class EmailSender():
         # Turn these into plain/html MIMEText objects
         telegramma = f'{text}'
         self.email_sender(message, telegramma, message['To'])
+
+if __name__ == '__main__':
+    email = EmailSender()
+    email.feedback_mail('test')

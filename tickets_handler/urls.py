@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^ism_schedule/$', IsmSchedule.as_view(), name='ism_schedule'),
     url(r'^check_ctn/$', CheckCTN.as_view(), name='check_ctn'),
     url(r'^workers/$', WorkersTable.as_view(), name='workers'),
-    url('installers/', Installers.as_view(), name='installers'),
+    url(r'^installers/$', Installers.as_view(), name='installers'),
     url(r'^feedback/$', Feedback.as_view(), name='feedback'),
 
     #Ajax URLs
@@ -43,7 +43,7 @@ urlpatterns = [
 
     #UpdateModels URLs
     url('update_workers/', update_workers, name='update_workers'),
-    url('update_installers', update_installers, name='update_installers'),
+    url('update_installers/', update_installers, name='update_installers'),
 
     #PresetSystem URLs
     url(r'^get_mobile_presets/$', get_mobile_presets_json, name='get_mobile_presets_json'),
