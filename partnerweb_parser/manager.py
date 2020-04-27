@@ -839,7 +839,3 @@ if __name__ == '__main__':
     load_dotenv()
     sell_code, login, password = 'G800-37','9052933642','123456Qq'
     auth = NewDesign(sell_code, login, password)
-    data = {"status_id":21,"call_time":"31.12.2028 00:00","phones":
-        [{"phone":3333333377,"comment":"32"},{"phone":9555666677,"comment":"фвафыва"},
-         {"phone":9111111111,"comment":"12"}]}
-    print(auth.change_phone_info(102032560, data))

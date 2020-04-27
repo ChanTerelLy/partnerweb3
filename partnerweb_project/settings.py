@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'territory.apps.TerritoryConfig',
     'analytic.apps.AnalyticConfig',
+    'debug_toolbar',
     'tickets_handler',
 	'widget_tweaks',
     'crispy_forms',
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -64,6 +66,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'partnerweb_project.urls'
+
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]
 
 TEMPLATES = [
     {
