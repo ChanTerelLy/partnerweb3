@@ -5,6 +5,7 @@ from django.db.models import Q
 from .forms import PromoutingReportFindForm, PromoutingReportForm
 from datetime import datetime
 from django.shortcuts import redirect
+from django.db import DatabaseError
 # Create your views here.
 class AddressToDo(ListView):
     model = AddressToDoModel
@@ -37,12 +38,22 @@ class PromouteReportInsertForm(FormView):
         str_addresses = form['addresses'].value()
         filter_addrs = list(filter(None, str_addresses.splitlines()))
         for addr in filter_addrs:
-            addr_spl = addr.split()
-            if len(addr_spl) == 2:
-                addr_spl.append(None)
-            addr_obj = Address.objects.filter(street=addr_spl[0], house=addr_spl[1], building=addr_spl[2]).first()
-            report = PromouteReportModel(address=addr_obj, agent=form['agent'].value(), date=datetime.today())
-            report.save()
+            import re
+            match = re.search(r"(.+)\t(\d+)\t(\d*)", addr)
+            building = None
+            try:
+                building = match.group(3) if match.group(3) else None
+            except Exception as e:
+                print(e)
+            date = form['date'] if form['date'] else datetime.today()
+            try:
+                addr_obj = Address.objects.filter(street=match.group(1), house=match.group(2),
+                                                  building=building).first()
+                report = PromouteReportModel(address=addr_obj, agent=form['agent'].value(), date=date.value())
+                report.save()
+            except Exception as e:
+                print(e)
+                print(addr)
         return redirect('promoute-report-insert')
 
 class PromouteReportFindForm(FormView):
