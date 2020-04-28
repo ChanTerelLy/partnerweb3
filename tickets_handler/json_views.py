@@ -96,21 +96,21 @@ def get_schedule_color(request):
 
 def get_assigned_tickets(request):
     auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
-    tickets = auth.tickets()
-    assigned_tickets, assigned_tickets_today = auth.assigned_tickets(tickets)
+    tickets = auth.retrive_tickets()
+    assigned_tickets, assigned_tickets_today = auth.assigned_tickets_detailed(tickets)
     as_t = jsonpickle.encode(assigned_tickets)
     return JsonResponse({'assigned_tickets': as_t,
                          'assigned_tickets_today': assigned_tickets_today},safe=False)
 
 def get_call_today_tickets(request):
     auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
-    tickets = auth.tickets()
+    tickets = auth.retrive_tickets()
     call_today_tickets = jsonpickle.encode(auth.call_today_tickets(tickets))
     return JsonResponse(call_today_tickets, safe=False)
 
 def get_switched_tickets(request):
     auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
-    tickets = auth.tickets()
+    tickets = auth.retrive_tickets()
     switched_tickets, switched_on_tickets_today = auth.switched_tickets(tickets)
     switched_tickets = jsonpickle.encode(switched_tickets)
     return JsonResponse({'switched_tickets': switched_tickets,
@@ -119,7 +119,7 @@ def get_switched_tickets(request):
 
 def get_count_created_today(request):
     auth = NewDesign(request.session['sell_code'], request.session['operator'], request.session['password'])
-    tickets = auth.tickets()
+    tickets = auth.retrive_tickets()
     created_today_tickets = auth.count_created_today(tickets)
     return JsonResponse(created_today_tickets, safe=False)
 

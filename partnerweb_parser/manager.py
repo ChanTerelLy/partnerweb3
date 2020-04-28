@@ -495,7 +495,7 @@ class NewDesign(Basket):
     def ticket_instance_info(self, attr):
         phone1, phone2, phone3 = self.get_phone123(attr)
         services = self.parse_services(attr['services']).__dict__ if attr['services'] else ''
-        return Ticket(address=attr['address'], address_id=attr['address_id'],
+        ticket = Ticket(address=attr['address'], address_id=attr['address_id'],
                       allow_change_status=attr['allow_change_status'],
                       allow_schedule=attr['allow_schedule'], call_time=attr['call_time'], comments=attr['comments'],
                       date=attr['date'], id=attr['id'], name=attr['name'], number=attr['number'],
@@ -503,6 +503,9 @@ class NewDesign(Basket):
                       services=services, shop=attr['shop'], shop_id=attr['shop_id'], status=attr['status'],
                       ticket_paired=attr['ticket_paired'], type=attr['type'], type_id=attr['type_id'], phone1=phone1,
                       phone2=phone2, phone3=phone3, status_id=attr['status_id'], statuses=attr['statuses'])
+        as_t = list([c['date'] for c in ticket.comments if find_asssigned_date(c['text'])])
+        ticket.assigned_date = as_t[0] if as_t else None
+        return ticket
 
     def parse_services(self, data):
         services = Service()
@@ -544,8 +547,8 @@ class NewDesign(Basket):
         return ticket_dict
 
     def search_by(self, phone, city='', dateFrom=False, dateTo=False, number='', shop='', status='', pages=None):
-        tickets = self.tickets(city=city, dateFrom=dateFrom, dateTo=dateTo, number=number, phone=phone,
-                               shop=shop, status=status, pages=pages)
+        tickets = self.retrive_tickets(city=city, dateFrom=dateFrom, dateTo=dateTo, number=number, phone=phone,
+                                       shop=shop, status=status, pages=pages)
         return tickets
 
     def create_ticket(self, house_id, flat, client_name, client_patrony, client_surname, phone_number_1, id,service_type,vpdn,
@@ -575,7 +578,7 @@ class NewDesign(Basket):
 
 
     @system.my_timer
-    def assigned_tickets(self, tickets):
+    def assigned_tickets_detailed(self, tickets):
         asig_ts, asig_ts_today, urls = [], 0, []
         for ticket in tickets:
             try:
@@ -600,6 +603,21 @@ class NewDesign(Basket):
         return asig_ts, asig_ts_today
 
     @system.my_timer
+    def assigned_tickets(self, tickets):
+        asig_ts, asig_ts_today = [], 0
+        for ticket in tickets:
+            try:
+                if ((ticket.type_id == 286 or ticket.type_id == 250)
+                        and (ticket.status_id == 157 or ticket.status_id == 132
+                        or ticket.status_id == 154 or ticket.status_id == 128)) \
+                        and ticket.ticket_paired_info.allow_schedule == False \
+                        and ticket.ticket_paired_info.allow_change_status == True:
+                    asig_ts.append(ticket)
+            except:
+                continue
+        return asig_ts, asig_ts_today
+
+    @system.my_timer
     def switched_tickets(self, tickets):
         sw_ts, sw_ts_today = [], 0
         last, cur_month, cur_year = last_day_current_month()
@@ -617,8 +635,8 @@ class NewDesign(Basket):
         return sw_ts, sw_ts_today
 
     @system.my_timer
-    def tickets(self, city='', dateFrom=False, dateTo=False, number='', phone='',
-                shop='', status='', pages=40):
+    def retrive_tickets(self, city='', dateFrom=False, dateTo=False, number='', phone='',
+                        shop='', status='', pages=40):
         ticket_dict, tickets = self.async_base_tickets(city, dateFrom, dateTo, number, pages, phone, shop, status)
         for key, item in ticket_dict.items():
             for attr in item:
@@ -642,6 +660,7 @@ class NewDesign(Basket):
         for ticket in tickets:
             if ticket.ticket_paired:
                 ticket.ticket_paired_info = self.check_paired_ticket_info(ticket.ticket_paired, tickets)
+        self.tickets = tickets
         return tickets
 
     @system.my_timer
@@ -690,10 +709,9 @@ class NewDesign(Basket):
         return count
 
     def three_month_tickets(self):
-        tickets = self.remove_garbage_tickets(self.tickets())
-        clear_tickets = self.remove_garbage_tickets(self.global_search())
+        tickets = self.remove_garbage_tickets(self.retrive_tickets())
         assigned_tickets, assigned_tickets_today = self.assigned_tickets(tickets)
-        call_today_tickets = self.call_today_tickets(clear_tickets)
+        call_today_tickets = self.call_today_tickets(tickets)
         switched_tickets, switched_on_tickets_today = self.switched_tickets(tickets)
         created_today_tickets = self.count_created_today(tickets)
         return assigned_tickets, assigned_tickets_today, call_today_tickets, switched_tickets, \
@@ -704,7 +722,7 @@ class NewDesign(Basket):
 
     def global_search(self):
         clear_tickets = []
-        for ticket in self.tickets():
+        for ticket in self.retrive_tickets():
             if (ticket.type_id == 286 or ticket.type_id == 250):
                 clear_tickets.append(ticket)
         return clear_tickets
@@ -835,7 +853,6 @@ class Worker:
 
 
 if __name__ == '__main__':
-    from dotenv import load_dotenv
-    load_dotenv()
-    sell_code, login, password = 'G800-37','9052933642','123456Qq'
+    sell_code, login, password = 'G800-37','Хоменко','1604'
     auth = NewDesign(sell_code, login, password)
+    auth.three_month_tickets()

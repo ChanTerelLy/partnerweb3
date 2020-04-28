@@ -40,7 +40,7 @@ class Installer(models.Model):
     @classmethod
     def parse_installers(cls, auth):
         login = NewDesign(auth['login'], auth['operator'], auth['password'])
-        tickets = login.tickets()
+        tickets = login.retrive_tickets()
         sw_tickets, sw_today = login.switched_tickets(tickets)
         print(sw_tickets)
         for ticket in sw_tickets:

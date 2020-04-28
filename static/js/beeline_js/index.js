@@ -445,18 +445,24 @@ function sendChangePhones(csrfmiddlewaretoken) {
 
 
 autoUpdateInstallerComments = (id) => {
+    function setComments(result) {
+        let comment_id = document.getElementById(`installer_comments_${id}`);
+        comment_id.innerText = '';
+        for (let property of result) {
+            document.getElementById(`installer_comments_${id}`).insertAdjacentHTML('beforeend', property.text)
+        }
+    }
+
     function get_comments() {
         $.ajax({
-            url: `/info/${id}/?show_comments=1`,
+            url: `/info/${id}/?json=1`,
             type: 'GET',
             dataType: 'json',
             success: function (result) {
-                let comment_id = document.getElementById(`installer_comments_${id}`);
-                comment_id.innerText = '';
-                for (let property of result) {
-                    document.getElementById(`installer_comments_${id}`).insertAdjacentHTML('beforeend', property.text)
-                }
-
+                let j = JSON.parse(result);
+                let comments = [j.comments[0]];
+                document.getElementById(`assign_date_${id}`).innerHTML = j.assigned_date;
+                setComments(comments);
             }
         })
     }

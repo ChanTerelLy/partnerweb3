@@ -71,13 +71,16 @@
                     <td class="align-middle">
                         {{ ticket.ticket_paired_info.status }}
                         <small class="text-muted d-block">
-                            Тариф: {{ ticket.services.IS_PRESET_name }}{{ ticket.services.IS_INAC_PRESET_name }}
+                            Тариф:
+{#                            {{ ticket.services.IS_PRESET_name }}{{ ticket.services.IS_INAC_PRESET_name }}#}
                         </small>
                     </td>
                     <td class="align-middle">
                         {{ ticket.call_time }}
-                        <small class="text-muted d-block"><abbr
-                                title="Последняя дата назначения">{{ ticket.assigned_date }}</abbr></small>
+                        <small class="text-muted d-block"><abbr id="assign_date_{{ ticket.ticket_paired_info.id }}"
+                                title="Последняя дата назначения">
+{#                            {{ ticket.assigned_date }}#}
+                        </abbr></small>
                     </td>
                     <td class="align-middle" data-operator="{{ ticket.operator }}">
                         {{ ticket.name_operator }}

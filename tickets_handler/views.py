@@ -9,7 +9,7 @@ from partnerweb_parser.mail import EmailSender
 from .decorators import check_access
 from django.http import JsonResponse, HttpResponseServerError
 from django.core.paginator import Paginator
-
+import jsonpickle
 
 @system.my_timer
 @check_access
@@ -46,9 +46,13 @@ def global_search(request):
 def ticket_info(request, id):
     auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
     show_comments = request.GET.get('show_comments', '')
+    json = request.GET.get('json', '')
     if show_comments:
         ticket_info = auth.ticket_info(id)
         return JsonResponse(ticket_info.comments[:int(show_comments)], safe=False)
+    elif json:
+        ticket_info = auth.ticket_info(id)
+        return JsonResponse(jsonpickle.encode(ticket_info), safe=False)
     ticket_info = auth.ticket_info(id)
     dateform = DateTimeForm(request.POST)
     try:
