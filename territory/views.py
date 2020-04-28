@@ -1,21 +1,24 @@
 from django.shortcuts import render
 from .models import AddressToDo as AddressToDoModel,Address, PromoutingReport as PromouteReportModel
-from django.views.generic import ListView, FormView, TemplateView
+from django.views.generic import ListView, FormView, TemplateView, DetailView
 from django.db.models import Q
-from .forms import PromoutingReportFindForm, PromoutingReportForm
+from .forms import PromoutingReportFindForm, PromoutingReportForm, AddressToDoForm
 from datetime import datetime
 from django.shortcuts import redirect
 from django.db import DatabaseError
 # Create your views here.
 class AddressToDo(ListView):
     model = AddressToDoModel
-    template_name = 'beeline_html/address_to_do.html'
+    template_name = 'territory/address_to_do.html'
     context_object_name = 'addresses'
 
-def send_image_todo_addresses(request):
-    if request.is_ajax():
-        if request.method == "POST":
-            pass
+class AddressToDoDetail(FormView):
+    form_class = AddressToDoForm
+    template_name = 'territory/address_to_do_detail.html'
+
+    def form_valid(self, form):
+        pass
+
 
 class PromouteReport(ListView):
     model = PromouteReportModel
