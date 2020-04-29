@@ -6,7 +6,8 @@
         <p>
             <span id='assign_total' class="badge badge-warning"><assigned_count></assigned_count></span>
             <span id='switch_total' class="badge badge-success"><switched_count></switched_count></span>
-            <span class="badge badge-warning">Назначенных заявок сегодня: {{ assigned_today }}</span>
+            <span class="badge badge-warning">Назначенных заявок сегодня:
+                <span id="assigned_today_counter">{{ assigned_today }}</span></span>
             <span class="badge badge-success">Подключеных заявок сегодня: {{ switched_on_today }}</span>
             <span class="badge badge-info">Созданых заявок сегодня: {{ created_today_tickets }}</span>
         </p><!--label bar-->
@@ -253,14 +254,19 @@
             {% endfor %}
         };
         //show source for all switched tickets and assigned
-        {% for ticket in assigned_tickets %}
-            showSourceTicket({{ticket.ticket_paired_info.number}});
-            autoUpdateInstallerComments({{ ticket.ticket_paired_info.id }});
-
-        {% endfor %}
+        let promise1 = new Promise(function (resolve, reject) {
+            {% for ticket in assigned_tickets %}
+                showSourceTicket({{ticket.ticket_paired_info.number}});
+                autoUpdateInstallerComments({{ ticket.ticket_paired_info.id }});
+            {% endfor %}
+        });
+        promise1.then(function () {
+            getCountAssigned();
+        });
         {% for ticket in switched_on_tickets %}
             showSourceTicket({{ticket.ticket_paired_info.number}});
         {% endfor %}
+
     </script>
 {% endblock %}
 
