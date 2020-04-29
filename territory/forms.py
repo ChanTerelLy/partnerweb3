@@ -12,3 +12,4 @@ class PromoutingReportFindForm(forms.Form):
 class AddressToDoForm(forms.Form):
     entrance_img = forms.ImageField(label='Фото стендов')
     mailbox_img = forms.ImageField(label='Фото почтовых ящиков')
+

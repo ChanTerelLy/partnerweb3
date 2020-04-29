@@ -1,23 +1,25 @@
 from django.shortcuts import render
-from .models import AddressToDo as AddressToDoModel,Address, PromoutingReport as PromouteReportModel
+from .models import AddressToDo as AddressToDoModel,Address, PromoutingReport as PromouteReportModel, Promouter
 from django.views.generic import ListView, FormView, TemplateView, DetailView
 from django.db.models import Q
+from django.db import transaction
 from .forms import PromoutingReportFindForm, PromoutingReportForm, AddressToDoForm
 from datetime import datetime
 from django.shortcuts import redirect
-from django.db import DatabaseError
+from django.utils.decorators import method_decorator
 # Create your views here.
-class AddressToDo(ListView):
-    model = AddressToDoModel
-    template_name = 'territory/address_to_do.html'
-    context_object_name = 'addresses'
 
-class AddressToDoDetail(FormView):
-    form_class = AddressToDoForm
-    template_name = 'territory/address_to_do_detail.html'
+def promouter_address_to_do(request, id):
+    promouter = Promouter.objects.filter(id=id).first()
+    addr_to_do = AddressToDoModel.objects.filter(to_promouter=promouter, done=False)
+    return render(request, 'territory/promouter_addresses_to_do.html', {'addr_to_do': addr_to_do})
 
-    def form_valid(self, form):
-        pass
+def promouter_address_to_do_detail(request, id, house_id):
+    form = AddressToDoForm()
+    if request.method == 'POST':
+        request.body
+    return render(request, 'territory/promouter_upload_image.html', {'form': form})
+
 
 
 class PromouteReport(ListView):
@@ -31,8 +33,10 @@ class PromouteReport(ListView):
         if len(query) == 1:
             return PromouteReportModel.objects.filter(address__street__icontains=query[0]).order_by('-date')
         if len(query) == 2:
-            return PromouteReportModel.objects.filter(Q(address__street__icontains=query[0])&Q(address__house__icontains=query[1])).order_by('-date')
+            return PromouteReportModel.objects.filter(Q(address__street__icontains=query[0])&
+                                                      Q(address__house__icontains=query[1])).order_by('-date')
 
+@method_decorator(transaction.atomic, name='dispatch')
 class PromouteReportInsertForm(FormView):
     form_class = PromoutingReportForm
     template_name = 'territory/promoute_report_insert.html'
@@ -49,15 +53,15 @@ class PromouteReportInsertForm(FormView):
             except Exception as e:
                 print(e)
             date = form['date'] if form['date'] else datetime.today()
-            try:
-                addr_obj = Address.objects.filter(street=match.group(1), house=match.group(2),
-                                                  building=building).first()
-                report = PromouteReportModel(address=addr_obj, agent=form['agent'].value(), date=date.value())
-                report.save()
-            except Exception as e:
-                print(e)
-                print(addr)
+            addr_obj = Address.objects.filter(street=match.group(1), house=match.group(2),
+                                              building=building).first()
+            report = PromouteReportModel(address=addr_obj, agent=form['agent'].value(), date=date.value())
+            report.save()
         return redirect('promoute-report-insert')
+
+    @method_decorator(transaction.atomic)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
 class PromouteReportFindForm(FormView):
     form_class = PromoutingReportFindForm

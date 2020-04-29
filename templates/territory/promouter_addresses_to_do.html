@@ -1,0 +1,18 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Необходимо сделать{% endblock %}
+{% block content %}
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Адрес</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for address in addr_to_do %}
+                {{ address.address }}
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

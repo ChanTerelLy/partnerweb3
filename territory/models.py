@@ -5,17 +5,17 @@ from tickets_handler.models import Workers, ChiefInstaller
 class City(models.Model):
     name = models.CharField(max_length=150)
 
+    def __str__(self):
+        return self.name
+
 
 class Area(models.Model):
     name = models.CharField(max_length=70)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     chief = models.ForeignKey(ChiefInstaller, on_delete=models.CASCADE)
 
-# def get_p_house_id(street, house, building):
-#     return NewDesign(os.getenv('SELL_CODE'),
-#                      os.getenv('S_OPERATOR').encode('CP1251').decode('utf-8'),
-#                      os.getenv('S_PASS')).get_id_by_fullname(street, house, building)
-
+    def __str__(self):
+        return f'{self.city}  {self.name}'
 class GlobalProblem(models.Model):
     text = models.TextField()
 
@@ -31,8 +31,6 @@ class Address(models.Model):
     area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, blank=True)
     area_alias = models.CharField(max_length=250, null=True, blank=True)
     master = models.ManyToManyField(Workers)
-    # p_link = models.URLField()  # partnerweb link
-    # p_house_id = models.IntegerField(default=get_p_house_id(street, house, building))
 
     def __str__(self):
         return f'{self.street} {self.house} {self.building if self.building else ""}'
@@ -44,7 +42,7 @@ class Promouter(models.Model):
     name = models.CharField(max_length=150)
     phone = models.CharField(max_length=10)
     age = models.CharField(max_length=2)
-    area = models.ForeignKey(Area, on_delete=models.CASCADE)
+    area = models.ManyToManyField(Area)
     date_hired = models.DateField(auto_now=True, blank=True)
 
     def __str__(self):
@@ -68,6 +66,9 @@ class AddressToDo(models.Model):
     to_promouter = models.ForeignKey(Promouter, on_delete=models.CASCADE)
     date_start = models.DateField(auto_now=True, blank=True)
     done = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.address}, {self.to_promouter}, {self.date_start}'
 
 class AddressData(models.Model):
     promouter = models.ForeignKey(Promouter, on_delete=models.CASCADE)
