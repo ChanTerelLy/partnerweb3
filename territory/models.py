@@ -68,7 +68,7 @@ class AddressToDo(models.Model):
     done = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.address}, {self.to_promouter}, {self.date_start}'
+        return f'{self.address}'
 
 class AddressData(models.Model):
     promouter = models.ForeignKey(Promouter, on_delete=models.CASCADE)

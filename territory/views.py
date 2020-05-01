@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from .models import AddressToDo as AddressToDoModel,Address, PromoutingReport as PromouteReportModel, Promouter
+from .models import AddressToDo as AddressToDoModel,Address, \
+    PromoutingReport as PromouteReportModel, Promouter, AddressData, EntranceImg, MailBoxImg
 from django.views.generic import ListView, FormView, TemplateView, DetailView
 from django.db.models import Q
 from django.db import transaction
@@ -7,6 +8,7 @@ from .forms import PromoutingReportFindForm, PromoutingReportForm, AddressToDoFo
 from datetime import datetime
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
+from django.forms import modelformset_factory
 # Create your views here.
 
 def promouter_address_to_do(request, id):
@@ -17,7 +19,14 @@ def promouter_address_to_do(request, id):
 def promouter_address_to_do_detail(request, id, house_id):
     form = AddressToDoForm()
     if request.method == 'POST':
-        request.body
+        if form.is_valid():
+            data = AddressToDoForm(request.POST).cleaned_data
+            entrance = data['entrance_img']
+            mailbox = data['mailbox_img']
+            mailbox_obj = MailBoxImg(img=mailbox).save()
+            entrance_obj = EntranceImg(img=entrance).save()
+            AddressData(promouter_id=id, address_id=house_id, entrance=entrance_obj, mailbox=mailbox_obj)
+        # Adddata.entrance_img
     return render(request, 'territory/promouter_upload_image.html', {'form': form})
 
 
