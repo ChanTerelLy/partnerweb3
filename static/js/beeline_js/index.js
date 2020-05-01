@@ -445,17 +445,25 @@ function sendChangePhones(csrfmiddlewaretoken) {
 
 
 autoUpdateInstallerComments = (id) => {
+    function setComments(result) {
+        getCountAssigned();
+        let comment_id = document.getElementById(`installer_comments_${id}`);
+        comment_id.innerText = '';
+        for (let property of result) {
+            document.getElementById(`installer_comments_${id}`).insertAdjacentHTML('beforeend', property.text)
+        }
+    }
+
     function get_comments() {
         $.ajax({
-            url: `/info/${id}/?show_comments=1`,
+            url: `/info/${id}/?json=1`,
             type: 'GET',
             dataType: 'json',
             success: function (result) {
-                let comment_id = document.getElementById(`installer_comments_${id}`);
-                comment_id.innerText = '';
-                for (let property of result) {
-                    document.getElementById(`installer_comments_${id}`).insertAdjacentHTML('beforeend', property.text)
-                }
+                let j = JSON.parse(result);
+                let comments = [j.comments[0]];
+                document.getElementById(`assign_date_${id}`).innerHTML = j.assigned_date;
+                setComments(comments);
 
             }
         })
@@ -463,3 +471,18 @@ autoUpdateInstallerComments = (id) => {
     get_comments();
     setInterval(function (){get_comments()}, 180000);
 };
+
+function getCountAssigned() {
+    let dates = document.querySelectorAll('#assign_table abbr');
+    let d_now = moment().format('DD.MM.YYYY');
+    let counter = 0;
+    for(let d of dates){
+        let as_d = d.innerText.split(' ')[0];
+        if( as_d === d_now){
+            counter++;
+        }
+
+    }
+    console.log(counter);
+    document.getElementById('assigned_today_counter').innerText = counter;
+}
