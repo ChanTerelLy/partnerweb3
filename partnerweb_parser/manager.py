@@ -693,7 +693,7 @@ class NewDesign(Basket):
                 print(t.number)
                 continue
             try:
-                if (t.ticket_paired_info.status_id in [16, 21, 123, 122]) and (time_value == dt(1000, 1, 1) or time_value <= today()):
+                if (t.ticket_paired_info.status_id in [16, 21, 123, 122, 76]) and (time_value == dt(1000, 1, 1) or time_value <= today() or None):
                         call_ts_today.append(t)
             except:
                 print(t.number)
