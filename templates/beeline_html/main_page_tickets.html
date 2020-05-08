@@ -132,11 +132,16 @@
             {% for ticket in call_for_today %}
                 <tr>
                     <td class="align-middle "><a href="{% url 'ticket_info' ticket.ticket_paired_info.id %}"
-                                                 target="_blank">{{ ticket.ticket_paired_info.number }}</a>
-                        <small class="text-muted d-block"></small>
+                                                 target="_blank">{{ ticket.ticket_paired_info.number }}
+                    </a>
                     </td>
                     <td>
                         <a class="align-middle">{{ ticket.name }}</a>
+                        <span>
+                                                    {% if ticket.is_expired %}
+                                                        <span>&#128680;</span>
+                                                    {% endif %}
+                        </span>
                         <small class="text-muted d-block">{{ ticket.address }}</small>
                     </td>
                     <td>

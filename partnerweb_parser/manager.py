@@ -15,6 +15,8 @@ import grequests
 import random
 import time
 from datetime import datetime as dt
+from datetime import timedelta
+import datetime
 
 class Auth:
     def __init__(self, login, workercode, password):
@@ -689,14 +691,17 @@ class NewDesign(Basket):
         for t in tickets:
             try:
                 time_value = dmYHM_to_date(t.ticket_paired_info.call_time)
+                date_start = dmY_to_date(t.date)
             except:
                 print(t.number)
                 continue
             try:
                 if (t.ticket_paired_info.status_id in [16, 21, 123, 122, 76]) and (time_value == dt(1000, 1, 1) or time_value <= today() or None):
                         call_ts_today.append(t)
-            except:
-                print(t.number)
+                        t.is_expired = True if date_start + timedelta(days=30) < datetime.date.today() else None
+                        print(t.is_expired)
+            except Exception as e:
+                print(e)
         return call_ts_today
 
     def count_created_today(self, tickets):
