@@ -1,7 +1,7 @@
 from partnerweb_parser.manager import NewDesign, Worker, Auth
 from django.shortcuts import render, redirect
 from .form import AuthForm, DateTimeForm, CreateTicketForm
-from .models import Workers as WorkersModel, Installer, AdditionalTicket, Employer
+from .models import Workers as WorkersModel, Installer, AdditionalTicket, Employer, AssignedTickets
 from django.http import HttpResponse
 from partnerweb_parser import system
 from django.contrib import messages
@@ -10,9 +10,18 @@ from .decorators import check_access
 from django.http import JsonResponse, HttpResponseServerError
 from django.core.paginator import Paginator
 import jsonpickle
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.views.decorators.cache import cache_page
+from django.conf import settings
+from django.core.cache import cache
+
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
+
+
 
 @system.my_timer
 @check_access
+@cache_page(180)
 def tickets(request):
     code, operator, password = request.session['sell_code'], request.session['operator'], request.session['password']
     if Auth(code, operator, password).auth_status:
@@ -20,6 +29,13 @@ def tickets(request):
             auth = NewDesign(code, operator, password)
             assigned_tickets, assigned_today, call_for_today, switched_on_tickets, \
             switched_on_today, created_today_tickets, all_tickets = auth.three_month_tickets()
+            cache.set(request.session['operator'], {'assigned_tickets': assigned_tickets,
+                                                    'assigned_today': assigned_today,
+                                                    'call_for_today': call_for_today,
+                                                    'switched_on_tickets': switched_on_tickets,
+                                                    'switched_on_today': switched_on_today,
+                                                    'created_today_tickets': created_today_tickets,
+                                                    'all_tickets': all_tickets}, timeout=60 * 15)
             return render(request, 'beeline_html/main_page_tickets.html',
                           {'assigned_tickets': WorkersModel.replace_num_worker(assigned_tickets),
                            'call_for_today': WorkersModel.replace_num_worker(call_for_today),
@@ -36,22 +52,34 @@ def tickets(request):
 @system.my_timer
 @check_access
 def global_search(request):
-    auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
-    tickets = Paginator(auth.global_search(), 100)
-    page_number = request.GET.get('page', 1)
-    page_obj = tickets.get_page(page_number)
-    return render(request, 'beeline_html/global_search.html', {'page_obj':page_obj})
+    tickets = ''
+    if cache.get(request.session['operator']):
+        tickets = Paginator(cache.get(request.session['operator'])['all_tickets'], 100)
+        page_number = request.GET.get('page', 1)
+        page_obj = tickets.get_page(page_number)
+        return render(request, 'beeline_html/global_search.html', {'page_obj': page_obj})
+    else:
+        auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
+        all_tickets = auth.global_search()
+        cache.set(request.session['operator'], all_tickets, timeout=60 * 15)
+        tickets = Paginator(all_tickets, 100)
+        page_number = request.GET.get('page', 1)
+        page_obj = tickets.get_page(page_number)
+        return render(request, 'beeline_html/global_search.html', {'page_obj': page_obj})
 
 @check_access
 def ticket_info(request, id):
     auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
     show_comments = request.GET.get('show_comments', '')
     json = request.GET.get('json', '')
+    insert_assigned = request.GET.get('insert_assigned', '')
+    ticket_info = auth.ticket_info(id)
     if show_comments:
-        ticket_info = auth.ticket_info(id)
         return JsonResponse(ticket_info.comments[:int(show_comments)], safe=False)
     elif json:
-        ticket_info = auth.ticket_info(id)
+        return JsonResponse(jsonpickle.encode(ticket_info), safe=False)
+    elif insert_assigned:
+        AssignedTickets.update(ticket_info)
         return JsonResponse(jsonpickle.encode(ticket_info), safe=False)
     ticket_info = auth.ticket_info(id)
     dateform = DateTimeForm(request.POST)

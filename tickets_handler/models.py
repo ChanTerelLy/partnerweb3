@@ -4,7 +4,7 @@ import re
 from partnerweb_parser import system
 import json
 import datetime
-
+import territory
 
 class Workers(models.Model):
     name = models.CharField(max_length=250, unique=True)
@@ -161,3 +161,30 @@ class ACL(models.Model):
     code = models.CharField(max_length=50)
     date_end = models.DateField()
 
+class AssignedTickets(models.Model):
+    ticket_number = models.IntegerField()
+    when_assigned = models.DateTimeField()
+    # client_address = models.ForeignKey(Address, on_delete=models.CASCADE)
+    client_name = models.CharField(max_length=150)
+    phones = models.CharField(max_length=150)
+    assigned_date = models.DateTimeField()
+    agent = models.ForeignKey(Workers, on_delete=models.CASCADE)
+
+    @classmethod
+    def update(cls, ticket_info):
+        ticket = cls.objects.filter(ticket_number=ticket_info.number).first()
+        if ticket:
+            ticket.when_assigned = ticket_info.assigned_date
+            ticket.client_address = Address.objects.filter(street=ticket_info.address[0],
+                                                           house=ticket_info.address[1], building=ticket_info.address[2])
+            ticket.client_flat = models.IntegerField()
+            ticket.client_name = ticket_info.name
+            ticket.phones = ticket_info.phones
+            ticket.assigned_date = ticket_info.call_date
+            ticket.agent = Workers.objects.filter(number=ticket_info.agent).first()
+            return ticket.save()
+        else:
+            cls(ticket_number=ticket_info.number, when_assigned=ticket_info.assigned_date,
+                client_address=Address.objects.filter(street=ticket_info.address[0],
+                                                           house=ticket_info.address[1], building=ticket_info.address[2]), phones=ticket_info.phones,
+                assigned_date=ticket_info.call_date, agent=Workers.objects.filter(number=ticket_info.agent).first()).save()
