@@ -317,8 +317,7 @@ showSourceTicket = (ticket_id) => {
 
 function switchCounter() {
     $(document).ready(function () {
-        var str = 'Подключенных заявок: ';
-        $('switched_count').html(str + ($('#switch_table tr').length - 1));
+        $('switched_count').html(($('#switch_table tr').length - 1));
     });
     setInterval(function () {
         $('result_call').html(($('#call_table tr').filter(':visible').length - 1));

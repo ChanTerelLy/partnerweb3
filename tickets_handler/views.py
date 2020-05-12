@@ -14,15 +14,18 @@ from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from django.views.decorators.cache import cache_page
 from django.conf import settings
 from django.core.cache import cache
-
+from datetime import datetime
+import pytz
+from partnerweb_parser.manager import NewDesign
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 
 
 @system.my_timer
 @check_access
-@cache_page(180)
 def tickets(request):
+    tz = pytz.timezone('Europe/Moscow')
+    moscow_now = datetime.now(tz)
     code, operator, password = request.session['sell_code'], request.session['operator'], request.session['password']
     if Auth(code, operator, password).auth_status:
         if request.method == 'GET':
@@ -35,7 +38,7 @@ def tickets(request):
                                                     'switched_on_tickets': switched_on_tickets,
                                                     'switched_on_today': switched_on_today,
                                                     'created_today_tickets': created_today_tickets,
-                                                    'all_tickets': all_tickets}, timeout=60 * 15)
+                                                    'all_tickets': all_tickets, 'timestamp': moscow_now})
             return render(request, 'beeline_html/main_page_tickets.html',
                           {'assigned_tickets': WorkersModel.replace_num_worker(assigned_tickets),
                            'call_for_today': WorkersModel.replace_num_worker(call_for_today),
@@ -43,7 +46,7 @@ def tickets(request):
                                AdditionalTicket.clear_switched_tickets(switched_on_tickets, all_tickets)
                            ),
                            'assigned_today': assigned_today, 'switched_on_today': switched_on_today,
-                           'created_today_tickets': created_today_tickets, 'all_tickets' : all_tickets})
+                           'created_today_tickets': created_today_tickets, 'all_tickets' : all_tickets, 'timestamp': moscow_now})
     else:
         messages.error(request, f'Ошибка Аутентификации, неправильный логин или пароль!')
         request.session['sell_code'], request.session['operator'], request.session['password'] = '','',''
@@ -53,16 +56,16 @@ def tickets(request):
 @check_access
 def tickets_rapid(request):
     if request.method == 'GET':
-        if request.session['operator'] in ['Корытов', 'Хоменко']:
-            cache_tickets = cache.get(request.session['operator'])
+        cache_tickets = cache.get(request.session['operator'])
+        if cache_tickets:
             assigned_tickets, assigned_today, call_for_today, switched_on_tickets, \
-            switched_on_today, created_today_tickets, all_tickets = cache_tickets['assigned_tickets'], \
+            switched_on_today, created_today_tickets, all_tickets, timestamp = cache_tickets['assigned_tickets'], \
                                                                     cache_tickets['assigned_today'], cache_tickets[
                                                                         'call_for_today'], cache_tickets[
                                                                         'switched_on_tickets'], \
                                                                     cache_tickets['switched_on_today'], cache_tickets[
                                                                         'created_today_tickets'], cache_tickets[
-                                                                        'all_tickets']
+                                                                        'all_tickets'], cache_tickets['timestamp']
             return render(request, 'beeline_html/main_page_tickets.html',
                           {'assigned_tickets': WorkersModel.replace_num_worker(assigned_tickets),
                            'call_for_today': WorkersModel.replace_num_worker(call_for_today),
@@ -70,38 +73,43 @@ def tickets_rapid(request):
                                AdditionalTicket.clear_switched_tickets(switched_on_tickets, all_tickets)
                            ),
                            'assigned_today': assigned_today, 'switched_on_today': switched_on_today,
-                           'created_today_tickets': created_today_tickets, 'all_tickets': all_tickets})
+                           'created_today_tickets': created_today_tickets, 'all_tickets': all_tickets, 'timestamp': timestamp})
+        else:
+            cache_tickets = cache.get('supervisors_tickets')
+            assigned_tickets, assigned_today, call_for_today, switched_on_tickets, \
+            switched_on_today, created_today_tickets, all_tickets,timestamp = cache_tickets['assigned_tickets'], \
+                                                                    cache_tickets['assigned_today'], cache_tickets[
+                                                                        'call_for_today'], cache_tickets[
+                                                                        'switched_on_tickets'], \
+                                                                    cache_tickets['switched_on_today'], cache_tickets[
+                                                                        'created_today_tickets'], cache_tickets[
+                                                                        'all_tickets'], cache_tickets['timestamp']
+            assigned_tickets = list([a for a in assigned_tickets if a.operator == request.session['operator']])
+            call_for_today = list([a for a in call_for_today if a.operator == request.session['operator']])
+            switched_on_tickets = list([a for a in switched_on_tickets if a.operator == request.session['operator']])
+            all_tickets = list([a for a in all_tickets if a.operator == request.session['operator']])
+            created_today_tickets = NewDesign.count_created_today(all_tickets)
+            #very weird desicion, dont think about it
+            s = filter(lambda number:number != 0, list([NewDesign.count_switched(0, t) for t in switched_on_tickets]))
+            switched_on_today = len(list(s))
+            #legacy fixed by js code on template
+            assigned_today = 0
 
-        cache_tickets = cache.get('supervisors_tickets')
-        assigned_tickets, assigned_today, call_for_today, switched_on_tickets, \
-        switched_on_today, created_today_tickets, all_tickets = cache_tickets['assigned_tickets'], \
-                                                                cache_tickets['assigned_today'], cache_tickets[
-                                                                    'call_for_today'], cache_tickets[
-                                                                    'switched_on_tickets'], \
-                                                                cache_tickets['switched_on_today'], cache_tickets[
-                                                                    'created_today_tickets'], cache_tickets[
-                                                                    'all_tickets']
-        assigned_tickets = list([a for a in assigned_tickets if a.operator == request.session['operator']])
-        call_for_today = list([a for a in call_for_today if a.operator == request.session['operator']])
-        switched_on_tickets = list([a for a in switched_on_tickets if a.operator == request.session['operator']])
-        #legacy fixed by js code on template
-        assigned_today = 0
-        switched_on_today = 0
-        created_today_tickets = 0
-
-        return render(request, 'beeline_html/main_page_tickets.html',
-                      {'assigned_tickets': WorkersModel.replace_num_worker(assigned_tickets),
-                       'call_for_today': WorkersModel.replace_num_worker(call_for_today),
-                       'switched_on_tickets': WorkersModel.replace_num_worker(
-                           AdditionalTicket.clear_switched_tickets(switched_on_tickets, all_tickets)
-                       ),
-                       'assigned_today': assigned_today, 'switched_on_today': switched_on_today,
-                       'created_today_tickets': created_today_tickets, 'all_tickets': all_tickets})
+            return render(request, 'beeline_html/main_page_tickets.html',
+                          {'assigned_tickets': WorkersModel.replace_num_worker(assigned_tickets),
+                           'call_for_today': WorkersModel.replace_num_worker(call_for_today),
+                           'switched_on_tickets': WorkersModel.replace_num_worker(
+                               AdditionalTicket.clear_switched_tickets(switched_on_tickets, all_tickets)
+                           ),
+                           'assigned_today': assigned_today, 'switched_on_today': switched_on_today,
+                           'created_today_tickets': created_today_tickets, 'all_tickets': all_tickets, 'timestamp' : timestamp})
 
 
 @system.my_timer
 @check_access
 def tickets_redis_json(request):
+    tz = pytz.timezone('Europe/Moscow')
+    moscow_now = datetime.now(tz)
     auth_r = NewDesign('G800-37', 'Корытов', '123456Qq')
     auth_h = NewDesign('G800-37', 'Хоменко', '1604')
     assigned_tickets, assigned_today, call_for_today, switched_on_tickets, \
@@ -112,7 +120,7 @@ def tickets_redis_json(request):
                                             'switched_on_tickets': switched_on_tickets,
                                             'switched_on_today': switched_on_today,
                                             'created_today_tickets': created_today_tickets,
-                                            'all_tickets': all_tickets})
+                                            'all_tickets': all_tickets, 'timestamp': moscow_now})
     h_assigned_tickets, h_assigned_today, h_call_for_today, h_switched_on_tickets, \
     h_switched_on_today, h_created_today_tickets, h_all_tickets = auth_h.three_month_tickets()
     cache.set('Хоменко', {'assigned_tickets': h_assigned_tickets,
@@ -121,7 +129,7 @@ def tickets_redis_json(request):
                                             'switched_on_tickets': h_switched_on_tickets,
                                             'switched_on_today': h_switched_on_today,
                                             'created_today_tickets': h_created_today_tickets,
-                                            'all_tickets': h_all_tickets})
+                                            'all_tickets': h_all_tickets, 'timestamp': moscow_now})
     assigned_tickets += h_assigned_tickets
     assigned_today += h_assigned_today
     call_for_today += h_call_for_today
@@ -135,7 +143,7 @@ def tickets_redis_json(request):
                                             'switched_on_tickets': switched_on_tickets,
                                             'switched_on_today': switched_on_today,
                                             'created_today_tickets': created_today_tickets,
-                                            'all_tickets': all_tickets})
+                                            'all_tickets': all_tickets, 'timestamp': moscow_now})
     return JsonResponse({'status':'ok'}, safe=False)
 
 @system.my_timer
@@ -191,7 +199,7 @@ def login(request):
         if form.is_valid() and \
                 NewDesign(request.session['sell_code'], request.session['operator'],request.session['password']).\
                         check_auth_status():
-            return redirect('main_page_tickets')
+            return redirect('main_page_rapid')
         else:
             messages.error(request, f'Ошибка Аутентификации, неправильный логин или пароль!')
             request.session['sell_code'], request.session['operator'], request.session['password'] = '', '', ''

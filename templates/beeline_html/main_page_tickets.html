@@ -3,26 +3,22 @@
 {% block title %}Главная страница{% endblock %}
 {% block content %}
     <div class="container">
-        <p>
-            <span id='assign_total' class="badge badge-warning"><assigned_count></assigned_count></span>
-            <span id='switch_total' class="badge badge-success"><switched_count></switched_count></span>
-            <span class="badge badge-warning">Назначенных заявок сегодня:
-                <span id="assigned_today_counter">{{ assigned_today }}</span></span>
-            <span class="badge badge-success">Подключеных заявок сегодня: {{ switched_on_today }}</span>
-            <span class="badge badge-info">Созданых заявок сегодня: {{ created_today_tickets }}</span>
-        </p><!--label bar-->
-    </div>
-    <hr>
-    <div class="container">
-        <div class="progress" style="height: 30px;">
-            <div id='switch_bar' class="progress-bar progress-bar-striped progress-bar-animated bg-success">
-                Подключеных заявок сегодня: {{ switched_on_today }}
-            </div>
-            <div id='assign_bar' class="progress-bar progress-bar-striped progress-bar-animated bg-warning">
-                Назначенных заявок сегодня: {{ assigned_today }}
-            </div>
-            <br>
-        </div>
+        <button type="button" class="btn btn-primary" >
+            Созданных сегодня <span class="badge badge-light">{{ created_today_tickets }}</span>
+        </button>
+        <button type="button" class="btn btn-warning">
+            Назначенных сегодня <span class="badge badge-light" id="assigned_today_counter">{{ assigned_today }}</span>
+        </button>
+        <button type="button" class="btn btn-success">
+            Подключенных сегодня <span class="badge badge-light" id="switched_today_counter">{{ switched_on_today }}</span>
+        </button>
+        <button type="button" class="btn btn-secondary">
+            Подключенных всего <span class="badge badge-light" ><switched_count></switched_count></span>
+        </button>
+        <button type="button" class="btn btn-info">
+            {{ timestamp }}
+        </button>
+
     </div>
     <hr>
     <div class="container">
@@ -241,13 +237,6 @@
             assignCounter();
             switchCounter();
         });
-        let assign_total = {{ assigned_today }};
-        let switch_total = {{ switched_on_today }};
-        let swAndAssign = assign_total + switch_total;
-        let assign_bar = document.getElementById('assign_bar');
-        let switch_bar = document.getElementById('switch_bar');
-        switch_bar.style.width = (switch_total / swAndAssign) * 100 + '%';
-        assign_bar.style.width = (assign_total / swAndAssign) * 100 + '%';
         getCallTariff = () => {
             {% for ticket in call_for_today %}
                 getTicketInfo({{ticket.id}});

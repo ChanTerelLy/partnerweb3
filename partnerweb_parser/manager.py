@@ -630,11 +630,16 @@ class NewDesign(Basket):
                             and (t.status_id == 154 or t.status_id == 128)\
                             and t.call_time != None and \
                             (date(cur_year, cur_month, 1) <= dmYHM_to_date(t.ticket_paired_info.call_time) <= date(cur_year, cur_month, last)):
-                        sw_ts_today += 1 if dmYHM_to_date(t.ticket_paired_info.call_time) == today() else 0
+                        sw_ts_today = self.count_switched(sw_ts_today, t)
                         sw_ts.append(t)
                 except:
                     continue
         return sw_ts, sw_ts_today
+
+    @staticmethod
+    def count_switched(sw_ts_today, t):
+        sw_ts_today += 1 if dmYHM_to_date(t.ticket_paired_info.call_time) == today() else 0
+        return sw_ts_today
 
     @system.my_timer
     def retrive_tickets(self, city='', dateFrom=False, dateTo=False, number='', phone='',
@@ -704,7 +709,8 @@ class NewDesign(Basket):
                 print(e)
         return call_ts_today
 
-    def count_created_today(self, tickets):
+    @staticmethod
+    def count_created_today(tickets):
         count = 0
         for ticket in tickets:
             try:
