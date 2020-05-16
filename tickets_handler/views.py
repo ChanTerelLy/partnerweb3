@@ -1,6 +1,6 @@
 from partnerweb_parser.manager import NewDesign, Worker, Auth
 from django.shortcuts import render, redirect
-from .form import AuthForm, DateTimeForm, CreateTicketForm
+from .form import AuthForm, DateTimeForm, CreateTicketForm, FindAnythingForm
 from .models import Workers as WorkersModel, Installer, AdditionalTicket, Employer, AssignedTickets
 from django.http import HttpResponse
 from partnerweb_parser import system
@@ -285,5 +285,48 @@ def send_mail(request):
             EmailSender().assign_mail_ticket(request.body)
     return HttpResponse('Отправленно')
 
+def find_anything(request):
+    form = FindAnythingForm(request.POST)
+    if request.method == 'POST':
+        data = form['data'].value()
+        all_tickets = cache.get('supervisors_tickets')['all_tickets']
+        filter_tickets = []
 
+        # check phones and ticket nubmer
+        if data[0].isdigit():
+            # phone checks
+            if data[0] == '9':
+                data = int(data)
+                for t in all_tickets:
+                    try:
+                        if [t for p in t.phones if data in p.values()]:
+                            filter_tickets.append(t)
+                        else:
+                            continue
+                    except:
+                        continue
+                return render(request, 'beeline_html/find_anything_result.html', {'tickets' : filter_tickets})
+            else:
+                for t in all_tickets:
+                    data = int(data)
+                    try:
+                        if data in [t.number, t.ticket_paired_info.number]:
+                            filter_tickets.append(t)
+                        else:
+                            continue
+                    except Exception as e:
+                        print(e)
+                        continue
+                return render(request, 'beeline_html/find_anything_result.html', {'tickets': filter_tickets})
+        #find by name or street
+        else:
+            find_values = data.split()
+            for t in all_tickets:
+                if any(x in t.name.lower() for x in find_values):
+                    filter_tickets.append(t)
+                if all(x in t.address.lower() for x in find_values):
+                    filter_tickets.append(t)
+        return render(request, 'beeline_html/find_anything_result.html', {'tickets': filter_tickets})
+
+    return render(request, 'beeline_html/find_anything.html', {'form': form})
 

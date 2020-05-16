@@ -17,6 +17,7 @@ urlpatterns = [
     url('^tickets_redis_json/', tickets_redis_json, name='tickets_json'),
     url(r'logout', logout, name='logout'),
     url(r'login_beeline/', redirect_auth, name='login_beeline'),
+    url(r'^find_anything/$', find_anything, name='find_anything'),
 
 
     # Template URLs
@@ -28,6 +29,7 @@ urlpatterns = [
     url(r'^workers/$', WorkersTable.as_view(), name='workers'),
     url(r'^installers/$', Installers.as_view(), name='installers'),
     url(r'^feedback/$', Feedback.as_view(), name='feedback'),
+
 
     #Ajax URLs
     url(r'^assigned_tickets/$', get_assigned_tickets, name='assigned_tickets'),

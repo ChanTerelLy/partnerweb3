@@ -664,11 +664,13 @@ class NewDesign(Basket):
                                 shop_id=attr['shop_id'], status=attr['status'], ticket_paired=attr['ticket_paired'],
                                 type=attr['type'], type_id=attr['type_id'], status_id=attr['status_id'])
                 tickets.append(ticket)
+        all_paired_tickets = []
         for ticket in tickets:
             if ticket.ticket_paired:
                 ticket.ticket_paired_info = self.check_paired_ticket_info(ticket.ticket_paired, tickets)
-        self.tickets = tickets
-        return tickets
+                all_paired_tickets.append(ticket)
+        self.tickets = all_paired_tickets
+        return all_paired_tickets
 
     @system.my_timer
     def base_ticket_info(self, city, dateFrom, dateTo, number, pages, phone, shop, status):

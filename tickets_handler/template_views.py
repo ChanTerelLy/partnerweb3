@@ -2,9 +2,10 @@ from django.shortcuts import redirect
 from django.views.generic import TemplateView, FormView, ListView
 from django.utils.decorators import method_decorator
 from partnerweb_parser.mail import EmailSender
-from tickets_handler.form import Feedback
+from tickets_handler.form import Feedback, FindAnythingForm
 from tickets_handler.models import Installer, Workers as WorkersModel
 from .decorators import check_access
+from django.core.cache import cache
 
 
 @method_decorator(check_access, name='dispatch')
@@ -93,3 +94,20 @@ class WorkersTable(ListView):
     template_name = 'beeline_html/workers.html'
     context_object_name = 'workers'
     ordering = 'master'
+
+@method_decorator(check_access, name='dispatch')
+class FindAnything(FormView):
+    template_name = 'beeline_html/find_anything.html'
+    form_class = FindAnythingForm
+
+    def form_valid(self, form):
+
+
+
+
+
+        return redirect('feedback')
+
+    @method_decorator(check_access)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
