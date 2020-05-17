@@ -716,7 +716,7 @@ class NewDesign(Basket):
         count = 0
         for ticket in tickets:
             try:
-                count += 1 if (ticket.type_id == 1) and (dmY_to_date(ticket.date) == today()) else 0
+                count += 1 if (dmY_to_date(ticket.date) == today()) else 0
             except:
                 continue
         return count
