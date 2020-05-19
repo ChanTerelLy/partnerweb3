@@ -1,6 +1,6 @@
 from partnerweb_parser.manager import NewDesign, Worker, Auth
 from django.shortcuts import render, redirect
-from .form import AuthForm, DateTimeForm, CreateTicketForm, FindAnythingForm
+from .form import AuthForm, DateTimeForm, CreateTicketForm, FindAnythingForm, FraudTicketSendForm
 from .models import Workers as WorkersModel, Installer, AdditionalTicket, Employer, AssignedTickets
 from django.http import HttpResponse
 from partnerweb_parser import system
@@ -265,15 +265,23 @@ def house_info(request, city_id, house_id):
                           'agent' : request.session['operator'],
                           'address' : f'{house_full_name} кв {p_form["flat"].value()}'
                           }
-                EmailSender().fraud_mail_ticket(ticket)
-                return HttpResponse(
-                    'Ваша заявка содержит активный договор на адресе '
-                    'и была отправлена супервайзеру для дальнейшего рассмотрения'
-                )
+                request.session['fraud_ticket'] = ticket
+                return redirect('fraud_ticket_send')
     return render(request, 'beeline_html/house_info.html', {'gp_houses' : gp, 'name': house_full_name,
                                                             'p_form' : p_form})
 
-
+def fraud_ticket_send(request):
+    form = FraudTicketSendForm()
+    if request.method == 'POST':
+        form = FraudTicketSendForm(request.POST)
+        fraud_ticket = request.session['fraud_ticket']
+        fraud_ticket['datetime'] = form['datetime'].value()
+        fraud_ticket['comment'] = form['comment'].value()
+        fraud_ticket['assigned'] = form['assigned'].value()
+        EmailSender().fraud_ticket(fraud_ticket)
+        messages.success(request, f'Заявка успешно отправлена супервайзеру')
+        return redirect('main_page_rapid')
+    return render(request, 'beeline_html/fraud_ticket_send_form.html', {'form': form})
 def logout(request):
     request.session['sell_code'], request.session['operator'], request.session['password'] = '', '',''
     return redirect('login')

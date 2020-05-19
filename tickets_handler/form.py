@@ -28,3 +28,8 @@ class Feedback(forms.Form):
 class FindAnythingForm(forms.Form):
     data = forms.CharField(max_length=100, label='Введите фамилию, телефон, адрес или номер заявки')
 
+class FraudTicketSendForm(forms.Form):
+    datetime = forms.DateField(widget=forms.DateTimeInput(attrs={'readonly':'readonly'}),label='Таймер',  required=False)
+    comment = forms.CharField(widget=forms.Textarea, label='Комментарий')
+    assigned = forms.BooleanField(label='Назначить в график')
+

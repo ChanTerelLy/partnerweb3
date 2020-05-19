@@ -50,6 +50,22 @@ class EmailSender():
                      f'</html>'
         self.email_sender(message, telegramma, message['To'])
 
+    def fraud_ticket(self, text):
+        message = self.email_helper('Заявка с активным договором')
+        message["To"] = text['mail_to']
+        telegramma = f'<html>' \
+                     f'<p><b>Назначить в график: </b> {text["assigned"]} </p>' \
+                     f'<p><b>Время: </b> {text["datetime"]} </p>' \
+                     f'<p><b>Тариф: </b> {text["tariff"]} </p>' \
+                     f'<p><b>Номер абонента: </b> {text["phone"]} </p>' \
+                     f'<p><b>Комментарий: </b> {text["comment"]} </p>' \
+                     f'<p><b>Агент: </b> {text["agent"]} </p>' \
+                     f'<br>' \
+                     f'<p><b>Клиент: </b> {text["client_name"]} </p>' \
+                     f'<p><b>Адрес: </b> {text["address"]} </p>' \
+                     f'</html>'
+        self.email_sender(message, telegramma, message['To'])
+
     def fraud_mail_ticket(self, text):
         message = self.email_helper('Создать заявку')
         message["To"] = text['mail_to']
