@@ -3,7 +3,7 @@ from django.views.generic import TemplateView, FormView, ListView
 from django.utils.decorators import method_decorator
 from partnerweb_parser.mail import EmailSender
 from tickets_handler.form import Feedback, FindAnythingForm
-from tickets_handler.models import Installer, Workers as WorkersModel
+from tickets_handler.models import Installer, Workers as WorkersModel, AssignedTickets as AssignedTicketsModel
 from .decorators import check_access
 from django.core.cache import cache
 
@@ -95,19 +95,9 @@ class WorkersTable(ListView):
     context_object_name = 'workers'
     ordering = 'master'
 
-@method_decorator(check_access, name='dispatch')
-class FindAnything(FormView):
-    template_name = 'beeline_html/find_anything.html'
-    form_class = FindAnythingForm
 
-    def form_valid(self, form):
-
-
-
-
-
-        return redirect('feedback')
-
-    @method_decorator(check_access)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
+class AssignedTicketsList(ListView):
+    model = AssignedTicketsModel
+    template_name = 'beeline_html/assigment_dumped.html'
+    context_object_name = 'tickets'
+    ordering = 'when_assigned'

@@ -251,7 +251,7 @@
         let promise1 = new Promise(function (resolve, reject) {
             {% for ticket in assigned_tickets %}
                 showSourceTicket({{ticket.ticket_paired_info.number}});
-                autoUpdateInstallerComments({{ ticket.ticket_paired_info.id }});
+                autoUpdateInstallerComments({{ ticket.ticket_paired_info.id }}, '{{ csrf_token }}');
             {% endfor %}
         });
         promise1.then(function () {

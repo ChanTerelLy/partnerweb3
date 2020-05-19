@@ -1,0 +1,31 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Назначенные заявки{% endblock %}
+{% block content %}
+    <table class="table-bordered" style="margin-left:auto;margin-right:auto;">
+        <thead>
+        <tr>
+            <td>Номер</td>
+            <td>Агент</td>
+            <td>Супервайзер</td>
+            <td>Когда назначена</td>
+            <td>Адрес</td>
+            <td>ФИО</td>
+            <td>Телефоны</td>
+            <td>Дата назначения</td>
+        </tr>
+        </thead>
+        {% for ticket in tickets %}
+            <tr>
+                <td>{{ ticket.ticket_number }}</td>
+                <td>{{ ticket.agent.name }}</td>
+                <td>{{ ticket.agent.master }}</td>
+                <td>{{ ticket.when_assigned }}</td>
+                <td>{{ ticket.client_address }}</td>
+                <td>{{ ticket.client_name }}</td>
+                <td>{{ ticket.phones }}</td>
+                <td>{{ ticket.assigned_date }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

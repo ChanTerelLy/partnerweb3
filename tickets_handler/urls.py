@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'logout', logout, name='logout'),
     url(r'login_beeline/', redirect_auth, name='login_beeline'),
     url(r'^find_anything/$', find_anything, name='find_anything'),
+    url(r'^assigned_dump/$', AssignedTicketsList.as_view(), name='assigned_dump'),
 
 
     # Template URLs

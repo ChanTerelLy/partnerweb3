@@ -443,7 +443,7 @@ function sendChangePhones(csrfmiddlewaretoken) {
 // };
 
 
-autoUpdateInstallerComments = (id) => {
+autoUpdateInstallerComments = (id, csrf_token) => {
     function setComments(result) {
         getCountAssigned();
         let comment_id = document.getElementById(`installer_comments_${id}`);
@@ -463,11 +463,12 @@ autoUpdateInstallerComments = (id) => {
                 let comments = [j.comments[0]];
                 document.getElementById(`assign_date_${id}`).innerHTML = j.assigned_date;
                 setComments(comments);
-
+                dump_assigned_ticket(id, result, csrf_token);
             }
         })
     }
     get_comments();
+
     setInterval(function (){get_comments()}, 180000);
 };
 
@@ -484,4 +485,20 @@ function getCountAssigned() {
     }
     console.log(counter);
     document.getElementById('assigned_today_counter').innerText = counter;
+}
+
+function dump_assigned_ticket(id, result, csrf_token) {
+    $.ajax({
+        url: `/info/${id}/?insert_assigned=1`,
+        type: 'POST',
+        contentType: 'application/json; charset=utf-8',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("X-CSRFToken", csrf_token);
+        },
+        data: JSON.stringify(result),
+        dataType: 'text',
+        success: function (data) {
+            console.log(`${id} dumped`)
+        }
+    })
 }

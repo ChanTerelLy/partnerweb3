@@ -4,7 +4,7 @@ import re
 from partnerweb_parser import system
 import json
 import datetime
-import territory
+from partnerweb_parser.date_func import dmYHM_to_datetime
 
 class Workers(models.Model):
     name = models.CharField(max_length=250, unique=True)
@@ -164,7 +164,7 @@ class ACL(models.Model):
 class AssignedTickets(models.Model):
     ticket_number = models.IntegerField()
     when_assigned = models.DateTimeField()
-    # client_address = models.ForeignKey(Address, on_delete=models.CASCADE)
+    client_address = models.CharField(max_length=200)
     client_name = models.CharField(max_length=150)
     phones = models.CharField(max_length=150)
     assigned_date = models.DateTimeField()
@@ -174,17 +174,16 @@ class AssignedTickets(models.Model):
     def update(cls, ticket_info):
         ticket = cls.objects.filter(ticket_number=ticket_info.number).first()
         if ticket:
-            ticket.when_assigned = ticket_info.assigned_date
-            ticket.client_address = Address.objects.filter(street=ticket_info.address[0],
-                                                           house=ticket_info.address[1], building=ticket_info.address[2])
-            ticket.client_flat = models.IntegerField()
+            ticket.when_assigned = dmYHM_to_datetime(ticket_info.assigned_date)
+            ticket.client_address = ticket_info.address
             ticket.client_name = ticket_info.name
             ticket.phones = ticket_info.phones
-            ticket.assigned_date = ticket_info.call_date
-            ticket.agent = Workers.objects.filter(number=ticket_info.agent).first()
+            ticket.assigned_date = dmYHM_to_datetime(ticket_info.call_time)
+            ticket.agent = Workers.objects.filter(number=ticket_info.operator).first()
             return ticket.save()
         else:
-            cls(ticket_number=ticket_info.number, when_assigned=ticket_info.assigned_date,
-                client_address=Address.objects.filter(street=ticket_info.address[0],
-                                                           house=ticket_info.address[1], building=ticket_info.address[2]), phones=ticket_info.phones,
-                assigned_date=ticket_info.call_date, agent=Workers.objects.filter(number=ticket_info.agent).first()).save()
+            assigned_date = dmYHM_to_datetime(ticket_info.call_time)
+            cls(ticket_number=ticket_info.number, when_assigned=dmYHM_to_datetime(ticket_info.assigned_date),
+                client_address=ticket_info.address, phones=ticket_info.phones,
+                assigned_date=assigned_date,
+                agent=Workers.objects.filter(number=ticket_info.operator).first()).save()
