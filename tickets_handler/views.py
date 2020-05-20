@@ -55,7 +55,7 @@ def tickets(request):
 @system.my_timer
 @check_access
 def tickets_rapid(request):
-    if request.method == 'GET':
+    if request.method == 'GET' and (cache.get(request.session['operator']) or cache.get('supervisors_tickets')):
         cache_tickets = cache.get(request.session['operator'])
         if cache_tickets:
             assigned_tickets, assigned_today, call_for_today, switched_on_tickets, \
@@ -103,6 +103,8 @@ def tickets_rapid(request):
                            ),
                            'assigned_today': assigned_today, 'switched_on_today': switched_on_today,
                            'created_today_tickets': created_today_tickets, 'all_tickets': all_tickets, 'timestamp' : timestamp})
+    else:
+        return redirect('main_page_tickets')
 
 
 @system.my_timer
@@ -158,7 +160,7 @@ def global_search(request):
     else:
         auth = NewDesign(request.session['sell_code'], request.session['operator'],request.session['password'])
         all_tickets = auth.global_search()
-        cache.set(request.session['operator'], all_tickets, timeout=60 * 15)
+        cache.set(request.session['operator'], all_tickets)
         tickets = Paginator(all_tickets, 100)
         page_number = request.GET.get('page', 1)
         page_obj = tickets.get_page(page_number)
@@ -176,7 +178,7 @@ def ticket_info(request, id):
     elif json:
         return JsonResponse(jsonpickle.encode(ticket_info), safe=False)
     elif insert_assigned:
-        AssignedTickets.update(ticket_info)
+        AssignedTickets.update(ticket_info, request)
         return JsonResponse(jsonpickle.encode(ticket_info), safe=False)
     ticket_info = auth.ticket_info(id)
     dateform = DateTimeForm(request.POST)

@@ -1,7 +1,7 @@
 from django.db import models
 from partnerweb_parser.manager import NewDesign, Ticket
 import re
-from partnerweb_parser import system
+from partnerweb_parser import system, mail
 import json
 import datetime
 from partnerweb_parser.date_func import dmYHM_to_datetime
@@ -171,7 +171,7 @@ class AssignedTickets(models.Model):
     agent = models.ForeignKey(Workers, on_delete=models.CASCADE)
 
     @classmethod
-    def update(cls, ticket_info):
+    def update(cls, ticket_info, *args):
         ticket = cls.objects.filter(ticket_number=ticket_info.number).first()
         if ticket:
             ticket.when_assigned = dmYHM_to_datetime(ticket_info.assigned_date)
@@ -183,7 +183,13 @@ class AssignedTickets(models.Model):
             return ticket.save()
         else:
             assigned_date = dmYHM_to_datetime(ticket_info.call_time)
+            agent = Workers.objects.filter(number=ticket_info.operator).first()
             cls(ticket_number=ticket_info.number, when_assigned=dmYHM_to_datetime(ticket_info.assigned_date),
                 client_address=ticket_info.address, phones=ticket_info.phones,
                 assigned_date=assigned_date,
-                agent=Workers.objects.filter(number=ticket_info.operator).first()).save()
+                agent=agent).save()
+            ticket = ticket_info.__dict__
+            ticket['mail_to'] = Employer.find_master(ticket_info.operator).email
+            if args[0]:
+                ticket['link'] = args[0].build_absolute_uri()[:-1]
+            mail.EmailSender().agent_assign_ticket(ticket)

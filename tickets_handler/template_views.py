@@ -100,4 +100,4 @@ class AssignedTicketsList(ListView):
     model = AssignedTicketsModel
     template_name = 'beeline_html/assigment_dumped.html'
     context_object_name = 'tickets'
-    ordering = 'when_assigned'
+    ordering = '-when_assigned'

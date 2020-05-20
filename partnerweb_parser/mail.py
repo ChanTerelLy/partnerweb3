@@ -66,6 +66,16 @@ class EmailSender():
                      f'</html>'
         self.email_sender(message, telegramma, message['To'])
 
+    def agent_assign_ticket(self, text):
+        message = self.email_helper('Агент назначил заявку')
+        message["To"] = text['mail_to']
+        telegramma = f'<html>' \
+                     f'<p><b>Номер заявки: </b> {text["number"]} </p>' \
+                     f'<p><b>Ссылка: </b> {text["link"]} </p>' \
+                     f'<p><b>Агент: </b> {text["operator"]} </p>' \
+                     f'</html>'
+        self.email_sender(message, telegramma, message['To'])
+
     def fraud_mail_ticket(self, text):
         message = self.email_helper('Создать заявку')
         message["To"] = text['mail_to']

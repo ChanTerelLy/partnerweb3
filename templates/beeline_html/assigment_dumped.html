@@ -5,6 +5,7 @@
     <table class="table-bordered" style="margin-left:auto;margin-right:auto;">
         <thead>
         <tr>
+            <td>#</td>
             <td>Номер</td>
             <td>Агент</td>
             <td>Супервайзер</td>
@@ -17,14 +18,15 @@
         </thead>
         {% for ticket in tickets %}
             <tr>
+                <td>{{ forloop.counter }}</td>
                 <td>{{ ticket.ticket_number }}</td>
-                <td>{{ ticket.agent.name }}</td>
-                <td>{{ ticket.agent.master }}</td>
-                <td>{{ ticket.when_assigned }}</td>
+                <td>{{ ticket.agent.name|truncatewords_html:2 }}</td>
+                <td>{{ ticket.agent.master|truncatewords_html:1 }}</td>
+                <td>{{ ticket.when_assigned|date:"d.m.y H:i" }}</td>
                 <td>{{ ticket.client_address }}</td>
                 <td>{{ ticket.client_name }}</td>
                 <td>{{ ticket.phones }}</td>
-                <td>{{ ticket.assigned_date }}</td>
+                <td>{{ ticket.assigned_date|date:"d.m.y H:i" }}</td>
             </tr>
         {% endfor %}
     </table>
