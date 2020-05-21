@@ -31,5 +31,5 @@ class FindAnythingForm(forms.Form):
 class FraudTicketSendForm(forms.Form):
     datetime = forms.DateField(widget=forms.DateTimeInput(attrs={'readonly':'readonly'}),label='Таймер',  required=False)
     comment = forms.CharField(widget=forms.Textarea, label='Комментарий')
-    assigned = forms.BooleanField(label='Назначить в график')
+    assigned = forms.BooleanField(label='Назначить в график', required=False)
 
