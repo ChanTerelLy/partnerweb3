@@ -502,3 +502,21 @@ function dump_assigned_ticket(id, result, csrf_token) {
         }
     })
 }
+
+function getAupEmail() {
+    $.ajax({
+        url: `/get_aup_email`,
+        type: 'GET',
+        dataType: 'json',
+        success: function (result) {
+            result = JSON.parse(result);
+            let mail_to = document.getElementById('mail_to');
+            for (let human of result){
+                let option = document.createElement("option");
+                option.text = human.fields.name;
+                option.value = human.fields.email;
+                mail_to.add(option);
+            }
+        }
+    })
+}

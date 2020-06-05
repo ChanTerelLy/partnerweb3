@@ -1,7 +1,7 @@
 from django.core import serializers
 from django.http import JsonResponse
 from partnerweb_parser.manager import NewDesign
-from tickets_handler.models import Employer, TicketSource
+from tickets_handler.models import Employer, TicketSource, AUP
 import jsonpickle
 from types import SimpleNamespace
 import json
@@ -150,3 +150,7 @@ def change_phone_number(request):
             response = auth.change_phone_info(ticket_id, request.body)
             return JsonResponse({'status' : 'ok'})
     return JsonResponse({'status' : 'error'})
+
+def get_aup_email(request):
+    aup = AUP.objects.all()
+    return JsonResponse(serializers.serialize('json', aup), safe=False)

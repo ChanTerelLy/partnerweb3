@@ -112,40 +112,34 @@ def tickets_rapid(request):
 def tickets_redis_json(request):
     tz = pytz.timezone('Europe/Moscow')
     moscow_now = datetime.now(tz)
-    auth_r = NewDesign('G800-37', 'Корытов', '123456Qq')
-    auth_h = NewDesign('G800-37', 'Хоменко', '1604')
-    assigned_tickets, assigned_today, call_for_today, switched_on_tickets, \
-    switched_on_today, created_today_tickets, all_tickets = auth_r.three_month_tickets()
-    cache.set('Корытов', {'assigned_tickets': assigned_tickets,
-                                            'assigned_today': assigned_today,
-                                            'call_for_today': call_for_today,
-                                            'switched_on_tickets': switched_on_tickets,
-                                            'switched_on_today': switched_on_today,
-                                            'created_today_tickets': created_today_tickets,
-                                            'all_tickets': all_tickets, 'timestamp': moscow_now})
-    h_assigned_tickets, h_assigned_today, h_call_for_today, h_switched_on_tickets, \
-    h_switched_on_today, h_created_today_tickets, h_all_tickets = auth_h.three_month_tickets()
-    cache.set('Хоменко', {'assigned_tickets': h_assigned_tickets,
-                                            'assigned_today': h_assigned_today,
-                                            'call_for_today': h_call_for_today,
-                                            'switched_on_tickets': h_switched_on_tickets,
-                                            'switched_on_today': h_switched_on_today,
-                                            'created_today_tickets': h_created_today_tickets,
-                                            'all_tickets': h_all_tickets, 'timestamp': moscow_now})
-    assigned_tickets += h_assigned_tickets
-    assigned_today += h_assigned_today
-    call_for_today += h_call_for_today
-    switched_on_tickets += h_switched_on_tickets
-    switched_on_today += h_switched_on_today
-    created_today_tickets += h_created_today_tickets
-    all_tickets += h_all_tickets
-    cache.set('supervisors_tickets', {'assigned_tickets': assigned_tickets,
-                                            'assigned_today': assigned_today,
-                                            'call_for_today': call_for_today,
-                                            'switched_on_tickets': switched_on_tickets,
-                                            'switched_on_today': switched_on_today,
-                                            'created_today_tickets': created_today_tickets,
-                                            'all_tickets': all_tickets, 'timestamp': moscow_now})
+    employer = Employer.objects.all()
+    all = {'assigned_tickets': [],
+           'assigned_today': 0,
+           'call_for_today': [],
+           'switched_on_tickets': [],
+           'switched_on_today': 0,
+           'created_today_tickets': 0,
+           'all_tickets': [],
+           'timestamp': moscow_now}
+    for e in employer:
+        auth = NewDesign('G800-37', e.profile_name, e.supervisor_password)
+        assigned_tickets, assigned_today, call_for_today, switched_on_tickets, \
+        switched_on_today, created_today_tickets, all_tickets = auth.three_month_tickets()
+        cache.set(e.profile_name, {'assigned_tickets': assigned_tickets,
+                                                'assigned_today': assigned_today,
+                                                'call_for_today': call_for_today,
+                                                'switched_on_tickets': switched_on_tickets,
+                                                'switched_on_today': switched_on_today,
+                                                'created_today_tickets': created_today_tickets,
+                                                'all_tickets': all_tickets, 'timestamp': moscow_now})
+        all['assigned_tickets'] += assigned_tickets
+        all['assigned_today'] += assigned_today
+        all['call_for_today'] += call_for_today
+        all['switched_on_tickets'] += switched_on_tickets
+        all['switched_on_today'] += switched_on_today
+        all['created_today_tickets'] += created_today_tickets
+
+    cache.set('supervisors_tickets', all)
     return JsonResponse({'status':'ok'}, safe=False)
 
 @system.my_timer

@@ -46,6 +46,7 @@ urlpatterns = [
     url(r'^send_mail/$', send_mail, name='send_mail'),
     url(r'personal_info/', get_personal_info, name='personal_info'),
     url(r'^get_ctn_info/$', get_ctn_info, name='get_ctn_info'),
+    url(r'^get_aup_email/$', get_aup_email, name='get_aup_email'),
 
     #UpdateModels URLs
     url('update_workers/', update_workers, name='update_workers'),

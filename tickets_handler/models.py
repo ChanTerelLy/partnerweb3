@@ -116,6 +116,7 @@ class Employer(models.Model):
     position = models.TextField()
     operator = models.ForeignKey(Workers, on_delete=models.CASCADE)
     operator_password = models.TextField()
+    supervisor_password = models.CharField(max_length=50)
 
     @classmethod
     def find_master(cls, number):
@@ -193,3 +194,12 @@ class AssignedTickets(models.Model):
             if args[0]:
                 ticket['link'] = args[0].build_absolute_uri()[:-1]
             mail.EmailSender().agent_assign_ticket(ticket)
+
+class AUP(models.Model):
+    name = models.CharField(max_length=150)
+    position = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone = models.IntegerField()
+
+    def __str__(self):
+        return f' {self.name} - {self.position}'

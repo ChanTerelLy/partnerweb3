@@ -232,11 +232,6 @@
                     <div class="md-form">
                         <i class="fas fa-tag prefix grey-text"></i>
                         <select id="mail_to" multiple>
-                            <option value="RKorytov@arh.beeline.ru">Корытов Роман</option>
-                            <option value="EVKhomenko@arh.beeline.ru">Евгений Хоменко</option>
-                            <option value="AAShestakov@arh.beeline.ru">Шестаков Антон</option>
-                            <option value="AKMorozov@arh.beeline.ru">Морозов Алексей</option>
-                            <option value="AZhurilo@arh.beeline.ru">Журило Александр</option>
                         </select>
                         <label data-error="wrong" data-success="right" for="mail_to">Кому</label>
                     </div>
@@ -270,6 +265,7 @@
         document.addEventListener('load', call_timer());
         document.addEventListener('load', forbidChanges(document.getElementById('status').innerText));
         document.addEventListener('load', setChangePhones());
+        document.addEventListener('load', getAupEmail());
         //getTariffOptions('tariff_checkbox');
     </script>
 {% endblock %}
