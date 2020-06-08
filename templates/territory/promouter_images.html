@@ -11,11 +11,19 @@
         </tr>
         </thead>
         <tbody>
-        {% for address in addr_to_do %}
+        {% for a_data in address_data %}
             <tr>
-                <td>{{ address.address }}</td>
-                <td><input type="file" class="file-input" data-address-id="{{ address.id }}" data-type="mailbox" multiple>({{ address.address.entrance }})</td>
-                <td><input type="file" class="file-input" data-address-id="{{ address.id }}" data-type="entrancebox" multiple>({{ address.address.entrance }})</td>
+                <td>{{ a_data.address }}</td>
+                <td>
+                    {% for i in a_data.mailbox_img.all %}
+                        <img src="{{ i.img.url }}" width="150" height="150">
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for i in a_data.entrance_img.all %}
+                        <img src="{{ i.img.url }}" width="150" height="150">
+                    {% endfor %}
+                </td>
             </tr>
 
         {% endfor %}

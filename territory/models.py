@@ -1,5 +1,7 @@
 from django.db import models
 from tickets_handler.models import Workers, ChiefInstaller
+from partnerweb_project.storage_backends import PrivateMediaStorage, PublicMediaStorage
+from django_resized import ResizedImageField
 # Create your models here.
 
 class City(models.Model):
@@ -46,7 +48,7 @@ class Promouter(models.Model):
     date_hired = models.DateField(auto_now=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return f'{self.name} {self.id}'
 
 class PromoutingReport(models.Model):
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
@@ -54,11 +56,11 @@ class PromoutingReport(models.Model):
     agent = models.CharField(max_length=100)
 
 class EntranceImg(models.Model):
-    img = models.ImageField()
+    img = ResizedImageField(storage=PublicMediaStorage())
     date_load = models.DateField(auto_now=True, blank=True)
 
 class MailBoxImg(models.Model):
-    img = models.ImageField()
+    img = ResizedImageField(storage=PublicMediaStorage())
     date_load = models.DateField(auto_now=True, blank=True)
 
 class AddressToDo(models.Model):

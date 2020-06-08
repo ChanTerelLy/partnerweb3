@@ -1,0 +1,29 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Необходимо сделать{% endblock %}
+{% block content %}
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Залистовщик</td>
+            <td>Список адресов</td>
+            <td>Список фотографий</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for promouter in promouters %}
+            <tr>
+                <td>{{ promouter.name }}</td>
+                <td>
+                    <button class="btn btn-info" onclick="window.location = '{% url 'promouter_addresses' promouter.id %}'">Ссылка</button>
+                </td>
+                <td>
+                    <button class="btn btn-info" onclick="window.location = '{% url 'promouter_images' promouter.id %}'">Ссылка</button>
+                </td>
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+    {% csrf_token %}
+{% endblock %}

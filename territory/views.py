@@ -8,6 +8,7 @@ from .forms import PromoutingReportFindForm, PromoutingReportForm, AddressToDoFo
 from datetime import datetime
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
+from django.http import JsonResponse
 from django.forms import modelformset_factory
 # Create your views here.
 
@@ -16,18 +17,36 @@ def promouter_address_to_do(request, id):
     addr_to_do = AddressToDoModel.objects.filter(to_promouter=promouter, done=False)
     return render(request, 'territory/promouter_addresses_to_do.html', {'addr_to_do': addr_to_do})
 
-def promouter_address_to_do_detail(request, id, house_id):
-    form = AddressToDoForm()
+def promouter_images(request, id):
+    promouter = Promouter.objects.filter(id=id).first()
+    address_data = AddressData.objects.filter(address__done=True)
+    return render(request, 'territory/promouter_images.html',  {'address_data': address_data})
+
+def load_image(request):
     if request.method == 'POST':
-        if form.is_valid():
-            data = AddressToDoForm(request.POST).cleaned_data
-            entrance = data['entrance_img']
-            mailbox = data['mailbox_img']
-            mailbox_obj = MailBoxImg(img=mailbox).save()
-            entrance_obj = EntranceImg(img=entrance).save()
-            AddressData(promouter_id=id, address_id=house_id, entrance=entrance_obj, mailbox=mailbox_obj)
-        # Adddata.entrance_img
-    return render(request, 'territory/promouter_upload_image.html', {'form': form})
+            imgs = request.FILES
+            promouter_id = request.POST.get('promouter_id')
+            address_id = request.POST.get('address_id')
+            type = request.POST.get('type')
+            address_todo = AddressToDoModel.objects.get(id=address_id)
+            address, address_exist_before = AddressData.objects.get_or_create(promouter=Promouter.objects.get(id=promouter_id),
+                                                 address=address_todo)
+            if (type == 'mailbox'):
+                for i in imgs:
+                    img = MailBoxImg.objects.create(img=request.FILES[i])
+                    address.mailbox_img.add(img)
+            if (type == 'entrancebox'):
+                for i in imgs:
+                    img = EntranceImg.objects.create(img=request.FILES[i])
+                    address.entrance_img.add(img)
+            address_todo.done = True
+            address_todo.save()
+    return JsonResponse({'status': 'ok'})
+
+class PromouterListView(ListView):
+    model = Promouter
+    template_name = 'territory/promouter_list_view.html'
+    context_object_name = 'promouters'
 
 
 
@@ -65,6 +84,10 @@ class PromouteReportInsertForm(FormView):
             addr_obj = Address.objects.filter(street=match.group(1), house=match.group(2),
                                               building=building).first()
             report = PromouteReportModel(address=addr_obj, agent=form['agent'].value(), date=date.value())
+            if form['assign_to_promouter'].value():
+                promouter_id = form['promouter_choice'].value()
+                assign_to_promouter = AddressToDoModel(address=addr_obj, to_promouter=Promouter.objects.get(id=promouter_id))
+                assign_to_promouter.save()
             report.save()
         return redirect('promoute-report-insert')
 
