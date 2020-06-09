@@ -13,9 +13,9 @@
         <tbody>
         {% for address in addr_to_do %}
             <tr>
-                <td>{{ address.address }}</td>
-                <td><input type="file" class="file-input" data-address-id="{{ address.id }}" data-type="mailbox" multiple>({{ address.address.entrance }})</td>
-                <td><input type="file" class="file-input" data-address-id="{{ address.id }}" data-type="entrancebox" multiple>({{ address.address.entrance }})</td>
+                <td>{{ address.address }} ({{ address.address.entrance }} подъездов)</td>
+                <td><input type="file" class="file-input" data-address-id="{{ address.id }}" data-type="mailbox" multiple></td>
+                <td><input type="file" class="file-input" data-address-id="{{ address.id }}" data-type="entrancebox" multiple></td>
             </tr>
 
         {% endfor %}

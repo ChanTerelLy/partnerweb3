@@ -19,7 +19,7 @@ def promouter_address_to_do(request, id):
 
 def promouter_images(request, id):
     promouter = Promouter.objects.filter(id=id).first()
-    address_data = AddressData.objects.filter(address__done=True)
+    address_data = AddressData.objects.filter(address__done=True, promouter=promouter)
     return render(request, 'territory/promouter_images.html',  {'address_data': address_data})
 
 def load_image(request):

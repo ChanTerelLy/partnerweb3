@@ -13,7 +13,7 @@
         <tbody>
         {% for a_data in address_data %}
             <tr>
-                <td>{{ a_data.address }}</td>
+                <td>{{ a_data.address }} ({{ a_data.address.address.entrance }} подъездов)</td>
                 <td>
                     {% for i in a_data.mailbox_img.all %}
                         <img src="{{ i.img.url }}" width="150" height="150">
