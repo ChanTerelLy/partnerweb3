@@ -2,22 +2,26 @@
 {% load static %}
 {% block title %}Необходимо сделать{% endblock %}
 {% block content %}
-    <table class="table">
+    <table class="table table-responsive-sm">
         <thead>
         <tr>
-            <td>Адрес</td>
-            <td>Фото ящиков</td>
-            <td>Фото стендов</td>
+            <th scope="col">#</th>
+            <td scope="col">Адрес</td>
+            <td scope="col">Фото ящиков/Фото стендов</td>
         </tr>
         </thead>
         <tbody>
         {% for address in addr_to_do %}
             <tr>
+                <th scope="row">{{forloop.counter}}</th>
                 <td>{{ address.address }} ({{ address.address.entrance }} подъездов)</td>
-                <td><input type="file" class="file-input" data-address-id="{{ address.id }}" data-type="mailbox" multiple></td>
-                <td><input type="file" class="file-input" data-address-id="{{ address.id }}" data-type="entrancebox" multiple></td>
+                <td>
+                    <input type="file" class="file-input" data-address-id="{{ address.id }}" data-type="mailbox"
+                           data-max={{ address.address.entrance }} multiple>
+                    <input type="file" class="file-input" data-address-id="{{ address.id }}" data-type="entrancebox"
+                           data-max={{ address.address.entrance }} multiple>
+                </td>
             </tr>
-
         {% endfor %}
         </tbody>
     </table>
@@ -32,6 +36,10 @@
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
     $(".file-input").on("change", function (e) {
         files = this.files;
+        if (parseInt(files.length) > parseInt($(this).data('max'))) {
+            alert(`В данном доме только ${$(this).data('max')} подъздов, вы не можете загрузить больше чем ${$(this).data('max')} фото в этот дом`);
+            return;
+        }
         $.each(files, function (i, file) {
             fdata.append("file" + i, file);
         });
@@ -47,8 +55,14 @@
         contentType: false, //tell jquery not to set content-type
             success: function (response, status, jqxhr) {
 //handle success
-                alert('Фотографии загружены успешно!');
-                $(this).parent().addClass('.bg-success');
+                if (response.status == 'ok') {
+                    alert('Фотографии загружены успешно!');
+                    $(this).parent().addClass('.bg-success');
+                }
+                else if(response.status == 'error'){
+                    alert(response.description);
+                }
+
         },
         error: function (jqxhr, status, errorMessage) {
 //handle error

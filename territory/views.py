@@ -24,6 +24,11 @@ def promouter_images(request, id):
 def load_image(request):
     if request.method == 'POST':
             imgs = request.FILES
+            for i in imgs:
+                image = request.FILES[i].name
+                if MailBoxImg.objects.filter(img=image):
+                    return JsonResponse({'status': 'error', 'description': f'Фотография {image} '
+                                                                           f'уже существует в системе'})
             promouter_id = request.POST.get('promouter_id')
             address_id = request.POST.get('address_id')
             type = request.POST.get('type')
