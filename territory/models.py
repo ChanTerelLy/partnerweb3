@@ -1,5 +1,5 @@
 from django.db import models
-from tickets_handler.models import Workers, ChiefInstaller
+from tickets_handler.models import Workers, ChiefInstaller, AUP
 from partnerweb_project.storage_backends import PrivateMediaStorage, PublicMediaStorage
 from django_resized import ResizedImageField
 # Create your models here.
@@ -47,6 +47,8 @@ class Promouter(models.Model):
     area = models.ManyToManyField(Area)
     date_hired = models.DateField(auto_now=True, blank=True)
     price_to_paper = models.IntegerField()
+    bank_detail = models.CharField(max_length=30)
+    master = models.ForeignKey(AUP, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.name} {self.id}'

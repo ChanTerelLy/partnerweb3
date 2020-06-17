@@ -14,7 +14,19 @@
         <tbody>
         {% for a_data in address_data %}
             <tr>
-                <td>{{ a_data.address }} ({{ a_data.address.address.entrance }} подъездов)</td>
+                <td>{{ a_data.address }} ({{ a_data.address.address.entrance }} подъездов)
+                    <ul>
+                        <li>
+                            <small class='to_pay' data-mailbox-count='{{ a_data.mailbox_img.count }}'
+                                   data-entrace="{{ a_data.address.address.entrance }}"
+                                   data-flats="{{ a_data.address.address.flats }}">К оплате: <span></span></small>
+                        </li>
+                        <li>
+                            <small>Квартир в доме: {{ a_data.address.address.flats }}</small>
+                        </li>
+                    </ul>
+
+                </td>
                 <td>
                     {% for i in a_data.mailbox_img.all %}
                         <img src="{{ i.img.url }}" width="150" height="150">
@@ -34,6 +46,16 @@
 {% endblock %}
 {% block extra_scripts %}
     <script>
+    $(function () {
+        $to_pay = $('.to_pay');
+        $.each($to_pay, function (i, val) {
+            $mailBoxCount = $(this).data('mailbox-count');
+            $entrance = $(this).data('entrace');
+            $flats = $(this).data('flats');
+            $price = parseInt((parseInt($mailBoxCount) / parseInt($entrance)) * $flats * parseInt({{ promouter_price }})/100);
+            $(this).children('span').text($price);
+        })
+    });
     var files;
     var fdata = new FormData();
     var pathArray = window.location.pathname.split('/');

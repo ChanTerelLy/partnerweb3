@@ -96,10 +96,20 @@ class EmailSender():
         self.email_sender(message, telegramma, message['To'])
 
     def error_mail(self, text):
-        message = self.email_helper('Жалобы и предложения')
+        message = self.email_helper('Ошибки')
         message["To"] = 'zvezdolom1@gmail.com'
         # Turn these into plain/html MIMEText objects
         telegramma = f'{text}'
+        self.email_sender(message, telegramma, message['To'])
+
+    def promouter_upload_imagebox(self, text):
+        message = self.email_helper('Залистовщик загрузил фотографии')
+        message["To"] = text['mail_to']
+        telegramma = f'<html>' \
+                     f'<p><b>Залистовщик: </b> {text["promouter"]} </p>' \
+                     f'<p><b>Адрес: </b> {text["address"]} </p>' \
+                     f'<p><b>Колличество фотографий: </b> {text["photo_count"]} </p>' \
+                     f'</html>'
         self.email_sender(message, telegramma, message['To'])
 
 if __name__ == '__main__':

@@ -9,6 +9,7 @@ from datetime import datetime
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.http import JsonResponse
+from partnerweb_parser.mail import EmailSender
 # Create your views here.
 
 def promouter_address_to_do(request, id):
@@ -18,6 +19,7 @@ def promouter_address_to_do(request, id):
 
 def promouter_images(request, id):
     promouter = Promouter.objects.filter(id=id).first()
+    promouter_price = promouter.price_to_paper
     address_data = AddressData.objects.filter(address__done=True, promouter=promouter)
     sum_to_pay = 0
     for address in address_data:
@@ -30,7 +32,8 @@ def promouter_images(request, id):
     return render(request, 'territory/promouter_images.html',  {'address_data': address_data,
                                                                 'sum':int(sum_to_pay),
                                                                 'recieved_payment' : recieved_payment,
-                                                                    'payment_left' : payment_left
+                                                                    'payment_left' : payment_left,
+                                                                'promouter_price' : promouter_price
                                                                 })
 
 def load_image(request):
@@ -42,15 +45,21 @@ def load_image(request):
                     return JsonResponse({'status': 'error', 'description': f'Фотография {image} '
                                                                            f'уже существует в системе'})
             promouter_id = request.POST.get('promouter_id')
+            promouter = Promouter.objects.get(id=promouter_id)
             address_id = request.POST.get('address_id')
             type = request.POST.get('type')
             address_todo = AddressToDoModel.objects.get(id=address_id)
-            address, address_exist_before = AddressData.objects.get_or_create(promouter=Promouter.objects.get(id=promouter_id),
+            address, address_exist_before = AddressData.objects.get_or_create(promouter=promouter,
                                                  address=address_todo)
+            email_text = {'promouter': promouter.name,
+                          'address': address.address.address,
+                          'photo_count': len(imgs),
+                          'mail_to' : promouter.master.email}
             if (type == 'mailbox'):
                 for i in imgs:
                     img = MailBoxImg.objects.create(img=request.FILES[i])
                     address.mailbox_img.add(img)
+                EmailSender().promouter_upload_imagebox(email_text)
             if (type == 'entrancebox'):
                 for i in imgs:
                     img = EntranceImg.objects.create(img=request.FILES[i])
