@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from .models import AddressToDo as AddressToDoModel,Address, \
-    PromoutingReport as PromouteReportModel, Promouter, AddressData, EntranceImg, MailBoxImg
+    PromoutingReport as PromouteReportModel, Promouter, AddressData, EntranceImg, MailBoxImg, PromouterPayments
 from django.views.generic import ListView, FormView, TemplateView, DetailView
-from django.db.models import Q
+from django.db.models import Q, Sum
 from django.db import transaction
 from .forms import PromoutingReportFindForm, PromoutingReportForm, AddressToDoForm
 from datetime import datetime
@@ -19,7 +19,19 @@ def promouter_address_to_do(request, id):
 def promouter_images(request, id):
     promouter = Promouter.objects.filter(id=id).first()
     address_data = AddressData.objects.filter(address__done=True, promouter=promouter)
-    return render(request, 'territory/promouter_images.html',  {'address_data': address_data})
+    sum_to_pay = 0
+    for address in address_data:
+        ad = address.address.address
+        sum_to_pay += (promouter.price_to_paper/ 100) * \
+        (address.mailbox_img.count() / ad.entrance) * ad.flats
+    promouter_payment = PromouterPayments.objects.filter(promouter=promouter).aggregate(Sum('sum'))
+    recieved_payment = promouter_payment['sum__sum'] if promouter_payment['sum__sum'] else 0
+    payment_left = int(sum_to_pay - recieved_payment)
+    return render(request, 'territory/promouter_images.html',  {'address_data': address_data,
+                                                                'sum':int(sum_to_pay),
+                                                                'recieved_payment' : recieved_payment,
+                                                                    'payment_left' : payment_left
+                                                                })
 
 def load_image(request):
     if request.method == 'POST':

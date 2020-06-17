@@ -46,6 +46,7 @@ class Promouter(models.Model):
     age = models.CharField(max_length=2)
     area = models.ManyToManyField(Area)
     date_hired = models.DateField(auto_now=True, blank=True)
+    price_to_paper = models.IntegerField()
 
     def __str__(self):
         return f'{self.name} {self.id}'
@@ -78,3 +79,11 @@ class AddressData(models.Model):
     date_start = models.DateField(auto_now=True, blank=True)
     entrance_img = models.ManyToManyField(EntranceImg)
     mailbox_img = models.ManyToManyField(MailBoxImg)
+
+class PromouterPayments(models.Model):
+    promouter = models.ForeignKey(Promouter, on_delete=models.CASCADE)
+    sum  = models.IntegerField()
+
+    def __str__(self):
+        return f'{self.promouter.name} - {self.sum}'
+
