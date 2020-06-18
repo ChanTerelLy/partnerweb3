@@ -3,6 +3,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import json
 import os
+import traceback
 
 
 class EmailSender():
@@ -109,6 +110,7 @@ class EmailSender():
                      f'<p><b>Залистовщик: </b> {text["promouter"]} </p>' \
                      f'<p><b>Адрес: </b> {text["address"]} </p>' \
                      f'<p><b>Колличество фотографий: </b> {text["photo_count"]} </p>' \
+                     f'<p><b>Cсылка на фотографий: </b> {text["images_link"]} </p>' \
                      f'</html>'
         self.email_sender(message, telegramma, message['To'])
 

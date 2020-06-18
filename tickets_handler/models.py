@@ -42,16 +42,18 @@ class Installer(models.Model):
         login = NewDesign(auth['login'], auth['operator'], auth['password'])
         tickets = login.retrive_tickets()
         sw_tickets, sw_today = login.switched_tickets(tickets)
-        print(sw_tickets)
         for ticket in sw_tickets:
             info_data = login.ticket_info(ticket.id)
             name, phone = cls.find_installer_in_text(info_data.comments)
-            if name:
-                try:
+            try:
+                installer, created = cls.objects.update_or_create(full_name=name)
+                if not created:
+                    installer.number = phone
+                    installer.save()
+                else:
                     cls(full_name=name, number=phone).save()
-                except Exception as e:
-                    print(e)
-                    continue
+            except:
+                continue
 
     @staticmethod
     def find_installer_in_text(comments):
