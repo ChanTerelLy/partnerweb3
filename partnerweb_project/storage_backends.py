@@ -7,8 +7,10 @@ def create_transfer_manager(*arg, **kwargs):
     return transfer.TransferManager(
         *arg, **kwargs, executor_cls=transfer.NonThreadedExecutor
     )
+
 class StaticStorage(S3Boto3Storage):
     location = settings.AWS_STATIC_LOCATION
+    default_acl = 'public-read'
 
 class PublicMediaStorage(S3Boto3Storage):
     transfer.create_transfer_manager = create_transfer_manager

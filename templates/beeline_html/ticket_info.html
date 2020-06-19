@@ -24,7 +24,7 @@
                                href="tel:8{{ item.phone }}">{{ item.phone }}</a>
                             <span id="phoneComment{{ forloop.counter }}">{{ item.comment }}</span></h5>
                     {% endfor %}
-                    <img id="img_change_phones" src="{% static '/icons/bootstrap/pencil.svg' %}" alt="" width="32" height="32" title="pencil"
+                    <img id="img_change_phones" src="{% static 'icons/bootstrap/pencil.svg' %}" alt="" width="32" height="32" title="pencil"
                          data-toggle="modal" data-target="#changePhones">
                     <!-- Modal -->
                     <div class="modal fade" id="changePhones" tabindex="-1" role="dialog"
