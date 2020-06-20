@@ -9,7 +9,7 @@
                 <div>
                     {% csrf_token %}
                     {{ form|crispy }}
-                    <button onclick="loading()" type="submit" name="NewDesign" class="btn btn-primary"
+                    <button onclick="loading()" type="submit" class="btn btn-primary"
                             style="margin-left: 15px">
                         Войти
                     </button>
@@ -25,15 +25,6 @@
     <script>
         function loading() {
             document.getElementById('loading').style.visibility = 'visible'
-        }
-
-        function formValidation() {
-
-            let form = document.getElementsByName('auth_form')[0];
-            console.log(form);
-            if (form === '') {
-                window.alert('Заполните все поля')
-            }
         }
     </script>
 {% endblock %}

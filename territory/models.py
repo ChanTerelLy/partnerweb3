@@ -1,7 +1,8 @@
 from django.db import models
 from tickets_handler.models import Workers, ChiefInstaller, AUP
-from partnerweb_project.storage_backends import PrivateMediaStorage, PublicMediaStorage
+from partnerweb_project.storage_backends import PublicMediaStorage
 from django_resized import ResizedImageField
+from django.conf import settings
 # Create your models here.
 
 class City(models.Model):

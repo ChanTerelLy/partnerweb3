@@ -1,4 +1,5 @@
 import json
+import os
 import re
 import urllib.parse
 from datetime import date as date
@@ -352,7 +353,8 @@ class Address(Auth):
         streets = self.session.get('https://partnerweb.beeline.ru/ngapi/find_by_city_and_street/'
                                    '?cityPattern=&streetPattern=' + str(encode(name))).json()
         for street in streets:
-            if street['s_city'] == 69 or street['s_city'] == 241 or street['s_city'] == 86:
+            cities = list([int(id) for id in os.getenv('CITIES_ID').split(',')])
+            if street['s_city'] in cities:
                 return street['city'], street['street_name'], street['s_id']
 
     def get_houses_by_street(self, homes_json):
@@ -405,7 +407,8 @@ class Address(Auth):
                                    '?cityPattern=&streetPattern=' + str(encode(name))).json()
         addresses = []
         for street in streets:
-            if street['s_city'] == 69 or street['s_city'] == 241 or street['s_city'] == 86:
+            cities = list([int(id) for id in os.getenv('CITIES_ID').split(',')])
+            if street['s_city'] in cities:
                 addresses.append({'city': street['city'], 'street_name': street['street_name'], 's_id': street['s_id']})
         return addresses
 
@@ -863,9 +866,3 @@ class Worker:
                 worker = Worker(cols[0], cols[1], cols[2], cols[3], a)
                 workers.append(worker)
         return workers
-
-
-if __name__ == '__main__':
-    sell_code, login, password = 'G800-37','Хоменко','1604'
-    auth = NewDesign(sell_code, login, password)
-    auth.three_month_tickets()

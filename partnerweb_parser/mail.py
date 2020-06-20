@@ -8,8 +8,8 @@ import traceback
 
 class EmailSender():
     def __init__(self):
-        self.sender_email = os.getenv('sender_email')
-        self.password = os.getenv('email_password')
+        self.sender_email = os.getenv('SENDER_EMAIL')
+        self.password = os.getenv('EMAIL_PASSWORD')
 
     def email_helper(self, subject):
         message = MIMEMultipart("alternative")

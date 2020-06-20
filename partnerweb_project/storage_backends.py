@@ -9,17 +9,17 @@ def create_transfer_manager(*arg, **kwargs):
     )
 
 class StaticStorage(S3Boto3Storage):
-    location = settings.AWS_STATIC_LOCATION
+    location = 'static'
     default_acl = 'public-read'
 
 class PublicMediaStorage(S3Boto3Storage):
     transfer.create_transfer_manager = create_transfer_manager
-    location = settings.AWS_PUBLIC_MEDIA_LOCATION
+    location = 'public'
     default_acl = 'public-read'
     file_overwrite = False
 
 class PrivateMediaStorage(S3Boto3Storage):
-    location = settings.AWS_PRIVATE_MEDIA_LOCATION
+    location = 'private'
     default_acl = 'private'
     file_overwrite = False
     custom_domain = False

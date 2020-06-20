@@ -127,3 +127,6 @@ dmypy.json
 
 .gitignore
 staticfiles/
+/.env
+/.idea/
+/node_modules/
