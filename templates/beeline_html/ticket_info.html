@@ -146,6 +146,34 @@
                     {% else %}
                     <h3>Произошла ошибка при загрузке глобальных проблем</h3>
                 {% endif %}
+                {% if satelit_info %}
+                    {% for service in satelit_info.services %}
+                            <p>
+                                {% if service.type == 'IS_PRESET' %}
+                                <img src="{% static 'icons/beeline/smartphone.svg' %}" alt=""
+                                     width="32" height="32" title="internet"> Конвергенция
+
+                                {% elif service.type == 'IS_INAC_PRESET' %}
+                                <img src="{% static 'icons/beeline/hpd.svg' %}" alt=""
+                                     width="32" height="32" title="internet"> ШПД
+                                {% elif service.type == 'VPDN' %}
+                                <img src="{% static 'icons/beeline/internet.svg' %}" alt=""
+                                     width="32" height="32" title="internet">
+                                {{ service.name }}
+                                {% elif service.type == 'TVE' %}
+                                <img src="{% static 'icons/beeline/television.svg' %}" alt=""
+                                     width="32" height="32" title="internet">
+                                {{ service.name }}
+                                {% elif service.type == 'W_STOPPABLE_RENT_NR' %}
+                                <img src="{% static 'icons/beeline/wireless-router.svg' %}" alt=""
+                                     width="32" height="32" title="internet">
+                                {{ service.name }}
+                                {% endif %}
+                            </p>
+                    {% endfor %}
+                {% else %}
+                    <h3>Произошла ошибка сателитной заявки</h3>
+                {% endif %}
                                 </div>
                             </div>
                         </div>

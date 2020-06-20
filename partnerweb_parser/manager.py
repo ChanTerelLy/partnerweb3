@@ -112,36 +112,6 @@ class Ticket:
     def __repr__(self):
         return str(self.__dict__)
 
-class Service:
-
-    def __init__(self, IS_INAC_PRESET_id='',
-                 IS_INAC_PRESET_name='',
-                 IS_PRESET_id='',
-                 IS_PRESET_name='',
-                 VPDN_id='',
-                 VPDN_name='',
-                 IPTV_id='',
-                 IPTV_name='',
-                 TVE_id='',
-                 TVE_name='',
-                 W_NONSTOP_id='',
-                 W_NONSTOP_name=''):
-        self.W_NONSTOP_name = str(W_NONSTOP_name)
-        self.W_NONSTOP_id = str(W_NONSTOP_id)
-        self.TVE_name = str(TVE_name)
-        self.TVE_id = str(TVE_id)
-        self.IPTV_name = str(IPTV_name)
-        self.IPTV_id = str(IPTV_id)
-        self.VPDN_name = str(VPDN_name)
-        self.VPDN_id = str(VPDN_id)
-        self.IS_PRESET_name = str(IS_PRESET_name)
-        self.IS_PRESET_id = str(IS_PRESET_id)
-        self.IS_INAC_PRESET_name = str(IS_INAC_PRESET_name)
-        self.IS_INAC_PRESET_id = str(IS_INAC_PRESET_id)
-
-    def __repr__(self):
-        return str(self.__dict__)
-
 
 class OldDesign(Auth):
     """This class not use anymore, only as parent class and support old fitches.
@@ -499,44 +469,17 @@ class NewDesign(Basket):
 
     def ticket_instance_info(self, attr):
         phone1, phone2, phone3 = self.get_phone123(attr)
-        services = self.parse_services(attr['services']).__dict__ if attr['services'] else ''
         ticket = Ticket(address=attr['address'], address_id=attr['address_id'],
                       allow_change_status=attr['allow_change_status'],
                       allow_schedule=attr['allow_schedule'], call_time=attr['call_time'], comments=attr['comments'],
                       date=attr['date'], id=attr['id'], name=attr['name'], number=attr['number'],
                       operator=attr['operator'], phones=attr['phones'],
-                      services=services, shop=attr['shop'], shop_id=attr['shop_id'], status=attr['status'],
+                      services=attr['services'], shop=attr['shop'], shop_id=attr['shop_id'], status=attr['status'],
                       ticket_paired=attr['ticket_paired'], type=attr['type'], type_id=attr['type_id'], phone1=phone1,
                       phone2=phone2, phone3=phone3, status_id=attr['status_id'], statuses=attr['statuses'])
         as_t = list([c['date'] for c in ticket.comments if find_asssigned_date(c['text'])])
         ticket.assigned_date = as_t[0] if as_t else None
         return ticket
-
-    def parse_services(self, data):
-        services = Service()
-        if data:
-            for d in data:
-                if d['type'] == 'IS_INAC_PRESET':
-                    services.IS_INAC_PRESET_id = d['id']
-                    services.IS_INAC_PRESET_name = d['name']
-                if d['type'] == 'IS_PRESET':
-                    services.IS_PRESET_id = d['id']
-                    services.IS_PRESET_name = d['name']
-                if d['type'] == 'VPDN':
-                    services.VPDN_id = d['id']
-                    services.VPDN_name = d['name']
-                if d['type'] == 'IPTV':
-                    services.IPTV_id = d['id']
-                    services.IPTV_name = d['name']
-                if d['type'] == 'TVE':
-                    services.TVE_id = d['id']
-                    services.TVE_name = d['name']
-                if d['type'] == 'W_NONSTOP':
-                    services.W_NONSTOP_id = d['id']
-                    services.W_NONSTOP_name = d['name']
-            return services
-        else:
-            return ''
 
     def get_phone123(self, attr):
         phone1 = attr['phones'][0]['phone'] if len(attr['phones']) else ''

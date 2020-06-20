@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/ChanTerelLy/partnerweb3#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "moment": "^2.24.0"
   }
 }
