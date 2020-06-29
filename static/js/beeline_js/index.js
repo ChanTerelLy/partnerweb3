@@ -520,3 +520,20 @@ function getAupEmail() {
         }
     })
 }
+
+function assignTicket(csrfmiddlewaretoken) {
+    let assign_data = [];
+    $.ajax({
+        url: `/assign_ticket`,
+        type: 'POST',
+        contentType: 'application/json; charset=utf-8',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("X-CSRFToken", csrfmiddlewaretoken);
+        },
+        data: JSON.stringify(assign_data),
+        dataType: 'text',
+        success: function (data) {
+            location.reload();
+        }
+    })
+}

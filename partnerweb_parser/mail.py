@@ -26,11 +26,13 @@ class EmailSender():
 
         # Create secure connection with server and send email
         context = ssl.create_default_context()
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-            server.login(self.sender_email, self.password)
-            server.sendmail(
-                self.sender_email, to, message.as_string()
-            )
+        mails= to.split(',')
+        for mail in mails:
+            with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+                server.login(self.sender_email, self.password)
+                server.sendmail(
+                    self.sender_email, mail, message.as_string()
+                )
 
     def assign_mail_ticket(self, text):
         message = self.email_helper('Назначение заявки в график')

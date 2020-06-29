@@ -63,14 +63,24 @@ def load_image(request):
                               'mail_to' : promouter.master.email,
                               'images_link' : request.build_absolute_uri(reverse('promouter_images',  kwargs={'id': promouter_id}))}
                 if (type == 'mailbox'):
-                    for i in imgs:
-                        img = MailBoxImg.objects.create(img=request.FILES[i])
-                        address.mailbox_img.add(img)
-                    EmailSender().promouter_upload_imagebox(email_text)
+                    if len(imgs) + address.mailbox_img.count() <= address.address.address.entrance:
+                        for i in imgs:
+                            img = MailBoxImg.objects.create(img=request.FILES[i])
+                            address.mailbox_img.add(img)
+                        EmailSender().promouter_upload_imagebox(email_text)
+                    else:
+                        return JsonResponse({'status': 'error', 'description': f'Фотографий не может быть больше чем подъездов,'
+                                                                               f'уже загружено в системе {address.mailbox_img.count()}'})
+
                 if (type == 'entrancebox'):
-                    for i in imgs:
-                        img = EntranceImg.objects.create(img=request.FILES[i])
-                        address.entrance_img.add(img)
+                    if len(imgs) + address.entrance_img.count() <= address.address.address.entrance:
+                        for i in imgs:
+                            img = EntranceImg.objects.create(img=request.FILES[i])
+                            address.entrance_img.add(img)
+                    else:
+                        return JsonResponse(
+                            {'status': 'error', 'description': f'Фотографий не может быть больше чем подъездов,'
+                                                                                   f'уже загружено в системе {address.mailbox_img.count()}'})
                 address_todo.done = True
                 address_todo.save()
         return JsonResponse({'status': 'ok'})

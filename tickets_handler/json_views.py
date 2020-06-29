@@ -156,3 +156,6 @@ def change_phone_number(request):
 def get_aup_email(request):
     aup = AUP.objects.all()
     return JsonResponse(serializers.serialize('json', aup), safe=False)
+
+def assign_ticket(request):
+    auth = NewDesign(os.getenv('SELL_CODE'), request.session['operator'], request.session['password'])

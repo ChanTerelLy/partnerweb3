@@ -784,6 +784,16 @@ class NewDesign(Basket):
         phones = json.loads(data)
         return self.session.post(f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{ticket_id}',
                                  json.dumps(phones)).json()
+    def assign_ticket(self, cell, code, entrance, floor, intbegin, intend, tickets, confirmation=''):
+        self.session.headers['sec-fetch-dest'] = 'empty'
+        self.session.headers['sec-fetch-mode'] = 'cors'
+        self.session.headers['sec-fetch-site'] = 'same-origin'
+        self.session.headers['accept'] = 'application/json, text/plain, */*'
+        self.session.headers['accept-encoding'] = 'gzip, deflate, br'
+        self.session.headers['accept-language'] = 'en-US,en;q=0.9,ru-RU;q=0.8,ru;q=0.7,en-GB;q=0.6'
+        self.session.headers['content-type'] = 'application/json;charset=UTF-8'
+        phones = json.loads(data)
+
 
 class Worker:
     def __init__(self, name, number, master, status, url):
