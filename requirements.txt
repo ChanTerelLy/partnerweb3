@@ -52,7 +52,6 @@ jsonpickle==1.2
 lxml==4.4.1
 msgpack==0.6.2
 multidict==4.7.1
-numpy==1.17.3
 oauthlib==3.0.1
 openpyxl==3.0.0
 pep8==1.7.1
