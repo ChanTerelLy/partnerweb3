@@ -83,13 +83,13 @@ DATABASES = {
     }
 }
 
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 SESSION_CACHE_ALIAS = "default"
 USE_REDIS = int(os.getenv('USE_REDIS'))
 if USE_REDIS:
-    CACHE_TTL = 60 * 5  # 5 minutes
     CACHES = {
         "default": {
+            'TIMEOUT': None,
             "BACKEND": "django_redis.cache.RedisCache",
             "LOCATION": os.environ.get('REDIS_URL'),
             "OPTIONS": {

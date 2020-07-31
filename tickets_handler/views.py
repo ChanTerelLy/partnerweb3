@@ -17,7 +17,6 @@ from datetime import datetime
 import pytz
 from partnerweb_parser.manager import NewDesign
 import os
-CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 
 
@@ -39,7 +38,8 @@ def tickets(request):
                                                         'switched_on_tickets': switched_on_tickets,
                                                         'switched_on_today': switched_on_today,
                                                         'created_today_tickets': created_today_tickets,
-                                                        'all_tickets': all_tickets, 'timestamp': moscow_now})
+                                                        'all_tickets': all_tickets,
+                                                        'timestamp': moscow_now})
             return render(request, 'beeline_html/main_page_tickets.html',
                           {'assigned_tickets': WorkersModel.replace_num_worker(assigned_tickets),
                            'call_for_today': WorkersModel.replace_num_worker(call_for_today),
