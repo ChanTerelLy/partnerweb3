@@ -119,19 +119,20 @@ def tickets_redis_json(request):
             assigned_tickets, assigned_today, call_for_today, switched_on_tickets, \
             switched_on_today, created_today_tickets, all_tickets = auth.three_month_tickets()
             cache.set(e.profile_name, {'assigned_tickets': assigned_tickets,
-                                                    'assigned_today': assigned_today,
-                                                    'call_for_today': call_for_today,
-                                                    'switched_on_tickets': switched_on_tickets,
-                                                    'switched_on_today': switched_on_today,
-                                                    'created_today_tickets': created_today_tickets,
-                                                    'all_tickets': all_tickets, 'timestamp': moscow_now})
+                                        'assigned_today': assigned_today,
+                                        'call_for_today': call_for_today,
+                                        'switched_on_tickets': switched_on_tickets,
+                                        'switched_on_today': switched_on_today,
+                                        'created_today_tickets': created_today_tickets,
+                                        'all_tickets': all_tickets,
+                                        'timestamp': moscow_now})
             all['assigned_tickets'] += assigned_tickets
             all['assigned_today'] += assigned_today
             all['call_for_today'] += call_for_today
             all['switched_on_tickets'] += switched_on_tickets
             all['switched_on_today'] += switched_on_today
             all['created_today_tickets'] += created_today_tickets
-
+            all['all_tickets'] += all_tickets
         cache.set('supervisors_tickets', all)
         return JsonResponse({'status':'success'}, safe=False)
     else:
