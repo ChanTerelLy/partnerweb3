@@ -159,3 +159,15 @@ def get_aup_email(request):
 
 def assign_ticket(request):
     auth = NewDesign(os.getenv('SELL_CODE'), request.session['operator'], request.session['password'])
+    if request.method == "POST":
+        payload = json.loads(request.body)
+        data = {"tickets": [payload['ticket_id']],
+                "cell": payload['cell'],
+                "intbegin": payload['intbegin'],
+                "intend": payload['intend'],
+                "entrance": payload['entrance'],
+                "floor": payload['floor'],
+                "code": "0",
+                "confirmation": ""}
+        response = auth.assign_ticket(data)
+        return JsonResponse({'status': response})

@@ -389,6 +389,7 @@ class Schedule(Address):
 
     def schedule_interval_by_day(self, ticket_id, year, month, day, house_id=False):
         ar_id = ''
+        free_times = {}
         if ticket_id:
             ar_id = self.get_num_house_by_id(ticket_id)['num_house']
         if house_id:
@@ -396,15 +397,19 @@ class Schedule(Address):
         schedule_session = self.session.get(f'https://partnerweb.beeline.ru/restapi/schedule/get_day_schedule/{ar_id}?'
                                             + urllib.parse.urlencode({'day': str(day), 'month': str(month),
                                                                       'year': str(year)})).json()
-        get_free_time = schedule_session['data']['classic_schedule']
+        free_time = schedule_session['data']['classic_schedule']
         time_intervals = []
-        for key, cell in enumerate(get_free_time):
-            # if ticket have other tickets in the same interval
-            if cell.get('tickets_info'):
-                continue
-            time_intervals.append(formate_date_schedule(cell['intbegin']))
-        count_interval_by_time = {i: time_intervals.count(i) for i in time_intervals}
-        return count_interval_by_time
+        for time in free_time:
+            time_intervals.append(
+                {
+                    'cell' : time['cell'],
+                    'intbegin' : time['intbegin'],
+                    'intend' : time['intend'],
+                    'count_free_cells' : len(time['free_cells']),
+                    'convenient_time' : formate_date_schedule(time['intbegin'])
+                }
+            )
+        return time_intervals
 
     def month_schedule_color(self, num_house, ticket_id=None):
         if num_house:
@@ -784,7 +789,7 @@ class NewDesign(Basket):
         phones = json.loads(data)
         return self.session.post(f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{ticket_id}',
                                  json.dumps(phones)).json()
-    def assign_ticket(self, cell, code, entrance, floor, intbegin, intend, tickets, confirmation=''):
+    def assign_ticket(self,data):
         self.session.headers['sec-fetch-dest'] = 'empty'
         self.session.headers['sec-fetch-mode'] = 'cors'
         self.session.headers['sec-fetch-site'] = 'same-origin'
@@ -792,7 +797,9 @@ class NewDesign(Basket):
         self.session.headers['accept-encoding'] = 'gzip, deflate, br'
         self.session.headers['accept-language'] = 'en-US,en;q=0.9,ru-RU;q=0.8,ru;q=0.7,en-GB;q=0.6'
         self.session.headers['content-type'] = 'application/json;charset=UTF-8'
-        phones = json.loads(data)
+        data = json.loads(data)
+        return self.session.post(f'https://partnerweb.beeline.ru/restapi/schedule/do_schedule',
+                                 json.dumps(data)).json()
 
 
 class Worker:

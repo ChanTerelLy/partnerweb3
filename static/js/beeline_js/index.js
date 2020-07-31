@@ -24,7 +24,8 @@ function call_timer() {
     });
 }
 
-
+let assign_data = []
+let choosed_assign_data = {}
 let getSchedule = (id, inline, load_el, house_id = false) => {
     $.datetimepicker.setLocale('ru');
     $(function () {
@@ -43,9 +44,10 @@ let getSchedule = (id, inline, load_el, house_id = false) => {
                         url: `./schedule/${value.getFullYear()}/${value.getMonth() + 1}/${value.getDate()}`,
                         dataType: "json",
                         success: function (result) {
+                            assign_data = result;
                             getColorSchedule(ticket_id);
                             $.each(result, function (key, value) {
-                                globalDate.push(key);
+                                globalDate.push(value['convenient_time']);
                             });
                             if (globalDate.length < 1) {
                                 globalDate = ['00:00']
@@ -62,6 +64,14 @@ let getSchedule = (id, inline, load_el, house_id = false) => {
                             document.getElementById(load_el).style.visibility = 'hidden'
                         }
                     });
+                },
+                onSelectTime: function (ct,$i){
+                    let time = $i.val().split(' ')[1];
+                    $.each(assign_data, function (key, value){
+                        if(value['convenient_time'] == time){
+                            choosed_assign_data = value;
+                        }
+                    })
                 }
             });
     });
@@ -522,18 +532,23 @@ function getAupEmail() {
 }
 
 function assignTicket(csrfmiddlewaretoken) {
-    let assign_data = [];
+    let payload =  Object.assign(choosed_assign_data,
+        {
+        'ticket_id': ticket_id,
+        'entrance' : $('#entrance-myself').val(),
+        'floor' : $('#floor-myself').val(),
+        })
     $.ajax({
-        url: `/assign_ticket`,
+        url: `/assign_ticket/`,
         type: 'POST',
         contentType: 'application/json; charset=utf-8',
         beforeSend: function (xhr) {
             xhr.setRequestHeader("X-CSRFToken", csrfmiddlewaretoken);
         },
-        data: JSON.stringify(assign_data),
+        data: JSON.stringify(payload),
         dataType: 'text',
         success: function (data) {
-            location.reload();
+            alert(data);
         }
     })
 }
