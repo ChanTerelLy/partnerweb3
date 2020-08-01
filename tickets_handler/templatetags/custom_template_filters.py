@@ -1,14 +1,18 @@
 from django import template
 import json
+from django.conf import settings
 register = template.Library()
 
-#TODO:not working in tempate return 'phone instead' dict obj
-def phones_string_to_array(value):
-    data = value.replace(']', '').replace('[', '').replace("\'", "\"")
+@register.filter(name='phones_string_to_dict')
+def phones_string_to_dict(value):
+    data = value.replace("\'", "\"")
     try:
         data = json.loads(data)
     except:
         return None
     return data
 
-register.filter('phones_string_to_array', phones_string_to_array)
+# settings value
+@register.simple_tag
+def settings_value(name):
+    return getattr(settings, name, "")

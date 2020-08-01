@@ -1,5 +1,6 @@
 {% extends '_base.html' %}
 {% load static %}
+{% load custom_template_filters %}
 {% block title %}Назначенные заявки{% endblock %}
 {% block content %}
     <table class="table-bordered" style="margin-left:auto;margin-right:auto;">
@@ -25,7 +26,11 @@
                 <td>{{ ticket.when_assigned|date:"d.m.y H:i" }}</td>
                 <td>{{ ticket.client_address }}</td>
                 <td>{{ ticket.client_name }}</td>
-                <td>{{ ticket.phones }}</td>
+                <td>
+                    {% for value in  ticket.phones|phones_string_to_dict %}
+                        {{ value.phone }} - {{ value.comment }}
+                    {% endfor %}
+                </td>
                 <td>{{ ticket.assigned_date|date:"d.m.y H:i" }}</td>
             </tr>
         {% endfor %}

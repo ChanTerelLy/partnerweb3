@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_template_filters %}
 <script
         src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -13,7 +14,8 @@
         integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
 <script src="{% static 'js/excel-bootstrap-table-filter-bundle.js' %}"></script>
 <script src="{% static 'js/moment.js' %}"></script>
-{% if setting.YA_METRIC_ID %}
+{% settings_value "YA_METRIC_ID" as metric %}
+{% if metric %}
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
     (function (m, e, t, r, i, k, a) {
@@ -25,7 +27,7 @@
     })
     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-    ym({{setting.YA_METRIC_ID}}, "init", {
+    ym({{ metric }}, "init", {
         clickmap: true,
         trackLinks: true,
         accurateTrackBounce: true,
