@@ -72,6 +72,9 @@ let getSchedule = (id, inline, load_el, house_id = false) => {
                             choosed_assign_data = value;
                         }
                     })
+                    //set data for all send form
+                    $('#installerscheduleform').val($i.val());
+                    $('#assign-myself').val($i.val());
                 }
             });
     });
@@ -270,6 +273,10 @@ forbidChanges = (status) => {
         document.getElementById('id_status').disabled = true;
         document.getElementById('id_comments').disabled = true;
         document.getElementById('img_change_phones').disabled = true;
+        $('#submit-button').prop('disabled', true).addClass('disable')
+        $('#submit-supervisor').prop('disabled', true).addClass('disable')
+        $('#submit-myself').prop('disabled', true).addClass('disable')
+        $('#id_status').val('')
     }
 };
 

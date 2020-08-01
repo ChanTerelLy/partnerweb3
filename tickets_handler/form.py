@@ -25,7 +25,7 @@ class Feedback(forms.Form):
     descr = forms.CharField(widget=forms.Textarea, label='Опишите вашу проблему или предложение')
 
 class FindAnythingForm(forms.Form):
-    data = forms.CharField(max_length=100, label='Введите фамилию, телефон, адрес или номер заявки')
+    data = forms.CharField(max_length=100, label='Введите фамилию, телефон, адрес или номер заявки', required=False)
 
 class FraudTicketSendForm(forms.Form):
     datetime = forms.DateField(widget=forms.DateTimeInput(attrs={'readonly':'readonly'}),label='Таймер',  required=False)
