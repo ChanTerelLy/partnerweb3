@@ -13,3 +13,17 @@ services:
   redis:
     image: redis:latest
     container_name: partnerweb3_redis
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_USER: postgres
+    ports:
+        - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

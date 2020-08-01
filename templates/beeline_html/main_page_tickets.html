@@ -3,19 +3,19 @@
 {% block title %}Главная страница{% endblock %}
 {% block content %}
     <div class="container">
-        <button type="button" class="btn btn-primary" >
+        <button type="button" class="btn btn-primary" style="cursor: context-menu;">
             Созданных сегодня <span class="badge badge-light">{{ created_today_tickets }}</span>
         </button>
-        <button type="button" class="btn btn-warning">
+        <button type="button" class="btn btn-warning" style="cursor: context-menu;">
             Назначенных сегодня <span class="badge badge-light" id="assigned_today_counter">{{ assigned_today }}</span>
         </button>
-        <button type="button" class="btn btn-success">
+        <button type="button" class="btn btn-success" style="cursor: context-menu;">
             Подключенных сегодня <span class="badge badge-light" id="switched_today_counter">{{ switched_on_today }}</span>
         </button>
-        <button type="button" class="btn btn-secondary">
+        <button type="button" class="btn btn-secondary" style="cursor: context-menu;">
             Подключенных всего <span class="badge badge-light" ><switched_count></switched_count></span>
         </button>
-        <button type="button" class="btn btn-info">
+        <button type="button" class="btn btn-info" style="cursor: context-menu;">
             {{ timestamp }}
         </button>
 
@@ -82,7 +82,8 @@
                     <td class="align-middle" data-operator="{{ ticket.operator }}">
                         {{ ticket.name_operator }}
                         <div class="input-group input-group-sm">
-                            <select class="custom-select" style="background: transparent;"
+                            <select class="source-select custom-select" style="background-color: red;"
+                                    data-ticket_paired_info_number={{ ticket.ticket_paired_info.number }}
                                     id="source_{{ ticket.ticket_paired_info.number }}">
                                 <option>Не определено</option>
                                 <option>Поквартирный обход</option>
@@ -90,13 +91,6 @@
                                 <option>Залистовка</option>
                                 <option>Другое</option>
                             </select>
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button"
-                                        onclick="sendSourceTicket(this, {{ ticket.ticket_paired_info.number }},
-                                                document.getElementById('source_{{ ticket.ticket_paired_info.number }}')
-                                                , '{{ csrf_token }}')">+
-                                </button>
-                            </div>
                         </div>
                     </td>
                 </tr>
@@ -204,8 +198,9 @@
                     <td class="align-middle">{{ ticket.ticket_paired_info.call_time }}</td>
                     <td class="align-middle" data-operator="{{ ticket.operator }}">
                         {{ ticket.name_operator }}
-                        <div class="input-group input-group-sm">
-                            <select class="custom-select" style="background: transparent;"
+                        <div class="input-group input-group-sm" >
+                            <select class="source-select custom-select" style="background-color: red;"
+                                    data-ticket_paired_info_number={{ ticket.ticket_paired_info.number }}
                                     id="source_{{ ticket.ticket_paired_info.number }}">
                                 <option>Не определено</option>
                                 <option>Поквартирный обход</option>
@@ -213,13 +208,6 @@
                                 <option>Залистовка</option>
                                 <option>Другое</option>
                             </select>
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button"
-                                        onclick="sendSourceTicket(this, {{ ticket.ticket_paired_info.number }},
-                                                document.getElementById('source_{{ ticket.ticket_paired_info.number }}')
-                                                , '{{ csrf_token }}')">+
-                                </button>
-                            </div>
                         </div>
                     </td>
                 </tr>
@@ -236,6 +224,15 @@
             searchLine();
             assignCounter();
             switchCounter();
+            $(".source-select").on("change", function (e) {
+                let ticket_paired_info_number = $(this).data('ticket_paired_info_number')
+                let operator = $(this).parent().parent().data('operator')
+                sendSourceTicket(operator,
+                    ticket_paired_info_number,
+                    document.getElementById(`source_${ticket_paired_info_number}`),
+                    '{{ csrf_token }}')
+                $(this).css('background', 'transparent')
+            });
         });
         getCallTariff = () => {
             {% for ticket in call_for_today %}
@@ -260,7 +257,6 @@
         {% for ticket in switched_on_tickets %}
             showSourceTicket({{ticket.ticket_paired_info.number}});
         {% endfor %}
-
     </script>
 {% endblock %}
 

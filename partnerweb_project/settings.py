@@ -134,6 +134,7 @@ MESSAGE_TAGS = {
 }
 
 USE_S3 = int(os.getenv('USE_S3'))
+USE_S3_STATIC = int(os.getenv('USE_S3_STATIC'))
 if USE_S3:
     AWS_S3_REGION_NAME = 'eu-west-2'
     AWS_S3_SIGNATURE_VERSION = 's3v4'
@@ -145,9 +146,10 @@ if USE_S3:
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
     # s3 static settings
-    STATIC_LOCATION = f'static-{os.getenv("BRANCH")}'if os.getenv('BRANCH') else 'static'
-    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
-    STATICFILES_STORAGE = 'partnerweb_project.storage_backends.StaticStorage'
+    if USE_S3_STATIC:
+        STATIC_LOCATION = f'static-{os.getenv("BRANCH")}'if os.getenv('BRANCH') else 'static'
+        STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+        STATICFILES_STORAGE = 'partnerweb_project.storage_backends.StaticStorage'
     # s3 public media settings
     PUBLIC_MEDIA_LOCATION = 'media'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
@@ -172,3 +174,4 @@ DJANGORESIZED_DEFAULT_KEEP_META = True
 DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'JPEG'
 DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {'JPEG': ".jpg"}
 DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
+YA_METRIC_ID = int(os.getenv('USE_REDIS')) if os.getenv('USE_REDIS') else False

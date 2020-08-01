@@ -13,6 +13,7 @@
         integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
 <script src="{% static 'js/excel-bootstrap-table-filter-bundle.js' %}"></script>
 <script src="{% static 'js/moment.js' %}"></script>
+{% if setting.YA_METRIC_ID %}
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
     (function (m, e, t, r, i, k, a) {
@@ -24,7 +25,7 @@
     })
     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-    ym(56199643, "init", {
+    ym({{setting.YA_METRIC_ID}}, "init", {
         clickmap: true,
         trackLinks: true,
         accurateTrackBounce: true,
@@ -35,3 +36,4 @@
     <div><img src="https://mc.yandex.ru/watch/56199643" style="position:absolute; left:-9999px;" alt=""/></div>
 </noscript>
 <!-- /Yandex.Metrika counter -->
+{% endif %}

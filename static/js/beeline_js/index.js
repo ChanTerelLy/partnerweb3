@@ -296,9 +296,8 @@ addAdditionalTicket = (positive, csrfmiddlewaretoken) => {
     })
 };
 
-sendSourceTicket = (self, ticket_id, source, csrfmiddlewaretoken) => {
-    let operator = self.parentElement.parentElement.parentElement;
-    let payload = {'source': source.value, 'ticket_id': ticket_id, 'operator': operator.dataset.operator};
+sendSourceTicket = (operator, ticket_id, source, csrfmiddlewaretoken) => {
+    let payload = {'source': source.value, 'ticket_id': ticket_id, 'operator': operator};
     $.ajax({
         url: `/ticket_source/?add=${ticket_id}/`,
         type: 'POST',
@@ -310,7 +309,6 @@ sendSourceTicket = (self, ticket_id, source, csrfmiddlewaretoken) => {
         dataType: 'text',
         success: function (result) {
             let data = JSON.parse(result);
-            alert(data.status);
         }
     })
 };
@@ -320,7 +318,12 @@ showSourceTicket = (ticket_id) => {
         url: `/ticket_source/?show=${ticket_id}`,
         type: 'GET',
         success: function (result) {
-            document.getElementById(`source_${ticket_id}`).value = result.source;
+            let elem = document.getElementById(`source_${ticket_id}`)
+            elem.value = result.source;
+            if(elem.value != 'Не определено'){
+                $(`#source_${ticket_id}`).css('background', 'transparent')
+            }
+
         }
     })
 };
