@@ -65,4 +65,7 @@ urlpatterns = [
     url('get_schedule_color', get_schedule_color, name='get_schedule_color'),
     url(r'house_info/(?P<city_id>\d+)/(?P<house_id>\d+)/$', house_info, name='house_info'),
     url(r'house_info/(?P<city_id>\d+)/(?P<house_id>\d+)/(?P<flat>\d+)$', check_fraud, name='check_fraud'),
+
+    #other
+    url('error500', error500, name='error500'),
 ]

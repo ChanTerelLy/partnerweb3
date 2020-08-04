@@ -1,7 +1,7 @@
 import os
 
 from django.core import serializers
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from partnerweb_parser.manager import NewDesign
 from tickets_handler.models import Employer, TicketSource, AUP
 import jsonpickle
@@ -180,3 +180,6 @@ def assign_ticket(request):
                 "confirmation": ""}
         response = auth.assign_ticket(data)
         return JsonResponse({'status': response})
+
+def error500(request):
+    return HttpResponseServerError('Something went wrong')
