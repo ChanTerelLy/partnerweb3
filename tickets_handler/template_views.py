@@ -101,3 +101,4 @@ class AssignedTicketsList(ListView):
     template_name = 'beeline_html/assigment_dumped.html'
     context_object_name = 'tickets'
     ordering = '-when_assigned'
+    paginate_by = 100

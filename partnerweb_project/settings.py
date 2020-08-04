@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'call_center',
     'storages',
+    'bootstrap_pagination',
 ]
 
 MIDDLEWARE = [

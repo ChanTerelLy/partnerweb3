@@ -305,7 +305,7 @@ def send_mail(request):
 def find_anything(request):
     form = FindAnythingForm(request.POST)
     if request.method == 'POST':
-        data = form['data'].value()
+        data = form['data'].value().lower()
         all_tickets = []
         cache_tickets = cache.get('supervisors_tickets')
         if cache_tickets and cache_tickets['all_tickets']:

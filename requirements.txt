@@ -85,3 +85,4 @@ urllib3==1.24.2
 whitenoise==4.1.2
 yarl==1.4.2
 django-resized==0.3.11
+django-bootstrap-pagination==1.7.1

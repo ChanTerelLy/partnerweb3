@@ -1,6 +1,7 @@
 {% extends '_base.html' %}
 {% load static %}
 {% load custom_template_filters %}
+{% load bootstrap_pagination %}
 {% block title %}Назначенные заявки{% endblock %}
 {% block content %}
     <table class="table-bordered" style="margin-left:auto;margin-right:auto;">
@@ -34,5 +35,6 @@
                 <td>{{ ticket.assigned_date|date:"d.m.y H:i" }}</td>
             </tr>
         {% endfor %}
+        {% bootstrap_paginate page_obj %}
     </table>
 {% endblock %}

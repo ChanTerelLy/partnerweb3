@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from .models import AddressToDo as AddressToDoModel,Address, \
     PromoutingReport as PromouteReportModel, Promouter, AddressData, EntranceImg, MailBoxImg, PromouterPayments
@@ -27,6 +28,9 @@ def promouter_images(request, id):
         ad = address.address.address
         sum_to_pay += (promouter.price_to_paper/ 100) * \
         (address.mailbox_img.count() / ad.entrance) * ad.flats
+    address_data = Paginator(address_data, 25)
+    page_number = request.GET.get('page', 1)
+    page_obj = address_data.get_page(page_number)
     promouter_payment = PromouterPayments.objects.filter(promouter=promouter).aggregate(Sum('sum'))
     recieved_payment = promouter_payment['sum__sum'] if promouter_payment['sum__sum'] else 0
     payment_left = int(sum_to_pay - recieved_payment)
@@ -37,7 +41,7 @@ def promouter_images(request, id):
         'promouter_price': promouter_price,
         'card' : promouter.bank_detail
     }
-    return render(request, 'territory/promouter_images.html',  {'address_data': address_data,
+    return render(request, 'territory/promouter_images.html',  {'address_data': page_obj,
                                                                 'payments' : payments
                                                                 })
 
@@ -92,6 +96,7 @@ class PromouterListView(ListView):
     model = Promouter
     template_name = 'territory/promouter_list_view.html'
     context_object_name = 'promouters'
+    paginate_by = 5
 
 
 
