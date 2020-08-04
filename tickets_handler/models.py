@@ -166,7 +166,7 @@ class ACL(models.Model):
 
 class AssignedTickets(models.Model):
     ticket_number = models.IntegerField()
-    when_assigned = models.DateTimeField()
+    when_assigned = models.DateTimeField(null=True, blank=True)
     client_address = models.CharField(max_length=200)
     client_name = models.CharField(max_length=150)
     phones = models.CharField(max_length=150)
@@ -174,28 +174,33 @@ class AssignedTickets(models.Model):
     agent = models.ForeignKey(Workers, on_delete=models.CASCADE)
 
     @classmethod
-    def update(cls, ticket_info, *args):
-        ticket = cls.objects.filter(ticket_number=ticket_info.number).first()
-        if ticket:
-            ticket.when_assigned = dmYHM_to_datetime(ticket_info.assigned_date)
-            ticket.client_address = ticket_info.address
-            ticket.client_name = ticket_info.name
-            ticket.phones = ticket_info.phones
-            ticket.assigned_date = dmYHM_to_datetime(ticket_info.call_time)
-            ticket.agent = Workers.objects.filter(number=ticket_info.operator).first()
-            return ticket.save()
+    def update(cls, ticket, *args, **kwargs):
+        if(kwargs.get('satelit_type')):
+            ticket = ticket.ticket_paired_info
+        db_ticket = cls.objects.filter(ticket_number=ticket.number).first()
+        if db_ticket:
+            db_ticket.when_assigned = dmYHM_to_datetime(ticket.assigned_date) if ticket.assigned_date else None
+            db_ticket.client_address = ticket.address
+            db_ticket.client_name = ticket.name
+            db_ticket.phones = ticket.phones
+            db_ticket.assigned_date = dmYHM_to_datetime(ticket.call_time)
+            db_ticket.agent = Workers.objects.filter(number=ticket.operator).first()
+            return db_ticket.save()
         else:
-            assigned_date = dmYHM_to_datetime(ticket_info.call_time)
-            agent = Workers.objects.filter(number=ticket_info.operator).first()
-            cls(ticket_number=ticket_info.number, when_assigned=dmYHM_to_datetime(ticket_info.assigned_date),
-                client_address=ticket_info.address, phones=ticket_info.phones,
+            assigned_date = dmYHM_to_datetime(ticket.call_time)
+            agent = Workers.objects.filter(number=ticket.operator).first()
+            cls(ticket_number=ticket.number,
+                when_assigned=dmYHM_to_datetime(ticket.assigned_date) if ticket.assigned_date else None,
+                client_address=ticket.address,
+                phones=ticket.phones,
                 assigned_date=assigned_date,
-                agent=agent).save()
-            ticket = ticket_info.__dict__
-            ticket['mail_to'] = Employer.find_master(ticket_info.operator).email
+                agent=agent,
+                client_name=ticket.name).save()
+            db_ticket = ticket.__dict__
+            db_ticket['mail_to'] = Employer.find_master(ticket.operator).email
             if args[0]:
-                ticket['link'] = args[0].build_absolute_uri()[:-1]
-            mail.EmailSender().agent_assign_ticket(ticket)
+                db_ticket['link'] = args[0].build_absolute_uri()[:-1]
+            mail.EmailSender().agent_assign_ticket(db_ticket)
 
 class AUP(models.Model):
     name = models.CharField(max_length=150)

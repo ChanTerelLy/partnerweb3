@@ -127,6 +127,9 @@ def tickets_redis_json(request):
                                         'all_tickets': all_tickets,
                                         'timestamp': moscow_now})
             all['assigned_tickets'] += assigned_tickets
+            for assigned in assigned_tickets:
+                AssignedTickets.update(assigned, request, satelit_type=True)
+
             all['assigned_today'] += assigned_today
             all['call_for_today'] += call_for_today
             all['switched_on_tickets'] += switched_on_tickets
