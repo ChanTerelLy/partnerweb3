@@ -110,6 +110,14 @@ DATABASES = {
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('DB_HOST'),
         'PORT': '5432',
+    },
+    'second': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('SECOND_DB_NAME'),
+        'USER': os.getenv('SECOND_DB_USER'),
+        'PASSWORD': os.getenv('SECOND_DB_PASSWORD'),
+        'HOST': os.getenv('SECOND_DB_HOST'),
+        'PORT': '5432',
     }
 }
 
