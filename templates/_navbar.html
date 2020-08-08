@@ -49,6 +49,17 @@
                         <a class="dropdown-item"  href="{% url 'admin:index' %}">Админка</a>
                     </div>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarReports" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" style="color: red">
+                        Отчеты
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarReports">
+                        <a class="dropdown-item"  href="{% url 'assigned_report' %}">Отчет назначений</a>
+                        <a class="dropdown-item"  href="{% url 'ticket_source_report' %}">Отчет источников заявок</a>
+                        <a class="dropdown-item"  href="{% url 'territory_report' %}">Отчет территории</a>
+                    </div>
+                </li>
         </ul>
                 <div class="navbar-nav">
                     <span class="nav-item nav-link" id="agent" style="color: #2ecc71" >{{ request.session.operator }}</span>

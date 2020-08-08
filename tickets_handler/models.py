@@ -26,6 +26,9 @@ class Workers(models.Model):
                     continue
             return tickets
 
+    def natural_key(self):
+        return self.name
+
     def __str__(self):
         return self.name
 

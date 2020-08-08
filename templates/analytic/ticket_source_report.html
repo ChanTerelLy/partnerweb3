@@ -1,0 +1,71 @@
+{% extends 'analytic/_webdatarocket-table.html' %}
+{% load static %}
+{% block title %}Отчет источников заявок{% endblock %}
+{% block content %}
+    <body>
+    <div id="pivot-table-container" data-url="{% url 'ticket_source_data' %}"></div>
+    <div id="pivot-chart-container"></div>
+    </body>
+{% endblock content %}
+{% block extra_scripts %}
+    <script>
+        function processData(dataset) {
+            var result = []
+            dataset = JSON.parse(dataset);
+            dataset.forEach(item => result.push(item.fields));
+            return result;
+        }
+
+        $.ajax({
+            url: $("#pivot-table-container").attr("data-url"),
+            dataType: 'json',
+            success: function (data) {
+                new WebDataRocks({
+                    container: "#pivot-table-container",
+                    width: "100%",
+                    height: 700,
+                    toolbar: true,
+                    report: {
+                        dataSource: {
+                            type: "json",
+                            data: processData(data)
+                        },
+    "slice": {
+        "rows": [
+            {
+                "uniqueName": "date.Month"
+            },
+            {
+                "uniqueName": "agent"
+            },
+            {
+                "uniqueName": "source"
+            }
+        ],
+        "columns": [
+            {
+                "uniqueName": "Measures"
+            }
+        ],
+        "measures": [
+            {
+                "uniqueName": "ticket_number",
+                "aggregation": "count"
+            }
+        ]
+    },
+    "options": {
+        "grid": {
+            "showGrandTotals": "off"
+        }
+    }
+                    },
+                    global: {
+                        // replace this path with the path to your own translated file
+                        localization: '{% static 'js/webdatarocks/localization/ru.json' %}'
+                    }
+                });
+            }
+        });
+    </script>
+{% endblock extra_scripts %}

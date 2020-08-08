@@ -3,6 +3,8 @@ from tickets_handler.models import Workers, ChiefInstaller, AUP
 from partnerweb_project.storage_backends import PublicMediaStorage
 from django_resized import ResizedImageField
 from django.conf import settings
+
+
 # Create your models here.
 
 class City(models.Model):
@@ -19,8 +21,11 @@ class Area(models.Model):
 
     def __str__(self):
         return f'{self.city}  {self.name}'
+
+
 class GlobalProblem(models.Model):
     text = models.TextField()
+
 
 class Address(models.Model):
     city = models.ForeignKey(City, on_delete=models.CASCADE)
@@ -36,9 +41,10 @@ class Address(models.Model):
     master = models.ManyToManyField(Workers)
 
     def __str__(self):
-        return f'{self.street} {self.house} {self.building if self.building else ""}'
+        return f'{self.street} {self.house} {"к" + str(self.building) if self.building else ""}'
 
-
+    def natural_key(self):
+        return f'{self.street} {self.house} {"к" + str(self.building) if self.building else ""}'
 
 
 class Promouter(models.Model):
@@ -54,18 +60,22 @@ class Promouter(models.Model):
     def __str__(self):
         return f'{self.name} {self.id}'
 
+
 class PromoutingReport(models.Model):
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
     date = models.DateField()
     agent = models.CharField(max_length=100)
 
+
 class EntranceImg(models.Model):
     img = ResizedImageField(storage=PublicMediaStorage())
     date_load = models.DateField(auto_now=True, blank=True)
 
+
 class MailBoxImg(models.Model):
     img = ResizedImageField(storage=PublicMediaStorage())
     date_load = models.DateField(auto_now=True, blank=True)
+
 
 class AddressToDo(models.Model):
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
@@ -76,6 +86,7 @@ class AddressToDo(models.Model):
     def __str__(self):
         return f'{self.address}'
 
+
 class AddressData(models.Model):
     promouter = models.ForeignKey(Promouter, on_delete=models.CASCADE)
     address = models.ForeignKey(AddressToDo, on_delete=models.CASCADE)
@@ -83,10 +94,10 @@ class AddressData(models.Model):
     entrance_img = models.ManyToManyField(EntranceImg)
     mailbox_img = models.ManyToManyField(MailBoxImg)
 
+
 class PromouterPayments(models.Model):
     promouter = models.ForeignKey(Promouter, on_delete=models.CASCADE)
-    sum  = models.IntegerField()
+    sum = models.IntegerField()
 
     def __str__(self):
         return f'{self.promouter.name} - {self.sum}'
-
