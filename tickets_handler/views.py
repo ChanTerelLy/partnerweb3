@@ -39,7 +39,7 @@ def tickets(request):
                                                         'switched_on_today': switched_on_today,
                                                         'created_today_tickets': created_today_tickets,
                                                         'all_tickets': all_tickets,
-                                                        'timestamp': moscow_now})
+                                                        'timestamp': moscow_now}, 300)
             return render(request, 'beeline_html/main_page_tickets.html',
                           {'assigned_tickets': WorkersModel.replace_num_worker(assigned_tickets),
                            'call_for_today': WorkersModel.replace_num_worker(call_for_today),
@@ -153,7 +153,7 @@ def global_search(request):
     else:
         auth = NewDesign(os.getenv('SELL_CODE'), request.session['operator'],request.session['password'])
         all_tickets = auth.global_search()
-        cache.set(request.session['operator'], all_tickets)
+        cache.set(request.session['operator'], all_tickets, 300)
         tickets = Paginator(all_tickets, 100)
         page_number = request.GET.get('page', 1)
         page_obj = tickets.get_page(page_number)
