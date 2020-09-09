@@ -16,7 +16,6 @@ def update_date_for_assigned():
     db_tickets = AssignedTickets.objects.filter(when_assigned=None)
     ticket_with_id = ''
     for ticket in db_tickets:
-        logger.info("Sent feedback email")
         supervisors_tickets = cache.get('supervisors_tickets')
         for sp_ticket in supervisors_tickets['all_tickets']:
                 if hasattr(sp_ticket.ticket_paired_info, 'number') and sp_ticket.ticket_paired_info.number == ticket.ticket_number:
