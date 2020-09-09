@@ -8,6 +8,8 @@ import jsonpickle
 from types import SimpleNamespace
 import json
 
+from tickets_handler.tasks import update_date_for_assigned
+
 
 def check_fraud(request, city_id, house_id, flat):
     auth = NewDesign(os.getenv('SELL_CODE'), request.session['operator'], request.session['password'])
@@ -182,4 +184,5 @@ def assign_ticket(request):
         return JsonResponse({'status': response})
 
 def error500(request):
-    return HttpResponseServerError('Something went wrong')
+    update_date_for_assigned()
+    return JsonResponse({'status': 'response'})

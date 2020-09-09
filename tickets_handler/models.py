@@ -5,6 +5,8 @@ from partnerweb_parser import system, mail
 import json
 import datetime
 from partnerweb_parser.date_func import dmYHM_to_datetime
+from tickets_handler.tasks import update_date_for_assigned
+
 
 class Workers(models.Model):
     name = models.CharField(max_length=250, unique=True)
@@ -204,6 +206,9 @@ class AssignedTickets(models.Model):
             if args[0]:
                 db_ticket['link'] = args[0].build_absolute_uri()[:-1]
             mail.EmailSender().agent_assign_ticket(db_ticket)
+
+    def update_date(self):
+        update_date_for_assigned()
 
 class AUP(models.Model):
     name = models.CharField(max_length=150)
