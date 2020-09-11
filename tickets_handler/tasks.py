@@ -9,7 +9,7 @@ from django.apps import apps
 from django.core.cache import cache
 
 
-@periodic_task(run_every=(crontab(hour='*/12')), name="update_date_for_assigned")
+@celery_app.task
 def update_date_for_assigned():
     auth = NewDesign(os.getenv('SELL_CODE'),os.getenv('S_OPERATOR'),os.getenv('S_PASS'))
     AssignedTickets = apps.get_model(app_label='tickets_handler', model_name='AssignedTickets')
@@ -20,6 +20,13 @@ def update_date_for_assigned():
         for sp_ticket in supervisors_tickets['all_tickets']:
                 if hasattr(sp_ticket.ticket_paired_info, 'number') and sp_ticket.ticket_paired_info.number == ticket.ticket_number:
                     ticket_with_id = sp_ticket
+        if not ticket_with_id:
+            continue
         ticket_info = auth.ticket_info(ticket_with_id.ticket_paired_info.id)
         ticket.when_assigned = dmYHM_to_datetime(ticket_info.assigned_date) if ticket_info.assigned_date else None
         ticket.save()
+
+@celery_app.task
+def update_workers(auth):
+    Workers = apps.get_model(app_label='tickets_handler', model_name='Workers')
+    Workers.update_workers(auth)

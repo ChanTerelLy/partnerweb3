@@ -813,6 +813,8 @@ class Worker:
     @staticmethod
     def get_workers(auth):
         workers = []
+        if isinstance(auth, list):
+            auth = NewDesign(auth[0],auth[1],auth[2])
         workers_html = auth.session.get('https://partnerweb.beeline.ru/partner/workers/').text
         soup = BeautifulSoup(workers_html, 'lxml')
         table_body = soup.find('table', attrs={'class': 'form-table'})

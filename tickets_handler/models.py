@@ -1,7 +1,7 @@
 from django.db import models
 from partnerweb_parser.manager import NewDesign, Ticket
 import re
-from partnerweb_parser import system, mail
+from partnerweb_parser import system, mail, manager
 import json
 import datetime
 from partnerweb_parser.date_func import dmYHM_to_datetime
@@ -30,6 +30,17 @@ class Workers(models.Model):
 
     def natural_key(self):
         return self.name
+
+    @classmethod
+    def update_workers(cls, auth):
+        for worker in manager.Worker.get_workers(auth):
+            operator = cls.objects.filter(number=worker.number)
+            if not operator:
+                cls(name=worker.name, number=worker.number, master=worker.master, status=worker.status,
+                             url=worker.url).save()
+                continue
+            operator.update(name=worker.name, master=worker.master, status=worker.status, url=worker.url)
+
 
     def __str__(self):
         return self.name

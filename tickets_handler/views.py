@@ -17,6 +17,7 @@ from datetime import datetime
 import pytz
 from partnerweb_parser.manager import NewDesign
 import os
+from .tasks import update_date_for_assigned, update_workers as update_workers_async
 
 
 
@@ -74,6 +75,11 @@ def tickets_rapid(request):
             cache_tickets = cache.get(request.session['operator']) if cache.get(request.session['operator']) else cache.get('supervisors_tickets')
             assigned_tickets, assigned_today, call_for_today, switched_on_tickets, \
             switched_on_today, created_today_tickets, all_tickets, timestamp = tickets_class_for_cache(cache_tickets)
+            #async task
+            auth = NewDesign(os.getenv('SELL_CODE'), request.session['operator'], request.session['password'])
+            if auth.check_auth_status() and auth.account_type == 3:
+                update_date_for_assigned.delay()
+                update_workers_async.delay([os.getenv('SELL_CODE'), request.session['operator'], request.session['password']])
             if not cache.get(request.session['operator']):
                 # loop ticket class
                 assigned_tickets = list([a for a in assigned_tickets if a.operator == request.session['operator']])
@@ -225,13 +231,7 @@ def redirect_auth(request):
 @check_access
 def update_workers(request):
     auth = NewDesign(os.getenv('SELL_CODE'), request.session['operator'], request.session['password'])
-    for worker in Worker.get_workers(auth):
-        operator = WorkersModel.objects.filter(number=worker.number)
-        if not operator:
-            WorkersModel(name=worker.name, number=worker.number, master=worker.master, status=worker.status,
-                             url=worker.url).save()
-            continue
-        operator.update(name=worker.name, master=worker.master, status=worker.status, url=worker.url)
+    WorkersModel.update_workers(auth)
     return HttpResponse('Done')
 
 @check_access
