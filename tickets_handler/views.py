@@ -18,6 +18,8 @@ import pytz
 from partnerweb_parser.manager import NewDesign
 import os
 from .tasks import update_date_for_assigned, update_workers as update_workers_async
+from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 
 
 
@@ -355,3 +357,19 @@ def find_anything(request):
 
     return render(request, 'beeline_html/find_anything.html', {'form': form})
 
+def firebase(request):
+    return render(request, 'firebase/firebase_test.html')
+
+class ServiceWorkerView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'firebase/firebase-messaging-sw.js', content_type="application/x-javascript")
+
+def firebase_send_test(request):
+    from fcm_django.models import FCMDevice
+
+    device = FCMDevice.objects.all().first()
+
+    device.send_message("Title", "Message")
+    device.send_message(data={"test": "test"})
+    device.send_message(title="Title", body="Message", data={"test": "test"})
+    return JsonResponse({'success': True})

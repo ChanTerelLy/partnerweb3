@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.urls import path
 
 from tickets_handler.json_views import *
 from tickets_handler.template_views import *
@@ -7,6 +8,10 @@ from django.contrib import admin
 
 urlpatterns = [
     url('admin/', admin.site.urls),
+    url('firebase/', firebase, name='firebase'),
+    path('firebase-messaging-sw.js', ServiceWorkerView.as_view(), name='service_worker'),
+    path('firebase_send_test/', firebase_send_test, name='firebase_send_test'),
+
 
     #Pages URLs
     url(r'^login/$', login, name='login'),
