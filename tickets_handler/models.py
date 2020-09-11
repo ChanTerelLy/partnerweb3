@@ -195,7 +195,8 @@ class AssignedTickets(models.Model):
             ticket = ticket.ticket_paired_info
         db_ticket = cls.objects.filter(ticket_number=ticket.number).first()
         if db_ticket:
-            db_ticket.when_assigned = dmYHM_to_datetime(ticket.assigned_date) if ticket.assigned_date else None
+            if ticket.assigned_date:
+                db_ticket.when_assigned = dmYHM_to_datetime(ticket.assigned_date)
             db_ticket.client_address = ticket.address
             db_ticket.client_name = ticket.name
             db_ticket.phones = ticket.phones
