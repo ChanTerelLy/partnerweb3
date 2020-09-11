@@ -1,4 +1,7 @@
 from __future__ import absolute_import
+
+import jsonpickle
+
 from partnerweb_project.celery import app as celery_app  # noqa
 import os
 from celery.schedules import crontab
@@ -6,6 +9,8 @@ from celery.task import periodic_task
 from partnerweb_parser.date_func import dmYHM_to_datetime
 from partnerweb_parser.manager import NewDesign
 from django.apps import apps
+from django.core.cache import cache
+from datetime import datetime
 from django.core.cache import cache
 
 
@@ -30,3 +35,18 @@ def update_date_for_assigned():
 def update_workers(auth):
     Workers = apps.get_model(app_label='tickets_handler', model_name='Workers')
     Workers.update_workers(auth)
+
+@celery_app.task
+def notify_call_timer():
+    FCMDevice = apps.get_model(app_label='fcm_django', model_name='FCMDevice')
+    tickets = cache.get('supervisors_tickets')
+    devices = FCMDevice.objects.all()
+    for device in devices:
+        all_tickets = list([a for a in tickets['all_tickets'] if a.operator == device.device_id])
+        call_today = NewDesign.call_today_tickets(all_tickets)
+        if call_today:
+            for ticket in call_today:
+                device.send_message(title="Перезвон",
+                                    click_action=f'https://partnerweb3.herokuapp.com/info/{ticket.id}',
+                                    icon="https://partnerweb3.s3.amazonaws.com/static/image/favicon.ico",
+                                    body=ticket.number)

@@ -644,7 +644,8 @@ class NewDesign(Basket):
         except:
             return {'id': '', 'number': ''}
 
-    def call_today_tickets(self, tickets):
+    @staticmethod
+    def call_today_tickets(tickets):
         call_ts_today = []
         for t in tickets:
             try:

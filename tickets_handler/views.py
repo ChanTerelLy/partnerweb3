@@ -17,9 +17,10 @@ from datetime import datetime
 import pytz
 from partnerweb_parser.manager import NewDesign
 import os
-from .tasks import update_date_for_assigned, update_workers as update_workers_async
+from .tasks import update_date_for_assigned, update_workers as update_workers_async, notify_call_timer
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
+from fcm_django.models import FCMDevice
 
 
 
@@ -145,6 +146,7 @@ def tickets_redis_json(request):
             all['created_today_tickets'] += created_today_tickets
             all['all_tickets'] += all_tickets
         cache.set('supervisors_tickets', all)
+        notify_call_timer.delay(jsonpickle.encode(all))
         return JsonResponse({'status':'success'}, safe=False)
     else:
         return JsonResponse({'status': 'false', 'error' : 'Redis не настроен'}, safe=False)
@@ -365,11 +367,12 @@ class ServiceWorkerView(View):
         return render(request, 'firebase/firebase-messaging-sw.js', content_type="application/x-javascript")
 
 def firebase_send_test(request):
-    from fcm_django.models import FCMDevice
-
     device = FCMDevice.objects.all().first()
-
     device.send_message("Title", "Message")
     device.send_message(data={"test": "test"})
     device.send_message(title="Title", body="Message", data={"test": "test"})
     return JsonResponse({'success': True})
+
+def firebase_notify_calls(request):
+    notify_call_timer()
+    return JsonResponse({'success' : True})
