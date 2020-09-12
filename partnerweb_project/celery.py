@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath('api'))
 
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'partnerweb_project.settings')
-app = Celery('partnerweb_project', broker=os.getenv('REDISTOGO_URL') + '/0') #secon redis server
+app = Celery('partnerweb_project', broker=os.getenv('REDISCLOUD_URL') + '/0') #secon redis server
 
 # Using a string here means the worker will not have to
 # pickle the object when using Windows.
