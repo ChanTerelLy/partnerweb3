@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from partnerweb_parser.manager import NewDesign, Ticket
 import re
@@ -7,6 +9,13 @@ import datetime
 from partnerweb_parser.date_func import dmYHM_to_datetime
 from tickets_handler.tasks import update_date_for_assigned
 
+class Modify(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
 
 class Workers(models.Model):
     name = models.CharField(max_length=250, unique=True)
@@ -230,3 +239,10 @@ class AUP(models.Model):
 
     def __str__(self):
         return f' {self.name} - {self.position}'
+
+class FirebaseNotification(Modify):
+    ticket_number = models.IntegerField()
+    today_count_notification = models.IntegerField(default=0)
+    last_call_time = models.DateTimeField(null=True, blank=True)
+    last_ticket_status = models.CharField(max_length=255)
+    worker = models.ForeignKey(Workers, on_delete=models.CASCADE, null=True, blank=True)

@@ -50,7 +50,7 @@ def current_year_date():
 def dmYHM_to_date(ticket_call_time):
     return dt.strptime(ticket_call_time, "%d.%m.%Y %H:%M").date() if ticket_call_time else dt(1000, 1, 1)
 
-def dmYHM_to_datetime(ticket_call_time, tz=moscow):
+def dmYHM_to_datetime(ticket_call_time):
     d = dt.strptime(ticket_call_time, "%d.%m.%Y %H:%M") if ticket_call_time else dt(1000, 1, 1)
     return moscow.localize(d)
 

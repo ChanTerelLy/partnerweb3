@@ -10,8 +10,10 @@ from partnerweb_parser.date_func import dmYHM_to_datetime
 from partnerweb_parser.manager import NewDesign
 from django.apps import apps
 from django.core.cache import cache
-from datetime import datetime
+from datetime import datetime, timezone
 from django.core.cache import cache
+import pytz
+moscow = pytz.timezone('Europe/Moscow')
 
 
 @celery_app.task
@@ -39,6 +41,7 @@ def update_workers(auth):
 @celery_app.task
 def notify_call_timer():
     FCMDevice = apps.get_model(app_label='fcm_django', model_name='FCMDevice')
+    FirebaseNotification = apps.get_model(app_label='tickets_handler', model_name='FirebaseNotification')
     tickets = cache.get('supervisors_tickets')
     devices = FCMDevice.objects.all()
     for device in devices:
@@ -46,7 +49,33 @@ def notify_call_timer():
         call_today = NewDesign.call_today_tickets(all_tickets)
         if call_today:
             for ticket in call_today:
-                device.send_message(title="Перезвон",
+                notification = FirebaseNotification.objects.filter(ticket_number=ticket.ticket_paired_info.number).first()
+                timer = dmYHM_to_datetime(ticket.ticket_paired_info.call_time)
+                status = ticket.ticket_paired_info.status
+                number = ticket.ticket_paired_info.number
+                now = moscow.localize(datetime.now())
+                expire = ((now - timer).total_seconds()//3600)
+                if not notification:
+                    FirebaseNotification(ticket_number=number,
+                                         last_call_time=timer,
+                                         last_ticket_status=status
+                                         ).save()
+                else:
+                    diff_from_update = (now - notification.updated_at).total_seconds()//3600
+                    if diff_from_update >= 4 and ((timer.hour == 0 and timer.minute == 0) \
+                            or (expire >= 4)):
+                            notification.today_count_notification += 1
+                            notification.status = status
+                            notification.last_call_time=timer
+                            notification.save()
+                    elif (timer.hour == datetime.now().hour and timer.day ==  datetime.now().day and diff_from_update > 1):
+                        notification.today_count_notification += 1
+                        notification.status = status
+                        notification.last_call_time = timer
+                        notification.save()
+                    else:
+                        continue
+                device.send_message(title=f"Перезвон {ticket.ticket_paired_info.call_time}",
                                     click_action=f'https://partnerweb3.herokuapp.com/info/{ticket.id}',
                                     icon="https://partnerweb3.s3.amazonaws.com/static/image/favicon.ico",
-                                    body=ticket.number)
+                                    body=ticket.name)
