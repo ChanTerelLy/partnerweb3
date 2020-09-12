@@ -146,7 +146,6 @@ def tickets_redis_json(request):
             all['created_today_tickets'] += created_today_tickets
             all['all_tickets'] += all_tickets
         cache.set('supervisors_tickets', all)
-        notify_call_timer.delay()
         return JsonResponse({'status':'success'}, safe=False)
     else:
         return JsonResponse({'status': 'false', 'error' : 'Redis не настроен'}, safe=False)

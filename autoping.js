@@ -15,5 +15,6 @@ setInterval(function () {
         console.log('send http requests');
         http.get("http://partnerweb3.herokuapp.com");
         http.get("http://partnerweb3.herokuapp.com/tickets_redis_json/");
+        http.get("http://partnerweb3-test.herokuapp.com/firebase_notify_calls/");
     }
 }, 300000); // every 5 minutes
