@@ -33,6 +33,7 @@ def tickets(request):
     if Auth(code, operator, password).auth_status:
         if request.method == 'GET':
             auth = NewDesign(code, operator, password)
+            account_type = auth.account_type if auth.auth_status else 0
             assigned_tickets, assigned_today, call_for_today, switched_on_tickets, \
             switched_on_today, created_today_tickets, all_tickets = auth.three_month_tickets()
             if settings.USE_REDIS:
@@ -51,7 +52,8 @@ def tickets(request):
                                AdditionalTicket.clear_switched_tickets(switched_on_tickets, all_tickets)
                            ),
                            'assigned_today': assigned_today, 'switched_on_today': switched_on_today,
-                           'created_today_tickets': created_today_tickets, 'all_tickets' : all_tickets, 'timestamp': moscow_now})
+                           'created_today_tickets': created_today_tickets,
+                           'all_tickets' : all_tickets, 'timestamp': moscow_now, "account_type": account_type})
     else:
         messages.error(request, f'Ошибка Аутентификации, неправильный логин или пароль!')
         request.session['operator'], request.session['password'] = '',''
@@ -80,9 +82,10 @@ def tickets_rapid(request):
             switched_on_today, created_today_tickets, all_tickets, timestamp = tickets_class_for_cache(cache_tickets)
             #async task
             auth = NewDesign(os.getenv('SELL_CODE'), request.session['operator'], request.session['password'])
-            if auth.check_auth_status() and auth.account_type == 3:
+            if auth.auth_status and auth.account_type == 3:
                 update_date_for_assigned.delay()
                 update_workers_async.delay([os.getenv('SELL_CODE'), request.session['operator'], request.session['password']])
+            account_type = auth.account_type if auth.auth_status else 0
             if not cache.get(request.session['operator']):
                 # loop ticket class
                 assigned_tickets = list([a for a in assigned_tickets if a.operator == request.session['operator']])
@@ -102,7 +105,8 @@ def tickets_rapid(request):
                                AdditionalTicket.clear_switched_tickets(switched_on_tickets, all_tickets)
                            ),
                            'assigned_today': assigned_today, 'switched_on_today': switched_on_today,
-                           'created_today_tickets': created_today_tickets, 'all_tickets': all_tickets, 'timestamp' : timestamp})
+                           'created_today_tickets': created_today_tickets,
+                           'all_tickets': all_tickets, 'timestamp' : timestamp, "account_type": account_type})
         else:
             return redirect('main_page_tickets')
     else:

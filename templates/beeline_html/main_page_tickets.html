@@ -103,9 +103,11 @@
             <result_call></result_call>
         </li>
         <li class="ml-auto">
+            {% if account_type != 3 %}
             <button class="btn btn-info btn-sm"
                     onclick="requestPermission()">PUSH Уведомления
             </button>
+            {% endif %}
             <button class="btn btn-warning btn-sm" onclick="getCallTariff()"> Показать тарифы</button>
         </li>
     </ol>
