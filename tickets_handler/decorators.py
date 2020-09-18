@@ -1,3 +1,5 @@
+from django.shortcuts import redirect
+
 from .models import ACL
 from django.core.exceptions import PermissionDenied
 import datetime
@@ -7,7 +9,7 @@ def check_access(function):
         try:
             request.session['operator']
         except:
-            return function(request, *args, **kwargs)
+            return redirect('login')
         access = ACL.objects.filter(code=request.session['operator']).first()
         if access:
             if datetime.date.today()  < access.date_end:
