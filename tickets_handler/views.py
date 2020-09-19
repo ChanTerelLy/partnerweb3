@@ -1,4 +1,4 @@
-from partnerweb_parser.manager import NewDesign, Worker, Auth
+from partnerweb_parser.manager import NewDesign, Worker, Auth, AsyncTicketParser
 from django.shortcuts import render, redirect
 from .form import AuthForm, DateTimeForm, CreateTicketForm, FindAnythingForm, FraudTicketSendForm
 from .models import Workers as WorkersModel, Installer, AdditionalTicket, Employer, AssignedTickets
@@ -16,7 +16,7 @@ from django.core.cache import cache
 from datetime import datetime
 import pytz
 from partnerweb_parser.manager import NewDesign
-import os
+import os, asyncio
 from .tasks import update_date_for_assigned, update_workers as update_workers_async, notify_call_timer
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
@@ -382,3 +382,8 @@ def firebase_send_test(request):
 def firebase_notify_calls(request):
     notify_call_timer()
     return JsonResponse({'success' : True})
+
+def async_test(request):
+    data = asyncio.run(AsyncTicketParser('G800-37', '9052933642', '123456Qq').tickets_info([119080313,119080313]))
+    return JsonResponse({'data': data})
+

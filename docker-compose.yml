@@ -13,7 +13,7 @@ services:
 
   celery:
     build: .
-    command: celery -A partnerweb_project worker -l info
+    command: celery -A partnerweb_project worker --beat -l info
     volumes:
       - .:/code
     env_file:

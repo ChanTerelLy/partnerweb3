@@ -12,6 +12,7 @@ urlpatterns = [
     path('firebase-messaging-sw.js', ServiceWorkerView.as_view(), name='service_worker'),
     path('firebase_send_test/', firebase_send_test, name='firebase_send_test'),
     path('firebase_notify_calls/', firebase_notify_calls, name='firebase_notify_calls'),
+    path('async_test/', async_test, name='async_test'),
 
 
     #Pages URLs

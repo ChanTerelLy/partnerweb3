@@ -44,16 +44,14 @@ def get_mobile_presets_json(request):
     auth = NewDesign(os.getenv('SELL_CODE'), request.session['operator'], request.session['password'])
     city_id, house_id = request.GET.get('city_id'), request.GET.get('house_id')
     data = auth.get_mobile_presets(city_id, house_id)
-    presets = auth.parse_preset(data)
-    return JsonResponse(presets, safe=False)
+    return JsonResponse(data, safe=False)
 
 
 def get_presets_json(request):
     auth = NewDesign(os.getenv('SELL_CODE'), request.session['operator'], request.session['password'])
     city_id, house_id = request.GET.get('city_id'), request.GET.get('house_id')
     data = auth.get_presets(city_id, house_id)
-    presets = auth.parse_preset(data)
-    return JsonResponse(presets, safe=False)
+    return JsonResponse(data, safe=False)
 
 
 def get_schedule_by_ticket_id(request, ticket, year, month, day):

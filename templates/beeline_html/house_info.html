@@ -36,9 +36,15 @@
                       novalidate>
                     {% csrf_token %}
                     {{ p_form|crispy }}
-                    <button type="submit" formmethod="post" class="btn btn-danger">
-                        Отправить
-                    </button>
+                    <div id="tariff_info" style="display: none"></div>
+                    <div class="row-cols-3">
+                        <button type="submit" formmethod="post" class="btn btn-danger">
+                            Отправить
+                        </button>
+                        <button type="button" onclick="getTariffInfo()" class="btn btn-info">
+                            Информация о тарифе
+                        </button>
+                    </div>
                 </form>
             </div>
             <div class="col-md-4">

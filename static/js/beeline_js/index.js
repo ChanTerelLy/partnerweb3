@@ -134,18 +134,20 @@ function getHouseID() {
     return url.split('/');
 }
 
+let tariffs = []
 function setMobilePresets(city_id, house_id) {
     let tariff = document.getElementById('id_basket');
     $.ajax({
         url: `/get_mobile_presets?city_id=${city_id}&house_id=${house_id}&`,
         success: function (data) {
+            tariffs = tariffs.concat(data)
             for (let property of data) {
                 let option = document.createElement('option');
-                option.innerText = property.name;
+                option.innerText = `${property.name} - ${property.min_cost_total_price}р.`;
                 option.setAttribute('bundel_id', property.id);
                 option.setAttribute('service_type', property.service_type);
-                option.setAttribute('vpdn', property.VPDN);
-                option.value = `${property.id};${property.service_type};${property.VPDN};${property.name}`;
+                option.setAttribute('vpdn', property.min_cost.VPDN.S_ID);
+                option.value = `${property.id};${property.service_type};${property.min_cost.VPDN.S_ID};${property.name}`;
                 tariff.add(option);
             }
         }
@@ -157,18 +159,53 @@ function setPresets(city_id, house_id) {
     $.ajax({
         url: `/get_presets?city_id=${city_id}&house_id=${house_id}&`,
         success: function (data) {
+            tariffs = tariffs.concat(data)
             for (let property of data) {
                 if (!property.name) continue;
                 let option = document.createElement('option');
-                option.innerText = property.name;
+                option.innerText = `${property.name} - ${property.min_cost_total_price}р.` ;
                 option.setAttribute('bundel_id', property.id);
                 option.setAttribute('service_type', property.service_type);
-                option.setAttribute('VPDN', property.VPDN);
-                option.value = `${property.id};${property.service_type};${property.VPDN};${property.service_name}`;
+                option.setAttribute('VPDN', property.min_cost.VPDN.S_ID);
+                option.value = `${property.id};${property.service_type};${property.min_cost.VPDN.S_ID};${property.service_name}`;
                 tariff.add(option);
             }
         }
     });
+}
+
+function getTariffInfo(){
+    let id = $('#id_basket').children("option:selected").attr('bundel_id');
+    let info_box = $('#tariff_info')
+    $.each(tariffs, function (key, value){
+        if(value['id'] == id){
+            if(value['service_type'] == 'IS_PRESET'){
+                info_box.show()
+                info_box.html(
+                    `<p><b>Стоимость</b>: ${value['min_cost_total_price']}</p>
+                     <p><b>Минут</b>: ${value['minutes']}</p>
+                     <p><b>Смс</b>: ${value['sms']}</p>
+                     <p><b>Гигабайт</b>: ${value['traffic']}</p>
+                     <p><b>Интернет</b>: ${value?.min_cost?.VPDN?.DATA?.traffic_classes?.inet[1]?.speed_in / 1000}</p>
+                     <p><b>ТВ приставка в комплекте</b>: ${value?.min_cost?.TVE_RENT ? 'да' : 'нет'}</p>
+                     <p><b>Колличество каналов</b>: ${value?.min_cost?.TVE?.DATA?.count_chanals}</p>
+                     <p><b>Роутер</b>: ${value?.min_cost?.W_NONSTOP_NR?.DATA?.name}</p>
+`
+                )
+            }
+            else if(value['service_type'] == 'IS_INAC_PRESET'){
+                info_box.show()
+                info_box.html(
+                    `<p><b>Стоимость</b>: ${value['min_cost_total_price']}</p>
+                     <p><b>Интернет</b>: ${value?.min_cost?.VPDN?.DATA?.traffic_classes?.inet[1]?.speed_in / 1000}</p>
+                     <p><b>ТВ приставка в комплекте</b>: ${value?.min_cost?.TVE_RENT ? 'да' : 'нет'}</p>
+                     <p><b>Колличество каналов</b>: ${value?.min_cost?.TVE?.DATA?.count_chanals}</p>
+                     <p><b>Роутер</b>: ${value?.min_cost?.W_STOPPABLE_RENT_NR?.DATA?.name}</p>
+`
+                )
+            }
+        }
+    })
 }
 
 function sendEmail(csrfmiddlewaretoken) {
