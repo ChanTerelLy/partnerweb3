@@ -10,6 +10,8 @@ class EmailSender():
     def __init__(self):
         self.sender_email = os.getenv('SENDER_EMAIL')
         self.password = os.getenv('EMAIL_PASSWORD')
+        self.host = os.getenv("EMAIL_HOST")
+        self.port = os.getenv('EMAIL_PORT')
 
     def email_helper(self, subject):
         message = MIMEMultipart("alternative")
@@ -28,7 +30,7 @@ class EmailSender():
         context = ssl.create_default_context()
         mails= to.split(',')
         for mail in mails:
-            with smtplib.SMTP_SSL(os.getenv("EMAIL_HOST"), os.getenv('EMAIL_PORT'), context=context) as server:
+            with smtplib.SMTP_SSL(self.host, self.port, context=context) as server:
                 server.login(self.sender_email, self.password)
                 server.sendmail(
                     self.sender_email, mail, message.as_string()

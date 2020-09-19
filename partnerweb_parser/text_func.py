@@ -51,3 +51,9 @@ def phone9(mystr):
 
 def encode(d):
     return urllib.parse.quote(str(d).encode('utf8'))
+
+def get_phone123(attr):
+    phone1 = attr['phones'][0]['phone'] if len(attr['phones']) else ''
+    phone2 = attr['phones'][1]['phone'] if 1 < len(attr['phones']) else ''
+    phone3 = attr['phones'][2]['phone'] if 2 < len(attr['phones']) else ''
+    return phone1, phone2, phone3

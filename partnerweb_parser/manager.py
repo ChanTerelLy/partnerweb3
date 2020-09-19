@@ -1,8 +1,12 @@
+import asyncio
 import json
 import os
 import re
 import urllib.parse
 from datetime import date as date
+
+import aiohttp
+
 from partnerweb_parser import system
 import lxml.html
 import requests
@@ -11,7 +15,7 @@ from bs4 import BeautifulSoup
 from partnerweb_parser.date_func import last_day_current_month, url_formate_date, \
     formate_date_schedule, \
     delta_current_month, range_current_month, current_year_date, dmYHM_to_date, today, dmY_to_date, convert_utc_string
-from partnerweb_parser.text_func import find_asssigned_date, find_dns, phone9, encode
+from partnerweb_parser.text_func import find_asssigned_date, find_dns, phone9, encode, get_phone123
 import grequests
 import random
 import time
@@ -112,6 +116,61 @@ class Ticket:
     def __repr__(self):
         return str(self.__dict__)
 
+class TicketParser:
+
+    def ticket_instance_info(self, attr):
+        phone1, phone2, phone3 = get_phone123(attr)
+        ticket = Ticket(address=attr['address'], address_id=attr['address_id'],
+                        allow_change_status=attr['allow_change_status'],
+                        allow_schedule=attr['allow_schedule'], call_time=attr['call_time'], comments=attr['comments'],
+                        date=attr['date'], id=attr['id'], name=attr['name'], number=attr['number'],
+                        operator=attr['operator'], phones=attr['phones'],
+                        services=attr['services'], shop=attr['shop'], shop_id=attr['shop_id'], status=attr['status'],
+                        ticket_paired=attr['ticket_paired'], type=attr['type'], type_id=attr['type_id'], phone1=phone1,
+                        phone2=phone2, phone3=phone3, status_id=attr['status_id'], statuses=attr['statuses'])
+        as_t = list([c['date'] for c in ticket.comments if find_asssigned_date(c['text'])])
+        ticket.assigned_date = as_t[0] if as_t else None
+        return ticket
+
+
+#TODO:not working in django thread
+class AsyncTicketParser(TicketParser):
+
+    def __init__(self, login, workercode, password):
+        self.data = {}
+        self.data['login'] = login
+        self.data['workercode'] = workercode
+        self.data['password'] = password
+        self.headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,'
+                                      ' likeGecko) Chrome/70.0.3538.110 Safari/537.36',
+                        'content-type': 'application/x-www-form-urlencoded', 'upgrade-insecure-requests': '1'}
+
+    async def fetch(self, session, url):
+        async with session.get(url) as response:
+            return await response.json()
+
+    async def tickets_info(self, ids):
+        tasks = []
+        urls = list([f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{id}' for id in ids])
+        urls += f'https://partnerweb.beeline.ru/restapi/schedule/validate/ticket/{ids[0]}'
+        async with aiohttp.ClientSession() as session:
+            d = await session.get('http://www.google.com')
+            await self.login(session)
+            for url in urls:
+                tasks.append(self.fetch(session, url))
+            return asyncio.gather(*tasks)
+
+    async def login(self, session):
+        self.auth = await session.post('https://partnerweb.beeline.ru', data=self.data, headers=self.headers)
+
+    def parse_gp(self, data):
+        descriptions = data['global_problems_context']['connection_related_gp_list']
+        return list([i['description'] for i in descriptions])
+
+    def get_ticket_info_datas(self, auth, id, satelit_id):
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        tickets_info = loop.run_until_complete(auth.tickets_info([id, satelit_id]))
 
 class OldDesign(Auth):
     """This class not use anymore, only as parent class and support old fitches.
@@ -465,32 +524,13 @@ class Basket(Schedule):
              "min_cost_total_price": d.get('min_cost_total_price')})
         return presets
 
-class NewDesign(Basket):
+class NewDesign(Basket, TicketParser):
 
     def ticket_info(self, id):
         attr = self.session.get(f'https://partnerweb.beeline.ru/restapi/tickets/ticket_popup/{id}').json()
         ticket = self.ticket_instance_info(attr)
         return ticket
 
-    def ticket_instance_info(self, attr):
-        phone1, phone2, phone3 = self.get_phone123(attr)
-        ticket = Ticket(address=attr['address'], address_id=attr['address_id'],
-                      allow_change_status=attr['allow_change_status'],
-                      allow_schedule=attr['allow_schedule'], call_time=attr['call_time'], comments=attr['comments'],
-                      date=attr['date'], id=attr['id'], name=attr['name'], number=attr['number'],
-                      operator=attr['operator'], phones=attr['phones'],
-                      services=attr['services'], shop=attr['shop'], shop_id=attr['shop_id'], status=attr['status'],
-                      ticket_paired=attr['ticket_paired'], type=attr['type'], type_id=attr['type_id'], phone1=phone1,
-                      phone2=phone2, phone3=phone3, status_id=attr['status_id'], statuses=attr['statuses'])
-        as_t = list([c['date'] for c in ticket.comments if find_asssigned_date(c['text'])])
-        ticket.assigned_date = as_t[0] if as_t else None
-        return ticket
-
-    def get_phone123(self, attr):
-        phone1 = attr['phones'][0]['phone'] if len(attr['phones']) else ''
-        phone2 = attr['phones'][1]['phone'] if 1 < len(attr['phones']) else ''
-        phone3 = attr['phones'][2]['phone'] if 2 < len(attr['phones']) else ''
-        return phone1, phone2, phone3
 
     def assync_get_ticket(self, urls):
         ticket_dict = {}
@@ -602,7 +642,7 @@ class NewDesign(Basket):
                 attr['services'] = attr.get('services')
                 attr['shop'] = attr.get('shop')
                 attr['shop_id'] = attr.get('shop_id')
-                phone1, phone2, phone3 = self.get_phone123(attr)
+                phone1, phone2, phone3 = get_phone123(attr)
                 ticket_paired_info = ''
                 ticket = Ticket(address=attr['address'], address_id=attr['address_id'],
                                 allow_change_status=attr['allow_change_status'], allow_schedule=attr['allow_schedule'],
