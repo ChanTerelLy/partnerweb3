@@ -24,7 +24,7 @@ def check_fraud(request, city_id, house_id, flat):
     else:
         return JsonResponse({'result': res_data['metadata']['message']})
 
-
+#TODO:remove or add price functionality
 def get_ticket_price(request, ticket):
     price = TicketPrice.get_price(ticket)
     serialized_obj = serializers.serialize('json', [price])

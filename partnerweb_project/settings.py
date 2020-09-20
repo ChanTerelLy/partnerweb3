@@ -1,5 +1,6 @@
 import os
 import django_heroku
+from celery.schedules import crontab
 from django.utils import timezone
 from dotenv import load_dotenv
 load_dotenv()
@@ -235,3 +236,10 @@ CELERY_TASK_SERIALIZER = os.getenv('CELERY_TASK_SERIALIZER')
 CELERY_RESULT_SERIALIZER = os.getenv('CELERY_RESULT_SERIALIZER')
 CELERY_TIMEZONE = os.getenv('CELERY_TIMEZONE')
 CELERY_REDIS_MAX_CONNECTIONS = 10
+
+CELERYBEAT_SCHEDULE = {
+    'test-celery': {
+        'task': 'tickets_handler.tasks.update_date_for_assigned',
+        'schedule': crontab(hour="*/12"),
+    }
+}

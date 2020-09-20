@@ -6,7 +6,8 @@ from django.conf import settings
 import os
 
 sys.path.append(os.path.abspath('api'))
-url = os.getenv('REDISCLOUD_URL') if os.getenv('REDISCLOUD_URL') else 'redis://localhost:6379'
+#crutch for docker
+url = os.getenv('REDISCLOUD_URL') if os.getenv('REDISCLOUD_URL') else 'redis://partnerweb3_redis'
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'partnerweb_project.settings')
 app = Celery('partnerweb_project', broker= url + '/0') #secon redis server
