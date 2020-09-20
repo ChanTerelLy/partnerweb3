@@ -1,6 +1,8 @@
 # Partnerweb3
 This is virlual CRM-system based on <https://partnerweb.beeline.ru>
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/ChanTerelLy/partnerweb3)
+
 Deployed project versions:
 - master-branch(all stable features) <https://partnerweb3.herokuapp.com> 
 - master-dev(test server) <https://partnerweb3-test.herokuapp.com> 

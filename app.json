@@ -1,0 +1,42 @@
+{
+  "name": "partnerweb3",
+  "description": "This is virlual CRM-system based on https://partnerweb.beeline.ru",
+  "keywords": [
+    "crm",
+    "partnerweb.beeline"
+  ],
+  "website": "https://github.com/ChanTerelLy/partnerweb3",
+  "repository": "https://github.com/ChanTerelLy/partnerweb3",
+  "env": {
+    "DEBUG": {
+      "description": "Allow debug",
+      "value": "0"
+    },
+    "EMAIL_HOST": {
+      "required": true
+    },
+    "EMAIL_PASSWORD": {
+      "required": true
+    },
+    "EMAIL_PORT": {
+      "required": true
+    },
+    "SECRET_KEY": {
+      "value" : "123",
+      "required": false
+    },
+    "USE_REDIS": {
+      "value": 1,
+      "required": false
+    }
+  },
+  "success_url": "/login",
+  "buildpacks": [
+    {
+      "url": "http://github.com/heroku/heroku-buildpack-nodejs.git"
+    },
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-python.git"
+    }
+  ]
+}
