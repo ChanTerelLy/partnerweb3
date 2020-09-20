@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+import json
+
 import jsonpickle
 
 from partnerweb_project.celery import app as celery_app  # noqa
@@ -13,7 +15,8 @@ from django.core.cache import cache
 from datetime import datetime, timezone
 from django.core.cache import cache
 import pytz
-moscow = pytz.timezone('Europe/Moscow')
+tz = pytz.timezone('Europe/Moscow')
+moscow_now = datetime.now(tz)
 
 
 @celery_app.task
@@ -79,3 +82,28 @@ def notify_call_timer():
                                     click_action=f'https://partnerweb3.herokuapp.com/info/{ticket.id}',
                                     icon="https://partnerweb3.s3.amazonaws.com/static/image/favicon.ico",
                                     body=ticket.name)
+
+#TODO:not working in parallel
+@celery_app.task
+def get_supervisor_tickets(login, password):
+    AssignedTickets = apps.get_model(app_label='tickets_handler', model_name='AssignedTickets')
+    auth = NewDesign('G800-37', login, password)
+    assigned_tickets, assigned_today, call_for_today, switched_on_tickets, \
+    switched_on_today, created_today_tickets, all_tickets = auth.three_month_tickets()
+    cache.set(login.encode().decode('unicode-escape'), {'assigned_tickets': assigned_tickets,
+                               'assigned_today': assigned_today,
+                               'call_for_today': call_for_today,
+                               'switched_on_tickets': switched_on_tickets,
+                               'switched_on_today': switched_on_today,
+                               'created_today_tickets': created_today_tickets,
+                               'all_tickets': all_tickets,
+                               'timestamp': moscow_now})
+    for assigned in assigned_tickets:
+        AssignedTickets.update(assigned, satelit_type=True)
+    return [assigned_tickets,
+            assigned_today,
+            call_for_today,
+            switched_on_tickets,
+            switched_on_today,
+            created_today_tickets,
+            all_tickets]

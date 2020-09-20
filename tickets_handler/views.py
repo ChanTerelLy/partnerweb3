@@ -1,4 +1,4 @@
-from partnerweb_parser.manager import NewDesign, Worker, Auth, AsyncTicketParser
+from partnerweb_parser.manager import Auth, AsyncTicketParser
 from django.shortcuts import render, redirect
 from .form import AuthForm, DateTimeForm, CreateTicketForm, FindAnythingForm, FraudTicketSendForm
 from .models import Workers as WorkersModel, Installer, AdditionalTicket, Employer, AssignedTickets
@@ -10,25 +10,24 @@ from .decorators import check_access
 from django.http import JsonResponse, HttpResponseServerError
 from django.core.paginator import Paginator
 import jsonpickle
-from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from django.conf import settings
 from django.core.cache import cache
 from datetime import datetime
 import pytz
 from partnerweb_parser.manager import NewDesign
 import os, asyncio
-from .tasks import update_date_for_assigned, update_workers as update_workers_async, notify_call_timer
+from .tasks import update_date_for_assigned, update_workers as update_workers_async, notify_call_timer, \
+    get_supervisor_tickets
 from django.views import View
-from django.views.decorators.csrf import csrf_exempt
 from fcm_django.models import FCMDevice
-
+tz = pytz.timezone('Europe/Moscow')
+moscow_now = datetime.now(tz)
+from celery import group
 
 
 @system.my_timer
 @check_access
 def tickets(request):
-    tz = pytz.timezone('Europe/Moscow')
-    moscow_now = datetime.now(tz)
     code, operator, password = os.getenv('SELL_CODE'), request.session['operator'], request.session['password']
     if Auth(code, operator, password).auth_status:
         if request.method == 'GET':
@@ -116,8 +115,6 @@ def tickets_rapid(request):
 @check_access
 def tickets_redis_json(request):
     if settings.USE_REDIS:
-        tz = pytz.timezone('Europe/Moscow')
-        moscow_now = datetime.now(tz)
         employer = Employer.objects.all()
         all = {'assigned_tickets': [],
                'assigned_today': 0,
