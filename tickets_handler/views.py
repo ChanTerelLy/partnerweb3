@@ -185,8 +185,8 @@ def ticket_info(request, id):
     elif json:
         return JsonResponse(jsonpickle.encode(ticket_info), safe=False)
     elif insert_assigned:
-        AssignedTickets.update(ticket_info, request)
-        return JsonResponse(jsonpickle.encode(ticket_info), safe=False)
+        result = AssignedTickets.update(ticket_info, request=request)
+        return JsonResponse({'status':'updated'}, safe=False)
     ticket_info = auth.ticket_info(id)
     satelit_id = ''
     if settings.USE_REDIS:

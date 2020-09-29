@@ -196,7 +196,7 @@ class AssignedTickets(models.Model):
     client_name = models.CharField(max_length=150)
     phones = models.CharField(max_length=150)
     assigned_date = models.DateTimeField()
-    agent = models.ForeignKey(Workers, on_delete=models.CASCADE)
+    agent = models.ForeignKey(Workers, null=True, blank=True, on_delete=models.CASCADE)
 
     @classmethod
     def update(cls, ticket, *args, **kwargs):
@@ -215,7 +215,7 @@ class AssignedTickets(models.Model):
         else:
             assigned_date = dmYHM_to_datetime(ticket.call_time)
             agent = Workers.objects.filter(number=ticket.operator).first()
-            cls(ticket_number=ticket.number,
+            result = cls(ticket_number=ticket.number,
                 when_assigned=dmYHM_to_datetime(ticket.assigned_date) if ticket.assigned_date else None,
                 client_address=ticket.address,
                 phones=ticket.phones,
@@ -224,9 +224,10 @@ class AssignedTickets(models.Model):
                 client_name=ticket.name).save()
             db_ticket = ticket.__dict__
             db_ticket['mail_to'] = Employer.find_master(ticket.operator).email
-            if args[0]:
+            if kwargs['request']:
                 db_ticket['link'] = args[0].build_absolute_uri()[:-1]
             mail.EmailSender().agent_assign_ticket(db_ticket)
+
 
     def update_date(self):
         update_date_for_assigned()
