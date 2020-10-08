@@ -16,7 +16,7 @@ from datetime import datetime, timezone
 from django.core.cache import cache
 import pytz
 tz = pytz.timezone('Europe/Moscow')
-moscow_now = datetime.now(tz)
+moscow = datetime.now(tz)
 
 
 @celery_app.task
@@ -97,7 +97,7 @@ def get_supervisor_tickets(login, password):
                                'switched_on_today': switched_on_today,
                                'created_today_tickets': created_today_tickets,
                                'all_tickets': all_tickets,
-                               'timestamp': moscow_now})
+                               'timestamp': moscow})
     for assigned in assigned_tickets:
         AssignedTickets.update(assigned, satelit_type=True)
     return [assigned_tickets,
