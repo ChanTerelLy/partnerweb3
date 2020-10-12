@@ -224,7 +224,7 @@ class AssignedTickets(models.Model):
                 client_name=ticket.name).save()
             db_ticket = ticket.__dict__
             db_ticket['mail_to'] = Employer.find_master(ticket.operator).email
-            if kwargs['request']:
+            if kwargs.get('request'):
                 db_ticket['link'] = args[0].build_absolute_uri()[:-1]
             mail.EmailSender().agent_assign_ticket(db_ticket)
 
