@@ -4,7 +4,7 @@ from django.utils.decorators import method_decorator
 from partnerweb_parser.mail import EmailSender
 from tickets_handler.form import Feedback, FindAnythingForm
 from tickets_handler.models import Installer, Workers as WorkersModel, AssignedTickets as AssignedTicketsModel
-from .decorators import check_access
+from tickets_handler.decorators import check_access
 from django.core.cache import cache
 
 

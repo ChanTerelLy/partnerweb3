@@ -2,6 +2,7 @@ var http = require("http");
 const dotenv = require('dotenv');
 dotenv.config();
 process.env.TZ = 'Europe/Moscow';
+console.log('tickets_redis_json FIRE');
 http.get("http://partnerweb3.herokuapp.com/tickets_redis_json/");
 setInterval(function () {
     let denied = false;
@@ -13,8 +14,11 @@ setInterval(function () {
     }
     if (!parseInt(denied)) {
         console.log('send http requests');
+        console.log('tickets_redis_json FIRE');
         http.get("http://partnerweb3.herokuapp.com");
         http.get("http://partnerweb3.herokuapp.com/tickets_redis_json/");
-        http.get("http://partnerweb3.herokuapp.com/firebase_notify_calls/");
+        if (parseInt(process.env.USE_CELERY)) {
+            http.get("http://partnerweb3.herokuapp.com/firebase_notify_calls/"); //TODO: NIGHT BLACKOUT not working with celery
+        }
     }
 }, 300000); // every 5 minutes

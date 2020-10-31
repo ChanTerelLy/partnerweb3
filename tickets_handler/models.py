@@ -146,9 +146,10 @@ class Employer(models.Model):
     supervisor_password = models.CharField(max_length=50)
 
     @classmethod
-    def find_master(cls, number):
-        master = Workers.objects.get(number=number).master
-        return cls.objects.get(name=master)
+    def find_master(cls, phone):
+        master = Workers.objects.get(number=phone).master if Workers.objects.get(number=phone) else None
+        master_obj = cls.objects.get(name=master) if master else cls.objects.none()
+        return master_obj
 
     def __str__(self):
         return self.name
@@ -224,10 +225,8 @@ class AssignedTickets(models.Model):
                 client_name=ticket.name).save()
             db_ticket = ticket.__dict__
             db_ticket['mail_to'] = Employer.find_master(ticket.operator).email
-            if kwargs.get('request'):
-                db_ticket['link'] = args[0].build_absolute_uri()[:-1]
+            db_ticket['link'] = ''
             mail.EmailSender().agent_assign_ticket(db_ticket)
-
 
     def update_date(self):
         update_date_for_assigned()

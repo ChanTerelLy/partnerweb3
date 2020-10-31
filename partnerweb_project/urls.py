@@ -4,7 +4,7 @@ from django.urls import path, include
 from fcm_django.api.rest_framework import FCMDeviceViewSet
 from rest_framework.routers import DefaultRouter
 
-from tickets_handler import views
+from tickets_handler.views import views
 from django.conf import settings
 from django.conf.urls.static import static
 

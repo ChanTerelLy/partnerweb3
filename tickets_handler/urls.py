@@ -1,9 +1,9 @@
 from django.conf.urls import url
 from django.urls import path
 
-from tickets_handler.json_views import *
-from tickets_handler.template_views import *
-from .views import *
+from tickets_handler.views.json_views import *
+from tickets_handler.views.template_views import *
+from tickets_handler.views.views import *
 from django.contrib import admin
 
 urlpatterns = [
@@ -21,7 +21,7 @@ urlpatterns = [
     url('global_search/', global_search, name='global_search'),
     url('^tickets/', tickets, name='main_page_tickets'),
     url('^tickets_rapid/', tickets_rapid, name='main_page_rapid'),
-    url('^tickets_redis_json/', tickets_redis_json, name='tickets_json'),
+    path('tickets_redis_json/', tickets_redis_json, name='tickets_json'),
     url(r'logout', logout, name='logout'),
     url(r'login_beeline/', redirect_auth, name='login_beeline'),
     url(r'^find_anything/$', find_anything, name='find_anything'),

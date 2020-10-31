@@ -1,12 +1,12 @@
 from partnerweb_parser.manager import Auth, AsyncTicketParser
 from django.shortcuts import render, redirect
-from .form import AuthForm, DateTimeForm, CreateTicketForm, FindAnythingForm, FraudTicketSendForm
-from .models import Workers as WorkersModel, Installer, AdditionalTicket, Employer, AssignedTickets
+from tickets_handler.form import AuthForm, DateTimeForm, CreateTicketForm, FindAnythingForm, FraudTicketSendForm
+from tickets_handler.models import Workers as WorkersModel, Installer, AdditionalTicket, Employer, AssignedTickets
 from django.http import HttpResponse
 from partnerweb_parser import system
 from django.contrib import messages
 from partnerweb_parser.mail import EmailSender
-from .decorators import check_access
+from tickets_handler.decorators import check_access
 from django.http import JsonResponse, HttpResponseServerError
 from django.core.paginator import Paginator
 import jsonpickle
@@ -16,7 +16,7 @@ from datetime import datetime
 import pytz
 from partnerweb_parser.manager import NewDesign
 import os, asyncio
-from .tasks import update_date_for_assigned, update_workers as update_workers_async, notify_call_timer, \
+from tickets_handler.tasks import update_date_for_assigned, update_workers as update_workers_async, notify_call_timer, \
     get_supervisor_tickets
 from django.views import View
 from fcm_django.models import FCMDevice
@@ -81,7 +81,7 @@ def tickets_rapid(request):
             switched_on_today, created_today_tickets, all_tickets, timestamp = tickets_class_for_cache(cache_tickets)
             #async task
             auth = NewDesign(os.getenv('SELL_CODE'), request.session['operator'], request.session['password'])
-            if auth.auth_status and auth.account_type == 3:
+            if auth.auth_status and auth.account_type == 3 and settings.USE_CELERY:
                 update_date_for_assigned.delay()
                 update_workers_async.delay([os.getenv('SELL_CODE'), request.session['operator'], request.session['password']])
             account_type = auth.account_type if auth.auth_status else 0
@@ -112,7 +112,6 @@ def tickets_rapid(request):
         return redirect('main_page_tickets')
 
 @system.my_timer
-@check_access
 def tickets_redis_json(request):
     if settings.USE_REDIS:
         employer = Employer.objects.all()
@@ -213,7 +212,7 @@ def ticket_info(request, id):
     if request.method == 'POST':
         auth.change_ticket(id, dateform['datetime'].value(),dateform['comments'].value(), dateform['status'].value())
         return redirect('ticket_info', id)
-    return render(request,'beeline_html/ticket_info.html', {'ticket_info':ticket_info, 'form': dateform,
+    return render(request, 'beeline_html/ticket_info.html', {'ticket_info':ticket_info, 'form': dateform,
                                                             'gp_houses': gp_houses, 'satelit_info':satelit_info})
 
 
