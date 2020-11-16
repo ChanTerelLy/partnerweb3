@@ -2,7 +2,10 @@ import os
 
 from django.core import serializers
 from django.http import JsonResponse, HttpResponse
-from partnerweb_parser.manager import NewDesign
+from django.views.decorators.csrf import csrf_exempt
+from urllib.parse import unquote
+
+from partnerweb_parser.manager import NewDesign, Auth
 from tickets_handler.models import Employer, TicketSource, AUP
 import jsonpickle
 from types import SimpleNamespace
@@ -97,30 +100,40 @@ def get_schedule_color(request):
     ticket_id = request.GET.get('ticket_id', '')
     return JsonResponse(auth.month_schedule_color(house_id, ticket_id), safe=False)
 
-
+@csrf_exempt
 def get_assigned_tickets(request):
-    auth = NewDesign(os.getenv('SELL_CODE'), request.session['operator'], request.session['password'])
-    tickets = auth.retrive_tickets()
-    assigned_tickets, assigned_tickets_today = auth.assigned_tickets_detailed(tickets)
-    as_t = jsonpickle.encode(assigned_tickets)
-    return JsonResponse({'assigned_tickets': as_t,
+    if request.method == "POST":
+        params = unquote(request.POST.urlencode()).split('&')
+        data = {param.split('=')[0]: param.split('=')[1] for param in params if param}
+        auth = NewDesign(os.getenv('SELL_CODE'), data['operator'], data['password'])
+        tickets = auth.retrive_tickets()
+        assigned_tickets, assigned_tickets_today = auth.assigned_tickets(tickets)
+        as_t = jsonpickle.encode(assigned_tickets)
+        return JsonResponse({'assigned_tickets': as_t,
                          'assigned_tickets_today': assigned_tickets_today}, safe=False)
 
-
+@csrf_exempt
 def get_call_today_tickets(request):
-    auth = NewDesign(os.getenv('SELL_CODE'), request.session['operator'], request.session['password'])
-    tickets = auth.retrive_tickets()
-    call_today_tickets = jsonpickle.encode(auth.call_today_tickets(tickets))
-    return JsonResponse(call_today_tickets, safe=False)
+    if request.method == "POST":
+        params = unquote(request.POST.urlencode()).split('&')
+        data = {param.split('=')[0]: param.split('=')[1] for param in params if param}
+        auth = NewDesign(os.getenv('SELL_CODE'), data['operator'], data['password'])
+        tickets = auth.retrive_tickets()
+        call_today_tickets = auth.call_today_tickets(tickets)
+        t = jsonpickle.encode(call_today_tickets)
+        return JsonResponse({'tickets' : t}, safe=False)
 
-
+@csrf_exempt
 def get_switched_tickets(request):
-    auth = NewDesign(os.getenv('SELL_CODE'), request.session['operator'], request.session['password'])
-    tickets = auth.retrive_tickets()
-    switched_tickets, switched_on_tickets_today = auth.switched_tickets(tickets)
-    switched_tickets = jsonpickle.encode(switched_tickets)
-    return JsonResponse({'switched_tickets': switched_tickets,
-                         'switched_on_tickets_today': switched_on_tickets_today}, safe=False)
+    if request.method == "POST":
+        params = unquote(request.POST.urlencode()).split('&')
+        data = {param.split('=')[0]: param.split('=')[1] for param in params if param}
+        auth = NewDesign(os.getenv('SELL_CODE'), data['operator'], data['password'])
+        tickets = auth.retrive_tickets()
+        switched, count = auth.switched_tickets(tickets)
+        t = jsonpickle.encode(switched)
+        return JsonResponse({'tickets' : t, 'count' : count}, safe=False)
+
 
 
 def get_count_created_today(request):
@@ -184,3 +197,18 @@ def assign_ticket(request):
 def error500(request):
     update_date_for_assigned()
     return JsonResponse({'status': 'response'})
+
+
+@csrf_exempt
+def api_login(request):
+    if request.method == "POST":
+        params = request.POST.urlencode().split('&')
+        data = {param.split('=')[0]: param.split('=')[1] for param in params if param}
+        request.session['operator'], request.session['password'] = data['operator'], data['password']
+        auth = Auth(os.getenv('SELL_CODE'), data['operator'], data['password'])
+        status = auth.check_auth_status()
+        if (status):
+            account_type = auth.account_type
+            return JsonResponse({'success': True, 'account_type' : account_type})
+        else:
+            return JsonResponse({'success': False, 'error': 'Ошибка Аутентификации, неправильный логин или пароль!'})

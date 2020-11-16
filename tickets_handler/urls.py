@@ -41,9 +41,9 @@ urlpatterns = [
 
 
     #Ajax URLs
-    url(r'^assigned_tickets/$', get_assigned_tickets, name='assigned_tickets'),
-    url(r'^call_today_tickets/$', get_call_today_tickets, name='call_today_tickets'),
-    url(r'^switched_tickets/$', get_switched_tickets, name='switched_tickets'),
+    url(r'^assigned_tickets$', get_assigned_tickets, name='assigned_tickets'),
+    url(r'^call_today_tickets$', get_call_today_tickets, name='call_today_tickets'),
+    url(r'^switched_tickets$', get_switched_tickets, name='switched_tickets'),
     url(r'^count_created_today/$', get_count_created_today, name='count_created_today'),
     url(r'^ticket_source/$', source_tickets, name='source_tickets'),
     url(r'^change_phone_number/$', change_phone_number, name='change_phone_number'),
@@ -55,6 +55,7 @@ urlpatterns = [
     url(r'^get_ctn_info/$', get_ctn_info, name='get_ctn_info'),
     url(r'^get_aup_email/$', get_aup_email, name='get_aup_email'),
     url(r'^assign_ticket/$', assign_ticket, name='assign_ticket'),
+    path('api_login', api_login, name='api_login'),
 
     #UpdateModels URLs
     url('update_workers/', update_workers, name='update_workers'),
