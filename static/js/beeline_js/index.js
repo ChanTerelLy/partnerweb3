@@ -123,7 +123,7 @@ function getTicketInfo(id) {
     $.ajax({
             url: `/ticket_info/${id}/`,
             success: function (data) {
-                tariff.innerText = `${data.services.IS_INAC_PRESET_name} ${data.services.IS_PRESET_name}`
+                tariff.innerText = `${data.services?.[0]?.name}`
             }
         }
     );
