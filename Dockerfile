@@ -11,7 +11,7 @@ WORKDIR /code
 # Install dependencies
 COPY requirements.txt .
 COPY .env .
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt --upgrade
 
 # Copy project
 COPY . /code/
