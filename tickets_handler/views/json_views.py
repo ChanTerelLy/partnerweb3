@@ -195,8 +195,7 @@ def assign_ticket(request):
         return JsonResponse({'status': response})
 
 def error500(request):
-    update_date_for_assigned()
-    return JsonResponse({'status': 'response'})
+    return HttpResponse(status=500)
 
 
 @csrf_exempt

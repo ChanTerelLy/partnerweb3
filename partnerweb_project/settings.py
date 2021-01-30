@@ -16,6 +16,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_HOST_USER = os.getenv('SENDER_EMAIL')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')
+SERVER_EMAIL = os.getenv('SENDER_EMAIL')
 ADMINS = [('Admin', os.getenv('ADMIN_EMAIL'))]
 
 LOGOUT_REDIRECT_URL = 'logout'
@@ -65,7 +66,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
-#TODO:don't send email, maybe gevent problem?
+# LOGGING_CONFIG = None
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -74,20 +75,28 @@ LOGGING = {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler',
             'include_html': True,
-        }
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+        },
     },
     'loggers': {
-        'django': {
+        '': {
             'handlers': ['mail_admins'],
-            'propagate': True,
+            'level': 'ERROR',
         },
-        'django.request': {
+        'django': {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
             'propagate': True,
-        }
+        },
     }
 }
+
+# import logging.config
+# logging.config.dictConfig(LOGGING)
 
 ROOT_URLCONF = 'partnerweb_project.urls'
 
@@ -148,8 +157,6 @@ if USE_REDIS:
             }
         }
     }
-
-django_heroku.settings(locals())
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -244,3 +251,6 @@ CELERYBEAT_SCHEDULE = {
         'schedule': crontab(hour="*/12"),
     }
 }
+
+
+django_heroku.settings(locals(), logging=False)
