@@ -20,6 +20,7 @@ from tickets_handler.tasks import update_date_for_assigned, update_workers as up
     get_supervisor_tickets
 from django.views import View
 from fcm_django.models import FCMDevice
+from django.views.decorators.csrf import csrf_exempt
 tz = pytz.timezone('Europe/Moscow')
 moscow_now = datetime.now(tz)
 from celery import group
@@ -169,6 +170,7 @@ def global_search(request):
         page_obj = tickets.get_page(page_number)
         return render(request, 'beeline_html/global_search.html', {'page_obj': page_obj})
 
+@csrf_exempt
 @check_access
 def ticket_info(request, id):
     if not request.session.get('operator') or not request.session.get('password'):

@@ -208,6 +208,9 @@ def api_login(request):
         status = auth.check_auth_status()
         if (status):
             account_type = auth.account_type
-            return JsonResponse({'success': True, 'account_type' : account_type})
+            request.session['operator'], request.session['password'] = data['operator'], data['password']
+            request.session.save()
+            key = request.session.session_key
+            return JsonResponse({'success': True, 'account_type' : account_type, 'sessionid': key})
         else:
             return JsonResponse({'success': False, 'error': 'Ошибка Аутентификации, неправильный логин или пароль!'})
