@@ -24,6 +24,8 @@ from django.views.decorators.csrf import csrf_exempt
 tz = pytz.timezone('Europe/Moscow')
 moscow_now = datetime.now(tz)
 from celery import group
+import json
+from django.core import serializers
 
 
 @system.my_timer
@@ -157,18 +159,18 @@ def global_search(request):
     tickets = ''
     if cache.get(request.session['operator'] + '_global_search'):
         cache_tickets = cache.get(request.session['operator'] + '_global_search')
-        tickets = Paginator(cache_tickets, 100)
-        page_number = request.GET.get('page', 1)
-        page_obj = tickets.get_page(page_number)
-        return render(request, 'beeline_html/global_search.html', {'page_obj': page_obj})
     else:
         auth = NewDesign(os.getenv('SELL_CODE'), request.session['operator'],request.session['password'])
-        all_tickets = auth.global_search()
-        cache.set(request.session['operator'] + '_global_search', all_tickets, 300)
-        tickets = Paginator(all_tickets, 100)
-        page_number = request.GET.get('page', 1)
-        page_obj = tickets.get_page(page_number)
-        return render(request, 'beeline_html/global_search.html', {'page_obj': page_obj})
+        cache_tickets = auth.global_search()
+        cache.set(request.session['operator'] + '_global_search', cache_tickets, 300)
+    tickets = Paginator(cache_tickets, 100)
+    page_number = request.GET.get('page', 1)
+    page_obj = tickets.get_page(page_number)
+    j = request.GET.get('json', '')
+    if(j):
+        data = jsonpickle.encode(page_obj.__dict__)
+        return JsonResponse(data, safe=False)
+    return render(request, 'beeline_html/global_search.html', {'page_obj': page_obj})
 
 @csrf_exempt
 @check_access
