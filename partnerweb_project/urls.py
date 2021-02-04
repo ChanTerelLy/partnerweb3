@@ -16,6 +16,7 @@ urlpatterns = [
     path('', include('call_center.urls')),
     path('', include('territory.urls')),
     path('', include('analytic.urls')),
+    path('', include('tools.urls')),
     url(r'^$', views.redirect_auth, name='redirect_auth'),
     url(r'^', include(router.urls)),
 ]

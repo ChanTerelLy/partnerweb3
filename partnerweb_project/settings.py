@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'storages',
     'bootstrap_pagination',
     'rest_framework',
-    "fcm_django"
+    "fcm_django",
+    'tools'
 ]
 FCM_DJANGO_SETTINGS = {
         "FCM_SERVER_KEY": os.getenv('FCM_SERVER_KEY'),

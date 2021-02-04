@@ -1,0 +1,29 @@
+{% extends '_base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Partnerweb3 Mobile{% endblock %}
+{% block content %}
+    <div class="row">
+        <p><b>Инструкция:</b></p>
+        <ul>
+            <li>Для использования разрешить установку из неизвестных источников</li>
+            <li>Cкачать последнюю версию приложения</li>
+        </ul>
+    </div>
+    <br/>
+    <div class="d-flex justify-content-start">
+        <img src="{% static 'image/partnerweb3_mobile/login.jpg' %}" class="img-thumbnail" style="height: 500px">
+        <img src="{% static 'image/partnerweb3_mobile/detailed.jpg' %}" class="img-thumbnail" style="height: 500px">
+        <img src="{% static 'image/partnerweb3_mobile/switched.jpg' %}" class="img-thumbnail" style="height: 500px">
+        <img src="{% static 'image/partnerweb3_mobile/settings.png' %}" class="img-thumbnail" style="height: 500px">
+    </div>
+    {% if  releases %}
+    {% for release in releases %}
+        <h3>Версия: {{ release.release_version }}</h3>
+        <a type="button" class="btn btn-primary" href="{{ release.url }}">Скачать</a>
+        <h5>Что нового:</h5>
+        {{ release.description |linebreaks }}
+        <hr/>
+    {% endfor %}
+    {% endif %}
+{% endblock %}
